@@ -1,0 +1,35 @@
+﻿<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <title>Book a Pitch</title>
+</head>
+<body>
+
+    <div>
+        <h2>All Piches Slots</h2>
+        <ul id="timeslots" />
+    </div>
+
+    <script src="https://ajax.aspnetcdn.com/ajax/jQuery/jquery-2.0.3.min.js"></script>
+    <script>
+        var uri = '/api/booking/TimeSlots';
+
+    $(document).ready(function () {
+      // Send an AJAX request
+      $.getJSON(uri)
+          .done(function (data) {
+            // On success, 'data' contains a list of products.
+            $.each(data, function (key, item) {
+              // Add a list item for the product.
+              $('<li>', { text: formatItem(item) }).appendTo($('#timeslots'));
+            });
+          });
+    });
+
+    function formatItem(item) {
+        return item.Pitch + ':' + item.Time + ':' + item.IsBooked;
+    }
+
+    </script>
+</body>
+</html>
