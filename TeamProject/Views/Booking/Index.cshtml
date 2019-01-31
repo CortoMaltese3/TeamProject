@@ -1,0 +1,51 @@
+﻿
+@{
+    ViewBag.Title = "Index";
+}
+
+<div>
+    <h2>All Piches Slots</h2>
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Pitch</th>
+                <th>Time</th>
+            </tr>
+        </thead>
+        <tbody id="timeslots"/>
+    </table>
+</div>
+
+<script src="https://ajax.aspnetcdn.com/ajax/jQuery/jquery-2.0.3.min.js"></script>
+<script>
+    var uri = '/api/TimeSlots';
+
+    $(document).ready(function () {
+        // Send an AJAX request
+        $.getJSON(uri)
+            .done(function (data) {
+                // On success, 'data' contains a list of products.
+                $.each(data, function (key, item) {
+                    // Add a list item for the product.
+                    let timeSlot = $('<tr>', { html: formatItem(item), booked: item.IsBooked });
+                    if (item.IsBooked) {
+                        timeSlot.addClass('bg-danger');
+                    } else {
+                        timeSlot.on('click', toggleBooked);
+                    }
+                    timeSlot.appendTo($('#timeslots'));
+                });
+            });
+    });
+
+    function toggleBooked() {
+        $(this).toggleClass('bg-primary');
+    }
+
+    function formatItem(item) {
+        return '<td>' + item.Pitch + '</td><td>' + item.Time + '</td>';
+    }
+
+</script>
+
+
