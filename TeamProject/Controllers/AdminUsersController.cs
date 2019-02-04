@@ -13,7 +13,7 @@ namespace TeamProject.Controllers
 {
     public class AdminUsersController : Controller
     {
-        private readonly DatabaseDb db = new DatabaseDb();
+        private readonly UsersManager db = new UsersManager();
 
 
         // GET: Users

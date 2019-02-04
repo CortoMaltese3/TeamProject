@@ -6,10 +6,10 @@ using TeamProject.Models;
 
 namespace TeamProject.Database
 {
-    public class DatabaseDb
+    public class UsersManager
     {
         private static List<User> users;
-        static DatabaseDb()
+        static UsersManager()
         {
             users = new List<User>() { new User() { id = 1, Firstname = "george", Lastname = "xiros", Email = "geo.xiros@gmail.com" } };
         }
