@@ -1,8 +1,16 @@
 ﻿@{
     ViewData["Title"] = "Home Page";
 }
+@section Styles{
+    
+    <link rel="stylesheet" href="~/css/google.css" />
+}
+    <input id="pac-input" class="controls" type="text" placeholder="Search Box">
+    <div id="map" style="height:400px"></div>
 
-<div class="text-center">
-    <h1 class="display-4">Welcome</h1>
-    <p>Learn about <a href="https://docs.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
-</div>
+@section Scripts{
+    <script src="~/js/googleapi.js"></script>
+    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDrnm2ptgfajjtlCfM97wat7Jsx5KZ0UoA&libraries=places&callback=initAutocomplete"
+            async defer></script>
+
+}
