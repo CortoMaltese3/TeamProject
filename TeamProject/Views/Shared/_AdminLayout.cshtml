@@ -3,8 +3,8 @@
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>@ViewData["Title"] - TeamProject</title>
-    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.css" />
+    <title>@ViewData["Title"]</title>
+    <link rel="stylesheet" href="~/css/bootstrap.min.css" />
     <link rel="stylesheet" href="~/css/site.css" />
     <link rel="stylesheet" href="~/css/panel.css" />
 </head>
@@ -15,7 +15,7 @@
         <a href="#">Companies</a>
         <a href="#">Users Roles</a>
     </div>
-    <partial name="_CookieConsentPartial" />
+   
     <div class="main">
         <div class="container body-content">
             <h2>Administration Panel</h2>
@@ -27,9 +27,9 @@
             </footer>
         </div>
     </div>
-
-    <script src="~/lib/jquery/dist/jquery.js"></script>
-    <script src="~/lib/bootstrap/dist/js/bootstrap.js"></script>
+    
+    <script src="~/js/jquery.min.js"></script>
+    <script src="~/js/bootstrap.min.js"></script>
     <script src="~/js/site.js"></script>
     @RenderSection("Scripts", required: false)
 </body>
