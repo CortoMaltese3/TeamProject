@@ -11,7 +11,7 @@ using TeamProject.Database;
 
 namespace TeamProject.Controllers
 {
-    public class AdminUsersController : Controller
+    public class UsersController : Controller
     {
         private readonly UsersManager db = new UsersManager();
 
