@@ -101,9 +101,9 @@ var getAllDistances = function (p) {
                 }
             }
             var distance = getDistance(p, pitchLocation);
+            var distance2 = getDistance2(p, pitchLocation);
 
-            $('#locations').append('<li><span class="bg-primary">' + d.description + ' => ' + d.latitude + ',' + d.longitude + '</span> Distance: ' + distance + '</li>');
-
+            $('#locations').append('<li><span class="bg-primary">' + d.description + ' => ' + d.latitude + ',' + d.longitude + '</span> Distance: ' + distance + ' Distance google api: ' + distance2+ '</li>');
         });
     });
 }
@@ -120,3 +120,7 @@ var getDistance = function (p1,p2) {
     var d = R * c;
     return d; // returns the distance in meter
 };
+
+function getDistance2(p1, p2) {
+    return (google.maps.geometry.spherical.computeDistanceBetween(p1, p2) / 1000).toFixed(2);
+}
