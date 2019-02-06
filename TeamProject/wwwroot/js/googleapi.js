@@ -117,8 +117,8 @@ var getDistance = function (p1,p2) {
         Math.cos(rad(p1.lat())) * Math.cos(rad(p2.lat())) *
         Math.sin(dLong / 2) * Math.sin(dLong / 2);
     var c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
-    var d = R * c;
-    return d; // returns the distance in meter
+    var d = (R * c)/1000;
+    return d.toFixed(2); // returns the distance in meter
 };
 
 function getDistance2(p1, p2) {
