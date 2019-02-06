@@ -10,7 +10,7 @@ $(document).ready(function () {
                 $('#locations').append('<li><span class="bg-primary">' + d.description + ' => ' + d.latitude + ',' + d.longitude + '</span></li>');
                 console.log(d.description);
                 console.log(d.latitude);
-                console.log(d.ongitude);
+                console.log(d.longitude);
             });
         });
 
