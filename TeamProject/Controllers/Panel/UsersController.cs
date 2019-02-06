@@ -8,9 +8,11 @@ using Microsoft.EntityFrameworkCore;
 using TeamProject.Data;
 using TeamProject.Models;
 using TeamProject.Database;
+using Microsoft.AspNetCore.Authorization;
 
 namespace TeamProject.Controllers
 {
+    [AuthorizeAttribute]
     public class UsersController : Controller
     {
         private readonly UsersManager db = new UsersManager();
