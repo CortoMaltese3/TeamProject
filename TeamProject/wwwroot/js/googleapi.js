@@ -60,6 +60,7 @@ function initAutocomplete() {
                 map: map,
                 title: 'Hello World!'
             });
+            
             // Create a marker for each place.
             markers.push(new google.maps.Marker({
                 map: map,
