@@ -30,7 +30,7 @@ function initAutocomplete() {
     searchBox.addListener('places_changed', function () {
         var places = searchBox.getPlaces();
 
-        if (places.length == 0) {
+        if (places.length != 1) {
             return;
         }
 
@@ -42,6 +42,7 @@ function initAutocomplete() {
 
         // For each place, get the icon, name and location.
         var bounds = new google.maps.LatLngBounds();
+
         places.forEach(function (place) {
             if (!place.geometry) {
                 console.log("Returned place contains no geometry");
@@ -54,9 +55,9 @@ function initAutocomplete() {
                 anchor: new google.maps.Point(17, 34),
                 scaledSize: new google.maps.Size(25, 25)
             };
-
+            
             var marker = new google.maps.Marker({
-                position: place.position,
+                position: place.geometry.location,
                 map: map,
                 title: 'Hello World!'
             });
@@ -75,7 +76,47 @@ function initAutocomplete() {
             } else {
                 bounds.extend(place.geometry.location);
             }
+            getAllDistances(place.geometry.location);
         });
         map.fitBounds(bounds);
     });
 }
+
+
+var rad = function (x) {
+    return x * Math.PI / 180;
+};
+
+var getAllDistances = function (p) {
+
+    $.getJSON("/api/Locations", function (data) {
+        data.forEach(function (d) {
+
+            var pitchLocation = {
+                lat: function () {
+                    return d.latitude;
+                },
+                lng: function () {
+                    return d.longitude;
+                }
+            }
+            var distance = getDistance(p, pitchLocation);
+
+            $('#locations').append('<li><span class="bg-primary">' + d.description + ' => ' + d.latitude + ',' + d.longitude + '</span> Distance: ' + distance + '</li>');
+
+        });
+    });
+}
+var getDistance = function (p1,p2) {
+    
+
+    var R = 6378137; // Earth’s mean radius in meter
+    var dLat = rad(p2.lat() - p1.lat());
+    var dLong = rad(p2.lng() - p1.lng());
+    var a = Math.sin(dLat / 2) * Math.sin(dLat / 2) +
+        Math.cos(rad(p1.lat())) * Math.cos(rad(p2.lat())) *
+        Math.sin(dLong / 2) * Math.sin(dLong / 2);
+    var c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
+    var d = R * c;
+    return d; // returns the distance in meter
+};
