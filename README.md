@@ -43,7 +43,4 @@ The requirements are as follows:
 9. All the applications must be accessible via internet, on local or global internet network
     and there must be a user with username / password: god / god where he will be able
     to view all messages between all of the users.
-10.You will also be marked with 50 marks for your oral presentation. Your total marks
-    will be 150 marks.
-
 
