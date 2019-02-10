@@ -1,97 +1,99 @@
-create table Users(
-user_id int identity(1,1) not null primary key,
-firstname varchar(20) not null,
-lastname varchar(20) not null,
-email varchar(50) not null,
-password varchar(100) not null,
+create database ProjectDB collate greek_ci_ai
+go
+use ProjectDB
+go
+
+create table [User](
+	ID int identity(1,1) not null primary key,
+	Firstname varchar(20) not null,
+	Lastname varchar(20) not null,
+	Email varchar(50) not null,
+	Password varchar(100) not null
 );
 
 create table UserRoles(
-userrole_id int identity(1,1) not null primary key,
-user_id int not null,
-roledesc varchar(5) not null,
-check (roledesc in ('Admin','Owner','User')),
-constraint fk_userroles1 foreign key (user_id) references Users(user_id)
-);
-
-create table Review(
-review_id int identity(1,1) not null primary key,
-rating int not null,
-comment nvarchar(250),
-date datetime not null,
-check (rating <=5 and rating >0)
+	ID int identity(1,1) not null primary key,
+	UserID int not null,
+	Role varchar(5) not null,
+	check (Role in ('Admin','Owner','User')),
+	constraint fk_UserRolesToUsers foreign key (UserID) references [User](ID)
 );
 
 create table Company(
-company_id int identity(1,1) not null primary key,
-company_name nvarchar(50) not null
-);
-
-create table Court(
-court_id int identity (1,1) not null primary key,
-court_name nvarchar(50) not null,
-max_player int not null,
-price decimal (5,2) not null,
-check (max_player in (10, 14, 22))
-);
-
-create table Timetable(
-timetable_id int identity (1,1) not null primary key,
-court_id int not null,
-day int not null,
-hour time not null,
-duration int not null,
-constraint fk_timetable1 foreign key (court_id) references Court(court_id)
-);
-
-create table Facilities(
-facility_id int identity(1,1) not null primary key,
-facilitydesc nvarchar(20) not null
-);
-
-create table Location(
-location_id int identity (1,1) not null primary key,
-longtitude decimal (6,3) not null,
-latitude decimal (6,3) not null,
-point decimal (6,3) not null,
-city nvarchar(20) not null,
+	ID int identity(1,1) not null primary key,
+	UserID int not null,
+	Name nvarchar(50) not null,
+	constraint fk_CompanyToUsers foreign key (UserID) references [User](ID)
 );
 
 create table Branch(
-branch_id int identity (1,1) not null primary key,
-company_id int not null,
-branch_name nvarchar(50) not null,
-location_id int not null,
-constraint fk_branch1 foreign key (company_id) references Company(company_id),
-constraint fk_branch2 foreign key (location_id) references Location(location_id)
+	ID int identity (1,1) not null primary key,
+	CompanyID int not null,
+	Name nvarchar(50) not null,
+	Longtitude decimal (6,3) not null,
+	Latitude decimal (6,3) not null,
+	Point decimal (6,3) not null,
+	City nvarchar(20) not null,
+	Address nvarchar(200) not null,
+	ZipCode nvarchar(200) not null,
+
+	constraint fk_BranchToCompany foreign key (CompanyID) references Company(ID)
 );
 
-create table Scedule(
-scedule_id int identity(1,1) not null primary key,
-court_id int not null,
-constraint fk_scedule1 foreign key (court_id) references Court(court_id)
+create table Court(
+	ID int identity (1,1) not null primary key,
+	BranchID int not null,
+	Name nvarchar(50) not null,
+	MaxPlayers int not null,
+	Price decimal (5,2) not null,
+	check (MaxPlayers in (10, 14, 22)),
+	constraint fk_CourtToBranch foreign key (BranchID) references Branch(ID)
 );
 
-create table CompanyFacilities(
-company_id int not null,
-facility_id int not null,
-constraint fk_companyfacilities1 foreign key (company_id) references Company(company_id),
-constraint fk_companyfacilities2 foreign key (facility_id) references Facilities(facility_id)
+create table Review(
+	ID int identity(1,1) not null primary key,
+	BranchID int not null,
+	UserID int not null,
+	Rating int not null,
+	Comment nvarchar(250),
+	CommentAt datetime not null, check (rating <=5 and rating >0),
+	constraint fk_ReviewToBranch foreign key (BranchID) references Branch(ID),
+	constraint fk_ReviewToUsers foreign key (UserID) references [User](ID)
 );
 
-create table CourtFacilities(
-court_id int not null,
-facility_id int not null,
-constraint fk_courtfacilities1 foreign key (court_id) references Court(court_id),
-constraint fk_courtfacilities2 foreign key (facility_id) references Facilities(facility_id)
+create table Facility(
+	ID int identity(1,1) not null primary key,
+	Description nvarchar(20) not null	
+);
+
+create unique index Ix_FacilityDescription on Facility (Description)
+
+
+create table BranchFacilities(
+	BrancID int not null,
+	FacilityID int not null,
+	constraint fk_BranchFacilitiesToBranch foreign key (BrancID) references Branch(ID),
+	constraint fk_BranchFacilitiesToFacility foreign key (FacilityID) references Facility(ID),
+	constraint pk_BranchFacilities primary key (BrancID, FacilityID)
+);
+
+create table TimeSlot(
+	ID int identity (1,1) not null primary key,
+	CourtID int not null,
+	Day int not null,
+	Hour time not null,
+	Duration int not null,
+	constraint fk_TimeSlotToCourt foreign key (CourtID) references Court(ID)
 );
 
 create table Booking(
-booking_id int identity (1,1) not null primary key,
-court_id int not null,
-DateTime datetime not null,
-user_id int not null,
-constraint fk_booking1 foreign key (court_id) references Court(court_id),
-constraint fk_booking2 foreign key (user_id) references Users(user_id)
-); 
-
+	ID int identity(1,1) not null primary key,
+	CourtID int not null,
+	UserID int not null,
+	BookedAt datetime not null,
+	Duration int not null,
+	constraint fk_BookingToCourt foreign key (CourtID) references Court(ID),
+	constraint fk_BookingToUser foreign key (UserID) references [User](ID)
+);
+	
+create unique index Ix_BookingCourtBookedAt on Booking (CourtID, BookedAt)
