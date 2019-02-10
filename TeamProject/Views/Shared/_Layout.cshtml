@@ -10,16 +10,16 @@
 </head>
 <body>
     <nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top">
-        @Html.ActionLink("Application name", "Index", "Home", new { area = "" }, new { @class = "navbar-brand" })
+        @Html.ActionLink("Application name", "Index", new { controller = "Home" },new { @class = "navbar-brand" })
 
         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
         </button>
         <div class="collapse navbar-collapse" id="navbarSupportedContent">
             <ul class="navbar-nav mr-auto">
-                <li class="nav-item active">@Html.ActionLink("Home", "Index", "Home", new { @class="nav-link"})</li>
-                <li class="nav-item">@Html.ActionLink("About", "About", "Home", new { @class = "nav-link" })</li>
-                <li class="nav-item">@Html.ActionLink("Contact", "Contact", "Home", new { @class = "nav-link" })</li>
+                <li class="nav-item active">@Html.ActionLink("Home", "Index", new { controller = "Home" },  new { @class="nav-link"})</li>
+                <li class="nav-item">@Html.ActionLink("About", "About", new { controller = "Home" }, new  { @class = "nav-link" })</li>
+                <li class="nav-item">@Html.ActionLink("Contact", "Contact", new { controller = "Home" }, new { @class = "nav-link" })</li>
             </ul>
             @Html.Partial("_LoginPartial")
         </div>
