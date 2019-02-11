@@ -183,23 +183,14 @@
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
-    <Compile Include="Migrations\201902102126417_InitialDB.cs" />
-    <Compile Include="Migrations\201902102126417_InitialDB.Designer.cs">
-      <DependentUpon>201902102126417_InitialDB.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201902110524533_removeSystemDiagram.cs" />
-    <Compile Include="Migrations\201902110524533_removeSystemDiagram.Designer.cs">
-      <DependentUpon>201902110524533_removeSystemDiagram.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201902110527526_AddExtraProperties.cs" />
-    <Compile Include="Migrations\201902110527526_AddExtraProperties.Designer.cs">
-      <DependentUpon>201902110527526_AddExtraProperties.cs</DependentUpon>
+    <Compile Include="Migrations\201902110711423_InitializeDB.cs" />
+    <Compile Include="Migrations\201902110711423_InitializeDB.Designer.cs">
+      <DependentUpon>201902110711423_InitializeDB.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
     <Compile Include="Models\Booking.cs" />
     <Compile Include="Models\Branch.cs" />
-    <Compile Include="Models\Company.cs" />
     <Compile Include="Models\Court.cs" />
     <Compile Include="Models\Facility.cs" />
     <Compile Include="Models\IdentityModels.cs" />
@@ -323,14 +314,8 @@
     <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Migrations\201902102126417_InitialDB.resx">
-      <DependentUpon>201902102126417_InitialDB.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201902110524533_removeSystemDiagram.resx">
-      <DependentUpon>201902110524533_removeSystemDiagram.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201902110527526_AddExtraProperties.resx">
-      <DependentUpon>201902110527526_AddExtraProperties.cs</DependentUpon>
+    <EmbeddedResource Include="Migrations\201902110711423_InitializeDB.resx">
+      <DependentUpon>201902110711423_InitializeDB.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

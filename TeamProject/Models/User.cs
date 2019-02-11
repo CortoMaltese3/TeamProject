@@ -13,7 +13,6 @@ namespace TeamProject.Models
         public User()
         {
             Booking = new HashSet<Booking>();
-            Company = new HashSet<Company>();
             Review = new HashSet<Review>();
             UserRoles = new HashSet<UserRoles>();
         }
@@ -38,9 +37,6 @@ namespace TeamProject.Models
 
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Booking> Booking { get; set; }
-
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<Company> Company { get; set; }
 
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Review> Review { get; set; }

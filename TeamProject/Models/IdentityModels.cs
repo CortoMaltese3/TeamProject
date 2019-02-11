@@ -16,6 +16,7 @@ namespace TeamProject.Models
             // Add custom user claims here
             return userIdentity;
         }
+
     }
     public class CustomUserRole : IdentityUserRole<int> { }
     public class CustomUserClaim : IdentityUserClaim<int> { }
@@ -56,7 +57,6 @@ namespace TeamProject.Models
         }
         public virtual DbSet<Booking> Booking { get; set; }
         public virtual DbSet<Branch> Branch { get; set; }
-        public virtual DbSet<Company> Company { get; set; }
         public virtual DbSet<Court> Court { get; set; }
         public virtual DbSet<Facility> Facility { get; set; }
         public virtual DbSet<Review> Review { get; set; }
@@ -94,10 +94,6 @@ namespace TeamProject.Models
                 .WithMany(e => e.Branch)
                 .Map(m => m.ToTable("BranchFacilities").MapLeftKey("BrancID").MapRightKey("FacilityID"));
 
-            modelBuilder.Entity<Company>()
-                .HasMany(e => e.Branch)
-                .WithRequired(e => e.Company)
-                .WillCascadeOnDelete(false);
 
             modelBuilder.Entity<Court>()
                 .Property(e => e.Price)
@@ -134,10 +130,6 @@ namespace TeamProject.Models
                 .WithRequired(e => e.User)
                 .WillCascadeOnDelete(false);
 
-            modelBuilder.Entity<User>()
-                .HasMany(e => e.Company)
-                .WithRequired(e => e.User)
-                .WillCascadeOnDelete(false);
 
             modelBuilder.Entity<User>()
                 .HasMany(e => e.Review)
