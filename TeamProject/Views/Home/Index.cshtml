@@ -1,4 +1,4 @@
-﻿@model IEnumerable<TeamProject.Models.>
+﻿@model IEnumerable<TeamProject.Models.Court>
 @{
     ViewBag.Title = "Home Page";
 }
@@ -61,14 +61,15 @@
     </div>
     <div class="row d-flex justify-content-around ">
         <br />
-        @foreach (var movie in Model)
+        @foreach (var court in Model)
         {
             <div class="col-md-4 d-none d-sm-block col-sm-6">
                 <div class="card bg-dark text-white rounded ml-3 mt-3 mr-3">
-                    <img src="@movie.ThumbnailUrl" class="card-img movie-Thumbnail" alt="@movie.Title">
+                    <img src="@court.Name" class="card-img movie-Thumbnail" alt="@court.Name">
                     <div class="card-img-overlay">
-                        <h4 class="card-title text-center">@movie.Title</h4>
-                        <a href="@movie.TrailerUrl" class="btn btn-block btn-success bottom">Book Now! </a>
+                        <h4 class="card-title text-center">@court.Name</h4>
+                            @*TODO*@
+                        <a href="booking" class="btn btn-block btn-success bottom">Book Now! </a>
                     </div>
                 </div>
             </div>
