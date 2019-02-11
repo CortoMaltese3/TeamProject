@@ -182,17 +182,9 @@
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
-    <Compile Include="Migrations\201902110711423_InitializeDB.cs" />
-    <Compile Include="Migrations\201902110711423_InitializeDB.Designer.cs">
-      <DependentUpon>201902110711423_InitializeDB.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201902111727235_InitializeDB1.cs" />
-    <Compile Include="Migrations\201902111727235_InitializeDB1.Designer.cs">
-      <DependentUpon>201902111727235_InitializeDB1.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201902111816203_InitializeDB2.cs" />
-    <Compile Include="Migrations\201902111816203_InitializeDB2.Designer.cs">
-      <DependentUpon>201902111816203_InitializeDB2.cs</DependentUpon>
+    <Compile Include="Migrations\201902112146281_InitDB.cs" />
+    <Compile Include="Migrations\201902112146281_InitDB.Designer.cs">
+      <DependentUpon>201902112146281_InitDB.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
@@ -330,18 +322,12 @@
     <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Migrations\201902110711423_InitializeDB.resx">
-      <DependentUpon>201902110711423_InitializeDB.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201902111727235_InitializeDB1.resx">
-      <DependentUpon>201902111727235_InitializeDB1.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201902111816203_InitializeDB2.resx">
-      <DependentUpon>201902111816203_InitializeDB2.cs</DependentUpon>
-    </EmbeddedResource>
+    <TypeScriptCompile Include="Scripts\index.d.ts" />
   </ItemGroup>
   <ItemGroup>
-    <TypeScriptCompile Include="Scripts\index.d.ts" />
+    <EmbeddedResource Include="Migrations\201902112146281_InitDB.resx">
+      <DependentUpon>201902112146281_InitDB.cs</DependentUpon>
+    </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>

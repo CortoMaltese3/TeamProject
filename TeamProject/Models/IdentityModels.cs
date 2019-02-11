@@ -69,10 +69,6 @@ namespace TeamProject.Models
             base.OnModelCreating(modelBuilder);
 
             modelBuilder.Entity<Branch>()
-                .Property(e => e.Point)
-                .HasPrecision(6, 3);
-
-            modelBuilder.Entity<Branch>()
                 .HasMany(e => e.Court)
                 .WithRequired(e => e.Branch)
                 .WillCascadeOnDelete(false);
