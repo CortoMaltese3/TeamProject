@@ -3,33 +3,131 @@
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>@ViewBag.Title - My ASP.NET Application</title>
+    <title>@ViewBag.Title - TeamProject</title>
     @Styles.Render("~/Content/css")
     @Scripts.Render("~/bundles/modernizr")
-
 </head>
-<body>
-    <nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top">
-        @Html.ActionLink("Application name", "Index", new { controller = "Home" },new { @class = "navbar-brand" })
-
-        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+<body style="background-color: whitesmoke">
+    <nav class="navbar navbar-dark navbar-expand-lg sticky-top bg-dark test">
+        @Html.ActionLink("TeamProject", "Index", "Home", new { area = "" }, new { @class = "navbar-brand font-italic" })
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
         </button>
-        <div class="collapse navbar-collapse" id="navbarSupportedContent">
-            <ul class="navbar-nav mr-auto">
-                <li class="nav-item active">@Html.ActionLink("Home", "Index", new { controller = "Home" },  new { @class="nav-link"})</li>
-                <li class="nav-item">@Html.ActionLink("About", "About", new { controller = "Home" }, new  { @class = "nav-link" })</li>
+        <div class="collapse navbar-collapse" id="navbarNav">
+            <ul class="navbar-nav">
+                <li class="nav-item active">@Html.ActionLink("Courts", "Index", "Movies", new { area = "" }, new { @class = "navbar-brand" })</li>
+                <li class="nav-item">@Html.ActionLink("About", "About", new { controller = "Home" }, new { @class = "nav-link" })</li>
                 <li class="nav-item">@Html.ActionLink("Contact", "Contact", new { controller = "Home" }, new { @class = "nav-link" })</li>
             </ul>
             @Html.Partial("_LoginPartial")
         </div>
     </nav>
-    <div class="container body-content">
+    <div class="container-fluid">
         @RenderBody()
         <hr />
-        <footer>
-            <p>&copy; @DateTime.Now.Year - My ASP.NET Application</p>
+        <!-- Footer -->
+        <footer class="page-footer font-small indigo bg-dark">
+            <!-- Footer Links -->
+            <div class="container">
+                <!-- Grid row-->
+                <div class="row text-center d-flex justify-content-center pt-5 mb-3">
+
+                    <!-- Grid column -->
+                    <div class="col-md-2 mb-3">
+                        <h6 class="text-uppercase font-weight-bold">
+                            <a href="#!">About us</a>
+                        </h6>
+                    </div>
+                    <!-- Grid column -->
+                    <div class="col-md-2 mb-3">
+                        <h6 class="text-uppercase font-weight-bold">
+                            <a href="#!">Products</a>
+                        </h6>
+                    </div>
+                    <!-- Grid column -->
+                    <div class="col-md-2 mb-3">
+                        <h6 class="text-uppercase font-weight-bold">
+                            <a href="#!">Awards</a>
+                        </h6>
+                    </div>
+                    <!-- Grid column -->
+                    <div class="col-md-2 mb-3">
+                        <h6 class="text-uppercase font-weight-bold">
+                            <a href="#!">Help</a>
+                        </h6>
+                    </div>
+                    <!-- Grid column -->
+                    <div class="col-md-2 mb-3">
+                        <h6 class="text-uppercase font-weight-bold">
+                            <a href="#!">Contact</a>
+                        </h6>
+                    </div>
+                    <!-- Grid column -->
+                </div>
+                <!-- Grid row-->
+                <hr class="rgba-white-light" style="margin: 0 15%;">
+
+                <!-- Grid row-->
+                <div class="row d-flex text-center justify-content-center mb-md-0 mb-4">
+                    <!-- Grid column -->
+                    <div class="col-md-8 col-12 mt-5 text-secondary">
+                        <p style="line-height: 1.7rem;">
+                            Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam rem
+                            aperiam, eaque ipsa quae ab illo inventore veritatis et quasi architecto beatae vitae dicta sunt explicabo.
+                            Nemo enim ipsam voluptatem quia voluptas sit aspernatur aut odit aut fugit, sed quia consequuntur.
+                        </p>
+                    </div>
+                    <!-- Grid column -->
+                </div>
+                <!-- Grid row-->
+                <hr class="clearfix d-md-none rgba-white-light" style="margin: 10% 15% 5%;">
+
+                <!-- Grid row-->
+                <div class="row pb-3">
+
+                    <!-- Grid column -->
+                    <div class="col-md-12">
+
+                        <div class="mb-5 flex-center" style="margin-left:+33.5%">
+                            <!-- Facebook -->
+                            <a class="fb-ic" href="https://www.facebook.com">
+                                <img src="https://cdn1.iconfinder.com/data/icons/iconza-circle-social/64/697057-facebook-512.png" style="width:7%" />
+                            </a>&nbsp;&nbsp;&nbsp;
+                            <!-- Twitter -->
+                            <a class="tw-ic" href="https://wwww.twitter.com">
+                                <img src="https://cdn3.iconfinder.com/data/icons/pyconic-icons-3-1/512/twitter-circle-512.png" style="width:5%" />
+                            </a>&nbsp;&nbsp;&nbsp;
+                            <!-- Google +-->
+                            <a class="gplus-ic" href="https://plus.google.com/discover">
+                                <img src="http://icons-for-free.com/free-icons/png/512/107180.png" style="width:5.5%" />
+                            </a>&nbsp;&nbsp;&nbsp;
+                            <!--Instagram-->
+                            <a class="ins-ic" href="https://www.instagram.com/">
+                                <img src="https://cdn4.iconfinder.com/data/icons/social-messaging-ui-color-shapes-2-free/128/social-instagram-new-circle-512.png" style="width:5%" />
+                            </a>&nbsp;&nbsp;&nbsp;
+                            <!--Pinterest-->
+                            <a data-pin-do="buttonPin" data-pin-tall="true" style="width:30%" data-pin-round="true" href="https://www.pinterest.com/pin/create/button/?url=https%3A%2F%2Fwww.flickr.com%2Fphotos%2Fkentbrew%2F6851755809%2F&media=https%3A%2F%2Ffarm8.staticflickr.com%2F7027%2F6851755809_df5b2051c9_z.jpg&description=Next%20stop%3A%20Pinterest"><img src="//assets.pinterest.com/images/pidgets/pinit_fg_en_round_red_32.png" /></a>
+                            &nbsp;&nbsp;&nbsp;
+                            <!--Github-->
+                            <a class="pin-ic align-middle" href="https://github.com/session/">
+                                <img src="https://image.flaticon.com/icons/svg/25/25231.svg" style="width:5%" />
+                            </a>
+
+                        </div>
+                    </div>
+                    <!-- Grid column -->
+
+                </div>
+                <!-- Grid row-->
+            </div>
+            <!-- Footer Links -->
+            <!-- Copyright -->
+            <div class="footer-copyright text-center py-3 text-secondary">
+                &copy; @DateTime.Now.Year - TeamProject - All Rights Reserved
+            </div>
+            <!-- Copyright -->
         </footer>
+        <!-- Footer -->
     </div>
 
     @Scripts.Render("~/bundles/jquery")
