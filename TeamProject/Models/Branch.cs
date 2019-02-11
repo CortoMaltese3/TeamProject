@@ -26,9 +26,9 @@ namespace TeamProject.Models
         [StringLength(50)]
         public string Name { get; set; }
 
-        public decimal Longtitude { get; set; }
+        public double Longtitude { get; set; }
 
-        public decimal Latitude { get; set; }
+        public double Latitude { get; set; }
 
         public decimal Point { get; set; }
 
@@ -52,5 +52,6 @@ namespace TeamProject.Models
 
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Facility> Facility { get; set; }
+
     }
 }

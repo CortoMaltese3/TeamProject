@@ -67,13 +67,6 @@ namespace TeamProject.Models
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
         {
             base.OnModelCreating(modelBuilder);
-            modelBuilder.Entity<Branch>()
-                .Property(e => e.Longtitude)
-                .HasPrecision(6, 3);
-
-            modelBuilder.Entity<Branch>()
-                .Property(e => e.Latitude)
-                .HasPrecision(6, 3);
 
             modelBuilder.Entity<Branch>()
                 .Property(e => e.Point)
