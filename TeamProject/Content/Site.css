@@ -32,6 +32,9 @@
     margin-top: -10%;
     opacity: 0.5;
 }
+.topper{
+    margin-top:10%;
+}
 
 .box {
     padding: 60px 0px;
