@@ -60,7 +60,6 @@ namespace TeamProject.Models
         public virtual DbSet<Court> Court { get; set; }
         public virtual DbSet<Facility> Facility { get; set; }
         public virtual DbSet<Review> Review { get; set; }
-        public virtual DbSet<sysdiagrams> sysdiagrams { get; set; }
         public virtual DbSet<TimeSlot> TimeSlot { get; set; }
         public virtual DbSet<User> User { get; set; }
         public virtual DbSet<UserRoles> UserRoles { get; set; }

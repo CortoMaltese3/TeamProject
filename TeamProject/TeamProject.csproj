@@ -187,6 +187,10 @@
     <Compile Include="Migrations\201902102126417_InitialDB.Designer.cs">
       <DependentUpon>201902102126417_InitialDB.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201902110524533_removeSystemDiagram.cs" />
+    <Compile Include="Migrations\201902110524533_removeSystemDiagram.Designer.cs">
+      <DependentUpon>201902110524533_removeSystemDiagram.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
     <Compile Include="Models\Booking.cs" />
@@ -198,7 +202,6 @@
     <Compile Include="Models\ManageViewModels.cs" />
     <Compile Include="Models\ProjectDbContext.cs" />
     <Compile Include="Models\Review.cs" />
-    <Compile Include="Models\sysdiagrams.cs" />
     <Compile Include="Models\TimeSlot.cs" />
     <Compile Include="Models\User.cs" />
     <Compile Include="Models\UserRoles.cs" />
@@ -318,6 +321,9 @@
   <ItemGroup>
     <EmbeddedResource Include="Migrations\201902102126417_InitialDB.resx">
       <DependentUpon>201902102126417_InitialDB.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201902110524533_removeSystemDiagram.resx">
+      <DependentUpon>201902110524533_removeSystemDiagram.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

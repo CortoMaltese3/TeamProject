@@ -155,18 +155,6 @@ namespace TeamProject.Migrations
                 .Index(t => t.RoleId);
             
             CreateTable(
-                "dbo.sysdiagrams",
-                c => new
-                    {
-                        diagram_id = c.Int(nullable: false, identity: true),
-                        name = c.String(nullable: false, maxLength: 128),
-                        principal_id = c.Int(nullable: false),
-                        version = c.Int(),
-                        definition = c.Binary(),
-                    })
-                .PrimaryKey(t => t.diagram_id);
-            
-            CreateTable(
                 "dbo.AspNetUsers",
                 c => new
                     {
