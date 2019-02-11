@@ -52,6 +52,24 @@ namespace TeamProject.Models
 
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Facility> Facility { get; set; }
+        public double GetDistance(double latitude, double longtitude)
+        {
+            const double earthRadius = 6378137;
 
+            var dLat = ConvertDegreesToRadians(Latitude - latitude);
+            var dLong = ConvertDegreesToRadians(Longtitude - longtitude);
+            var a = Math.Sin(dLat / 2) * Math.Sin(dLat / 2) +
+                Math.Cos(ConvertDegreesToRadians(latitude)) * 
+                Math.Cos(ConvertDegreesToRadians(Latitude)) *
+                Math.Sin(dLong / 2) * Math.Sin(dLong / 2);
+            var c = 2 * Math.Atan2(Math.Sqrt(a), Math.Sqrt(1 - a));
+            var d = (earthRadius * c) / 1000;
+            return d; // returns the distance in meter
+        }
+        public double ConvertDegreesToRadians(double degrees)
+        {
+            double radians = (Math.PI / 180) * degrees;
+            return (radians);
+        }
     }
 }
