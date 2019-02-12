@@ -14,6 +14,10 @@ namespace TeamProject.Controllers
     {
         private ApplicationDbContext db = new ApplicationDbContext();
 
+        public string Nearest(string latitude, string longitude)
+        {
+            return "<p>" + latitude + " " + longitude + "</p>";
+        }
         // GET: Branches
         public ActionResult Index()
         {
