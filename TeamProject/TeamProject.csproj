@@ -191,6 +191,7 @@
     <Compile Include="Models\Booking.cs" />
     <Compile Include="Models\Branch.cs" />
     <Compile Include="Models\BranchManager.cs" />
+    <Compile Include="Models\BranchWithDistance.cs" />
     <Compile Include="Models\Court.cs" />
     <Compile Include="Models\Facility.cs" />
     <Compile Include="Models\IdentityModels.cs" />
@@ -311,6 +312,7 @@
     <Content Include="Views\Branches\Details.cshtml" />
     <Content Include="Views\Branches\Edit.cshtml" />
     <Content Include="Views\Branches\Index.cshtml" />
+    <Content Include="Views\Branches\Nearest.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

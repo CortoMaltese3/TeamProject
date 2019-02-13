@@ -1,0 +1,15 @@
+﻿@model IEnumerable<TeamProject.Models.BranchWithDistance>
+
+@{
+    ViewBag.Title = "Nearest Branches";
+}
+<div class="topper">
+    <h2>Nearest</h2>
+    <ul>
+        @foreach (var branch in Model)
+        {
+            <li>@branch.ID Distance: @branch.Distance</li>
+        }
+    </ul>
+
+</div>

@@ -21,15 +21,28 @@ namespace TeamProject.Controllers
                 if (!double.TryParse(latitude, out double latitudeFixed) ||
                     !double.TryParse(longitude, out double longitudeFixed))
                 {
-                    
+
                     return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
                 }
 
                 BranchManager branchManager = new BranchManager();
                 // TODO 
                 // create Model with Nearest Branches Found + Distance
-                var nearBranches = branchManager.GetNearestBranches(latitudeFixed, longitudeFixed);
-                return View(nearBranches);
+                //var nearestBranches = branchManager.GetNearestBranches(latitudeFixed, longitudeFixed);
+                IEnumerable<BranchWithDistance> branches = db.Branch.Select(b => new BranchWithDistance {
+                    ID = b.ID,
+                    UserID= b.UserID,
+                    Name = b.Name,
+                    Longtitude = b.Longtitude,
+                    Latitude = b.Latitude,
+                    City = b.City,
+                    Address = b.Address,
+                    ZipCode = b.ZipCode,
+                    Distance = 100
+                    
+                });//.Where(branch => nearestBranches.Any(nb => nb.ID == branch.ID));
+
+                return View(branches);
 
             }
             catch (NotImplementedException)
