@@ -306,13 +306,13 @@
     <Content Include="Views\Courts\Delete.cshtml" />
     <Content Include="Views\Courts\Details.cshtml" />
     <Content Include="Views\Courts\Edit.cshtml" />
-    <Content Include="Views\Courts\Index.cshtml" />
     <Content Include="Views\Branches\Create.cshtml" />
     <Content Include="Views\Branches\Delete.cshtml" />
     <Content Include="Views\Branches\Details.cshtml" />
     <Content Include="Views\Branches\Edit.cshtml" />
-    <Content Include="Views\Branches\Index.cshtml" />
     <Content Include="Views\Branches\Nearest.cshtml" />
+    <Content Include="Views\Branches\Index.cshtml" />
+    <Content Include="Views\Courts\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
