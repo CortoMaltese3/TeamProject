@@ -3,7 +3,7 @@
     ViewBag.Title = "Home Page";
 }
 @section Styles{
-
+    @*<link type="text/css" rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,400,500">*@
     <link rel="stylesheet" href="~/Content/google-maps.css" />
 }
 <div id="carouselIndicators" class="carousel slide card-img-top" data-ride="carousel">
@@ -47,20 +47,17 @@
 </div>
 <div class="row">
     <div class="col-md-12 margin-toper">
-        <div class="input-group">
-@*            <input id="pac-input" class="controls" type="text" placeholder="Search Box">*@
-            <form id="search" method="post" action="Branches/Nearest" class="form-inline">
-                <input id="pac-input" class="form-control border-secondary py-2 form-control col-md-8 rounded-pill border-success leftmarge" placeholder="Search Your Pitch" type="search">
-                <input id="latitude" hidden name="latitude" type="text" value="">
-                <input id="longitude" hidden name="longitude" type="text" value="">
-                <div id="map" hidden></div>
-                <div class="input-group-append">
-                    <button class="btn btn-success rounded-pill" type="submit">Search!</button>
-                </div>
-            </form>
-        </div>
+        <form id="form-submit" class="input-group"  method="post" action="/Branches/Nearest">
+            <input id="autocomplete" class="form-control border-secondary py-2 form-control col-md-4 rounded-pill border-success leftmarge" type="search" placeholder="Search">
+            <input id="latitude" hidden name="latitude" type="text">
+            <input id="longitude" hidden name="longitude" type="text">
+            <div class="input-group-append">
+                <button id="form-search" class="btn btn-success rounded-pill" type="submit">Search!</button>
+            </div>
+        </form>
     </div>
 </div>
+
 <div class="container">
     <div class="row">
         <div class="col-sm-12">
@@ -166,9 +163,8 @@
 </div>
 
 @section Scripts{
-    <script src="~/Scripts/google-maps.js"></script>
-    @*<script type="text/javascript" src="http://maps.google.com/maps/api/js?sensor=false&libraries=geometry"></script>*@
-    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDrnm2ptgfajjtlCfM97wat7Jsx5KZ0UoA&libraries=places&callback=initAutocomplete"
-            async defer></script>
 
+    @*<script type="text/javascript" src="http://maps.google.com/maps/api/js?sensor=false&libraries=geometry"></script>*@
+    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDrnm2ptgfajjtlCfM97wat7Jsx5KZ0UoA&libraries=places"></script>
+    <script src="~/Scripts/google-maps.js"></script>
 }
