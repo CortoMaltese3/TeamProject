@@ -14,9 +14,28 @@ namespace TeamProject.Controllers
     {
         private ApplicationDbContext db = new ApplicationDbContext();
 
-        public string Nearest(string latitude, string longitude)
+        public ActionResult Nearest(string latitude, string longitude)
         {
-            return "<p>" + latitude + " " + longitude + "</p>";
+            try
+            {
+                if (!double.TryParse(latitude, out double latitudeFixed) ||
+                    !double.TryParse(longitude, out double longitudeFixed))
+                {
+                    
+                    return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+                }
+
+                BranchManager branchManager = new BranchManager();
+                // TODO 
+                // create Model with Nearest Branches Found + Distance
+                var nearBranches = branchManager.GetNearestBranches(latitudeFixed, longitudeFixed);
+                return View(nearBranches);
+
+            }
+            catch (NotImplementedException)
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.NotImplemented);
+            }
         }
         // GET: Branches
         public ActionResult Index()
