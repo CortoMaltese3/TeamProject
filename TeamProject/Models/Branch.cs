@@ -13,23 +13,21 @@ namespace TeamProject.Models
         public Branch()
         {
             Court = new HashSet<Court>();
-            Review = new HashSet<Review>();
             Facility = new HashSet<Facility>();
         }
 
-        public int ID { get; set; }
+        public int Id { get; set; }
 
-        public int UserID { get; set; }
-        public virtual User User { get; set; }
+        public int UserId { get; set; }
 
         [Required]
         [StringLength(50)]
         public string Name { get; set; }
 
-        public double Longtitude { get; set; }
+        public double Longitude { get; set; }
 
         public double Latitude { get; set; }
-        
+
         [Required]
         [StringLength(20)]
         public string City { get; set; }
@@ -42,14 +40,14 @@ namespace TeamProject.Models
         [StringLength(200)]
         public string ZipCode { get; set; }
 
+        public double Distance { get; set; }
+
+        public virtual User User { get; set; }
+
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Court> Court { get; set; }
 
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<Review> Review { get; set; }
-
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Facility> Facility { get; set; }
-
     }
 }

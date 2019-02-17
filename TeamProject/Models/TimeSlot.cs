@@ -9,9 +9,9 @@ namespace TeamProject.Models
     [Table("TimeSlot")]
     public partial class TimeSlot
     {
-        public int ID { get; set; }
+        public int Id { get; set; }
 
-        public int CourtID { get; set; }
+        public int CourtId { get; set; }
 
         public int Day { get; set; }
 

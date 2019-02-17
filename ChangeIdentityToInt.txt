@@ -1,1 +1,0 @@
-https://docs.microsoft.com/en-us/aspnet/identity/overview/extensibility/change-primary-key-for-users-in-aspnet-identity#mvcupdate3

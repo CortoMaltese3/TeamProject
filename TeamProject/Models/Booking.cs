@@ -9,11 +9,11 @@ namespace TeamProject.Models
     [Table("Booking")]
     public partial class Booking
     {
-        public int ID { get; set; }
+        public int Id { get; set; }
 
-        public int CourtID { get; set; }
+        public int CourtId { get; set; }
 
-        public int UserID { get; set; }
+        public int UserId { get; set; }
 
         public DateTime BookedAt { get; set; }
 

@@ -2,7 +2,6 @@
 
 @{
     ViewBag.Title = "Index";
-    Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
 <h2>Index</h2>
@@ -10,7 +9,7 @@
 <p>
     @Html.ActionLink("Create New", "Create")
 </p>
-<table class="table topper">
+<table class="table">
     <tr>
         <th>
             @Html.DisplayNameFor(model => model.User.Firstname)
@@ -19,7 +18,7 @@
             @Html.DisplayNameFor(model => model.Name)
         </th>
         <th>
-            @Html.DisplayNameFor(model => model.Longtitude)
+            @Html.DisplayNameFor(model => model.Longitude)
         </th>
         <th>
             @Html.DisplayNameFor(model => model.Latitude)
@@ -45,7 +44,7 @@
             @Html.DisplayFor(modelItem => item.Name)
         </td>
         <td>
-            @Html.DisplayFor(modelItem => item.Longtitude)
+            @Html.DisplayFor(modelItem => item.Longitude)
         </td>
         <td>
             @Html.DisplayFor(modelItem => item.Latitude)
@@ -60,9 +59,9 @@
             @Html.DisplayFor(modelItem => item.ZipCode)
         </td>
         <td>
-            @Html.ActionLink("Edit", "Edit", new { id=item.ID }) |
-            @Html.ActionLink("Details", "Details", new { id=item.ID }) |
-            @Html.ActionLink("Delete", "Delete", new { id=item.ID })
+            @Html.ActionLink("Edit", "Edit", new { id=item.Id }) |
+            @Html.ActionLink("Details", "Details", new { id=item.Id }) |
+            @Html.ActionLink("Delete", "Delete", new { id=item.Id })
         </td>
     </tr>
 }

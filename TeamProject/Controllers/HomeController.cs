@@ -9,12 +9,13 @@ namespace TeamProject.Controllers
 {
     public class HomeController : Controller
     {
-        private ApplicationDbContext db = new ApplicationDbContext();
+        private ProjectDbContext db = new ProjectDbContext();
 
+        // GET: Courts
         public ActionResult Index()
         {
-
-            return View(db.Court.ToList());
+            var court = db.Court.Get();//.Include(c => c.Branch);
+            return View(court.ToList());
         }
 
         public ActionResult About()

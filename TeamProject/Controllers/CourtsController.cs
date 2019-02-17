@@ -12,12 +12,12 @@ namespace TeamProject.Controllers
 {
     public class CourtsController : Controller
     {
-        private ApplicationDbContext db = new ApplicationDbContext();
+        private ProjectDbContext db = new ProjectDbContext();
 
         // GET: Courts
         public ActionResult Index()
         {
-            var court = db.Court.Include(c => c.Branch);
+            var court = db.Court.Get();//.Include(c => c.Branch);
             return View(court.ToList());
         }
 
@@ -28,7 +28,7 @@ namespace TeamProject.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            Court court = db.Court.Find(id);
+            Court court = db.Court.Find(id??0);
             if (court == null)
             {
                 return HttpNotFound();
@@ -39,7 +39,7 @@ namespace TeamProject.Controllers
         // GET: Courts/Create
         public ActionResult Create()
         {
-            ViewBag.BranchID = new SelectList(db.Branch, "ID", "Name");
+            ViewBag.BranchId = new SelectList(db.Branch.Get(), "Id", "Name");
             return View();
         }
 
@@ -48,16 +48,15 @@ namespace TeamProject.Controllers
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "ID,BranchID,Name,ImageCourt,MaxPlayers,Price")] Court court)
+        public ActionResult Create([Bind(Include = "Id,BranchId,Name,ImageCourt,MaxPlayers,Price")] Court court)
         {
             if (ModelState.IsValid)
             {
                 db.Court.Add(court);
-                db.SaveChanges();
                 return RedirectToAction("Index");
             }
 
-            ViewBag.BranchID = new SelectList(db.Branch, "ID", "Name", court.BranchID);
+            ViewBag.BranchId = new SelectList(db.Branch.Get(), "Id", "Name", court.BranchId);
             return View(court);
         }
 
@@ -68,12 +67,12 @@ namespace TeamProject.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            Court court = db.Court.Find(id);
+            Court court = db.Court.Find(id??0);
             if (court == null)
             {
                 return HttpNotFound();
             }
-            ViewBag.BranchID = new SelectList(db.Branch, "ID", "Name", court.BranchID);
+            ViewBag.BranchId = new SelectList(db.Branch.Get(), "Id", "Name", court.BranchId);
             return View(court);
         }
 
@@ -82,15 +81,14 @@ namespace TeamProject.Controllers
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include = "ID,BranchID,Name,ImageCourt,MaxPlayers,Price")] Court court)
+        public ActionResult Edit([Bind(Include = "Id,BranchId,Name,ImageCourt,MaxPlayers,Price")] Court court)
         {
             if (ModelState.IsValid)
             {
-                db.Entry(court).State = EntityState.Modified;
-                db.SaveChanges();
+                db.Court.Update(court);
                 return RedirectToAction("Index");
             }
-            ViewBag.BranchID = new SelectList(db.Branch, "ID", "Name", court.BranchID);
+            ViewBag.BranchId = new SelectList(db.Branch.Get(), "Id", "Name", court.BranchId);
             return View(court);
         }
 
@@ -101,7 +99,7 @@ namespace TeamProject.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            Court court = db.Court.Find(id);
+            Court court = db.Court.Find(id??0);
             if (court == null)
             {
                 return HttpNotFound();
@@ -115,18 +113,10 @@ namespace TeamProject.Controllers
         public ActionResult DeleteConfirmed(int id)
         {
             Court court = db.Court.Find(id);
-            db.Court.Remove(court);
-            db.SaveChanges();
+            db.Court.Remove(court.Id);
             return RedirectToAction("Index");
         }
 
-        protected override void Dispose(bool disposing)
-        {
-            if (disposing)
-            {
-                db.Dispose();
-            }
-            base.Dispose(disposing);
-        }
+
     }
 }

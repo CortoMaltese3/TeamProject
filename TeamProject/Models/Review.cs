@@ -9,11 +9,11 @@ namespace TeamProject.Models
     [Table("Review")]
     public partial class Review
     {
-        public int ID { get; set; }
+        public int Id { get; set; }
 
-        public int BranchID { get; set; }
+        public int CourtId { get; set; }
 
-        public int UserID { get; set; }
+        public int UserId { get; set; }
 
         public int Rating { get; set; }
 
@@ -22,7 +22,7 @@ namespace TeamProject.Models
 
         public DateTime CommentAt { get; set; }
 
-        public virtual Branch Branch { get; set; }
+        public virtual Court Court { get; set; }
 
         public virtual User User { get; set; }
     }
