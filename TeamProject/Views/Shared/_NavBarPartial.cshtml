@@ -1,0 +1,29 @@
+﻿<nav class="navbar navbar-dark navbar-expand-lg sticky-top bg-dark test">
+    @Html.ActionLink("TeamProject", "Index", "Home", new { area = "" }, new { @class = "navbar-brand font-italic" })
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarNav">
+        <ul class="navbar-nav">
+            <li class="nav-item active">@Html.ActionLink("Courts", "Index", "Courts", new { area = "" }, new { @class = "navbar-brand" })</li>
+            <li class="nav-item">@Html.ActionLink("About", "About", "Home", new { area = "" }, new { @class = "nav-link" })</li>
+            <li class="nav-item">@Html.ActionLink("Contact", "Contact", "Home", new { area = "" }, new { @class = "nav-link" })</li>
+
+            <li class="nav-item dropdown">
+                <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    Panel Views
+                </a>
+                <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
+                    @Html.ActionLink("Branches", "Index", "Branches", new { area = "" }, new { @class = "dropdown-item" })
+                    @Html.ActionLink("Courts", "Index", "Courts", new { area = "" }, new { @class = "dropdown-item" })
+                    @Html.ActionLink("Facilities", "Index", "Facilities", new { area = "" }, new { @class = "dropdown-item" })
+                    @Html.ActionLink("Booking", "Index", "Booking", new { area = "" }, new { @class = "dropdown-item" })
+                    @Html.ActionLink("TimeSlots", "Index", "TimeSlots", new { area = "" }, new { @class = "dropdown-item" })
+                    @Html.ActionLink("Users", "Index", "Users", new { area = "" }, new { @class = "dropdown-item" })
+                    @Html.ActionLink("Users Roles", "Index", "UserRoles", new { area = "" }, new { @class = "dropdown-item" })
+                </div>
+            </li>
+        </ul>
+        @Html.Partial("_LoginPartial")
+    </div>
+</nav>

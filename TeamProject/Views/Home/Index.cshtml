@@ -1,0 +1,170 @@
+﻿@model IEnumerable<TeamProject.Models.Court>
+@{
+    ViewBag.Title = "Home Page";
+    Layout = "~/Views/Shared/_LayoutHome.cshtml";
+}
+@section Styles{
+    @*<link type="text/css" rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,400,500">*@
+    <link rel="stylesheet" href="~/Content/google-maps.css" />
+}
+<div id="carouselIndicators" class="carousel slide card-img-top" data-ride="carousel">
+    <ol class="carousel-indicators">
+        <li data-target="#carouselExampleIndicators" data-slide-to="0" class="active"></li>
+        <li data-target="#carouselExampleIndicators" data-slide-to="1"></li>
+        <li data-target="#carouselExampleIndicators" data-slide-to="2"></li>
+    </ol>
+    <div class="carousel-inner">
+
+        <div class="carousel-item active">
+            <img class="d-block w-100" src="https://media.architecturaldigest.in/wp-content/uploads/2018/06/FIFA-2018-World-Cup-Featured-1366x768.jpg" alt="First slide">
+            <div class="carousel-caption d-none d-md-block">
+                <h5>World Cap!</h5>
+                <p>Find Your Court Now!</p>
+            </div>
+        </div>
+        <div class="carousel-item">
+            <img class="d-block w-100" src="https://static.euronews.com/articles/stories/03/15/68/25/880x495_cmsv2_a9dcd7ed-1ff5-5d7c-8de0-63b847a68c91-3156825.jpg" alt="Second slide">
+            <div class="carousel-caption d-none d-md-block">
+                <h5>We love Football!</h5>
+                <p>Find Your Court Now!</p>
+            </div>
+        </div>
+        <div class="carousel-item">
+            <img class="d-block w-100" src="http://s1.1zoom.me/b5752/43/Footbal_Men_Ball_Glove_515345_1366x768.jpg" alt="Third slide">
+            <div class="carousel-caption d-none d-md-block">
+                <h5>Ball Court easy to find!</h5>
+                <p>Find Your Court Now!</p>
+            </div>
+        </div>
+    </div>
+    <a class="carousel-control-prev" href="#carouselIndicators" role="button" data-slide="prev">
+        <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+        <span class="sr-only">Previous</span>
+    </a>
+    <a class="carousel-control-next" href="#carouselIndicators" role="button" data-slide="next">
+        <span class="carousel-control-next-icon" aria-hidden="true"></span>
+        <span class="sr-only">Next</span>
+    </a>
+</div>
+<div class="row">
+    <div class="col-md-12 margin-toper">
+        <form id="form-submit" class="input-group" method="post" action="/Branches/Nearest">
+            <input id="autocomplete" class="form-control border-secondary py-2 form-control col-md-4 rounded-pill border-success leftmarge" type="search" placeholder="Search">
+            <input id="latitude" hidden name="latitude" type="text">
+            <input id="longitude" hidden name="longitude" type="text">
+            <div class="input-group-append">
+                <button id="form-search" class="btn btn-success rounded-pill" type="submit">Search!</button>
+            </div>
+        </form>
+    </div>
+</div>
+
+<div class="container">
+    <div class="row">
+        <div class="col-sm-12">
+            <h2 class="page-item text-center form-text">FIND SOMEHWERE TO PLAY</h2>
+            <p class="text-center">Find football facilities in a range of cities across the Greece<br />Choose a pitch!</p>
+        </div>
+    </div>
+    <div class="row d-flex justify-content-around ">
+        <br />
+        @foreach (var court in Model)
+        {
+            <div class="col-md-4 d-none d-sm-block col-sm-5">
+                <div class="card bg-dark text-white rounded ml-3 mt-3 mr-3">
+                    <img src="@court.ImageCourt" class="card-img movie-Thumbnail" alt="@court.Name">
+                    <div class="card-img-overlay">
+                        <h4 class="card-title text-center">@court.Name</h4>
+                        <a href="~/Views/Courts/Index.cshtml" class="btn btn-block btn-success bottom">Book Now only @court.Price! </a>
+                    </div>
+                </div>
+            </div>
+        }
+    </div>
+</div>
+@*adding Social Links*@
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+<div class="box" style="opacity:1;">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-4 col-md-4 col-sm-4 col-xs-12">
+                <div class="box-part text-center rounded-circle">
+                    <i class="fa fa-instagram fa-3x" aria-hidden="true" style="color: cadetblue;"></i>
+                    <div class="title">
+                        <h4>Instagram</h4>
+                    </div>
+                    <div class="text">
+                        <span>Follow us on Instagram.</span>
+                    </div>
+                    <a href="https://www.instagram.com/">Learn More</a>
+                </div>
+            </div>
+            <div class="col-lg-4 col-md-4 col-sm-4 col-xs-12">
+                <div class="box-part text-center  rounded-circle">
+                    <i class="fa fa-facebook fa-3x" aria-hidden="true" style="color: cadetblue;"></i>
+                    <div class="title">
+                        <h4>Facebook</h4>
+                    </div>
+                    <div class="text">
+                        <span>Like Us on Facebook</span>
+                    </div>
+                    <a href="https://www.facebook.com">Learn More</a>
+                </div>
+            </div>
+            <div class="col-lg-4 col-md-4 col-sm-4 col-xs-12">
+                <div class="box-part text-center rounded-circle">
+                    <i class="fa fa-twitter fa-3x" aria-hidden="true" style="color: cadetblue;"></i>
+                    <div class="title">
+                        <h4>Twitter</h4>
+                    </div>
+                    <div class="text">
+                        <span>Follow us on Twitter.</span>
+                    </div>
+                    <a href="https://www.twitter.com">Learn More</a>
+                </div>
+            </div>
+            <div class="col-lg-4 col-md-4 col-sm-4 col-xs-12">
+                <div class="box-part text-center rounded-circle">
+                    <i class="fa fa-pinterest-p fa-3x" aria-hidden="true" style="color: cadetblue;"></i>
+                    <div class="title">
+                        <h4>Pinterest</h4>
+                    </div>
+                    <div class="text">
+                        <span>Follow us on Pinterest.</span>
+                    </div>
+                    <a href="https://gr.pinterest.com/">Learn More</a>
+                </div>
+            </div>
+            <div class="col-lg-4 col-md-4 col-sm-4 col-xs-12">
+                <div class="box-part text-center rounded-circle">
+                    <i class="fa fa-google-plus fa-3x" aria-hidden="true" style="color: cadetblue;"></i>
+                    <div class="title">
+                        <h4>Google</h4>
+                    </div>
+                    <div class="text">
+                        <span>Follow us on Google+.</span>
+                    </div>
+                    <a href="https://plus.google.com/discover">Learn More</a>
+                </div>
+            </div>
+            <div class="col-lg-4 col-md-4 col-sm-4 col-xs-12">
+                <div class="box-part text-center rounded-circle">
+                    <i class="fa fa-github fa-3x" aria-hidden="true" style="color: cadetblue;"></i>
+                    <div class="title">
+                        <h4>Github</h4>
+                    </div>
+                    <div class="text">
+                        <span>Check Our Code on Github.</span>
+                    </div>
+                    <a href="https://github.com/session">Learn More</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts{
+
+    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDrnm2ptgfajjtlCfM97wat7Jsx5KZ0UoA&libraries=places"></script>
+    <script src="~/Scripts/google-maps.js"></script>
+}
