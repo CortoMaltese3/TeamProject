@@ -165,7 +165,7 @@ create table Review(
 );
 go
 
-Create Procedure [dbo].[GetBranchesDistance] 
+create Procedure [dbo].[GetBranchesDistance] 
 	@Latitude float,
 	@Longitude float,
 	@Distance float
@@ -174,11 +174,14 @@ BEGIN
 	DECLARE @g geography;  
 	SET @g = geography::STGeomFromText('POINT('+ cast(@latitude as varchar) + ' ' + cast(@longitude as varchar) +')', 4326);  
 
-	SELECT branch.*,  geography::STGeomFromText('POINT('+ cast(latitude as varchar) + ' ' + cast(longitude as varchar) +')', 4326).STDistance(@g) as Distance
-	from branch
+	SELECT branch.*
+		,  geography::STGeomFromText('POINT('+ cast(latitude as varchar) + ' ' + cast(longitude as varchar) +')', 4326).STDistance(@g) as Distance
+		, FirstCourt.ImageCourt
+	from branch inner join (select Top 1 Court.BranchId, Court.ImageCourt from Court) 
+	FirstCourt on branch.id = FirstCourt.BranchId
+
 	where geography::STGeomFromText('POINT('+ cast(latitude as varchar) + ' ' + cast(longitude as varchar) +')', 4326).STDistance(@g)  <@distance
 END
-go 
 
 execute InsertUser 'geo.xiros@gmail.com', 'george', 'xiros', '1234'
 go
