@@ -150,6 +150,7 @@
     <Compile Include="Models\Court.cs" />
     <Compile Include="Models\CourtManager.cs" />
     <Compile Include="Models\Facility.cs" />
+    <Compile Include="Models\FacilityManager.cs" />
     <Compile Include="Models\IDatabaseActions.cs" />
     <Compile Include="Models\ProjectDbContext.cs" />
     <Compile Include="Models\Review.cs" />
