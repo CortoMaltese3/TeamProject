@@ -34,9 +34,13 @@ namespace TeamProject.Models
             var branchDictionary = new Dictionary<int, Branch>();
             _db.UsingConnection((dbCon) =>
             {
-                branches = dbCon.Query<Branch, Court, Branch>(
-                    "SELECT * FROM Branch LEFT JOIN Court ON Branch.Id = Court.BranchId" + (queryWhere == null ? string.Empty : $" WHERE {queryWhere}"),
-                    (branch, court) =>
+                branches = dbCon.Query<Branch, User, Facility, Court, Branch>(
+                    "SELECT Branch.*, [User].*, Facility.*, Court.*  FROM Branch " +
+                    " INNER JOIN [USER] ON Branch.UserId = [User].Id " +
+                    " LEFT JOIN BranchFacilities ON Branch.Id = BranchFacilities.BranchId " +
+                    " LEFT JOIN Facility ON BranchFacilities.FacilityId = Facility.Id " +
+                    " LEFT JOIN Court ON Branch.Id = Court.BranchId" + (queryWhere == null ? string.Empty : $" WHERE {queryWhere}"),
+                    (branch, user, facility, court) =>
                     {
                         Branch branchEntry;
 
@@ -44,13 +48,31 @@ namespace TeamProject.Models
                         {
                             branchEntry = branch;
                             branchEntry.Court = new List<Court>();
+                            branchEntry.Facility = new List<Facility>();
                             branchDictionary.Add(branchEntry.Id, branchEntry);
                         }
 
-                        branchEntry.Court.Add(court);
+                        branchEntry.User = user;
+
+                        if (court != null)
+                        {
+                            if (!branchEntry.Court.Any(c => c.Id==court.Id))
+                            {
+                                branchEntry.Court.Add(court);
+                            }
+                            
+                        }
+                        if (facility != null)
+                        {
+                            if (!branchEntry.Facility.Any(f => f.Id == facility.Id))
+                            {
+                                branchEntry.Facility.Add(facility);
+                            }
+                        }
+
                         return branchEntry;
                     },
-                        splitOn: "id",
+                        splitOn: "id,id,id",
                         param: parameters)
                         .Distinct()
                         .ToList();

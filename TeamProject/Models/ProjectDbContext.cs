@@ -16,6 +16,7 @@ namespace TeamProject.Models
             Court = new CourtManager(this);
             Branch = new BranchManager(this);
             User = new UserManager(this);
+            Facility = new FacilityManager(this);
         }
         public void UsingConnection(Action<SqlConnection> action)
         {
@@ -35,5 +36,6 @@ namespace TeamProject.Models
         public CourtManager Court { get; set; }
         public BranchManager Branch { get; set; }
         public UserManager User { get; set; }
+        public FacilityManager Facility { get; set; }
     }
 }

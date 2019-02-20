@@ -12,12 +12,14 @@ namespace TeamProject.Controllers
 {
     public class FacilitiesController : Controller
     {
-        private ApplicationDbContext db = new ApplicationDbContext();
+        private ProjectDbContext db = new ProjectDbContext();
 
         // GET: Facilities
+
         public ActionResult Index()
         {
-            return View(db.Facility.ToList());
+            var facility = db.Facility.Get();
+            return View(facility.ToList());
         }
 
         // GET: Facilities/Details/5
@@ -25,12 +27,14 @@ namespace TeamProject.Controllers
         {
             if (id == null)
             {
-                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+                return RedirectToAction("Index");
+                //return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            Facility facility = db.Facility.Find(id);
+            Facility facility = db.Facility.Find(id??0);            
             if (facility == null)
             {
-                return HttpNotFound();
+                return RedirectToAction("Index");
+                //return HttpNotFound();
             }
             return View(facility);
         }
@@ -51,7 +55,7 @@ namespace TeamProject.Controllers
             if (ModelState.IsValid)
             {
                 db.Facility.Add(facility);
-                db.SaveChanges();
+                //db.SaveChanges();
                 return RedirectToAction("Index");
             }
 
@@ -65,7 +69,7 @@ namespace TeamProject.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            Facility facility = db.Facility.Find(id);
+            Facility facility = db.Facility.Find(id??0);
             if (facility == null)
             {
                 return HttpNotFound();
@@ -82,8 +86,9 @@ namespace TeamProject.Controllers
         {
             if (ModelState.IsValid)
             {
-                db.Entry(facility).State = EntityState.Modified;
-                db.SaveChanges();
+                db.Facility.Update(facility);
+                //db.Entry(facility).State = EntityState.Modified;
+                //db.SaveChanges();
                 return RedirectToAction("Index");
             }
             return View(facility);
@@ -96,7 +101,7 @@ namespace TeamProject.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            Facility facility = db.Facility.Find(id);
+            Facility facility = db.Facility.Find(id??0);
             if (facility == null)
             {
                 return HttpNotFound();
@@ -110,16 +115,18 @@ namespace TeamProject.Controllers
         public ActionResult DeleteConfirmed(int id)
         {
             Facility facility = db.Facility.Find(id);
-            db.Facility.Remove(facility);
-            db.SaveChanges();
+            db.Facility.Remove(facility.Id);
+            //db.SaveChanges();
             return RedirectToAction("Index");
         }
+
+
 
         protected override void Dispose(bool disposing)
         {
             if (disposing)
             {
-                db.Dispose();
+                //db.Dispose();
             }
             base.Dispose(disposing);
         }
