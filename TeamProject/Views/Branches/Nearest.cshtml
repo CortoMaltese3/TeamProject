@@ -6,65 +6,20 @@
 
 <h2>Nearest Pitches</h2>
 
-<table class="table">
-    <tr>
-        <th>
-            @Html.DisplayNameFor(model => model.UserId)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.Name)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.Longitude)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.Latitude)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.City)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.Address)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.ZipCode)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.Distance)
-        </th>
-        <th></th>
-    </tr>
-
-@foreach (var item in Model) {
-    <tr>
-        <td>
-            @Html.DisplayFor(modelItem => item.UserId)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.Name)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.Longitude)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.Latitude)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.City)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.Address)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.ZipCode)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.Distance)
-        </td>
-        <td>
-            @Html.ActionLink("Βοοκ Now", "Βοοκ", new { id=item.Id })
-        </td>
-    </tr>
+@foreach (var branch in Model)
+{
+    <div class="card mb-3 rounded rounded-lg border border-success d-flex p-2 bd-highlight d-flex">
+        <div class="row no-gutters">
+            <div class="col-md-4">
+                <img src="@branch.ImageCourt" class="card-img" alt="@branch.Name">
+            </div>
+            <div class="col-md-8">
+                <div class="card-body align-content-end flex-column">
+                    <h5 class="card-title">@branch.Name</h5>
+                    <p class="card-text">@branch.Address</p>
+                    <a href="/Courts/index" class="btn btn-success btn-lg active mt-auto" role="button" aria-pressed="true">View details!</a>
+                </div>
+            </div>
+        </div>
+    </div>
 }
-
-</table>
