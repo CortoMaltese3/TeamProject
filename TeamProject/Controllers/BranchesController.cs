@@ -42,8 +42,17 @@ namespace TeamProject.Controllers
         // GET: Branches
         public ActionResult Index()
         {
+            //return a list sorted by distance.
+            List<Branch> branches = new List<Branch>();
+
             var branch = db.Branch.Get();//.Include(b => b.User);
-            return View(branch.ToList());
+           
+            foreach(var bran in branch)
+            {
+                branches.Add(bran);
+            }         
+            branches.Sort((x, y) => x.Distance.CompareTo(y.Distance));
+            return View(branches.ToList());
         }
 
         // GET: Branches/Details/5
