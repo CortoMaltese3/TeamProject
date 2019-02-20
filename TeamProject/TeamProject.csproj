@@ -159,6 +159,7 @@
     <Compile Include="Models\User.cs" />
     <Compile Include="Models\UserManager.cs" />
     <Compile Include="Models\UserRoles.cs" />
+    <Compile Include="Models\UserRolesManager.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
