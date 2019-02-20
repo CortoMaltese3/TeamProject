@@ -35,5 +35,6 @@ namespace TeamProject.Models
         public CourtManager Court { get; set; }
         public BranchManager Branch { get; set; }
         public UserManager User { get; set; }
+        public FacilityManager Facility { get; set; }
     }
 }
