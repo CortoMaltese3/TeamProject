@@ -11,13 +11,13 @@
     <div class="card mb-3 rounded rounded-lg border border-success d-flex p-2 bd-highlight d-flex">
         <div class="row no-gutters">
             <div class="col-md-4">
-                <img src="@branch.Court.FirstOrDefault()?.ImageCourt" class="card-img" alt="@branch.Name">
+                <img src="@branch.ImageCourt" class="card-img" alt="@branch.Name">
             </div>
             <div class="col-md-8">
                 <div class="card-body align-content-end flex-column">
                     <h5 class="card-title">@branch.Name</h5>
                     <p class="card-text">@branch.Address</p>
-                    <a href="/bookings/index" class="btn btn-success btn-lg active mt-auto" role="button" aria-pressed="true">Book Now!</a>
+                    <a href="/Courts/index" class="btn btn-success btn-lg active mt-auto" role="button" aria-pressed="true">View details!</a>
                 </div>
             </div>
         </div>
