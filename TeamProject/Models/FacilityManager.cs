@@ -12,17 +12,17 @@ namespace TeamProject.Models
         {
             _queryParts = new Dictionary<string, string>()
             {
-                { "FindById", "Branch.id = @id" },
+                { "FindById", "Facility.id = @id" },
                 { "InsertQuery",
-                    "INSERT INTO Facility ([Description])" +
-                    "VALUES (@Description)" +
-                    "SELECT * FROM Branch WHERE Facility.Id = (SELECT SCOPE_IDENTITY())"},
+                    " INSERT INTO Facility ([Description]) " +
+                    " VALUES (@Description) " +
+                    " SELECT * FROM Facility WHERE Facility.Id = (SELECT SCOPE_IDENTITY()) "},
                 { "RemoveQuery",
-                    "DELETE FROM Facility WHERE Id = @Id" },
+                    " DELETE FROM Facility WHERE Id = @Id" },
                 { "UpdateQuery",
-                    "UPDATE Facility SET " +
-                    "[Description] = @Description" +
-                    "WHERE Id = @Id"}
+                    " UPDATE Facility SET " +
+                    " [Description] = @Description " +
+                    " WHERE Id = @Id"}
             };
             _db = projectDbContext;
         }
@@ -31,21 +31,33 @@ namespace TeamProject.Models
         {
             IEnumerable<Facility> facilities = null;
 
-            var FacilityDictionary = new Dictionary<int, Facility>();  
+            var facilityDictionary = new Dictionary<int, Facility>();  
 
             _db.UsingConnection((dbCon) =>
             {                
                 facilities = dbCon.Query<Facility, Branch, Facility>(
-                    "SELECT Facility.Description FROM Facility " +
+                    "SELECT Facility.*, Branch.* FROM Facility " +
                     " LEFT JOIN BranchFacilities ON Facility.Id = BranchFacilities.FacilityId " +
                     " LEFT JOIN Branch ON BranchFacilities.BranchId = Branch.Id " +
                     (queryWhere == null ? string.Empty : $" WHERE {queryWhere}"),
                     (facility, branch) =>
                     {
-                        facility.Description = facility.ToString();
-                        return facility;
+                        Facility facilityEntry;
+
+                        if (!facilityDictionary.TryGetValue(facility.Id, out facilityEntry))
+                        {
+                            facilityEntry = facility;
+                            facilityEntry.Branch  = new List<Branch>();
+                            facilityDictionary.Add(facilityEntry.Id, facilityEntry);
+                        }
+                        if (branch != null)
+                        {
+                            facilityEntry.Branch.Add(branch);
+                        }
+
+                        return facilityEntry;
                     },
-                    //splitOn: "id",
+                    splitOn: "id,id",
                     param: parameters)
                     .Distinct();
             });
