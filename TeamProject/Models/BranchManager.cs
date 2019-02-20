@@ -91,7 +91,6 @@ namespace TeamProject.Models
         {
             IEnumerable<Branch> branches = null;
 
-            var branchDictionary = new Dictionary<int, Branch>();
 
             _db.UsingConnection((dbCon) =>
             {
@@ -100,7 +99,6 @@ namespace TeamProject.Models
                     new { Latitude = latitude, Longitude = longitude, Distance = distanceInMeters },
                     commandType: CommandType.StoredProcedure);
             });
-
             return branches;
         }
     }

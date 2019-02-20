@@ -40,6 +40,8 @@ namespace TeamProject.Models
         [StringLength(200)]
         public string ZipCode { get; set; }
 
+        public string ImageCourt { get; set; }
+
         public double Distance { get; set; }
 
         public virtual User User { get; set; }
