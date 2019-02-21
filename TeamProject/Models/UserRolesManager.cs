@@ -16,7 +16,7 @@ namespace TeamProject.Models
                 { "InsertQuery",
                     "INSERT INTO UserRoles ([UserId],[Role]) " +
                     "VALUES (@UserId,@Role)" +
-                    "SELECT * FROM UserRoles WHERE UserRoles.UserId = @id)"},
+                    "SELECT * FROM UserRoles WHERE UserRoles.UserId = (SELECT SCOPE_IDENTITY()))"},
                 { "RemoveQuery",
                     "DELETE FROM UserRoles WHERE UserId = @Id" },
                 { "UpdateQuery",
@@ -37,7 +37,7 @@ namespace TeamProject.Models
                     "SELECT * FROM Useroles INNER JOIN User ON User.UserId = Branch.Id" + (queryWhere == null ? string.Empty : $" WHERE {queryWhere}"),
                     (userrole, user) =>
                     {
-                        userrole.UserId = user.Id;
+                        userrole.User = user;
                         return userrole;
                     },
                     splitOn: "id",
