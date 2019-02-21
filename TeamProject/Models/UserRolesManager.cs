@@ -12,16 +12,16 @@ namespace TeamProject.Models
         {
             _queryParts = new Dictionary<string, string>()
             {
-                { "FindById", "UserRoles.UserId = @id" },
+                { "FindById", "UserRoles.Id = @id" },
                 { "InsertQuery",
-                    "INSERT INTO UserRoles ([UserId],[Role]) " +
-                    "VALUES (@UserId,@Role)" +
-                    "SELECT * FROM UserRoles WHERE UserRoles.UserId = (SELECT SCOPE_IDENTITY()))"},
+                    "INSERT INTO UserRoles ([UserId], [Role]) " +
+                    "VALUES (@UserId, @Role)" +
+                    "SELECT * FROM UserRoles WHERE UserRoles.Id = (SELECT SCOPE_IDENTITY()))"},
                 { "RemoveQuery",
-                    "DELETE FROM UserRoles WHERE UserId = @Id" },
+                    "DELETE FROM UserRoles WHERE Id = @Id" },
                 { "UpdateQuery",
                     "UPDATE UserRoles SET " +
-                    "[UserId]=@UserId[Role]=@Role, [ImageCourt]=@ImageCourt, [MaxPlayers]=@MaxPlayers, [Price]=@Price " +
+                    "[UserId]=@UserId, [Role]=@Role " +
                     "WHERE Id = @Id"}
             };
             _db = projectDbContext;
@@ -29,23 +29,23 @@ namespace TeamProject.Models
 
         public override IEnumerable<UserRoles> Get(string queryWhere = null, object parameters = null)
         {
-            IEnumerable<UserRoles> userroles = null;
+            IEnumerable<UserRoles> userRoles = null;
 
             _db.UsingConnection((dbCon) =>
             {
-                userroles = dbCon.Query<UserRoles, User, UserRoles>(
-                    "SELECT * FROM Useroles INNER JOIN User ON User.UserId = Branch.Id" + (queryWhere == null ? string.Empty : $" WHERE {queryWhere}"),
-                    (userrole, user) =>
+                userRoles = dbCon.Query<UserRoles, User, UserRoles>(
+                    "SELECT * FROM Useroles INNER JOIN User ON Useroles.UserId = [User].Id " + (queryWhere == null ? string.Empty : $" WHERE {queryWhere}"),
+                    (userRole, user) =>
                     {
-                        userrole.User = user;
-                        return userrole;
+                        userRole.User = user;
+                        return userRole;
                     },
                     splitOn: "id",
                     param: parameters)
                     .Distinct();
             });
 
-            return userroles;
+            return userRoles;
         }
     }
 }
