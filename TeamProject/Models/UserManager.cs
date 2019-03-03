@@ -12,16 +12,16 @@ namespace TeamProject.Models
         {
             _queryParts = new Dictionary<string, string>()
             {
-                { "FindById", "User.Id = @id" },
+                { "FindById", "[User].Id = @id" },
                 { "InsertQuery",
-                    "INSERT INTO User ([Firstname], [Lastname], [Email]) " +
-                    "VALUES (@Firstname, @Lastname, @Email)" +
-                    "SELECT * FROM User WHERE User.UserId = (SELECT SCOPE_IDENTITY())"},
+                    "INSERT INTO [User] ([Firstname], [Lastname], [Email], [Password]) " +
+                    "VALUES (@Firstname, @Lastname, @Email, @Password) " +
+                    "SELECT * FROM [User] WHERE [User].Id = (SELECT SCOPE_IDENTITY())"},
                 { "RemoveQuery",
-                    "DELETE FROM User WHERE Id = @Id" },
+                    "DELETE FROM [User] WHERE Id = @Id" },
                 { "UpdateQuery",
-                    "UPDATE User SET " +
-                    "[Firstname]=@Firstname, [Lastname]=@Lastname, [Email]=@Email " +
+                    "UPDATE [User] SET " +
+                    "[Firstname]=@Firstname, [Lastname]=@Lastname, [Email]=@Email, [Password]=@Password " +
                     "WHERE Id = @Id"}
             };
             _db = projectDbContext;
