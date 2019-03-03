@@ -12,15 +12,15 @@ namespace TeamProject.Models
         {
             _queryParts = new Dictionary<string, string>()
             {
-                { "FindById", "User.Id = @id" },
+                { "FindById", "[User].Id = @id" },
                 { "InsertQuery",
-                    "INSERT INTO User ([Firstname], [Lastname], [Email]) " +
-                    "VALUES (@Firstname, @Lastname, @Email)" +
-                    "SELECT * FROM User WHERE User.UserId = (SELECT SCOPE_IDENTITY())"},
+                    "INSERT INTO [User] ([Firstname], [Lastname], [Email]) " +
+                    "VALUES (@Firstname, @Lastname, @Email) " +
+                    "SELECT * FROM [User] WHERE [User].Id = (SELECT SCOPE_IDENTITY())"},
                 { "RemoveQuery",
-                    "DELETE FROM User WHERE Id = @Id" },
+                    "DELETE FROM [User] WHERE Id = @Id" },
                 { "UpdateQuery",
-                    "UPDATE User SET " +
+                    "UPDATE [User] SET " +
                     "[Firstname]=@Firstname, [Lastname]=@Lastname, [Email]=@Email " +
                     "WHERE Id = @Id"}
             };
