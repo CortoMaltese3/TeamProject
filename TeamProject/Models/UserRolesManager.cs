@@ -14,14 +14,14 @@ namespace TeamProject.Models
             {
                 { "FindById", "UserRoles.Id = @id" },
                 { "InsertQuery",
-                    "INSERT INTO UserRoles ([UserId], [Role]) " +
-                    "VALUES (@UserId, @Role)" +
-                    "SELECT * FROM UserRoles WHERE UserRoles.Id = (SELECT SCOPE_IDENTITY()))"},
+                    "INSERT INTO UserRoles ([UserId], [RoleId]) " +
+                    "VALUES (@UserId, @RoleId)" +
+                    "SELECT * FROM UserRoles WHERE User.Id = (SELECT SCOPE_IDENTITY()))"},
                 { "RemoveQuery",
-                    "DELETE FROM UserRoles WHERE Id = @Id" },
+                    "DELETE FROM UserRoles WHERE UserId = @Id" },
                 { "UpdateQuery",
                     "UPDATE UserRoles SET " +
-                    "[UserId]=@UserId, [Role]=@Role " +
+                    "[UserId]=@UserId, [RoleId]=@RoleId " +
                     "WHERE Id = @Id"}
             };
             _db = projectDbContext;
