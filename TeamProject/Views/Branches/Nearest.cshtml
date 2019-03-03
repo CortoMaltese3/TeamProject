@@ -8,18 +8,19 @@
 {
     <style>
         #map {
-            width: 1054px;
-            height: 469px;
+            width: auto;
+            height: 400px;
             padding-top: 0px;
-            padding-bottom: 0px;
+            padding-bottom: 10px;
             padding-right: 0px;
             padding-left: 0px;
+            position:relative;
         }
     </style>
 }
-<h2>Nearest Pitches</h2>
+<h2 class="text-center mt-2">Nearest Pitches</h2>
 
-<div id="map"></div>
+<div id="map" class="border border-info rounded-lg mb-5 mt-5"></div>
 @{
     string listOfBranches = string.Empty;
 }
@@ -29,12 +30,13 @@
     <div class="card mb-3 rounded rounded-lg border border-success d-flex p-2 bd-highlight d-flex">
         <div class="row no-gutters">
             <div class="col-md-4">
-                <img src="@branch.ImageCourt" class="card-img" alt="@branch.Name">
+                <img src="@branch.ImageCourt" class="card-img" alt="@branch.Name" style="height:auto;">
             </div>
             <div class="col-md-8">
                 <div class="card-body align-content-end flex-column">
                     <h5 class="card-title">@branch.Name</h5>
-                    <p class="card-text">@branch.Address</p>
+                    <p class="card-columns">@branch.Address</p>
+                    <p class="card-text">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur.</p>
                     <a href="/Courts/index" class="btn btn-success btn-lg active mt-auto" role="button" aria-pressed="true">View details!</a>
                 </div>
             </div>
