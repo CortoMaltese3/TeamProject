@@ -56,11 +56,11 @@ namespace TeamProject.Models
 
                         if (court != null)
                         {
-                            if (!branchEntry.Court.Any(c => c.Id==court.Id))
+                            if (!branchEntry.Court.Any(c => c.Id == court.Id))
                             {
                                 branchEntry.Court.Add(court);
                             }
-                            
+
                         }
                         if (facility != null)
                         {
@@ -91,13 +91,27 @@ namespace TeamProject.Models
         {
             IEnumerable<Branch> branches = null;
 
-
+            var branchDictionary = new Dictionary<int, Branch>();
             _db.UsingConnection((dbCon) =>
             {
-                branches = dbCon.Query<Branch>(
+                branches = dbCon.Query<Branch, Court, Branch>(
                     "GetBranchesDistance",
-                    new { Latitude = latitude, Longitude = longitude, Distance = distanceInMeters },
-                    commandType: CommandType.StoredProcedure);
+                    (branch, court) =>
+                    {
+                        Branch branchEntry;
+
+                        if (!branchDictionary.TryGetValue(branch.Id, out branchEntry))
+                        {
+                            branchEntry = branch;
+                            branchEntry.ImageCourt = court.ImageCourt;
+                            branchDictionary.Add(branchEntry.Id, branchEntry);
+                        }
+
+                        return branchEntry;
+                    },
+                    splitOn: "id",
+                    param: new { Latitude = latitude, Longitude = longitude, Distance = distanceInMeters },
+                    commandType: CommandType.StoredProcedure).Distinct();
             });
             return branches;
         }

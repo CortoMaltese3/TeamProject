@@ -1,10 +1,28 @@
 ﻿@model IEnumerable<TeamProject.Models.Branch>
+@using System.Globalization
 
 @{
     ViewBag.Title = "Nearest";
 }
-
+@section styles
+{
+    <style>
+        #map {
+            width: 1054px;
+            height: 469px;
+            padding-top: 0px;
+            padding-bottom: 0px;
+            padding-right: 0px;
+            padding-left: 0px;
+        }
+    </style>
+}
 <h2>Nearest Pitches</h2>
+
+<div id="map"></div>
+@{
+    string listOfBranches = string.Empty;
+}
 
 @foreach (var branch in Model)
 {
@@ -22,4 +40,17 @@
             </div>
         </div>
     </div>
+    listOfBranches += string.Format(CultureInfo.InvariantCulture,
+        "['{0}',{1},{2},'{3}','{4}'],", branch.Name, branch.Latitude, branch.Longitude, branch.ImageCourt, branch.Address);
+
 }
+@section scripts
+{
+    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDrnm2ptgfajjtlCfM97wat7Jsx5KZ0UoA&libraries=places"></script>
+    <script>
+        var mapzoom = 12;
+        var locations = [@Html.Raw(@listOfBranches)];
+    </script>
+    <script src="~/Scripts/google-maps-nearest.js"></script>
+}
+
