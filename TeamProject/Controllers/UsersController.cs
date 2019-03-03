@@ -12,12 +12,12 @@ namespace TeamProject.Controllers
 {
     public class UsersController : Controller
     {
-        private ApplicationDbContext db = new ApplicationDbContext();
+        private ProjectDbContext db = new ProjectDbContext();
 
         // GET: Users
         public ActionResult Index()
         {
-            return View(db.User.ToList());
+            return View(db.User.Get());
         }
 
         // GET: Users/Details/5
@@ -27,7 +27,7 @@ namespace TeamProject.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            User user = db.User.Find(id);
+            User user = db.User.Find(id??0);
             if (user == null)
             {
                 return HttpNotFound();
@@ -51,7 +51,7 @@ namespace TeamProject.Controllers
             if (ModelState.IsValid)
             {
                 db.User.Add(user);
-                db.SaveChanges();
+                //db.SaveChanges();
                 return RedirectToAction("Index");
             }
 
@@ -65,7 +65,7 @@ namespace TeamProject.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            User user = db.User.Find(id);
+            User user = db.User.Find(id??0);
             if (user == null)
             {
                 return HttpNotFound();
@@ -82,8 +82,8 @@ namespace TeamProject.Controllers
         {
             if (ModelState.IsValid)
             {
-                db.Entry(user).State = EntityState.Modified;
-                db.SaveChanges();
+                db.User.Update(user);
+                //db.SaveChanges();
                 return RedirectToAction("Index");
             }
             return View(user);
@@ -96,7 +96,7 @@ namespace TeamProject.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            User user = db.User.Find(id);
+            User user = db.User.Find(id??0);
             if (user == null)
             {
                 return HttpNotFound();
@@ -110,18 +110,9 @@ namespace TeamProject.Controllers
         public ActionResult DeleteConfirmed(int id)
         {
             User user = db.User.Find(id);
-            db.User.Remove(user);
-            db.SaveChanges();
+            db.User.Remove(id);
+            //db.SaveChanges();
             return RedirectToAction("Index");
-        }
-
-        protected override void Dispose(bool disposing)
-        {
-            if (disposing)
-            {
-                db.Dispose();
-            }
-            base.Dispose(disposing);
         }
     }
 }
