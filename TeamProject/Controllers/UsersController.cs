@@ -27,7 +27,7 @@ namespace TeamProject.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            Role user = db.User.Find(id??0);
+            var user = db.User.Find(id??0);
             if (user == null)
             {
                 return HttpNotFound();
@@ -46,7 +46,7 @@ namespace TeamProject.Controllers
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "Id,Firstname,Lastname,Email,Password,Salt")] Role user)
+        public ActionResult Create([Bind(Include = "Id,Firstname,Lastname,Email,Password,Salt")] User user)
         {
             if (ModelState.IsValid)
             {
@@ -65,7 +65,7 @@ namespace TeamProject.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            Role user = db.User.Find(id??0);
+            User user = db.User.Find(id??0);
             if (user == null)
             {
                 return HttpNotFound();
@@ -78,7 +78,7 @@ namespace TeamProject.Controllers
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include = "Id,Firstname,Lastname,Email,Password,Salt")] Role user)
+        public ActionResult Edit([Bind(Include = "Id,Firstname,Lastname,Email,Password,Salt")] User user)
         {
             if (ModelState.IsValid)
             {
@@ -96,7 +96,7 @@ namespace TeamProject.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            Role user = db.User.Find(id??0);
+            var user = db.User.Find(id??0);
             if (user == null)
             {
                 return HttpNotFound();
@@ -109,7 +109,7 @@ namespace TeamProject.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult DeleteConfirmed(int id)
         {
-            Role user = db.User.Find(id);
+            var user = db.User.Find(id);
             db.User.Remove(id);
             //db.SaveChanges();
             return RedirectToAction("Index");
