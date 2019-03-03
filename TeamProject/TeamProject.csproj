@@ -270,11 +270,6 @@
     <Content Include="Views\TimeSlots\Details.cshtml" />
     <Content Include="Views\TimeSlots\Edit.cshtml" />
     <Content Include="Views\TimeSlots\Index.cshtml" />
-    <Content Include="Views\Users\Create.cshtml" />
-    <Content Include="Views\Users\Delete.cshtml" />
-    <Content Include="Views\Users\Details.cshtml" />
-    <Content Include="Views\Users\Edit.cshtml" />
-    <Content Include="Views\Users\Index.cshtml" />
     <Content Include="Views\UserRoles\Create.cshtml" />
     <Content Include="Views\UserRoles\Delete.cshtml" />
     <Content Include="Views\UserRoles\Details.cshtml" />
@@ -285,6 +280,7 @@
     <Content Include="Views\Shared\_NavBarPartial.cshtml" />
     <Content Include="Views\Shared\_FooterPartial.cshtml" />
     <Content Include="Views\Branches\Nearest.cshtml" />
+    <Content Include="Views\Users\Create.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

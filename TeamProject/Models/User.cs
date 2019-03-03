@@ -34,9 +34,9 @@ namespace TeamProject.Models
 
         [Required]
         [MaxLength(64)]
-        public byte[] Password { get; set; }
+        public string Password { get; set; }
 
-        public Guid Salt { get; set; }
+       // public Guid Salt { get; set; }
 
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Booking> Booking { get; set; }
