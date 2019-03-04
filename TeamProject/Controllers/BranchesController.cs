@@ -8,6 +8,7 @@ using System.Net;
 using System.Web;
 using System.Web.Mvc;
 using TeamProject.Models;
+using TeamProject.ModelsViews;
 
 namespace TeamProject.Controllers
 {
@@ -30,7 +31,12 @@ namespace TeamProject.Controllers
                 BranchManager branchManager = new BranchManager(new ProjectDbContext());
                 IEnumerable<Branch> branches = db.Branch.Nearest(latitudeFixed, longitudeFixed, FIXED_DISTANCE);
 
-                return View(branches);
+                return View(new NearestBrachView()
+                {
+                    Latitude = latitudeFixed,
+                    Longitude = longitudeFixed,
+                    Branches = branches
+                });
 
             }
             catch (NotImplementedException)
@@ -46,11 +52,11 @@ namespace TeamProject.Controllers
             List<Branch> branches = new List<Branch>();
 
             var branch = db.Branch.Get();//.Include(b => b.User);
-           
-            foreach(var bran in branch)
+
+            foreach (var bran in branch)
             {
                 branches.Add(bran);
-            }         
+            }
             branches.Sort((x, y) => x.Distance.CompareTo(y.Distance));
             return View(branches.ToList());
         }
@@ -62,7 +68,7 @@ namespace TeamProject.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            Branch branch = db.Branch.Find(id??0);
+            Branch branch = db.Branch.Find(id ?? 0);
             if (branch == null)
             {
                 return HttpNotFound();
@@ -101,7 +107,7 @@ namespace TeamProject.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            Branch branch = db.Branch.Find(id??0);
+            Branch branch = db.Branch.Find(id ?? 0);
             if (branch == null)
             {
                 return HttpNotFound();
@@ -133,7 +139,7 @@ namespace TeamProject.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            Branch branch = db.Branch.Find(id??0);
+            Branch branch = db.Branch.Find(id ?? 0);
             if (branch == null)
             {
                 return HttpNotFound();

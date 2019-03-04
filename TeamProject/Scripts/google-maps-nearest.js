@@ -8,7 +8,7 @@ $(document).ready(function () {
         }
         var mapProp = {
             center: new google.maps.LatLng(locations[0][1], locations[0][2]),
-            zoom: mapzoom,
+            zoom: 14,
             mapTypeId: google.maps.MapTypeId.ROADMAP
         };
         map = new google.maps.Map(document.getElementById('map'), mapProp);
@@ -16,12 +16,9 @@ $(document).ready(function () {
 
         markers = new Array();
 
-        for (var i = 0; i < locations.length; i++) {
+        for (var i = 1; i < locations.length; i++) {
             addLocation(infowindow, locations[i]);
         }
-
-        if (markers.length > 1)
-            AutoCenter();
 
     }
     function addLocation(infowindow, location) {
@@ -52,20 +49,20 @@ $(document).ready(function () {
             infowindow.open(map, marker);
         });
     }
-    function zoomOut() {
-        map.setZoom(mapzoom);
-        AutoCenter();
-    }
-    function AutoCenter() {
-        //  Create a new viewpoint bound
-        var bounds = new google.maps.LatLngBounds();
+    //function zoomOut() {
+    //    map.setZoom(mapzoom);
+    //    AutoCenter();
+    //}
+    //function AutoCenter() {
+    //    //  Create a new viewpoint bound
+    //    var bounds = new google.maps.LatLngBounds();
 
-        for (var i = 0; i < markers.length; i++) {
-            bounds.extend(markers[i].position);
-        }
-        //  Fit these bounds to the map
-        map.fitBounds(bounds);
-    }
+    //    for (var i = 0; i < markers.length; i++) {
+    //        bounds.extend(markers[i].position);
+    //    }
+    //    //  Fit these bounds to the map
+    //    map.fitBounds(bounds);
+    //}
 //    google.maps.event.addDomListener(window, 'load', initialize);
     initialize();
 });

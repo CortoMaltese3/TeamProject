@@ -143,6 +143,7 @@
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
+    <Compile Include="ModelsViews\NearestBrachView.cs" />
     <Compile Include="Models\ApplicationDbContext.cs" />
     <Compile Include="Models\Booking.cs" />
     <Compile Include="Models\Branch.cs" />

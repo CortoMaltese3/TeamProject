@@ -1,4 +1,4 @@
-﻿@model IEnumerable<TeamProject.Models.Branch>
+﻿@model TeamProject.ModelsViews.NearestBrachView
 @using System.Globalization
 
 @{
@@ -22,10 +22,11 @@
 
 <div id="map" class="border border-info rounded-lg mb-5 mt-5"></div>
 @{
-    string listOfBranches = string.Empty;
+    string listOfBranches = string.Format(CultureInfo.InvariantCulture,
+        "['{0}',{1},{2},'{3}','{4}'],", "Center", Model.Latitude, Model.Longitude, string.Empty, string.Empty);
 }
 
-@foreach (var branch in Model)
+@foreach (var branch in Model.Branches)
 {
     <div class="card mb-3 rounded rounded-lg border border-success d-flex p-2 bd-highlight d-flex">
         <div class="row no-gutters">
