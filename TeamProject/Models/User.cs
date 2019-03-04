@@ -14,7 +14,7 @@ namespace TeamProject.Models
             Branch = new HashSet<Branch>();
             Review = new HashSet<Review>();
         }
-
+        [Key]
         public int Id { get; set; }
 
         [Required]

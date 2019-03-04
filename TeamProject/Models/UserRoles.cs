@@ -9,6 +9,7 @@ namespace TeamProject.Models
     public partial class UserRoles
     {
         [Required]
+        [Key]
         public int UserId { get; set; }
         [Required]
         public int RoleId { get; set; }
