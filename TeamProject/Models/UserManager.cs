@@ -35,8 +35,11 @@ namespace TeamProject.Models
             _db.UsingConnection((dbCon) =>
             {
                 var userDictionary = new Dictionary<int, User>();
-                courts = dbCon.Query<User, UserRoles, User>(
-                    "SELECT * FROM [User] LEFT JOIN UserRoles ON [User].Id = UserRoles.UserId" + (queryWhere == null ? string.Empty : $" WHERE {queryWhere}"),
+                courts = dbCon.Query<User, Role, User>(
+                    "SELECT [User].*, Role.* FROM [User] " +
+                    "LEFT JOIN UserRoles ON [User].Id = UserRoles.UserId " +
+                    "LEFT JOIN Role ON UserRoles.RoleId = Role.Id " +
+                    (queryWhere == null ? string.Empty : $" WHERE {queryWhere}"),
                     (user, role) =>
                     {
                         User userEntry;
@@ -44,11 +47,14 @@ namespace TeamProject.Models
                         if (!userDictionary.TryGetValue(user.Id, out userEntry))
                         {
                             userEntry = user;
-                            userEntry.UserRoles = new List<UserRoles>();
+                            userEntry.Roles = new List<Role>();
                             userDictionary.Add(userEntry.Id, userEntry);
                         }
-
-                        userEntry.UserRoles.Add(role);
+                        if (role != null)
+                        {
+                            userEntry.Roles.Add(role);
+                        }
+                        
                         return userEntry;
                     },
                         splitOn: "Id",

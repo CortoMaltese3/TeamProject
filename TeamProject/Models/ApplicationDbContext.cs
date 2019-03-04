@@ -83,14 +83,7 @@ namespace TeamProject.Models
                 .WithRequired(e => e.User)
                 .WillCascadeOnDelete(false);
 
-            modelBuilder.Entity<User>()
-                .HasMany(e => e.UserRoles)
-                .WithRequired(e => e.User)
-                .WillCascadeOnDelete(false);
 
-            modelBuilder.Entity<UserRoles>()
-                .Property(e => e.Role)
-                .IsUnicode(false);
         }
     }
 }

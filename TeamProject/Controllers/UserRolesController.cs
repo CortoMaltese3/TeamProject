@@ -12,12 +12,12 @@ namespace TeamProject.Controllers
 {
     public class UserRolesController : Controller
     {
-        private ApplicationDbContext db = new ApplicationDbContext();
+        private ProjectDbContext db = new ProjectDbContext();
 
         // GET: UserRoles
         public ActionResult Index()
         {
-            var userRoles = db.UserRoles.Include(u => u.User);
+            var userRoles = db.UserRoles.Get();//.Include(u => u.User);
             return View(userRoles.ToList());
         }
 
@@ -28,7 +28,7 @@ namespace TeamProject.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            UserRoles userRoles = db.UserRoles.Find(id);
+            UserRoles userRoles = db.UserRoles.Find(id??0);
             if (userRoles == null)
             {
                 return HttpNotFound();
@@ -39,7 +39,7 @@ namespace TeamProject.Controllers
         // GET: UserRoles/Create
         public ActionResult Create()
         {
-            ViewBag.UserId = new SelectList(db.User, "Id", "Firstname");
+            ViewBag.UserId = new SelectList(db.User.Get(), "Id", "Firstname");
             return View();
         }
 
@@ -53,11 +53,10 @@ namespace TeamProject.Controllers
             if (ModelState.IsValid)
             {
                 db.UserRoles.Add(userRoles);
-                db.SaveChanges();
                 return RedirectToAction("Index");
             }
 
-            ViewBag.UserId = new SelectList(db.User, "Id", "Firstname", userRoles.UserId);
+            ViewBag.UserId = new SelectList(db.User.Get(), "Id", "Firstname", userRoles.UserId);
             return View(userRoles);
         }
 
@@ -68,12 +67,12 @@ namespace TeamProject.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            UserRoles userRoles = db.UserRoles.Find(id);
+            UserRoles userRoles = db.UserRoles.Find(id??0);
             if (userRoles == null)
             {
                 return HttpNotFound();
             }
-            ViewBag.UserId = new SelectList(db.User, "Id", "Firstname", userRoles.UserId);
+            ViewBag.UserId = new SelectList(db.User.Get(), "Id", "Firstname", userRoles.UserId);
             return View(userRoles);
         }
 
@@ -86,11 +85,10 @@ namespace TeamProject.Controllers
         {
             if (ModelState.IsValid)
             {
-                db.Entry(userRoles).State = EntityState.Modified;
-                db.SaveChanges();
+                db.UserRoles.Add(userRoles);
                 return RedirectToAction("Index");
             }
-            ViewBag.UserId = new SelectList(db.User, "Id", "Firstname", userRoles.UserId);
+            ViewBag.UserId = new SelectList(db.User.Get(), "Id", "Firstname", userRoles.UserId);
             return View(userRoles);
         }
 
@@ -101,7 +99,7 @@ namespace TeamProject.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            UserRoles userRoles = db.UserRoles.Find(id);
+            UserRoles userRoles = db.UserRoles.Find(id??0);
             if (userRoles == null)
             {
                 return HttpNotFound();
@@ -114,19 +112,9 @@ namespace TeamProject.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult DeleteConfirmed(int id)
         {
-            UserRoles userRoles = db.UserRoles.Find(id);
-            db.UserRoles.Remove(userRoles);
-            db.SaveChanges();
+            db.UserRoles.Remove(id);
             return RedirectToAction("Index");
         }
 
-        protected override void Dispose(bool disposing)
-        {
-            if (disposing)
-            {
-                db.Dispose();
-            }
-            base.Dispose(disposing);
-        }
     }
 }

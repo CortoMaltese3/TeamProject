@@ -13,7 +13,6 @@ namespace TeamProject.Models
             Booking = new HashSet<Booking>();
             Branch = new HashSet<Branch>();
             Review = new HashSet<Review>();
-            UserRoles = new HashSet<UserRoles>();
         }
 
         public int Id { get; set; }
@@ -40,6 +39,6 @@ namespace TeamProject.Models
 
         public virtual ICollection<Review> Review { get; set; }
 
-        public virtual ICollection<UserRoles> UserRoles { get; set; }
+        public virtual ICollection<Role> Roles { get; set; }
     }
 }

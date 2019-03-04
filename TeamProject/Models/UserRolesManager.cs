@@ -15,10 +15,10 @@ namespace TeamProject.Models
                 { "FindById", "UserRoles.Id = @id" },
                 { "InsertQuery",
                     "INSERT INTO UserRoles ([UserId], [RoleId]) " +
-                    "VALUES (@UserId, @RoleId)" +
-                    "SELECT * FROM UserRoles WHERE User.Id = (SELECT SCOPE_IDENTITY()))"},
+                    "VALUES (@UserId, @RoleId) " +
+                    "SELECT * FROM UserRoles WHERE UserId=@UserId AND RoleId=@RoleId"},
                 { "RemoveQuery",
-                    "DELETE FROM UserRoles WHERE UserId = @Id" },
+                    "DELETE FROM UserRoles WHERE RoleId = @Id" },
                 { "UpdateQuery",
                     "UPDATE UserRoles SET " +
                     "[UserId]=@UserId, [RoleId]=@RoleId " +
@@ -33,11 +33,16 @@ namespace TeamProject.Models
 
             _db.UsingConnection((dbCon) =>
             {
-                userRoles = dbCon.Query<UserRoles, User, UserRoles>(
-                    "SELECT * FROM Useroles INNER JOIN User ON Useroles.UserId = [User].Id " + (queryWhere == null ? string.Empty : $" WHERE {queryWhere}"),
-                    (userRole, user) =>
+                userRoles = dbCon.Query<UserRoles, User, Role, UserRoles>(
+                    "SELECT UserRoles.*, [User].*, [Role].* " +
+                    "FROM UserRoles " +
+                    "INNER JOIN [User] ON UserRoles.UserId = [User].Id " +
+                    "INNER JOIN [Role] ON UserRoles.RoleId = [Role].Id " +
+                    (queryWhere == null ? string.Empty : $" WHERE {queryWhere}"),
+                    (userRole, user, role) =>
                     {
                         userRole.User = user;
+                        userRole.Role = role;
                         return userRole;
                     },
                     splitOn: "id",

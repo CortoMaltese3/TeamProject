@@ -8,14 +8,13 @@ namespace TeamProject.Models
 
     public partial class UserRoles
     {
-        public int Id { get; set; }
-
-        public int UserId { get; set; }
-
         [Required]
-        [StringLength(5)]
-        public string Role { get; set; }
+        public int UserId { get; set; }
+        [Required]
+        public int RoleId { get; set; }
 
-        public virtual User User { get; set; }
+        public Role Role { get; set; }
+
+        public User User { get; set; }
     }
 }
