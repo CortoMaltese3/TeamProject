@@ -67,9 +67,12 @@
 @{
     var frameLink = "/TimeSlots/Index/" + Model.Id;
 }
-<iframe src=@frameLink  style="height:1000px;width:1000px;"></iframe>
+
 <div>
     @Html.ActionLink("Back to List", "Index")
+</div>
+<div class="row">
+    <iframe src=@frameLink class="col-12" style="height:600px"></iframe>
 </div>
 
 @section Scripts {

@@ -17,7 +17,7 @@ namespace TeamProject.Controllers
         // GET: TimeSlots
         public ActionResult Index(int? id)
         {
-            var timeSlot = db.TimeSlot.Get().Where(t=>t.CourtId== (id??0));//.Include(t => t.Court);
+            var timeSlot = db.TimeSlot.Get().Where(t => t.CourtId == (id ?? 0));//.Include(t => t.Court);
             ViewBag.id = id;
             return View(timeSlot.ToList());
         }
@@ -29,7 +29,7 @@ namespace TeamProject.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            TimeSlot timeSlot = db.TimeSlot.Find(id??0);
+            TimeSlot timeSlot = db.TimeSlot.Find(id ?? 0);
             if (timeSlot == null)
             {
                 return HttpNotFound();
@@ -41,7 +41,7 @@ namespace TeamProject.Controllers
         // GET: TimeSlots/Create
         public ActionResult Create(int? id)
         {
-            ViewBag.CourtId = new SelectList(db.Court.Get().Where(c => c.Id==(id??0)), "Id", "Name");
+            ViewBag.CourtId = new SelectList(db.Court.Get().Where(c => c.Id == (id ?? 0)), "Id", "Name");
             ViewBag.id = id;
             return View();
         }
@@ -56,10 +56,12 @@ namespace TeamProject.Controllers
             if (ModelState.IsValid)
             {
                 db.TimeSlot.Add(timeSlot);
-                return RedirectToAction("Index");
+                //return RedirectToAction("Index");
+                return RedirectToAction("Index", new { id = timeSlot.CourtId });
             }
 
             ViewBag.CourtId = new SelectList(db.Court.Get(), "Id", "Name", timeSlot.CourtId);
+            ViewBag.id = timeSlot.CourtId;
             return View(timeSlot);
         }
 
@@ -70,7 +72,7 @@ namespace TeamProject.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            TimeSlot timeSlot = db.TimeSlot.Find(id??0);
+            TimeSlot timeSlot = db.TimeSlot.Find(id ?? 0);
             if (timeSlot == null)
             {
                 return HttpNotFound();
@@ -90,9 +92,10 @@ namespace TeamProject.Controllers
             if (ModelState.IsValid)
             {
                 db.TimeSlot.Update(timeSlot);
-                return RedirectToAction("Index");
+                return RedirectToAction("Index", new { id = timeSlot.CourtId });
             }
             ViewBag.CourtId = new SelectList(db.Court.Get(), "Id", "Name", timeSlot.CourtId);
+            ViewBag.id = timeSlot.CourtId;
             return View(timeSlot);
         }
 
@@ -103,11 +106,12 @@ namespace TeamProject.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            TimeSlot timeSlot = db.TimeSlot.Find(id??0);
+            TimeSlot timeSlot = db.TimeSlot.Find(id ?? 0);
             if (timeSlot == null)
             {
                 return HttpNotFound();
             }
+            ViewBag.id = timeSlot.CourtId;
             return View(timeSlot);
         }
 
@@ -116,8 +120,10 @@ namespace TeamProject.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult DeleteConfirmed(int id)
         {
+            TimeSlot timeSlot = db.TimeSlot.Find(id);
+
             db.TimeSlot.Remove(id);
-            return RedirectToAction("Index");
+            return RedirectToAction("Index", new { id = timeSlot.CourtId });
         }
 
 
