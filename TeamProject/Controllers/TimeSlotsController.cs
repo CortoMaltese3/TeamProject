@@ -34,6 +34,7 @@ namespace TeamProject.Controllers
             {
                 return HttpNotFound();
             }
+            ViewBag.id = timeSlot.CourtId;
             return View(timeSlot);
         }
 
@@ -41,6 +42,7 @@ namespace TeamProject.Controllers
         public ActionResult Create(int? id)
         {
             ViewBag.CourtId = new SelectList(db.Court.Get().Where(c => c.Id==(id??0)), "Id", "Name");
+            ViewBag.id = id;
             return View();
         }
 
@@ -74,6 +76,7 @@ namespace TeamProject.Controllers
                 return HttpNotFound();
             }
             ViewBag.CourtId = new SelectList(db.Court.Get(), "Id", "Name", timeSlot.CourtId);
+            ViewBag.id = timeSlot.CourtId;
             return View(timeSlot);
         }
 
