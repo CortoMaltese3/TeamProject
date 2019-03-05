@@ -34,7 +34,7 @@ namespace TeamProject.Controllers
             {
                 return HttpNotFound();
             }
-            ViewBag.id = timeSlot.CourtId;
+            //ViewBag.id = timeSlot.CourtId;
             return View(timeSlot);
         }
 
@@ -56,7 +56,6 @@ namespace TeamProject.Controllers
             if (ModelState.IsValid)
             {
                 db.TimeSlot.Add(timeSlot);
-                //return RedirectToAction("Index");
                 return RedirectToAction("Index", new { id = timeSlot.CourtId });
             }
 
@@ -78,7 +77,6 @@ namespace TeamProject.Controllers
                 return HttpNotFound();
             }
             ViewBag.CourtId = new SelectList(db.Court.Get(), "Id", "Name", timeSlot.CourtId);
-            ViewBag.id = timeSlot.CourtId;
             return View(timeSlot);
         }
 
@@ -95,7 +93,6 @@ namespace TeamProject.Controllers
                 return RedirectToAction("Index", new { id = timeSlot.CourtId });
             }
             ViewBag.CourtId = new SelectList(db.Court.Get(), "Id", "Name", timeSlot.CourtId);
-            ViewBag.id = timeSlot.CourtId;
             return View(timeSlot);
         }
 
@@ -111,7 +108,6 @@ namespace TeamProject.Controllers
             {
                 return HttpNotFound();
             }
-            ViewBag.id = timeSlot.CourtId;
             return View(timeSlot);
         }
 
@@ -125,7 +121,6 @@ namespace TeamProject.Controllers
             db.TimeSlot.Remove(id);
             return RedirectToAction("Index", new { id = timeSlot.CourtId });
         }
-
 
     }
 }
