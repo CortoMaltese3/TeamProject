@@ -12,12 +12,13 @@ namespace TeamProject.Controllers
 {
     public class TimeSlotsController : Controller
     {
-        private ApplicationDbContext db = new ApplicationDbContext();
+        private ProjectDbContext db = new ProjectDbContext();
 
         // GET: TimeSlots
-        public ActionResult Index()
+        public ActionResult Index(int? id)
         {
-            var timeSlot = db.TimeSlot.Include(t => t.Court);
+            var timeSlot = db.TimeSlot.Get().Where(t=>t.CourtId== (id??0));//.Include(t => t.Court);
+            ViewBag.id = id;
             return View(timeSlot.ToList());
         }
 
@@ -28,7 +29,7 @@ namespace TeamProject.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            TimeSlot timeSlot = db.TimeSlot.Find(id);
+            TimeSlot timeSlot = db.TimeSlot.Find(id??0);
             if (timeSlot == null)
             {
                 return HttpNotFound();
@@ -37,9 +38,9 @@ namespace TeamProject.Controllers
         }
 
         // GET: TimeSlots/Create
-        public ActionResult Create()
+        public ActionResult Create(int? id)
         {
-            ViewBag.CourtId = new SelectList(db.Court, "Id", "Name");
+            ViewBag.CourtId = new SelectList(db.Court.Get().Where(c => c.Id==(id??0)), "Id", "Name");
             return View();
         }
 
@@ -53,11 +54,10 @@ namespace TeamProject.Controllers
             if (ModelState.IsValid)
             {
                 db.TimeSlot.Add(timeSlot);
-                db.SaveChanges();
                 return RedirectToAction("Index");
             }
 
-            ViewBag.CourtId = new SelectList(db.Court, "Id", "Name", timeSlot.CourtId);
+            ViewBag.CourtId = new SelectList(db.Court.Get(), "Id", "Name", timeSlot.CourtId);
             return View(timeSlot);
         }
 
@@ -68,12 +68,12 @@ namespace TeamProject.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            TimeSlot timeSlot = db.TimeSlot.Find(id);
+            TimeSlot timeSlot = db.TimeSlot.Find(id??0);
             if (timeSlot == null)
             {
                 return HttpNotFound();
             }
-            ViewBag.CourtId = new SelectList(db.Court, "Id", "Name", timeSlot.CourtId);
+            ViewBag.CourtId = new SelectList(db.Court.Get(), "Id", "Name", timeSlot.CourtId);
             return View(timeSlot);
         }
 
@@ -86,11 +86,10 @@ namespace TeamProject.Controllers
         {
             if (ModelState.IsValid)
             {
-                db.Entry(timeSlot).State = EntityState.Modified;
-                db.SaveChanges();
+                db.TimeSlot.Update(timeSlot);
                 return RedirectToAction("Index");
             }
-            ViewBag.CourtId = new SelectList(db.Court, "Id", "Name", timeSlot.CourtId);
+            ViewBag.CourtId = new SelectList(db.Court.Get(), "Id", "Name", timeSlot.CourtId);
             return View(timeSlot);
         }
 
@@ -101,7 +100,7 @@ namespace TeamProject.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            TimeSlot timeSlot = db.TimeSlot.Find(id);
+            TimeSlot timeSlot = db.TimeSlot.Find(id??0);
             if (timeSlot == null)
             {
                 return HttpNotFound();
@@ -114,19 +113,10 @@ namespace TeamProject.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult DeleteConfirmed(int id)
         {
-            TimeSlot timeSlot = db.TimeSlot.Find(id);
-            db.TimeSlot.Remove(timeSlot);
-            db.SaveChanges();
+            db.TimeSlot.Remove(id);
             return RedirectToAction("Index");
         }
 
-        protected override void Dispose(bool disposing)
-        {
-            if (disposing)
-            {
-                db.Dispose();
-            }
-            base.Dispose(disposing);
-        }
+
     }
 }
