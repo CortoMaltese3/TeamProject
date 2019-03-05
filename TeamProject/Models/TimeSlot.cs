@@ -15,6 +15,7 @@ namespace TeamProject.Models
 
         public int Day { get; set; }
 
+        [DataType(DataType.Time)]
         public TimeSpan Hour { get; set; }
 
         public int Duration { get; set; }
