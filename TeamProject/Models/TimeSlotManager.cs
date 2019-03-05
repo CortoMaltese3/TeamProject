@@ -16,7 +16,7 @@ namespace TeamProject.Models
                 { "FindById", "TimeSlot.id = @id" },
                 { "InsertQuery",
                     "INSERT INTO TimeSlot ([CourtId],[Day],[Hour],[Duration]) " +
-                    "VALUES (@CourtId,@Day,@Hour,@Duration)" +
+                    "VALUES (@CourtId,@Day,@Hour,@Duration) " +
                     "SELECT * FROM TimeSlot WHERE TimeSlot.Id = (SELECT SCOPE_IDENTITY())"},
                 { "RemoveQuery",
                     "DELETE FROM TimeSlot WHERE Id = @Id" },
