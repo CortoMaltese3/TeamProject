@@ -33,15 +33,29 @@ namespace TeamProject.Models
         public override IEnumerable<Court> Get(string queryWhere = null, object parameters = null)
         {
             IEnumerable<Court> courts = null;
-
+            var courtDictionary = new Dictionary<int, Court>();
             _db.UsingConnection((dbCon) =>
             {
-                courts = dbCon.Query<Court, Branch, Court>(
-                    "SELECT * FROM Court INNER JOIN Branch ON Court.BranchId = Branch.Id" + (queryWhere == null ? string.Empty : $" WHERE {queryWhere}"),
-                    (court, branch) =>
+                courts = dbCon.Query<Court, Branch, TimeSlot, Court>(
+                    "SELECT * FROM Court " +
+                    "INNER JOIN Branch ON Court.BranchId = Branch.Id " +
+                    "LEFT JOIN Timeslot ON Court.Id = TimeSlot.CourtId " + (queryWhere == null ? string.Empty : $" WHERE {queryWhere}"),
+                    (court, branch, timeslot) =>
                     {
-                        court.Branch = branch;
-                        return court;
+                        Court courtEntry;
+
+                        if (!courtDictionary.TryGetValue(branch.Id, out courtEntry))
+                        {
+                            courtEntry = court;
+                            courtEntry.TimeSlot = new List<TimeSlot>();
+                            courtDictionary.Add(courtEntry.Id, courtEntry);
+                        }
+                        if (timeslot != null)
+                        {
+                            courtEntry.TimeSlot.Add(timeslot);
+                        }
+                        courtEntry.Branch = branch;
+                        return courtEntry;
                     },
                     splitOn: "id",
                     param: parameters)

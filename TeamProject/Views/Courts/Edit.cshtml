@@ -71,9 +71,44 @@
 <div>
     @Html.ActionLink("Back to List", "Index")
 </div>
-<div class="row">
-    <iframe src=@frameLink class="col-12" style="height:600px"></iframe>
+<h2>Timeslots</h2>
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.Name)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.TimeSlot.FirstOrDefault().Day)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.TimeSlot.FirstOrDefault().Hour)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.TimeSlot.FirstOrDefault().Duration)
+        </th>
+    </tr>
+
+    @foreach (var item in Model.TimeSlot)
+    {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.Day)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Hour)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Duration)
+            </td>
+        </tr>
+    }
+
+</table>
+<div>
+    @Html.ActionLink("Edit TimeSlots", "Index", "Timeslots", new { id = Model.Id }, null)
+
 </div>
+
 
 @section Scripts {
     @Scripts.Render("~/bundles/jqueryval")
