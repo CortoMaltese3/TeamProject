@@ -37,7 +37,7 @@ namespace TeamProject.Models
 
         public abstract IEnumerable<T> Get(string query = null, object parameters = null);
 
-        public bool Remove(int id)
+        public virtual bool Remove(int id)
         {
             int rowsAffected = 0;
             _db.UsingConnection((dbCon) =>
@@ -48,7 +48,7 @@ namespace TeamProject.Models
             return rowsAffected > 0;
         }
 
-        public bool Update(T row)
+        public virtual bool Update(T row)
         {
             int rowsAffected = 0;
             _db.UsingConnection((dbCon) =>

@@ -12,17 +12,17 @@ namespace TeamProject.Models
         {
             _queryParts = new Dictionary<string, string>()
             {
-                { "FindById", "UserRoles.Id = @id" },
+                { "FindById", "UserRoles.UserId = @id" },
                 { "InsertQuery",
                     "INSERT INTO UserRoles ([UserId], [RoleId]) " +
                     "VALUES (@UserId, @RoleId) " +
                     "SELECT * FROM UserRoles WHERE UserId=@UserId AND RoleId=@RoleId"},
                 { "RemoveQuery",
-                    "DELETE FROM UserRoles WHERE RoleId = @Id" },
+                    "DELETE FROM UserRoles WHERE UserId = @Id" },
                 { "UpdateQuery",
                     "UPDATE UserRoles SET " +
                     "[UserId]=@UserId, [RoleId]=@RoleId " +
-                    "WHERE Id = @Id"}
+                    "WHERE UserId = @Id"}
             };
             _db = projectDbContext;
         }
@@ -52,5 +52,6 @@ namespace TeamProject.Models
 
             return userRoles;
         }
+
     }
 }

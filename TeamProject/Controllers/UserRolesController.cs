@@ -22,13 +22,13 @@ namespace TeamProject.Controllers
         }
 
         // GET: UserRoles/Details/5
-        public ActionResult Details(int? id)
+        public ActionResult Details(int? id, int? roleId)
         {
             if (id == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            UserRoles userRoles = db.UserRoles.Find(id??0);
+            UserRoles userRoles = db.UserRoles.Find(id ?? 0);
             if (userRoles == null)
             {
                 return HttpNotFound();
@@ -61,18 +61,19 @@ namespace TeamProject.Controllers
         }
 
         // GET: UserRoles/Edit/5
-        public ActionResult Edit(int? id)
+        public ActionResult Edit(int? id, int? roleId)
         {
             if (id == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            UserRoles userRoles = db.UserRoles.Find(id??0);
+            UserRoles userRoles = db.UserRoles.Get("UserId=@id And RoleId=roleId", new { id, roleId }).FirstOrDefault();
             if (userRoles == null)
             {
                 return HttpNotFound();
             }
             ViewBag.UserId = new SelectList(db.User.Get(), "Id", "Firstname", userRoles.UserId);
+            ViewBag.RoleId = new SelectList(db.Roles.Get(), "Id", "Description", userRoles.RoleId);
             return View(userRoles);
         }
 
@@ -85,21 +86,22 @@ namespace TeamProject.Controllers
         {
             if (ModelState.IsValid)
             {
-                db.UserRoles.Add(userRoles);
+                db.UserRoles.Update(userRoles);
                 return RedirectToAction("Index");
             }
             ViewBag.UserId = new SelectList(db.User.Get(), "Id", "Firstname", userRoles.UserId);
+            ViewBag.RoleId = new SelectList(db.Roles.Get(), "Id", "Description", userRoles.RoleId);
             return View(userRoles);
         }
 
         // GET: UserRoles/Delete/5
-        public ActionResult Delete(int? id)
+        public ActionResult Delete(int? id, int? roleId)
         {
             if (id == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            UserRoles userRoles = db.UserRoles.Find(id??0);
+            UserRoles userRoles = db.UserRoles.Find(id ?? 0);
             if (userRoles == null)
             {
                 return HttpNotFound();
@@ -110,7 +112,7 @@ namespace TeamProject.Controllers
         // POST: UserRoles/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
-        public ActionResult DeleteConfirmed(int id)
+        public ActionResult DeleteConfirmed(int id, int? roleId)
         {
             db.UserRoles.Remove(id);
             return RedirectToAction("Index");

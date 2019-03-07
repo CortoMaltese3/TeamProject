@@ -1,11 +1,8 @@
 ﻿@model IEnumerable<TeamProject.Models.UserRoles>
-
 @{
     ViewBag.Title = "Index";
 }
-
 <h2>Index</h2>
-
 <p>
     @Html.ActionLink("Create New", "Create")
 </p>
@@ -15,25 +12,24 @@
             @Html.DisplayNameFor(model => model.User.Firstname)
         </th>
         <th>
-            @Html.DisplayNameFor(model => model.Role)
+            @Html.DisplayNameFor(model => model.Role.Description)
         </th>
         <th></th>
     </tr>
-
-@foreach (var item in Model) {
-    <tr>
-        <td>
-            @Html.DisplayFor(modelItem => item.User.Firstname)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.Role)
-        </td>
-        <td>
-            @Html.ActionLink("Edit", "Edit", new { id=item.Id }) |
-            @Html.ActionLink("Details", "Details", new { id=item.Id }) |
-            @Html.ActionLink("Delete", "Delete", new { id=item.Id })
-        </td>
-    </tr>
-}
-
+    @foreach (var item in Model)
+    {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.User.Firstname)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Role.Description)
+            </td>
+            <td>
+                @Html.ActionLink("Edit", "Edit", new { id = item.UserId, roleId = item.RoleId }) |
+                @Html.ActionLink("Details", "Details", new { id = item.UserId, roleId = item.RoleId }) |
+                @Html.ActionLink("Delete", "Delete", new { id = item.UserId, roleId = item.RoleId })
+            </td>
+        </tr>
+    }
 </table>
