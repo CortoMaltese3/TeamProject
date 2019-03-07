@@ -16,6 +16,7 @@ namespace TeamProject.Models
             UserRoles = new UserRolesManager(this);
             TimeSlot = new TimeSlotManager(this);
             Reviews = new ReviewManager(this);
+            Bookings = new BookingManager(this);
         }
         public void UsingConnection(Action<SqlConnection> action)
         {
@@ -39,5 +40,6 @@ namespace TeamProject.Models
         public FacilityManager Facility { get; set; }
         public TimeSlotManager TimeSlot { get; set; }
         public ReviewManager Reviews { get; set; }
+        public BookingManager Bookings { get; set; }
     }
 }

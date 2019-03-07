@@ -155,6 +155,7 @@
     <Compile Include="Models\IDatabaseActions.cs" />
     <Compile Include="Models\ProjectDbContext.cs" />
     <Compile Include="Models\Review.cs" />
+    <Compile Include="Models\BookingManager.cs" />
     <Compile Include="Models\Role.cs" />
     <Compile Include="Models\TableManager.cs" />
     <Compile Include="Models\TimeSlot.cs" />

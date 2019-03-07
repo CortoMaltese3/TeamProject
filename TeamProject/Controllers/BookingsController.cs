@@ -12,12 +12,12 @@ namespace TeamProject.Controllers
 {
     public class BookingsController : Controller
     {
-        private ApplicationDbContext db = new ApplicationDbContext();
+        private ProjectDbContext db = new ProjectDbContext();
 
         // GET: Bookings
         public ActionResult Index()
         {
-            var booking = db.Booking.Include(b => b.Court).Include(b => b.User);
+            var booking = db.Bookings.Get();//.Include(b => b.Court).Include(b => b.User);
             return View(booking.ToList());
         }
 
@@ -28,7 +28,7 @@ namespace TeamProject.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            Booking booking = db.Booking.Find(id);
+            Booking booking = db.Bookings.Find(id ?? 0);
             if (booking == null)
             {
                 return HttpNotFound();
@@ -39,8 +39,8 @@ namespace TeamProject.Controllers
         // GET: Bookings/Create
         public ActionResult Create()
         {
-            ViewBag.CourtId = new SelectList(db.Court, "Id", "Name");
-            ViewBag.UserId = new SelectList(db.User, "Id", "Firstname");
+            ViewBag.CourtId = new SelectList(db.Court.Get(), "Id", "Name");
+            ViewBag.UserId = new SelectList(db.User.Get(), "Id", "Firstname");
             return View();
         }
 
@@ -53,13 +53,12 @@ namespace TeamProject.Controllers
         {
             if (ModelState.IsValid)
             {
-                db.Booking.Add(booking);
-                db.SaveChanges();
+                db.Bookings.Add(booking);
                 return RedirectToAction("Index");
             }
 
-            ViewBag.CourtId = new SelectList(db.Court, "Id", "Name", booking.CourtId);
-            ViewBag.UserId = new SelectList(db.User, "Id", "Firstname", booking.UserId);
+            ViewBag.CourtId = new SelectList(db.Court.Get(), "Id", "Name", booking.CourtId);
+            ViewBag.UserId = new SelectList(db.User.Get(), "Id", "Firstname", booking.UserId);
             return View(booking);
         }
 
@@ -70,13 +69,13 @@ namespace TeamProject.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            Booking booking = db.Booking.Find(id);
+            Booking booking = db.Bookings.Find(id ?? 0);
             if (booking == null)
             {
                 return HttpNotFound();
             }
-            ViewBag.CourtId = new SelectList(db.Court, "Id", "Name", booking.CourtId);
-            ViewBag.UserId = new SelectList(db.User, "Id", "Firstname", booking.UserId);
+            ViewBag.CourtId = new SelectList(db.Court.Get(), "Id", "Name", booking.CourtId);
+            ViewBag.UserId = new SelectList(db.User.Get(), "Id", "Firstname", booking.UserId);
             return View(booking);
         }
 
@@ -89,12 +88,11 @@ namespace TeamProject.Controllers
         {
             if (ModelState.IsValid)
             {
-                db.Entry(booking).State = EntityState.Modified;
-                db.SaveChanges();
+                db.Bookings.Update(booking);
                 return RedirectToAction("Index");
             }
-            ViewBag.CourtId = new SelectList(db.Court, "Id", "Name", booking.CourtId);
-            ViewBag.UserId = new SelectList(db.User, "Id", "Firstname", booking.UserId);
+            ViewBag.CourtId = new SelectList(db.Court.Get(), "Id", "Name", booking.CourtId);
+            ViewBag.UserId = new SelectList(db.User.Get(), "Id", "Firstname", booking.UserId);
             return View(booking);
         }
 
@@ -105,7 +103,7 @@ namespace TeamProject.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            Booking booking = db.Booking.Find(id);
+            Booking booking = db.Bookings.Find(id ?? 0);
             if (booking == null)
             {
                 return HttpNotFound();
@@ -118,19 +116,10 @@ namespace TeamProject.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult DeleteConfirmed(int id)
         {
-            Booking booking = db.Booking.Find(id);
-            db.Booking.Remove(booking);
-            db.SaveChanges();
+            Booking booking = db.Bookings.Find(id);
+            db.Bookings.Remove(id);
             return RedirectToAction("Index");
         }
 
-        protected override void Dispose(bool disposing)
-        {
-            if (disposing)
-            {
-                db.Dispose();
-            }
-            base.Dispose(disposing);
-        }
     }
 }
