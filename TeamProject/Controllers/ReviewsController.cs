@@ -12,12 +12,12 @@ namespace TeamProject.Controllers
 {
     public class ReviewsController : Controller
     {
-        private ApplicationDbContext db = new ApplicationDbContext();
+        private ProjectDbContext db = new ProjectDbContext();
 
         // GET: Reviews
         public ActionResult Index()
         {
-            var review = db.Review.Include(r => r.Court).Include(r => r.User);
+            var review = db.Reviews.Get();//.Include(r => r.Court).Include(r => r.User);
             return View(review.ToList());
         }
 
@@ -28,7 +28,7 @@ namespace TeamProject.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            Review review = db.Review.Find(id);
+            Review review = db.Reviews.Find(id ?? 0);
             if (review == null)
             {
                 return HttpNotFound();
@@ -39,8 +39,8 @@ namespace TeamProject.Controllers
         // GET: Reviews/Create
         public ActionResult Create()
         {
-            ViewBag.CourtId = new SelectList(db.Court, "Id", "Name");
-            ViewBag.UserId = new SelectList(db.User, "Id", "Firstname");
+            ViewBag.CourtId = new SelectList(db.Court.Get(), "Id", "Name");
+            ViewBag.UserId = new SelectList(db.User.Get(), "Id", "Firstname");
             return View();
         }
 
@@ -53,13 +53,12 @@ namespace TeamProject.Controllers
         {
             if (ModelState.IsValid)
             {
-                db.Review.Add(review);
-                db.SaveChanges();
+                db.Reviews.Add(review);
                 return RedirectToAction("Index");
             }
 
-            ViewBag.CourtId = new SelectList(db.Court, "Id", "Name", review.CourtId);
-            ViewBag.UserId = new SelectList(db.User, "Id", "Firstname", review.UserId);
+            ViewBag.CourtId = new SelectList(db.Court.Get(), "Id", "Name", review.CourtId);
+            ViewBag.UserId = new SelectList(db.User.Get(), "Id", "Firstname", review.UserId);
             return View(review);
         }
 
@@ -70,13 +69,13 @@ namespace TeamProject.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            Review review = db.Review.Find(id);
+            Review review = db.Reviews.Find(id ?? 0);
             if (review == null)
             {
                 return HttpNotFound();
             }
-            ViewBag.CourtId = new SelectList(db.Court, "Id", "Name", review.CourtId);
-            ViewBag.UserId = new SelectList(db.User, "Id", "Firstname", review.UserId);
+            ViewBag.CourtId = new SelectList(db.Court.Get(), "Id", "Name", review.CourtId);
+            ViewBag.UserId = new SelectList(db.User.Get(), "Id", "Firstname", review.UserId);
             return View(review);
         }
 
@@ -89,12 +88,11 @@ namespace TeamProject.Controllers
         {
             if (ModelState.IsValid)
             {
-                db.Entry(review).State = EntityState.Modified;
-                db.SaveChanges();
+                db.Reviews.Update(review);
                 return RedirectToAction("Index");
             }
-            ViewBag.CourtId = new SelectList(db.Court, "Id", "Name", review.CourtId);
-            ViewBag.UserId = new SelectList(db.User, "Id", "Firstname", review.UserId);
+            ViewBag.CourtId = new SelectList(db.Court.Get(), "Id", "Name", review.CourtId);
+            ViewBag.UserId = new SelectList(db.User.Get(), "Id", "Firstname", review.UserId);
             return View(review);
         }
 
@@ -105,7 +103,7 @@ namespace TeamProject.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            Review review = db.Review.Find(id);
+            Review review = db.Reviews.Find(id ?? 0);
             if (review == null)
             {
                 return HttpNotFound();
@@ -118,19 +116,10 @@ namespace TeamProject.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult DeleteConfirmed(int id)
         {
-            Review review = db.Review.Find(id);
-            db.Review.Remove(review);
-            db.SaveChanges();
+            Review review = db.Reviews.Find(id);
+            db.Reviews.Remove(id);
             return RedirectToAction("Index");
         }
 
-        protected override void Dispose(bool disposing)
-        {
-            if (disposing)
-            {
-                db.Dispose();
-            }
-            base.Dispose(disposing);
-        }
     }
 }
