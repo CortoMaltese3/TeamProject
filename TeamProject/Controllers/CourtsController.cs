@@ -17,7 +17,7 @@ namespace TeamProject.Controllers
         // GET: Courts
         public ActionResult Index()
         {
-            var court = db.Court.Get();//.Include(c => c.Branch);
+            var court = db.Courts.Get();//.Include(c => c.Branch);
             return View(court.ToList());
         }
 
@@ -28,7 +28,7 @@ namespace TeamProject.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            Court court = db.Court.Find(id??0);
+            Court court = db.Courts.Find(id??0);
             if (court == null)
             {
                 return HttpNotFound();
@@ -39,7 +39,7 @@ namespace TeamProject.Controllers
         // GET: Courts/Create
         public ActionResult Create()
         {
-            ViewBag.BranchId = new SelectList(db.Branch.Get(), "Id", "Name");
+            ViewBag.BranchId = new SelectList(db.Branches.Get(), "Id", "Name");
             return View();
         }
 
@@ -52,11 +52,11 @@ namespace TeamProject.Controllers
         {
             if (ModelState.IsValid)
             {
-                db.Court.Add(court);
+                db.Courts.Add(court);
                 return RedirectToAction("Index");
             }
 
-            ViewBag.BranchId = new SelectList(db.Branch.Get(), "Id", "Name", court.BranchId);
+            ViewBag.BranchId = new SelectList(db.Branches.Get(), "Id", "Name", court.BranchId);
             return View(court);
         }
 
@@ -67,12 +67,12 @@ namespace TeamProject.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            Court court = db.Court.Find(id??0);
+            Court court = db.Courts.Find(id??0);
             if (court == null)
             {
                 return HttpNotFound();
             }
-            ViewBag.BranchId = new SelectList(db.Branch.Get(), "Id", "Name", court.BranchId);
+            ViewBag.BranchId = new SelectList(db.Branches.Get(), "Id", "Name", court.BranchId);
             return View(court);
         }
 
@@ -85,10 +85,10 @@ namespace TeamProject.Controllers
         {
             if (ModelState.IsValid)
             {
-                db.Court.Update(court);
+                db.Courts.Update(court);
                 return RedirectToAction("Index");
             }
-            ViewBag.BranchId = new SelectList(db.Branch.Get(), "Id", "Name", court.BranchId);
+            ViewBag.BranchId = new SelectList(db.Branches.Get(), "Id", "Name", court.BranchId);
             return View(court);
         }
 
@@ -99,7 +99,7 @@ namespace TeamProject.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            Court court = db.Court.Find(id??0);
+            Court court = db.Courts.Find(id??0);
             if (court == null)
             {
                 return HttpNotFound();
@@ -112,8 +112,8 @@ namespace TeamProject.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult DeleteConfirmed(int id)
         {
-            Court court = db.Court.Find(id);
-            db.Court.Remove(court.Id);
+            Court court = db.Courts.Find(id);
+            db.Courts.Remove(court.Id);
             return RedirectToAction("Index");
         }
 

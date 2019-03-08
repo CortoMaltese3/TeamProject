@@ -18,7 +18,7 @@ namespace TeamProject.Controllers
 
         public ActionResult Index()
         {
-            var facility = db.Facility.Get();
+            var facility = db.Facilities.Get();
             return View(facility.ToList());
         }
 
@@ -30,7 +30,7 @@ namespace TeamProject.Controllers
                 return RedirectToAction("Index");
                 //return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            Facility facility = db.Facility.Find(id??0);            
+            Facility facility = db.Facilities.Find(id??0);            
             if (facility == null)
             {
                 return RedirectToAction("Index");
@@ -54,7 +54,7 @@ namespace TeamProject.Controllers
         {
             if (ModelState.IsValid)
             {
-                db.Facility.Add(facility);
+                db.Facilities.Add(facility);
                 //db.SaveChanges();
                 return RedirectToAction("Index");
             }
@@ -69,7 +69,7 @@ namespace TeamProject.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            Facility facility = db.Facility.Find(id??0);
+            Facility facility = db.Facilities.Find(id??0);
             if (facility == null)
             {
                 return HttpNotFound();
@@ -86,7 +86,7 @@ namespace TeamProject.Controllers
         {
             if (ModelState.IsValid)
             {
-                db.Facility.Update(facility);
+                db.Facilities.Update(facility);
                 //db.Entry(facility).State = EntityState.Modified;
                 //db.SaveChanges();
                 return RedirectToAction("Index");
@@ -101,7 +101,7 @@ namespace TeamProject.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            Facility facility = db.Facility.Find(id??0);
+            Facility facility = db.Facilities.Find(id??0);
             if (facility == null)
             {
                 return HttpNotFound();
@@ -114,8 +114,8 @@ namespace TeamProject.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult DeleteConfirmed(int id)
         {
-            Facility facility = db.Facility.Find(id);
-            db.Facility.Remove(facility.Id);
+            Facility facility = db.Facilities.Find(id);
+            db.Facilities.Remove(facility.Id);
             //db.SaveChanges();
             return RedirectToAction("Index");
         }

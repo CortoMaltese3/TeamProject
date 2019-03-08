@@ -39,7 +39,7 @@ namespace TeamProject.Controllers
         // GET: UserRoles/Create
         public ActionResult Create()
         {
-            ViewBag.UserId = new SelectList(db.User.Get(), "Id", "Firstname");
+            ViewBag.UserId = new SelectList(db.Users.Get(), "Id", "Firstname");
             return View();
         }
 
@@ -56,7 +56,7 @@ namespace TeamProject.Controllers
                 return RedirectToAction("Index");
             }
 
-            ViewBag.UserId = new SelectList(db.User.Get(), "Id", "Firstname", userRoles.UserId);
+            ViewBag.UserId = new SelectList(db.Users.Get(), "Id", "Firstname", userRoles.UserId);
             return View(userRoles);
         }
 
@@ -72,7 +72,7 @@ namespace TeamProject.Controllers
             {
                 return HttpNotFound();
             }
-            ViewBag.UserId = new SelectList(db.User.Get(), "Id", "Firstname", userRoles.UserId);
+            ViewBag.UserId = new SelectList(db.Users.Get(), "Id", "Firstname", userRoles.UserId);
             ViewBag.RoleId = new SelectList(db.Roles.Get(), "Id", "Description", userRoles.RoleId);
             return View(userRoles);
         }
@@ -89,7 +89,7 @@ namespace TeamProject.Controllers
                 db.UserRoles.Update(userRoles);
                 return RedirectToAction("Index");
             }
-            ViewBag.UserId = new SelectList(db.User.Get(), "Id", "Firstname", userRoles.UserId);
+            ViewBag.UserId = new SelectList(db.Users.Get(), "Id", "Firstname", userRoles.UserId);
             ViewBag.RoleId = new SelectList(db.Roles.Get(), "Id", "Description", userRoles.RoleId);
             return View(userRoles);
         }

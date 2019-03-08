@@ -17,7 +17,7 @@ namespace TeamProject.Controllers
         // GET: Users
         public ActionResult Index()
         {
-            return View(db.User.Get());
+            return View(db.Users.Get());
         }
 
         // GET: Users/Details/5
@@ -27,7 +27,7 @@ namespace TeamProject.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            var user = db.User.Find(id??0);
+            var user = db.Users.Find(id??0);
             if (user == null)
             {
                 return HttpNotFound();
@@ -50,7 +50,7 @@ namespace TeamProject.Controllers
         {
             if (ModelState.IsValid)
             {
-                db.User.Add(user);
+                db.Users.Add(user);
                 //db.SaveChanges();
                 return RedirectToAction("Index");
             }
@@ -65,7 +65,7 @@ namespace TeamProject.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            User user = db.User.Find(id??0);
+            User user = db.Users.Find(id??0);
             if (user == null)
             {
                 return HttpNotFound();
@@ -82,7 +82,7 @@ namespace TeamProject.Controllers
         {
             if (ModelState.IsValid)
             {
-                db.User.Update(user);
+                db.Users.Update(user);
                 //db.SaveChanges();
                 return RedirectToAction("Index");
             }
@@ -96,7 +96,7 @@ namespace TeamProject.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            var user = db.User.Find(id??0);
+            var user = db.Users.Find(id??0);
             if (user == null)
             {
                 return HttpNotFound();
@@ -109,8 +109,8 @@ namespace TeamProject.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult DeleteConfirmed(int id)
         {
-            var user = db.User.Find(id);
-            db.User.Remove(id);
+            var user = db.Users.Find(id);
+            db.Users.Remove(id);
             //db.SaveChanges();
             return RedirectToAction("Index");
         }

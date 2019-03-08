@@ -29,7 +29,7 @@ namespace TeamProject.Controllers
                 }
 
                 BranchManager branchManager = new BranchManager(new ProjectDbContext());
-                IEnumerable<Branch> branches = db.Branch.Nearest(latitudeFixed, longitudeFixed, FIXED_DISTANCE);
+                IEnumerable<Branch> branches = db.Branches.Nearest(latitudeFixed, longitudeFixed, FIXED_DISTANCE);
 
                 return View(new NearestBrachView()
                 {
@@ -51,7 +51,7 @@ namespace TeamProject.Controllers
             //return a list sorted by distance.
             List<Branch> branches = new List<Branch>();
 
-            var branch = db.Branch.Get();//.Include(b => b.User);
+            var branch = db.Branches.Get();//.Include(b => b.User);
 
             foreach (var bran in branch)
             {
@@ -68,7 +68,7 @@ namespace TeamProject.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            Branch branch = db.Branch.Find(id ?? 0);
+            Branch branch = db.Branches.Find(id ?? 0);
             if (branch == null)
             {
                 return HttpNotFound();
@@ -79,7 +79,7 @@ namespace TeamProject.Controllers
         // GET: Branches/Create
         public ActionResult Create()
         {
-            ViewBag.UserId = new SelectList(db.User.Get(), "Id", "Firstname");
+            ViewBag.UserId = new SelectList(db.Users.Get(), "Id", "Firstname");
             return View();
         }
 
@@ -92,11 +92,11 @@ namespace TeamProject.Controllers
         {
             if (ModelState.IsValid)
             {
-                db.Branch.Add(branch);
+                db.Branches.Add(branch);
                 return RedirectToAction("Index");
             }
 
-            ViewBag.UserId = new SelectList(db.User.Get(), "Id", "Firstname", branch.UserId);
+            ViewBag.UserId = new SelectList(db.Users.Get(), "Id", "Firstname", branch.UserId);
             return View(branch);
         }
 
@@ -107,12 +107,12 @@ namespace TeamProject.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            Branch branch = db.Branch.Find(id ?? 0);
+            Branch branch = db.Branches.Find(id ?? 0);
             if (branch == null)
             {
                 return HttpNotFound();
             }
-            ViewBag.UserId = new SelectList(db.User.Get(), "Id", "Firstname", branch.UserId);
+            ViewBag.UserId = new SelectList(db.Users.Get(), "Id", "Firstname", branch.UserId);
             return View(branch);
         }
 
@@ -125,10 +125,10 @@ namespace TeamProject.Controllers
         {
             if (ModelState.IsValid)
             {
-                db.Branch.Update(branch);// Entry(branch).State = EntityState.Modified;
+                db.Branches.Update(branch);// Entry(branch).State = EntityState.Modified;
                 return RedirectToAction("Index");
             }
-            ViewBag.UserId = new SelectList(db.User.Get(), "Id", "Firstname", branch.UserId);
+            ViewBag.UserId = new SelectList(db.Users.Get(), "Id", "Firstname", branch.UserId);
             return View(branch);
         }
 
@@ -139,7 +139,7 @@ namespace TeamProject.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            Branch branch = db.Branch.Find(id ?? 0);
+            Branch branch = db.Branches.Find(id ?? 0);
             if (branch == null)
             {
                 return HttpNotFound();
@@ -152,8 +152,8 @@ namespace TeamProject.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult DeleteConfirmed(int id)
         {
-            Branch branch = db.Branch.Find(id);
-            db.Branch.Remove(branch.Id);
+            Branch branch = db.Branches.Find(id);
+            db.Branches.Remove(branch.Id);
             return RedirectToAction("Index");
         }
 

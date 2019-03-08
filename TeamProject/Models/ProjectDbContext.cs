@@ -9,12 +9,12 @@ namespace TeamProject.Models
         public ProjectDbContext()
         {
             _connectionString = ConfigurationManager.ConnectionStrings["ConnectionString"].ConnectionString;
-            Court = new CourtManager(this);
-            Branch = new BranchManager(this);
-            User = new UserManager(this);
-            Facility = new FacilityManager(this);
+            Courts = new CourtManager(this);
+            Branches = new BranchManager(this);
+            Users = new UserManager(this);
+            Facilities = new FacilityManager(this);
             UserRoles = new UserRolesManager(this);
-            TimeSlot = new TimeSlotManager(this);
+            TimeSlots = new TimeSlotManager(this);
             Reviews = new ReviewManager(this);
             Bookings = new BookingManager(this);
             Roles= new RoleManager(this);
@@ -34,12 +34,12 @@ namespace TeamProject.Models
                 throw;
             }
         }
-        public CourtManager Court { get; set; }
-        public BranchManager Branch { get; set; }
-        public UserManager User { get; set; }
+        public CourtManager Courts { get; set; }
+        public BranchManager Branches { get; set; }
+        public UserManager Users { get; set; }
         public UserRolesManager UserRoles { get; set; }
-        public FacilityManager Facility { get; set; }
-        public TimeSlotManager TimeSlot { get; set; }
+        public FacilityManager Facilities { get; set; }
+        public TimeSlotManager TimeSlots { get; set; }
         public ReviewManager Reviews { get; set; }
         public BookingManager Bookings { get; set; }
         public RoleManager Roles { get; set; }

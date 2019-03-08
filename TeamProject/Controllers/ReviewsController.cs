@@ -39,8 +39,8 @@ namespace TeamProject.Controllers
         // GET: Reviews/Create
         public ActionResult Create()
         {
-            ViewBag.CourtId = new SelectList(db.Court.Get(), "Id", "Name");
-            ViewBag.UserId = new SelectList(db.User.Get(), "Id", "Firstname");
+            ViewBag.CourtId = new SelectList(db.Courts.Get(), "Id", "Name");
+            ViewBag.UserId = new SelectList(db.Users.Get(), "Id", "Firstname");
             return View();
         }
 
@@ -57,8 +57,8 @@ namespace TeamProject.Controllers
                 return RedirectToAction("Index");
             }
 
-            ViewBag.CourtId = new SelectList(db.Court.Get(), "Id", "Name", review.CourtId);
-            ViewBag.UserId = new SelectList(db.User.Get(), "Id", "Firstname", review.UserId);
+            ViewBag.CourtId = new SelectList(db.Courts.Get(), "Id", "Name", review.CourtId);
+            ViewBag.UserId = new SelectList(db.Users.Get(), "Id", "Firstname", review.UserId);
             return View(review);
         }
 
@@ -74,8 +74,8 @@ namespace TeamProject.Controllers
             {
                 return HttpNotFound();
             }
-            ViewBag.CourtId = new SelectList(db.Court.Get(), "Id", "Name", review.CourtId);
-            ViewBag.UserId = new SelectList(db.User.Get(), "Id", "Firstname", review.UserId);
+            ViewBag.CourtId = new SelectList(db.Courts.Get(), "Id", "Name", review.CourtId);
+            ViewBag.UserId = new SelectList(db.Users.Get(), "Id", "Firstname", review.UserId);
             return View(review);
         }
 
@@ -91,8 +91,8 @@ namespace TeamProject.Controllers
                 db.Reviews.Update(review);
                 return RedirectToAction("Index");
             }
-            ViewBag.CourtId = new SelectList(db.Court.Get(), "Id", "Name", review.CourtId);
-            ViewBag.UserId = new SelectList(db.User.Get(), "Id", "Firstname", review.UserId);
+            ViewBag.CourtId = new SelectList(db.Courts.Get(), "Id", "Name", review.CourtId);
+            ViewBag.UserId = new SelectList(db.Users.Get(), "Id", "Firstname", review.UserId);
             return View(review);
         }
 

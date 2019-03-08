@@ -39,8 +39,8 @@ namespace TeamProject.Controllers
         // GET: Bookings/Create
         public ActionResult Create()
         {
-            ViewBag.CourtId = new SelectList(db.Court.Get(), "Id", "Name");
-            ViewBag.UserId = new SelectList(db.User.Get(), "Id", "Firstname");
+            ViewBag.CourtId = new SelectList(db.Courts.Get(), "Id", "Name");
+            ViewBag.UserId = new SelectList(db.Users.Get(), "Id", "Firstname");
             return View();
         }
 
@@ -57,8 +57,8 @@ namespace TeamProject.Controllers
                 return RedirectToAction("Index");
             }
 
-            ViewBag.CourtId = new SelectList(db.Court.Get(), "Id", "Name", booking.CourtId);
-            ViewBag.UserId = new SelectList(db.User.Get(), "Id", "Firstname", booking.UserId);
+            ViewBag.CourtId = new SelectList(db.Courts.Get(), "Id", "Name", booking.CourtId);
+            ViewBag.UserId = new SelectList(db.Users.Get(), "Id", "Firstname", booking.UserId);
             return View(booking);
         }
 
@@ -74,8 +74,8 @@ namespace TeamProject.Controllers
             {
                 return HttpNotFound();
             }
-            ViewBag.CourtId = new SelectList(db.Court.Get(), "Id", "Name", booking.CourtId);
-            ViewBag.UserId = new SelectList(db.User.Get(), "Id", "Firstname", booking.UserId);
+            ViewBag.CourtId = new SelectList(db.Courts.Get(), "Id", "Name", booking.CourtId);
+            ViewBag.UserId = new SelectList(db.Users.Get(), "Id", "Firstname", booking.UserId);
             return View(booking);
         }
 
@@ -91,8 +91,8 @@ namespace TeamProject.Controllers
                 db.Bookings.Update(booking);
                 return RedirectToAction("Index");
             }
-            ViewBag.CourtId = new SelectList(db.Court.Get(), "Id", "Name", booking.CourtId);
-            ViewBag.UserId = new SelectList(db.User.Get(), "Id", "Firstname", booking.UserId);
+            ViewBag.CourtId = new SelectList(db.Courts.Get(), "Id", "Name", booking.CourtId);
+            ViewBag.UserId = new SelectList(db.Users.Get(), "Id", "Firstname", booking.UserId);
             return View(booking);
         }
 

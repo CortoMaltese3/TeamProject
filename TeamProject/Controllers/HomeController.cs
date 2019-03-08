@@ -14,7 +14,7 @@ namespace TeamProject.Controllers
         // GET: Courts
         public ActionResult Index()
         {
-            var court = db.Court.Get();//.Include(c => c.Branch);
+            var court = db.Courts.Get();//.Include(c => c.Branch);
             return View(court.ToList());
         }
 
