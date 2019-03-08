@@ -4,6 +4,8 @@ using System.Linq;
 using System.Web;
 using TeamProject.Models;
 using Dapper;
+using System.Security.Claims;
+
 namespace TeamProject.Models
 {
     public class UserManager : TableManager<User>
@@ -22,7 +24,9 @@ namespace TeamProject.Models
                 { "UpdateQuery",
                     "UPDATE [User] SET " +
                     "[Firstname]=@Firstname, [Lastname]=@Lastname, [Email]=@Email, [Password]=@Password " +
-                    "WHERE Id = @Id"}
+                    "WHERE Id = @Id"},
+                //Login Query added.
+                {"Login", "SELECT * FROM [User] WHERE Username=@Username and Password=@Password"}
             };
             _db = projectDbContext;
         }
