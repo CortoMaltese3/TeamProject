@@ -331,12 +331,14 @@
     <Content Include="Views\Users\Index.cshtml" />
     <Content Include="Views\Shared\_LayoutSubView.cshtml" />
     <Content Include="Views\Login\Index.cshtml" />
+    <Content Include="Views\Users\Details.cshtml" />
+    <Content Include="Views\Users\Delete.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
+    <Folder Include="Areas\Admin\Models\" />
     <Folder Include="Images\BranchesImages\" />
     <Folder Include="Images\CourtsImages\" />
-    <Folder Include="Areas\Admin\Models\" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />

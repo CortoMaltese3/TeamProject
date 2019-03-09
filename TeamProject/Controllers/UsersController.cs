@@ -52,8 +52,18 @@ namespace TeamProject.Controllers
 
             if (ModelState.IsValid)
             {
-                db.Users.Add(user);                
-                return RedirectToAction("Index");
+                //adding the new user in db!
+                var Newuser = db.Users.Add(user);
+                
+                //finding the role id for type "user"
+                var role = db.Roles.Get("Description=@Description", new { Description = "User" }).FirstOrDefault();
+                //adding the role id with user id in the connection table.
+                var UserRole = new UserRoles();
+                UserRole.UserId = Newuser.Id;
+                UserRole.RoleId = role.Id;
+                db.UserRoles.Add(UserRole);
+
+                return RedirectToAction("Index","Home");
             }
 
             return View(user);
