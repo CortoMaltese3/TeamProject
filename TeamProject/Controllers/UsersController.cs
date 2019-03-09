@@ -1,6 +1,7 @@
 ﻿using System.Net;
 using System.Web.Mvc;
 using TeamProject.Models;
+using System.Linq;
 
 namespace TeamProject.Controllers
 {
@@ -42,10 +43,16 @@ namespace TeamProject.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult Create(User user)
         {
+            //UserManager manager = new UserManager(db);
+            var CheckEmail = db.Users.Get("Email=@Email", new { Email = user.Email }).Count();
+            if(CheckEmail > 0)
+            {
+                ModelState.AddModelError("Email", "E-mail already taken! Choose an other E-mail!");
+            }
+
             if (ModelState.IsValid)
             {
-                db.Users.Add(user);
-                //db.SaveChanges();
+                db.Users.Add(user);                
                 return RedirectToAction("Index");
             }
 
@@ -77,7 +84,6 @@ namespace TeamProject.Controllers
             if (ModelState.IsValid)
             {
                 db.Users.Update(user);
-                //db.SaveChanges();
                 return RedirectToAction("Index");
             }
             return View(user);
@@ -105,7 +111,6 @@ namespace TeamProject.Controllers
         {
             var user = db.Users.Find(id);
             db.Users.Remove(id);
-            //db.SaveChanges();
             return RedirectToAction("Index");
         }
 
