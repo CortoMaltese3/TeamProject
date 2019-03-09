@@ -13,37 +13,15 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
     <script src="https://cloud.tinymce.com/5/tinymce.min.js"></script>
     <script>tinymce.init({ selector: 'textarea' });</script>
+    @Styles.Render("~/Content/css")
     @Styles.Render("~/Dashboard/dashboard.css")
     @Scripts.Render("~/bundles/modernizr")
+
 </head>
 <body>
-    <!--navbar with blue area-->
-    <nav>
-        <!--.container-fluid #topNav-->
-        <div class="container-fluid" id="topNav">
-            <!--.row-fluid with user option and breadcrump-->
-            <div class="row">
 
-
-
-
-
-
-                <div class="col-md-7" id="oldcontent">
-
-                </div>
-                <div class="col-md-3">
-
-                </div>
-            </div>
-            <!--end .row-fluid with user option and breadcrump-->
-        </div>
-        <!--end .container-fluid #topNav-->
-    </nav>
-    <!-- end navbar with blue area-->
-    <!--.container-fluid #dashboard-->
-    <div class="container-fluid" id="dashboard">
-        <!-- ROW sidebar + main-content -->
+    @Html.Partial("_NavBarPartial")
+    <div class="container-fluid" id="dashboard">        
         <div class="row">
             <div class="col-md-2 sidebar">
                 <div class="sidebar-items">
