@@ -205,6 +205,10 @@
     <Content Include="favicon.ico" />
     <Content Include="Global.asax" />
     <Content Include="Content\Site.css" />
+    <Content Include="Images\CarrouselImages\880x495_cmsv2_a9dcd7ed-1ff5-5d7c-8de0-63b847a68c91-3156825.jpg" />
+    <Content Include="Images\CarrouselImages\FIFA-2018-World-Cup-Featured-1366x768.jpg" />
+    <Content Include="Images\CarrouselImages\Footbal_Men_Ball_Glove_515345_1366x768.jpg" />
+    <Content Include="Images\LoginImage\business-team-meeting.jpg" />
     <Content Include="Models\DbSchema.sql" />
     <Content Include="Scripts\bootstrap.bundle.js" />
     <Content Include="Scripts\bootstrap.bundle.min.js" />
@@ -316,10 +320,11 @@
     <Content Include="Views\Users\Index.cshtml" />
     <Content Include="Views\Shared\_LayoutSubView.cshtml" />
     <Content Include="Views\Login\Index.cshtml" />
-    <Content Include="Views\Login\Success.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
+    <Folder Include="Images\BranchesImages\" />
+    <Folder Include="Images\CourtsImages\" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />

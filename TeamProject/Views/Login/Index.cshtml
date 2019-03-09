@@ -5,12 +5,11 @@
 <br /><br />
 <div class="text-center">
     <form class="form-horizontal" action="/Login/Login" method="post">
-        <img class="mb-4" src="https://www.afdemp.org/wp-content/uploads/2017/03/AFDEmp.png" alt="Project 4" width="100" height="100">
-        <h1 class="h3 mb-3 font-weight-normal">Please sign in</h1>
-        <label for="inputEmail" class="sr-only">Email address</label>
-        <input type="email" id="inputEmail" class="form-control" placeholder="Email address" required autofocus name="email">
-        <input type="password" id="Password" name="password" class="form-control" style="margin-left:auto;margin-right:auto;" placeholder="Password" required=""><br />
-        <input class="btn btn-lg btn-dark btn-lg" type="submit" value="Sign in">
+        <img class="mb-4" src="~/Images/LoginImage/business-team-meeting.jpg" alt="Project 4" width="100" height="100">
+        <h1 class="h3 mb-3 font-weight-normal">Sign in</h1>
+        <input type="email" id="inputEmail" class="form-control" placeholder="Email address" required autofocus name="email" data-val="true" style="margin-left:auto;margin-right:auto;width:300px;">
+        <input type="password" id="Password" name="password" class="form-control" style="margin-left:auto;margin-right:auto;width:300px;" placeholder="Password" required=""><br />
+        <input class="btn btn-lg btn-dark btn-lg btn-block" type="submit" value="Sign in" style="margin-left:auto;margin-right:auto;width:302px;">
     </form>
 </div>
 @section Scripts {

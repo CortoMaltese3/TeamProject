@@ -27,7 +27,8 @@ namespace TeamProject.Controllers
             if (loggedinuser != null)
             {
                 Session["user"] = loggedinuser;
-                return View("success", loggedinuser);
+                ViewBag.Name = loggedinuser.Firstname;
+                return RedirectToAction("index","home");
             }
             else
             {
