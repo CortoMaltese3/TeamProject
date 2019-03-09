@@ -1,40 +1,87 @@
 ﻿<!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-    <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>@ViewBag.Title - My ASP.NET Application</title>
-    @Styles.Render("~/Content/css")
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <title>@ViewBag.Title</title>
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.5.0/css/all.css" integrity="sha384-B4dIYHKNBt8Bc12p+WXckhzcICo0wtJAoU8YZTY5qE0Id1GSseTk6S+L3BlXeVIU" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u"
+          crossorigin="anonymous">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+    <script src="https://cloud.tinymce.com/5/tinymce.min.js"></script>
+    <script>tinymce.init({ selector: 'textarea' });</script>
+    @Styles.Render("~/Dashboard/dashboard.css")
     @Scripts.Render("~/bundles/modernizr")
 </head>
 <body>
-    <div class="navbar navbar-inverse navbar-fixed-top">
-        <div class="container">
-            <div class="navbar-header">
-                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
-                    <span class="icon-bar"></span>
-                    <span class="icon-bar"></span>
-                    <span class="icon-bar"></span>
-                </button>
-                @Html.ActionLink("Application name", "Index", "Home", new { area = "" }, new { @class = "navbar-brand" })
-            </div>
-            <div class="navbar-collapse collapse">
-                <ul class="nav navbar-nav">
-                </ul>
-            </div>
-        </div>
-    </div>
+    <!--navbar with blue area-->
+    <nav>
+        <!--.container-fluid #topNav-->
+        <div class="container-fluid" id="topNav">
+            <!--.row-fluid with user option and breadcrump-->
+            <div class="row">
 
-    <div class="container body-content">
-        @RenderBody()
-        <hr />
-        <footer>
-            <p>&copy; @DateTime.Now.Year - My ASP.NET Application</p>
-        </footer>
-    </div>
+                <div class="col-md-2 sidebar">
+                    <div class="sidebar-items">
+                        <div class="row">
+                            <ul class="list-unstyled">
+                              <li>  @Html.ActionLink("Branches", "Index", "Branches", new { area = "" }, new { @class = "dropdown-item" }) </li>
+                               <li> @Html.ActionLink("Courts", "Index", "Courts", new { area = "" }, new { @class = "dropdown-item" }) </li>
+                               <li>@Html.ActionLink("Facilities", "Index", "Facilities", new { area = "" }, new { @class = "dropdown-item" }) </li>
+                                <li>@Html.ActionLink("Booking", "Index", "Booking", new { area = "" }, new { @class = "dropdown-item" })</li>
+                                <li>@Html.ActionLink("TimeSlots", "Index", "TimeSlots", new { area = "" }, new { @class = "dropdown-item" }) </li>
+                               <li> @Html.ActionLink("Users", "Index", "Users", new { area = "" }, new { @class = "dropdown-item" }) </li>
+                                <li>@Html.ActionLink("Users Roles", "Index", "UserRoles", new { area = "" }, new { @class = "dropdown-item" }) </li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+
+
+
+
+                <div class="col-md-7" id="oldcontent">
+
+                </div>
+                <div class="col-md-3">
+
+                </div>
+            </div>
+            <!--end .row-fluid with user option and breadcrump-->
+        </div>
+        <!--end .container-fluid #topNav-->
+    </nav>
+    <!-- end navbar with blue area-->
+    <!--.container-fluid #dashboard-->
+    <div class="container-fluid" id="dashboard">
+        <!-- ROW sidebar + main-content -->
+        <div class="row">
+            <!-- col-md-2 start (Sidebar) -->
+            @Html.Partial("_DashNavbar")
+            <!-- col-md-2 end (Sidebar) -->
+            <!-- COL-MD-10 Breadcrump + List-Group start-->
+            <div class="col-md-10">
+
+                <!-- ROW:list-group start -->
+                <div class="row">
+                    <div class="col-md-12">
+
+                        @RenderBody()
+
+                    </div>
+                </div>
+            </div> <!-- COL-MD-10 Breadcrump + List-Group end-->
+        </div><!-- ROW sidebar + main-content end -->
+    </div><!-- end .container-fluid #dashboard-->
+
+
 
     @Scripts.Render("~/bundles/jquery")
     @Scripts.Render("~/bundles/bootstrap")
     @RenderSection("scripts", required: false)
+
 </body>
 </html>
