@@ -24,21 +24,7 @@
             <!--.row-fluid with user option and breadcrump-->
             <div class="row">
 
-                <div class="col-md-2 sidebar">
-                    <div class="sidebar-items">
-                        <div class="row">
-                            <ul class="list-unstyled">
-                              <li>  @Html.ActionLink("Branches", "Index", "Branches", new { area = "" }, new { @class = "dropdown-item" }) </li>
-                               <li> @Html.ActionLink("Courts", "Index", "Courts", new { area = "" }, new { @class = "dropdown-item" }) </li>
-                               <li>@Html.ActionLink("Facilities", "Index", "Facilities", new { area = "" }, new { @class = "dropdown-item" }) </li>
-                                <li>@Html.ActionLink("Booking", "Index", "Booking", new { area = "" }, new { @class = "dropdown-item" })</li>
-                                <li>@Html.ActionLink("TimeSlots", "Index", "TimeSlots", new { area = "" }, new { @class = "dropdown-item" }) </li>
-                               <li> @Html.ActionLink("Users", "Index", "Users", new { area = "" }, new { @class = "dropdown-item" }) </li>
-                                <li>@Html.ActionLink("Users Roles", "Index", "UserRoles", new { area = "" }, new { @class = "dropdown-item" }) </li>
-                            </ul>
-                        </div>
-                    </div>
-                </div>
+
 
 
 
@@ -59,8 +45,22 @@
     <div class="container-fluid" id="dashboard">
         <!-- ROW sidebar + main-content -->
         <div class="row">
+            <div class="col-md-2 sidebar">
+                <div class="sidebar-items">
+                    <div class="row">
+                        <ul class="list-unstyled">
+                            <li>  @Html.ActionLink("Branches", "Index", "Branches", new { area = "" }, new { @class = "dropdown-item" }) </li>
+                            <li> @Html.ActionLink("Courts", "Index", "Courts", new { area = "" }, new { @class = "dropdown-item" }) </li>
+                            <li>@Html.ActionLink("Facilities", "Index", "Facilities", new { area = "" }, new { @class = "dropdown-item" }) </li>
+                            <li>@Html.ActionLink("Booking", "Index", "Booking", new { area = "" }, new { @class = "dropdown-item" })</li>
+                            <li>@Html.ActionLink("TimeSlots", "Index", "TimeSlots", new { area = "" }, new { @class = "dropdown-item" }) </li>
+                            <li> @Html.ActionLink("Users", "Index", "Users", new { area = "" }, new { @class = "dropdown-item" }) </li>
+                            <li>@Html.ActionLink("Users Roles", "Index", "UserRoles", new { area = "" }, new { @class = "dropdown-item" }) </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
             <!-- col-md-2 start (Sidebar) -->
-            @Html.Partial("_DashNavbar")
             <!-- col-md-2 end (Sidebar) -->
             <!-- COL-MD-10 Breadcrump + List-Group start-->
             <div class="col-md-10">

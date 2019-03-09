@@ -12,7 +12,7 @@ using TeamProject.ModelsViews;
 
 namespace TeamProject.Controllers
 {
-    public class BranchesController : Controller
+    public class AdminBranchesController : Controller
     {
         private const double FIXED_DISTANCE = 10000;
 
