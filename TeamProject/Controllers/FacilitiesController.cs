@@ -43,8 +43,10 @@ namespace TeamProject.Controllers
         }
 
         // GET: Facilities/Create
-        public ActionResult Create()
+        public ActionResult Create(int? id)
         {
+            ViewBag.FacilityId = new SelectList(db.Facilities.Get().Where(branch => branch.Id == (id ?? 0)), "Id", "Description");
+            ViewBag.id = id;
             return View();
         }
 
@@ -61,6 +63,9 @@ namespace TeamProject.Controllers
                 //db.SaveChanges();
                 return RedirectToAction("Index");
             }
+
+            ViewBag.FacilityId = new SelectList(db.Facilities.Get(), "Id", "Description", facility.Id );
+            ViewBag.id = facility.Id;
 
             return View(facility);
         }
