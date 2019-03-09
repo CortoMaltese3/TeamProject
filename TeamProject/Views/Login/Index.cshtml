@@ -7,8 +7,9 @@
     <form class="form-horizontal" action="/Login/Login" method="post">
         <img class="mb-4" src="https://www.afdemp.org/wp-content/uploads/2017/03/AFDEmp.png" alt="Project 4" width="100" height="100">
         <h1 class="h3 mb-3 font-weight-normal">Please sign in</h1>
-        <input type="text" id="Username" name="Username" class="form-control" style="margin-left:auto;margin-right:auto;" placeholder="Username" required="" autofocus="" data-val="true">
-        <input type="password" id="Password" name="Password" class="form-control" style="margin-left:auto;margin-right:auto;" placeholder="Password" required=""><br />
+        <label for="inputEmail" class="sr-only">Email address</label>
+        <input type="email" id="inputEmail" class="form-control" placeholder="Email address" required autofocus name="email">
+        <input type="password" id="Password" name="password" class="form-control" style="margin-left:auto;margin-right:auto;" placeholder="Password" required=""><br />
         <input class="btn btn-lg btn-dark btn-lg" type="submit" value="Sign in">
     </form>
 </div>

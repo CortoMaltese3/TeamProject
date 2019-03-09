@@ -5,6 +5,8 @@ using System.Web;
 using TeamProject.Models;
 using Dapper;
 using System.Security.Claims;
+using Microsoft.Owin.Security;
+using Microsoft.AspNet.Identity;
 
 namespace TeamProject.Models
 {
@@ -24,9 +26,7 @@ namespace TeamProject.Models
                 { "UpdateQuery",
                     "UPDATE [User] SET " +
                     "[Firstname]=@Firstname, [Lastname]=@Lastname, [Email]=@Email, [Password]=@Password " +
-                    "WHERE Id = @Id"},
-                //Login Query added.
-                {"Login", "SELECT * FROM [User] WHERE Username=@Username and Password=@Password"}
+                    "WHERE Id = @Id"}
             };
             _db = projectDbContext;
         }
@@ -58,7 +58,7 @@ namespace TeamProject.Models
                         {
                             userEntry.Roles.Add(role);
                         }
-                        
+
                         return userEntry;
                     },
                         splitOn: "Id",
@@ -68,6 +68,37 @@ namespace TeamProject.Models
             });
 
             return courts;
+        }
+
+        public User Login(string email, string password)
+        {
+           
+            var loggedInUser = Get("Email=@email and Password=@password",new { email,password}).FirstOrDefault();
+
+            if (loggedInUser != null)
+            {
+                var claims = new List<Claim>(new[]
+                {
+                    // adding following 2 claim just for supporting default antiforgery provider
+                    new Claim(ClaimTypes.NameIdentifier, email),
+                    new Claim(
+                        "http://schemas.microsoft.com/accesscontrolservice/2010/07/claims/identityprovider",
+                        "ASP.NET Identity", "http://www.w3.org/2001/XMLSchema#string"),
+                    new Claim(ClaimTypes.Name, email),                   
+                });
+
+                foreach (var role in loggedInUser.Roles)
+                {
+                    claims.Add(new Claim(ClaimTypes.Role, role.Description));
+                }
+
+                var identity = new ClaimsIdentity(claims, DefaultAuthenticationTypes.ApplicationCookie);
+
+                HttpContext.Current.GetOwinContext().Authentication.SignIn(
+                    new AuthenticationProperties { IsPersistent = false }, identity);
+            }
+
+            return loggedInUser;
         }
     }
 }

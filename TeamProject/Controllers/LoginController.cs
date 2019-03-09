@@ -19,20 +19,20 @@ namespace TeamProject.Controllers
 
         [HttpPost]
         [AllowAnonymous]
-        public ActionResult Login(string Username, string Password)
+        public ActionResult Login(string email , string password)
         {
-            //UserManager manager = new UserManager(db);
-            ////var loggedInUser = manager.Login(Username, Password);
+            UserManager manager = new UserManager(db);
+            var loggedinuser = manager.Login(email , password);
 
-            //if (loggedInUser != null)
-            //{
-            //    Session["user"] = loggedInUser;
-            //    return View("Success", loggedInUser);
-            //}
-            //else
-            //{
-                return RedirectToAction("Index");
-            //}
+            if (loggedinuser != null)
+            {
+                Session["user"] = loggedinuser;
+                return View("success", loggedinuser);
+            }
+            else
+            {
+                return RedirectToAction("index");
+            }
         }
 
         public ActionResult Logout()

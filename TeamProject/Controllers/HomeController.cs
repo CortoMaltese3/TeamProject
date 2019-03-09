@@ -7,6 +7,7 @@ using TeamProject.Models;
 
 namespace TeamProject.Controllers
 {
+    
     public class HomeController : Controller
     {
         private ProjectDbContext db = new ProjectDbContext();
