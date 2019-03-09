@@ -1,13 +1,15 @@
 ﻿@model IEnumerable<TeamProject.Models.Facility>
 
 @{
-    ViewBag.Title = "Index";
+    
+    ViewBag.Title = $"Facilities for {ViewBag.branchName}";
+
 }
 
-<h2>Index</h2>
+<h2>@ViewBag.Title</h2>
 
 <p>
-    @Html.ActionLink("Create New", "Create")
+    @Html.ActionLink("Create New", "Create", new { id = ViewBag.id })
 </p>
 <table class="table">
     <tr>
@@ -31,3 +33,7 @@
 }
 
 </table>
+
+<div>
+    @Html.ActionLink("Back to Branch", "Edit", "Branches", new { id = ViewBag.id }, null)
+</div>

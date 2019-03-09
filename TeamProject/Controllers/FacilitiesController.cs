@@ -16,9 +16,12 @@ namespace TeamProject.Controllers
 
         // GET: Facilities
 
-        public ActionResult Index()
+        public ActionResult Index(int? id)
         {
-            var facility = db.Facilities.Get();
+            var facility = db.Facilities.Get().Where(t => t.Branch.Any(b => b.Id == (id ?? 0)));
+            ViewBag.id = id;                       
+
+            ViewBag.branchName = db.Branches.Get().FirstOrDefault(b => b.Id == (id ?? 0)).Name;
             return View(facility.ToList());
         }
 
