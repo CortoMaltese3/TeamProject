@@ -52,6 +52,18 @@ namespace TeamProject.Models
 
             return userRoles;
         }
-
+        public bool Remove(int userId, int roleId)
+        {
+            int affectedRows = 0;
+            _db.UsingConnection((dbCon) =>
+            {
+                affectedRows = dbCon.Execute("DELETE " +
+                    "FROM UserRoles " +
+                    "WHERE UserId = @userId " +
+                    "AND RoleId = @roleId",
+                    new { userId, roleId });
+            });
+            return affectedRows > 0;
+        }
     }
 }

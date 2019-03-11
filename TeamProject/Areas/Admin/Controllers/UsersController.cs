@@ -93,6 +93,16 @@ namespace TeamProject.Areas.Admin.Controllers
         {
             if (ModelState.IsValid)
             {
+                var rolesToRemove = user.Roles.Where(r => r.RemoveRole == true);
+
+                if (rolesToRemove.Count()!=0)
+                {
+                    foreach(var role in rolesToRemove)
+                    {
+                        db.UserRoles.Remove(user.Id, role.Id);
+                    }
+                }
+
                 db.Users.Update(user);
                 return RedirectToAction("Index");
             }
