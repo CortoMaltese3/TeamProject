@@ -2,6 +2,7 @@ namespace TeamProject.Models
 {
     using System;
     using System.Collections.Generic;
+    using System.ComponentModel;
     using System.ComponentModel.DataAnnotations;
     using System.ComponentModel.DataAnnotations.Schema;
     using System.Data.Entity.Spatial;
@@ -42,6 +43,7 @@ namespace TeamProject.Models
 
         public virtual List<Role> Roles { get; set; }
 
+        [DisplayName("User Roles")]
         public string AllRoles
         {
             get
