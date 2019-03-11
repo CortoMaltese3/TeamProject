@@ -7,54 +7,58 @@
     <meta name="description" content="">
     <meta name="author" content="">
     <title>@ViewBag.Title</title>
-
     @Styles.Render("~/Content/css")
     @Styles.Render("~/Dashboard/dashboard.css")
     @Scripts.Render("~/bundles/modernizr")
-
 </head>
 <body>
-
-    @Html.Partial("_NavBarPartial")
-    <div class="container-fluid" id="dashboard">        
+    <nav class="navbar navbar-dark fixed-top bg-dark flex-md-nowrap p-0 shadow">
+        <a class="navbar-brand col-sm-3 col-md-2 mr-0" href="#">Team Project</a>
+        <ul class="navbar-nav px-3">
+            <li class="nav-item text-nowrap">
+                <a class="nav-link" href="#">Sign out</a>
+            </li>
+        </ul>
+    </nav>
+    <div class="container-fluid">
         <div class="row">
-            <div class="col-md-2 sidebar">
-                <div class="sidebar-items">
-                    <div class="row">
-                        <ul class="list-unstyled">
-                            <li>  @Html.ActionLink("Branches", "Index", "Branches", new { area = "" }, new { @class = "dropdown-item" }) </li>
-                            <li> @Html.ActionLink("Courts", "Index", "Courts", new { area = "" }, new { @class = "dropdown-item" }) </li>
-                            <li>@Html.ActionLink("Facilities", "Index", "Facilities", new { area = "" }, new { @class = "dropdown-item" }) </li>
-                            <li>@Html.ActionLink("Booking", "Index", "Booking", new { area = "" }, new { @class = "dropdown-item" })</li>
-                            <li>@Html.ActionLink("TimeSlots", "Index", "TimeSlots", new { area = "" }, new { @class = "dropdown-item" }) </li>
-                            <li> @Html.ActionLink("Users", "Index", "Users", new { area = "" }, new { @class = "dropdown-item" }) </li>
-                            <li>@Html.ActionLink("Users Roles", "Index", "UserRoles", new { area = "" }, new { @class = "dropdown-item" }) </li>
-                        </ul>
-                    </div>
+            <nav class="col-md-2 d-none d-md-block bg-light sidebar">
+                <div class="sidebar-sticky">
+                    <ul class="nav flex-column">
+                        <li class="nav-item">
+                            @Html.ActionLink("Branches", "Index", "Branches", new { area = "" }, new { @class = "nav-link" })
+                        </li>
+                        <li class="nav-item">
+                            @Html.ActionLink("Courts", "Index", "Courts", new { area = "" }, new { @class = "nav-link" })
+                        </li>
+                        <li class="nav-item">
+                            @Html.ActionLink("Facilities", "Index", "Facilities", new { area = "" }, new { @class = "nav-link" })
+                        </li>
+                        <li class="nav-item">
+                            @Html.ActionLink("Booking", "Index", "Booking", new { area = "" }, new { @class = "nav-link" })
+                        </li>
+                        <li class="nav-item">
+                            @Html.ActionLink("TimeSlots", "Index", "TimeSlots", new { area = "" }, new { @class = "nav-link" })
+                        </li>
+                        <li class="nav-item">
+                            @Html.ActionLink("Users", "Index", "Users", new { area = "Admin" }, new { @class = "nav-link" })
+                        </li>
+                        <li class="nav-item">
+                            @Html.ActionLink("Users Roles", "Index", "UserRoles", new { area = "" }, new { @class = "nav-link" })
+                        </li>
+                    </ul>
                 </div>
-            </div>
-            <!-- col-md-2 start (Sidebar) -->
-            <!-- col-md-2 end (Sidebar) -->
-            <!-- COL-MD-10 Breadcrump + List-Group start-->
-            <div class="col-md-10">
+            </nav>
 
-                <!-- ROW:list-group start -->
-                <div class="row">
-                    <div class="col-md-12">
-
-                        @RenderBody()
-
-                    </div>
-                </div>
-            </div> <!-- COL-MD-10 Breadcrump + List-Group end-->
-        </div><!-- ROW sidebar + main-content end -->
-    </div><!-- end .container-fluid #dashboard-->
-
+            <main role="main" class="col-md-9 ml-sm-auto col-lg-10 px-4">
+                @RenderBody()
+            </main>
+        </div>
+    </div>
 
 
     @Scripts.Render("~/bundles/jquery")
     @Scripts.Render("~/bundles/bootstrap")
     @RenderSection("scripts", required: false)
-
 </body>
 </html>
