@@ -3,7 +3,7 @@ using System.Web.Mvc;
 using TeamProject.Models;
 using System.Linq;
 
-namespace TeamProject.Controllers
+namespace TeamProject.Areas.Admin.Controllers
 {
     public class UsersController : Controller
     {

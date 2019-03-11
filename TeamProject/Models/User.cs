@@ -5,7 +5,7 @@ namespace TeamProject.Models
     using System.ComponentModel.DataAnnotations;
     using System.ComponentModel.DataAnnotations.Schema;
     using System.Data.Entity.Spatial;
-
+    using System.Linq;
     public partial class User
     {
         public User()
@@ -13,6 +13,7 @@ namespace TeamProject.Models
             Booking = new HashSet<Booking>();
             Branch = new HashSet<Branch>();
             Review = new HashSet<Review>();
+            Roles = new List<Role>();
         }
         [Key]
         public int Id { get; set; }
@@ -39,6 +40,18 @@ namespace TeamProject.Models
 
         public virtual ICollection<Review> Review { get; set; }
 
-        public virtual ICollection<Role> Roles { get; set; }
+        public virtual List<Role> Roles { get; set; }
+
+        public string AllRoles
+        {
+            get
+            {
+                var orderedRoled = Roles
+                    .OrderBy(r => r.Description)
+                    .Select(r => r.Description);
+                return string.Join(", ", orderedRoled);
+
+            }
+        }
     }
 }
