@@ -1,4 +1,6 @@
-﻿<nav class="navbar navbar-dark navbar-expand-lg sticky-top bg-dark test">
+﻿@using TeamProject.Models
+
+<nav class="navbar navbar-dark navbar-expand-lg sticky-top bg-dark test">
     @Html.ActionLink("TeamProject", "Index", "Home", new { area = "" }, new { @class = "navbar-brand font-italic" })
     <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
         <span class="navbar-toggler-icon"></span>
@@ -6,7 +8,7 @@
     <div class="collapse navbar-collapse" id="navbarNav">
         <ul class="navbar-nav">
             <li class="nav-item active">@Html.ActionLink("Courts", "Index", "Courts", new { area = "" }, new { @class = "navbar-brand" })</li>
-           
+
             <li class="nav-item dropdown">
                 <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                     Panel Views
@@ -20,6 +22,9 @@
                     @Html.ActionLink("Users", "Index", "Users", new { area = "" }, new { @class = "dropdown-item" })
                     @Html.ActionLink("Users Roles", "Index", "UserRoles", new { area = "" }, new { @class = "dropdown-item" })
                 </div>
+            </li>
+            <li class="nav-item ">
+                @Html.ActionLink("Panel", "Index", "Users", new { area = "Admin" }, new { @class = "navbar-brand" })
             </li>
         </ul>
         @Html.Partial("_LoginPartial")
