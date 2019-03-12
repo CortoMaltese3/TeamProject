@@ -7,7 +7,7 @@ using TeamProject.Models;
 namespace TeamProject.Areas.Admin.Controllers
 
 {
-    public class AdminBranchesController : Controller
+    public class BranchesController : Controller
     {
         private const double FIXED_DISTANCE = 10000;
 
