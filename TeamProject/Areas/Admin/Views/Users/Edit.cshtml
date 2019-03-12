@@ -4,6 +4,10 @@
     ViewBag.Title = "Edit";
     Layout = "~/Areas/Admin/Views/Shared/_Layout.cshtml";
 }
+@section styles
+    {
+    <link href="https://gitcdn.github.io/bootstrap-toggle/2.2.2/css/bootstrap-toggle.min.css" rel="stylesheet">
+}
 
 <h2>Edit</h2>
 
@@ -75,19 +79,29 @@
 
 @section Scripts {
     @Scripts.Render("~/bundles/jqueryval")
+    <script src="https://gitcdn.github.io/bootstrap-toggle/2.2.2/js/bootstrap-toggle.min.js"></script>
     <script>
 
         $(document).ready(function () {
+            $('.is-new[value="True"]').siblings('.btn-success').hide();
+            $('.is-new[value="False"]').siblings('.btn-danger').hide();
+
+
             $('#roles-list').on('click', 'button', function (e) {
                 e.preventDefault();
                 e.stopPropagation();
 
-                var li = $(this)
-                    .closest('li')
-                    .fadeOut()
-                    .removeClass('d-flex')
-                    .addClass('d-none')
-                    .children('.remove-role').val(true);
+                var li = $(this).closest('li');
+
+                if ($(this).hasClass("btn-success")) {
+                    li.children('.btn-success').hide();
+                    li.children('.btn-danger').show();
+                    li.children('.add-remove-action').val('remove');
+                } else {
+                    li.children('.btn-success').show();
+                    li.children('.btn-danger').hide();
+                    li.children('.add-remove-action').val('add');
+                }
 
             });
         });

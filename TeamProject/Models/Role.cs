@@ -19,8 +19,7 @@ namespace TeamProject.Models
         [Required]
         public string Description { get; set; }
 
-        public bool AddRole { get; set; }
-        public bool RemoveRole { get; set; }
-
+        public bool IsNew { get; set; }
+        public string Action { get; set; }
     }
 }

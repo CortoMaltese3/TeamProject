@@ -22,7 +22,7 @@ namespace TeamProject.Areas.Admin.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            var user = db.Users.Find(id??0);
+            var user = db.Users.Find(id ?? 0);
             if (user == null)
             {
                 return HttpNotFound();
@@ -45,7 +45,7 @@ namespace TeamProject.Areas.Admin.Controllers
         {
             //UserManager manager = new UserManager(db);
             var CheckEmail = db.Users.Get("Email=@Email", new { Email = user.Email }).Count();
-            if(CheckEmail > 0)
+            if (CheckEmail > 0)
             {
                 ModelState.AddModelError("Email", "E-mail already taken! Choose an other E-mail!");
             }
@@ -54,7 +54,7 @@ namespace TeamProject.Areas.Admin.Controllers
             {
                 //adding the new user in db!
                 var Newuser = db.Users.Add(user);
-                
+
                 //finding the role id for type "user"
                 var role = db.Roles.Get("Description=@Description", new { Description = "User" }).FirstOrDefault();
                 //adding the role id with user id in the connection table.
@@ -63,7 +63,7 @@ namespace TeamProject.Areas.Admin.Controllers
                 UserRole.RoleId = role.Id;
                 db.UserRoles.Add(UserRole);
 
-                return RedirectToAction("Index","Home");
+                return RedirectToAction("Index", "Home");
             }
 
             return View(user);
@@ -76,11 +76,16 @@ namespace TeamProject.Areas.Admin.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            User user = db.Users.Find(id??0);
+            User user = db.Users.Find(id ?? 0);
             if (user == null)
             {
                 return HttpNotFound();
             }
+            var roles = db.Roles.Get().Where(r => !user.Roles.Any(ur => ur.Id == r.Id));
+            roles.ToList().ForEach(r => r.IsNew = true);
+
+            user.Roles.AddRange(roles);
+
             return View(user);
         }
 
@@ -93,13 +98,23 @@ namespace TeamProject.Areas.Admin.Controllers
         {
             if (ModelState.IsValid)
             {
-                var rolesToRemove = user.Roles.Where(r => r.RemoveRole == true);
+                var rolesToRemove = user.Roles.Where(r => r.IsNew == false && r.Action == "remove");/// r => r.RemoveRole == true);
 
-                if (rolesToRemove.Count()!=0)
+                if (rolesToRemove.Count() != 0)
                 {
-                    foreach(var role in rolesToRemove)
+                    foreach (var role in rolesToRemove)
                     {
                         db.UserRoles.Remove(user.Id, role.Id);
+                    }
+                }
+
+                var rolesToAdd = user.Roles.Where(r => r.IsNew == true && r.Action == "add");/// r => r.RemoveRole == true);
+
+                if (rolesToAdd.Count() != 0)
+                {
+                    foreach (var role in rolesToAdd)
+                    {
+                        db.UserRoles.Add(new UserRoles() { UserId=user.Id, RoleId=role.Id });
                     }
                 }
 
@@ -116,7 +131,7 @@ namespace TeamProject.Areas.Admin.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            var user = db.Users.Find(id??0);
+            var user = db.Users.Find(id ?? 0);
             if (user == null)
             {
                 return HttpNotFound();
@@ -134,6 +149,6 @@ namespace TeamProject.Areas.Admin.Controllers
             return RedirectToAction("Index");
         }
 
-    
+
     }
 }
