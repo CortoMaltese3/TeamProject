@@ -35,14 +35,14 @@ namespace TeamProject.Models
 
         //[Required(ErrorMessage = "Password is required")]
         //[StringLength(50, ErrorMessage = "Must be between 5 and 255 characters", MinimumLength = 5)]
-        //[DataType(DataType.Password)]
+        [DataType(DataType.Password)]
         public string Password { get; set; }
 
         //[Required(ErrorMessage = "Confirm Password is required")]
         //[StringLength(50, ErrorMessage = "Must be between 5 and 255 characters", MinimumLength = 5)]
-        //[DataType(DataType.Password)]
-        //[Compare("Password")]
-        //[DisplayName("Confirm Password")]
+        [DataType(DataType.Password)]
+        [Compare("Password")]
+        [DisplayName("Confirm Password")]
         public string ConfirmPassword { get; set; }
 
         public virtual ICollection<Booking> Booking { get; set; }

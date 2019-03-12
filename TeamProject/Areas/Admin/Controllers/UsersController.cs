@@ -63,7 +63,7 @@ namespace TeamProject.Areas.Admin.Controllers
                 UserRole.RoleId = role.Id;
                 db.UserRoles.Add(UserRole);
 
-                return RedirectToAction("Index", "Home");
+                return RedirectToAction("Index");
             }
 
             return View(user);

@@ -25,7 +25,7 @@ namespace TeamProject.Models
                     "DELETE FROM [User] WHERE Id = @Id" },
                 { "UpdateQuery",
                     "UPDATE [User] SET " +
-                    "[Firstname]=@Firstname, [Lastname]=@Lastname, [Email]=@Email, [Password]=@Password " +
+                    "[Firstname]=@Firstname, [Lastname]=@Lastname, [Email]=@Email " +
                     "WHERE Id = @Id"}
             };
             _db = projectDbContext;
