@@ -11,15 +11,16 @@ namespace TeamProject.Models
     {
         public Role()
         {
-
+            IsEnabled = true;
         }
 
         public int Id { get; set; }
 
         [Required]
         public string Description { get; set; }
-
+        #region NotMapped
         public bool IsNew { get; set; }
-        public string Action { get; set; }
+        public bool IsEnabled { get; set; }
+        #endregion
     }
 }

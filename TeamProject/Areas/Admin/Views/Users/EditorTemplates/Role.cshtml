@@ -4,10 +4,10 @@
     @Html.HiddenFor(m => m.Id)
     @Html.HiddenFor(m => m.Description)
     @Html.HiddenFor(m => m.IsNew, new { @class = "is-new" })
-    @Html.HiddenFor(m => m.Action, new { @class = "add-remove-action" })
+    @Html.HiddenFor(m => m.IsEnabled, new { @class = "is-enabled" })
     @Html.DisplayFor(m => m.Description)
-    <button class="btn btn-danger">Disabled</button>
-    <button class="btn btn-success">Enabled</button>
+
+    <input id="toggle-event" class="btn-enabled" type="checkbox" checked data-toggle="toggle">
 </li>
 
 

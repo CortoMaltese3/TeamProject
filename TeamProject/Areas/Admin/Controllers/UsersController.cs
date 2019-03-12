@@ -81,11 +81,23 @@ namespace TeamProject.Areas.Admin.Controllers
             {
                 return HttpNotFound();
             }
-            var roles = db.Roles.Get().Where(r => !user.Roles.Any(ur => ur.Id == r.Id));
-            roles.ToList().ForEach(r => r.IsNew = true);
 
+            // find roles not enabled for selected user
+            var roles = db
+                .Roles
+                .Get()
+                .Where(r => !user.Roles.Any(ur => ur.Id == r.Id))
+                .Select(r => new Role()
+                {
+                    Id = r.Id,
+                    Description = r.Description,
+                    IsEnabled = false,
+                    IsNew = true
+                });
+
+            // add found roles to user
             user.Roles.AddRange(roles);
-
+            user.Roles = user.Roles.OrderBy(r => r.Description).ToList();
             return View(user);
         }
 
@@ -98,27 +110,27 @@ namespace TeamProject.Areas.Admin.Controllers
         {
             if (ModelState.IsValid)
             {
-                var rolesToRemove = user.Roles.Where(r => r.IsNew == false && r.Action == "remove");/// r => r.RemoveRole == true);
-
-                if (rolesToRemove.Count() != 0)
-                {
-                    foreach (var role in rolesToRemove)
+                // remove existing roles that got disabled 
+                user.Roles
+                    .Where(r => !r.IsNew && !r.IsEnabled)
+                    .ToList()
+                    .ForEach((role) =>
                     {
                         db.UserRoles.Remove(user.Id, role.Id);
-                    }
-                }
+                    });
 
-                var rolesToAdd = user.Roles.Where(r => r.IsNew == true && r.Action == "add");/// r => r.RemoveRole == true);
+                // add new roles
+                user.Roles
+                    .Where(r => r.IsNew && r.IsEnabled)
+                    .ToList()
+                    .ForEach((role) =>
+                        {
+                            db.UserRoles.Add(new UserRoles() { UserId = user.Id, RoleId = role.Id });
+                        });
 
-                if (rolesToAdd.Count() != 0)
-                {
-                    foreach (var role in rolesToAdd)
-                    {
-                        db.UserRoles.Add(new UserRoles() { UserId=user.Id, RoleId=role.Id });
-                    }
-                }
-
+                //update user
                 db.Users.Update(user);
+
                 return RedirectToAction("Index");
             }
             return View(user);

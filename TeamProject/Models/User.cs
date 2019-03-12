@@ -1,19 +1,21 @@
+using System;
+using System.Collections.Generic;
+using System.ComponentModel;
+using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
+using System.Data.Entity.Spatial;
+using System.Linq;
+
 namespace TeamProject.Models
 {
-    using System;
-    using System.Collections.Generic;
-    using System.ComponentModel;
-    using System.ComponentModel.DataAnnotations;
-    using System.ComponentModel.DataAnnotations.Schema;
-    using System.Data.Entity.Spatial;
-    using System.Linq;
+
     public partial class User
     {
         public User()
         {
-            Booking = new HashSet<Booking>();
-            Branch = new HashSet<Branch>();
-            Review = new HashSet<Review>();
+            Booking = new List<Booking>();
+            Branch = new List<Branch>();
+            Review = new List<Review>();
             Roles = new List<Role>();
         }
         [Key]
@@ -31,9 +33,17 @@ namespace TeamProject.Models
         [StringLength(50)]
         public string Email { get; set; }
 
-        [Required]
-        [StringLength(50)]
+        //[Required(ErrorMessage = "Password is required")]
+        //[StringLength(50, ErrorMessage = "Must be between 5 and 255 characters", MinimumLength = 5)]
+        //[DataType(DataType.Password)]
         public string Password { get; set; }
+
+        //[Required(ErrorMessage = "Confirm Password is required")]
+        //[StringLength(50, ErrorMessage = "Must be between 5 and 255 characters", MinimumLength = 5)]
+        //[DataType(DataType.Password)]
+        //[Compare("Password")]
+        //[DisplayName("Confirm Password")]
+        public string ConfirmPassword { get; set; }
 
         public virtual ICollection<Booking> Booking { get; set; }
 
@@ -43,6 +53,7 @@ namespace TeamProject.Models
 
         public virtual List<Role> Roles { get; set; }
 
+        #region NotMapped
         [DisplayName("User Roles")]
         public string AllRoles
         {
@@ -55,5 +66,6 @@ namespace TeamProject.Models
 
             }
         }
+        #endregion
     }
 }
