@@ -164,7 +164,7 @@
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\LoginController.cs" />
     <Compile Include="Controllers\ReviewsController.cs" />
-    <Compile Include="Controllers\TimeSlotsController.cs" />
+    <Compile Include="Areas\Admin\Controllers\TimeSlotsController.cs" />
     <Compile Include="Controllers\UserRolesController.cs" />
     <Compile Include="Areas\Admin\Controllers\UsersController.cs" />
     <Compile Include="Controllers\UsersController.cs" />
@@ -315,11 +315,11 @@
     <Content Include="Views\Reviews\Details.cshtml" />
     <Content Include="Views\Reviews\Edit.cshtml" />
     <Content Include="Views\Reviews\Index.cshtml" />
-    <Content Include="Views\TimeSlots\Create.cshtml" />
-    <Content Include="Views\TimeSlots\Delete.cshtml" />
-    <Content Include="Views\TimeSlots\Details.cshtml" />
-    <Content Include="Views\TimeSlots\Edit.cshtml" />
-    <Content Include="Views\TimeSlots\Index.cshtml" />
+    <Content Include="Areas\Admin\Views\TimeSlots\Create.cshtml" />
+    <Content Include="Areas\Admin\Views\TimeSlots\Delete.cshtml" />
+    <Content Include="Areas\Admin\Views\TimeSlots\Details.cshtml" />
+    <Content Include="Areas\Admin\Views\TimeSlots\Edit.cshtml" />
+    <Content Include="Areas\Admin\Views\TimeSlots\Index.cshtml" />
     <Content Include="Views\UserRoles\Create.cshtml" />
     <Content Include="Views\UserRoles\Delete.cshtml" />
     <Content Include="Views\UserRoles\Details.cshtml" />

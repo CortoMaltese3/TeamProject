@@ -8,7 +8,7 @@ using System.Web;
 using System.Web.Mvc;
 using TeamProject.Models;
 
-namespace TeamProject.Controllers
+namespace TeamProject.Areas.Admin.Controllers
 {
     public class TimeSlotsController : Controller
     {
