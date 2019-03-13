@@ -12,11 +12,12 @@ using TeamProject.ModelsViews;
 
 namespace TeamProject.Controllers
 {
-    public class AdminBranchesController : Controller
+    public class BranchesController : Controller
     {
-        private const double FIXED_DISTANCE = 10000;
+        private const double FIXED_DISTANCE = 20000;
 
         private ProjectDbContext db = new ProjectDbContext();
+
         public ActionResult Nearest(string latitude, string longitude)
         {
             try
