@@ -7,13 +7,22 @@ using System.Net;
 using System.Web;
 using System.Web.Mvc;
 using TeamProject.Models;
+using TeamProject.ModelsViews;
 
 namespace TeamProject.Controllers
 {
     public class BookingsController : Controller
     {
         private ProjectDbContext db = new ProjectDbContext();
-
+        public ActionResult Book(int id)
+        {
+            var bookViewModel = new BookViewModel()
+            {
+                Court = db.Courts.Find(id),
+                TimeSlots = new List<TimeSlot>()
+            };
+            return View(bookViewModel);
+        }
         // GET: Bookings
         public ActionResult Index()
         {
