@@ -8,20 +8,18 @@ using System.Web;
 using System.Web.Mvc;
 using TeamProject.Models;
 
-namespace TeamProject.Controllers
+namespace TeamProject.Areas.Admin.Controllers
 {
+    [Authorize(Roles = "Admin")]
     public class FacilitiesController : Controller
     {
         private ProjectDbContext db = new ProjectDbContext();
 
         // GET: Facilities
 
-        public ActionResult Index(int? id)
+        public ActionResult Index()
         {
-            var facility = db.Facilities.Get().Where(t => t.Branch.Any(b => b.Id == (id ?? 0)));
-            ViewBag.id = id;                       
-
-            ViewBag.branchName = db.Branches.Get().FirstOrDefault(b => b.Id == (id ?? 0)).Name;
+            var facility = db.Facilities.Get();            
             return View(facility.ToList());
         }
 
@@ -45,8 +43,7 @@ namespace TeamProject.Controllers
         // GET: Facilities/Create
         public ActionResult Create(int? id)
         {
-            ViewBag.FacilityId = new SelectList(db.Facilities.Get().Where(branch => branch.Id == (id ?? 0)), "Id", "Description");
-            ViewBag.id = id;
+            ViewBag.FacilityId = new SelectList(db.Facilities.Get().Where(branch => branch.Id == (id ?? 0)), "Id", "Description");           
             return View();
         }
 
@@ -59,13 +56,11 @@ namespace TeamProject.Controllers
         {
             if (ModelState.IsValid)
             {
-                db.Facilities.Add(facility);
-                //db.SaveChanges();
+                db.Facilities.Add(facility);               
                 return RedirectToAction("Index");
             }
 
-            ViewBag.FacilityId = new SelectList(db.Facilities.Get(), "Id", "Description", facility.Id );
-            ViewBag.id = facility.Id;
+            ViewBag.FacilityId = new SelectList(db.Facilities.Get(), "Id", "Description", facility.Id );          
 
             return View(facility);
         }
@@ -94,9 +89,7 @@ namespace TeamProject.Controllers
         {
             if (ModelState.IsValid)
             {
-                db.Facilities.Update(facility);
-                //db.Entry(facility).State = EntityState.Modified;
-                //db.SaveChanges();
+                db.Facilities.Update(facility);               
                 return RedirectToAction("Index");
             }
             return View(facility);
@@ -123,20 +116,8 @@ namespace TeamProject.Controllers
         public ActionResult DeleteConfirmed(int id)
         {
             Facility facility = db.Facilities.Find(id);
-            db.Facilities.Remove(facility.Id);
-            //db.SaveChanges();
+            db.Facilities.Remove(facility.Id);            
             return RedirectToAction("Index");
-        }
-
-
-
-        protected override void Dispose(bool disposing)
-        {
-            if (disposing)
-            {
-                //db.Dispose();
-            }
-            base.Dispose(disposing);
         }
     }
 }

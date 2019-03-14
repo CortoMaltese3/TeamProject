@@ -44,7 +44,7 @@ namespace TeamProject.Models
                     {
                         Court courtEntry;
 
-                        if (!courtDictionary.TryGetValue(branch.Id, out courtEntry))
+                        if (!courtDictionary.TryGetValue(court.Id, out courtEntry))
                         {
                             courtEntry = court;
                             courtEntry.TimeSlot = new List<TimeSlot>();

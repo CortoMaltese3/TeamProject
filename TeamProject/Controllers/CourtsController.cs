@@ -84,6 +84,7 @@ namespace TeamProject.Controllers
                 return RedirectToAction("Index");
             }
             ViewBag.BranchId = new SelectList(db.Branches.Get(), "Id", "Name", court.BranchId);
+            ViewBag.Id = court.Id;
             return View(court);
         }
 

@@ -9,7 +9,7 @@
 <h2>@ViewBag.Title</h2>
 
 <p>
-    @Html.ActionLink("Create New", "Create", new { id = ViewBag.id })
+    @Html.ActionLink("Create New", "Create")
 </p>
 <table class="table">
     <tr>
@@ -25,13 +25,10 @@
             @Html.DisplayFor(modelItem => item.Description)
         </td>
         <td>
-            @Html.ActionLink("Delete", "Delete", new { id=item.Id })
+            @Html.ActionLink("Delete", "Delete", new { id=item.Id }) |
+            @Html.ActionLink("Edit","Edit",new { id = item.Id})
         </td>
     </tr>
 }
 
 </table>
-
-<div>
-    @Html.ActionLink("Back to Branch", "Edit", "Branches", new { id = ViewBag.id }, null)
-</div>

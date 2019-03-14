@@ -15,9 +15,16 @@ namespace TeamProject.Controllers
         // GET: Courts
         public ActionResult Index()
         {
-            //ViewBag.Role = db.Users.Get();
-            var court = db.Courts.Get();//.Include(c => c.Branch);
-            return View(court.ToList());
+            var court = db.Courts.Get().ToList();//.Include(c => c.Branch);
+            var courtlist = new List<Court>();
+            var courtcount = court.Count();
+            for (var i= 0; i<6 && i<courtcount; i++)
+            {
+                var courtrandom = court.PickRandom();
+                courtlist.Add(courtrandom);
+                court.Remove(courtrandom);
+            }
+            return View(courtlist);
         }
 
         public ActionResult About()
@@ -32,6 +39,25 @@ namespace TeamProject.Controllers
             ViewBag.Message = "Your contact page.";
 
             return View();
+        }
+    }
+
+    public static class EnumerableExtension
+    {
+        public static T PickRandom<T>(this IEnumerable<T> source)
+        {
+            
+            return source.PickRandom(1).Single();
+        }
+
+        public static IEnumerable<T> PickRandom<T>(this IEnumerable<T> source, int count)
+        {
+            return source.Shuffle().Take(count);
+        }
+
+        public static IEnumerable<T> Shuffle<T>(this IEnumerable<T> source)
+        {
+            return source.OrderBy(x => Guid.NewGuid());
         }
     }
 }
