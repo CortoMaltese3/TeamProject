@@ -10,7 +10,8 @@ using TeamProject.ModelsViews;
 namespace TeamProject.Areas.Admin.Controllers
 
 {
-    public class AdminBranchesController : Controller
+    [Authorize(Roles = "Admin")]
+    public class BranchesController : Controller
     {
         private const double FIXED_DISTANCE = 10000;
 

@@ -10,6 +10,7 @@ using TeamProject.Models;
 
 namespace TeamProject.Areas.Admin.Controllers
 {
+    [Authorize(Roles = "Admin")]
     public class TimeSlotsController : Controller
     {
         private ProjectDbContext db = new ProjectDbContext();

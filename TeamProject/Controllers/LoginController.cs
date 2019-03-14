@@ -15,20 +15,23 @@ namespace TeamProject.Controllers
         public ActionResult Index()
         {
             return View();
-        }      
+        }
 
         [HttpPost]
         [AllowAnonymous]
-        public ActionResult Login(string email , string password)
+        public ActionResult Login(string email, string password)
         {
             UserManager manager = new UserManager(db);
-            var loggedinuser = manager.Login(email , password);
+            var loggedinuser = manager.Login(email, password);
 
             if (loggedinuser != null)
             {
                 Session["user"] = loggedinuser;
+
+                Session["Admin"] = loggedinuser.Roles.Any(x => x.Description.Equals("Admin"))? "Admin":"";
+
                 ViewBag.Name = loggedinuser.Firstname;
-                return RedirectToAction("index","home");
+                return RedirectToAction("index", "home");
             }
             else
             {

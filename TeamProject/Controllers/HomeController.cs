@@ -15,6 +15,7 @@ namespace TeamProject.Controllers
         // GET: Courts
         public ActionResult Index()
         {
+            //ViewBag.Role = db.Users.Get();
             var court = db.Courts.Get();//.Include(c => c.Branch);
             return View(court.ToList());
         }

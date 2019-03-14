@@ -5,6 +5,7 @@ using System.Linq;
 
 namespace TeamProject.Areas.Admin.Controllers
 {
+    [Authorize(Roles = "Admin")]
     public class UsersController : Controller
     {
         private ProjectDbContext db = new ProjectDbContext();

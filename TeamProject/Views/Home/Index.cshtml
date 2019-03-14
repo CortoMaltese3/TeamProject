@@ -6,6 +6,11 @@
 @section Styles{
     <link type="text/css" rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,400,500">
     <link rel="stylesheet" href="~/Content/google-maps.css" />
+    <style>
+        .opacityy {
+            opacity: 1;
+        }
+    </style>
 }
 <div id="carouselIndicators" class="carousel slide card-img-top" data-ride="carousel">
     <ol class="carousel-indicators">
@@ -14,7 +19,6 @@
         <li data-target="#carouselExampleIndicators" data-slide-to="2"></li>
     </ol>
     <div class="carousel-inner">
-
         <div class="carousel-item active">
             <img class="d-block w-100" src="~/Images/CarrouselImages/FIFA-2018-World-Cup-Featured-1366x768.jpg" alt="First slide">
             <div class="carousel-caption d-none d-md-block">
@@ -82,6 +86,8 @@
         }
     </div>
 </div>
+
+
 @*adding Social Links*@
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 <div class="box" style="opacity:1;">
@@ -167,4 +173,26 @@
 
     <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDrnm2ptgfajjtlCfM97wat7Jsx5KZ0UoA&libraries=places"></script>
     <script src="~/Scripts/google-maps.js"></script>
+    <script>
+
+        $(document).ready(function() {
+
+            const Carousel = $('.carousel-inner .active img');
+            const Nav = $('nav');
+
+            console.log(Carousel);
+            console.log(Nav);
+            $(window).scroll(function () {
+
+                if ($(window).scrollTop() > (Carousel.height() - Nav.height())) {
+                    Nav.addClass('opacityy');
+                }
+                else {
+                    Nav.removeClass('opacityy');
+                }
+            });
+        });
+
+
+    </script>
 }
