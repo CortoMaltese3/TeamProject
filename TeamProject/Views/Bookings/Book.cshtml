@@ -5,4 +5,33 @@
 }
 
 <h2>Book for @Model.Court.Name</h2>
+<button id="get-data" class="btn btn-primary">Get Data</button>
+<div id="data-container"></div>
+@section scripts{
+    <script>
+
+        $(document).ready(function () {
+            const $button = $('#get-data'),
+                $container = $('#data-container');
+
+            $button.on('click', function () {
+                $.ajax({
+                    url: '/api/book',
+                    data: { id: @Model.Court.Id}
+
+                }).done(function (data) {
+                    $container.append('<ul>')
+                    $(data).each(function (i) {
+                        let timeslot = data[i];
+                        $container.append('<li>' + timeslot.Hour + '</li>')
+                    });
+                    $container.append('</ul>')
+                    
+                });
+            });
+
+        });
+
+    </script>
+}
 
