@@ -183,6 +183,7 @@
     </Compile>
     <Compile Include="ModelsViews\BookViewModel.cs" />
     <Compile Include="ModelsViews\NearestBrachView.cs" />
+    <Compile Include="ModelsViews\TimeslotApiView.cs" />
     <Compile Include="Models\Booking.cs" />
     <Compile Include="Models\Branch.cs" />
     <Compile Include="Models\BranchManager.cs" />
