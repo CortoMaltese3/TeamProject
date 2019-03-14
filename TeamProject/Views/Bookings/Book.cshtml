@@ -15,18 +15,20 @@
                 $container = $('#data-container');
 
             $button.on('click', function () {
-                $.ajax({
-                    url: '/api/book',
-                    data: { id: @Model.Court.Id}
+                $.getJSON('/api/book/@Model.Court.Id').done(function (data) {
+                    $container.append('<table>')
 
-                }).done(function (data) {
-                    $container.append('<ul>')
-                    $(data).each(function (i) {
-                        let timeslot = data[i];
-                        $container.append('<li>' + timeslot.Hour + '</li>')
-                    });
-                    $container.append('</ul>')
-                    
+                    $([1, 2, 3, 4, 5, 6, 7]).each(function (key, day) {
+                        let dayData = data.filter(timeslot => timeslot.Day == day);
+                        //console.log(dayData);
+
+                        $(dayData).each(function (key, timeslot) {
+                            $container.append('<tr><td>' + timeslot.Hour + '</td><td>' + timeslot.Id + '</td></tr>')
+                        });
+                    })
+
+                    $container.append('</table>')
+
                 });
             });
 
