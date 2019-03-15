@@ -1,0 +1,19 @@
+﻿.timeslots div.col {
+    padding-top: 20px;
+    padding-bottom: 20px;
+    margin: 10px;
+    font-weight: bold;
+    justify-content: center;
+}
+
+.timeslots .timeslot div {
+    border: 1px solid gray;
+    font-weight: normal;
+    border-radius: .25rem;
+    box-sizing: border-box;
+}
+
+    .timeslots .timeslot div:first-child {
+        border: none;
+        font-weight: bold;
+    }

@@ -3,7 +3,10 @@
 @{
     ViewBag.Title = "Book";
 }
-
+@section styles
+    {
+        <link rel="stylesheet" href="~/Content/book.css" />
+    }
 <h2>Book for @Model.Court.Name</h2>
 <button id="get-data" class="btn btn-primary">Get Data</button>
 <div id="data-container"></div>
@@ -16,30 +19,27 @@
 
             $button.on('click', function () {
                 $.getJSON('/api/book/@Model.Court.Id').done(function (data) {
-                    let weekDays = ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"];
+                    let weekDays = ["","Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"].map(function (i) {
+                        return '<div class="col">' + i + '</div>';
+                    }).join('');
 
                     console.log(data);
                     let tbody = '';
                     data.map(function (timeslot) {
-                        tbody += '<tr>';
+                        tbody += '<div class="row timeslot">';
 
-                        tbody += '<th>' + timeslot.Hour + '</th>';
-                        tbody += '<th>' + timeslot.Day1 + '</th>';
-                        tbody += '<th>' + timeslot.Day2 + '</th>';
-                        tbody += '<th>' + timeslot.Day3 + '</th>';
-                        tbody += '<th>' + timeslot.Day4 + '</th>';
-                        tbody += '<th>' + timeslot.Day5 + '</th>';
-                        tbody += '<th>' + timeslot.Day6 + '</th>';
-                        tbody += '<th>' + timeslot.Day7 + '</th>';
-                        tbody += '</tr>';
+                        tbody += '<div class="col">' + timeslot.Hour + '</div>';
+                        tbody += '<div class="col">' + timeslot.Day1 + '</div>';
+                        tbody += '<div class="col">' + timeslot.Day2 + '</div>';
+                        tbody += '<div class="col">' + timeslot.Day3 + '</div>';
+                        tbody += '<div class="col">' + timeslot.Day4 + '</div>';
+                        tbody += '<div class="col">' + timeslot.Day5 + '</div>';
+                        tbody += '<div class="col">' + timeslot.Day6 + '</div>';
+                        tbody += '<div class="col">' + timeslot.Day7 + '</div>';
+                        tbody += '</div>';
                     });
-                    let table = '<table class="table">' +
-                        '<head>' +
-                        '<tr><th>Hour</th><th>Monday</th><th>Tuesday</th><th>Thursday</th><th>Wednsday</th><th>Friday</th><th>Saturday</th><th>Sunday</th></tr>' +
-                        '</head>'+
-                        '<body>' + tbody+
-                        '</body>'+
-                        '</table > ';
+                    let table = '<div class="timeslots"><div class="row">' + weekDays + '</div>' +
+                        tbody +'</div>';
                     $container.append(table);
 
                 });
