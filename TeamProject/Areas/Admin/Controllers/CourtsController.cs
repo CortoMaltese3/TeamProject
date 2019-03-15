@@ -3,7 +3,7 @@ using System.Net;
 using System.Web.Mvc;
 using TeamProject.Models;
 
-namespace TeamProject.Controllers
+namespace TeamProject.Areas.Admin.Controllers
 {
     public class CourtsController : Controller
     {
@@ -13,6 +13,8 @@ namespace TeamProject.Controllers
         public ActionResult Index()
         {
             var court = db.Courts.Get();//.Include(c => c.Branch);
+            ViewBag.BranchName = new SelectList (db.Branches.Get(),"Id","Name");
+
             return View(court.ToList());
         }
 

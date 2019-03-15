@@ -16,6 +16,7 @@ namespace TeamProject.Models
 
         [Required]
         [StringLength(50)]
+        [Display(Name = "Court Name")]
         public string Name { get; set; }
 
         [Required]
@@ -32,6 +33,7 @@ namespace TeamProject.Models
 
         public virtual ICollection<Booking> Booking { get; set; }
 
+        
         public virtual Branch Branch { get; set; }
 
         public virtual ICollection<Review> Review { get; set; }
