@@ -29,13 +29,13 @@
                         tbody += '<div class="row timeslot">';
 
                         tbody += '<div class="col">' + timeslot.Hour + '</div>';
-                        tbody += '<div class="col">' + timeslot.Day1 + '</div>';
-                        tbody += '<div class="col">' + timeslot.Day2 + '</div>';
-                        tbody += '<div class="col">' + timeslot.Day3 + '</div>';
-                        tbody += '<div class="col">' + timeslot.Day4 + '</div>';
-                        tbody += '<div class="col">' + timeslot.Day5 + '</div>';
-                        tbody += '<div class="col">' + timeslot.Day6 + '</div>';
-                        tbody += '<div class="col">' + timeslot.Day7 + '</div>';
+                        tbody += '<div class="col" value="' + timeslot.Day1 + '">' + timeslot.Hour + '</div>';
+                        tbody += '<div class="col" value="' + timeslot.Day2 + '">' + timeslot.Hour + '</div>';
+                        tbody += '<div class="col" value="' + timeslot.Day3 + '">' + timeslot.Hour + '</div>';
+                        tbody += '<div class="col" value="' + timeslot.Day4 + '">' + timeslot.Hour + '</div>';
+                        tbody += '<div class="col" value="' + timeslot.Day5 + '">' + timeslot.Hour + '</div>';
+                        tbody += '<div class="col" value="' + timeslot.Day6 + '">' + timeslot.Hour + '</div>';
+                        tbody += '<div class="col" value="' + timeslot.Day7 + '">' + timeslot.Hour + '</div>';
                         tbody += '</div>';
                     });
                     let table = '<div class="timeslots"><div class="row">' + weekDays + '</div>' +

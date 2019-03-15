@@ -17,3 +17,14 @@
         border: none;
         font-weight: bold;
     }
+    .timeslots .timeslot div[value="0"] {
+        border: 1px solid none;
+        font-display:unset;
+    }
+    .timeslots .timeslot div[value="1"] {
+        background: red;
+    }
+    .timeslots .timeslot div[value="2"] {
+        background: green;
+    }
+
