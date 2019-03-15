@@ -17,23 +17,28 @@
             $button.on('click', function () {
                 $.getJSON('/api/book/@Model.Court.Id').done(function (data) {
                     console.log(data);
-                    // TODO
-                    // Display Hour and Day1 - Day7
-
-                    //$container.append('<table>')
-                    ////console.log(data.filter(d => d.Day == 1));
-                    //$([1, 2, 3, 4, 5, 6, 7]).each(function (key, day) {
-                    //    let dayData = data.filter(timeslot => timeslot.Day == day);
-                    //    //console.log(dayData);
-                    //    dayData.map(function (timeslot) {
-                    //        $container.append('<tr><td>' + timeslot.Hour + '</td><td>' + timeslot.Id + '</td></tr>')
-                    //    });
-                    //    //$(dayData).each(function (key, timeslot) {
-                    //    //    $container.append('<tr><td>' + timeslot.Hour + '</td><td>' + timeslot.Id + '</td></tr>')
-                    //    //});
-                    //})
-
-                    //$container.append('</table>')
+                    let tbody = '';
+                    data.map(function (timeslot) {
+                        tbody += '<tr>';
+                        
+                        tbody += '<th>' + timeslot.Hour + '</th>';
+                        tbody += '<th>' + timeslot.Day1 + '</th>';
+                        tbody += '<th>' + timeslot.Day2 + '</th>';
+                        tbody += '<th>' + timeslot.Day3 + '</th>';
+                        tbody += '<th>' + timeslot.Day4 + '</th>';
+                        tbody += '<th>' + timeslot.Day5 + '</th>';
+                        tbody += '<th>' + timeslot.Day6 + '</th>';
+                        tbody += '<th>' + timeslot.Day7 + '</th>';
+                        tbody += '</tr>';
+                    });
+                    let table = '<table class="table">' +
+                        '<head>' +
+                        '<tr><th>Hour</th><th>Monday</th><th>Tuesday</th><th>Thursday</th><th>Wednsday</th><th>Friday</th><th>Saturday</th><th>Sunday</th></tr>' +
+                        '</head>'+
+                        '<body>' + tbody+
+                        '</body>'+
+                        '</table > ';
+                    $container.append(table);
 
                 });
             });
