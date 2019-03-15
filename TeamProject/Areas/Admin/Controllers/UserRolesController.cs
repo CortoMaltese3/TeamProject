@@ -5,6 +5,7 @@ using TeamProject.Models;
 
 namespace TeamProject.Areas.Admin.Controllers
 {
+    [Authorize(Roles = "Admin")]
     public class UserRolesController : Controller
     {
         private ProjectDbContext db = new ProjectDbContext();

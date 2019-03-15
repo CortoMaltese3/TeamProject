@@ -8,7 +8,6 @@ using TeamProject.Models;
 using TeamProject.ModelsViews;
 
 namespace TeamProject.Areas.Admin.Controllers
-
 {
     [Authorize(Roles = "Admin")]
     public class BranchesController : Controller
