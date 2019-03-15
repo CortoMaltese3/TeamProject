@@ -16,11 +16,13 @@
 
             $button.on('click', function () {
                 $.getJSON('/api/book/@Model.Court.Id').done(function (data) {
+                    let weekDays = ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"];
+
                     console.log(data);
                     let tbody = '';
                     data.map(function (timeslot) {
                         tbody += '<tr>';
-                        
+
                         tbody += '<th>' + timeslot.Hour + '</th>';
                         tbody += '<th>' + timeslot.Day1 + '</th>';
                         tbody += '<th>' + timeslot.Day2 + '</th>';
