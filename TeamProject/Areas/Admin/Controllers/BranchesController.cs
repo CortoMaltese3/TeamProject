@@ -104,7 +104,7 @@ namespace TeamProject.Areas.Admin.Controllers
             if(ImageFile != null)
             {
                 branch.ImageCourt = Path.GetFileName(branch.ImageFile.FileName);
-                string fileName = Path.Combine(Server.MapPath("~/Images/"), branch.ImageCourt);
+                string fileName = Path.Combine(Server.MapPath("~/Images/BranchesImages/"), branch.ImageCourt);
                 branch.ImageFile.SaveAs(fileName);
             }
 
