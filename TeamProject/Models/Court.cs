@@ -6,6 +6,7 @@ namespace TeamProject.Models
     using System.ComponentModel.DataAnnotations;
     using System.ComponentModel.DataAnnotations.Schema;
     using System.Data.Entity.Spatial;
+    using System.Web;
 
     public partial class Court
     {
@@ -22,6 +23,11 @@ namespace TeamProject.Models
         [Required]
         [StringLength(500)]
         public string ImageCourt { get; set; }
+
+        [NotMapped]
+        public HttpPostedFileBase ImageFile { get; set; }
+        
+        public string Description { get; set; }
 
         public int MaxPlayers { get; set; }
 

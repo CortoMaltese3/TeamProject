@@ -1,5 +1,7 @@
-﻿using System.Linq;
+﻿using System.IO;
+using System.Linq;
 using System.Net;
+using System.Web;
 using System.Web.Mvc;
 using TeamProject.Models;
 
@@ -46,8 +48,12 @@ namespace TeamProject.Areas.Admin.Controllers
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "Id,BranchId,Name,ImageCourt,MaxPlayers,Price")] Court court)
+        public ActionResult Create (Court court)
         {
+            court.ImageCourt = Path.GetFileName(court.ImageFile.FileName);
+            string fileName = Path.Combine(Server.MapPath("~/Images/CourtsImages/"), court.ImageCourt);
+            court.ImageFile.SaveAs(fileName);
+
             if (ModelState.IsValid)
             {
                 db.Courts.Add(court);
@@ -79,8 +85,15 @@ namespace TeamProject.Areas.Admin.Controllers
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include = "Id,BranchId,Name,ImageCourt,MaxPlayers,Price")] Court court)
+        public ActionResult Edit( Court court, HttpPostedFileBase ImageFile)
         {
+            if (ImageFile != null)
+            {
+                court.ImageCourt = Path.GetFileName(court.ImageFile.FileName);
+                string fileName = Path.Combine(Server.MapPath("~/Images/CourtImages"), court.ImageCourt);
+                court.ImageFile.SaveAs(fileName);
+            }
+
             if (ModelState.IsValid)
             {
                 db.Courts.Update(court);
