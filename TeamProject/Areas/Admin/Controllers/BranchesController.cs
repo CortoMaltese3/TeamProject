@@ -62,7 +62,7 @@ namespace TeamProject.Areas.Admin.Controllers
         public ActionResult Create( Branch branch)
         {
             branch.ImageCourt = Path.GetFileName(branch.ImageFile.FileName);
-            string fileName = Path.Combine(Server.MapPath("~/Images/BranchesImages"), branch.ImageCourt);
+            string fileName = Path.Combine(Server.MapPath("~/Images/BranchesImages/"), branch.ImageCourt);
             branch.ImageFile.SaveAs(fileName);
 
             if (ModelState.IsValid)
