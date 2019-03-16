@@ -44,7 +44,7 @@ namespace TeamProject.Models
                     {
                         Court courtEntry;
 
-                        if (!courtDictionary.TryGetValue(branch.Id, out courtEntry))
+                        if (!courtDictionary.TryGetValue(court.Id, out courtEntry))
                         {
                             courtEntry = court;
                             courtEntry.TimeSlot = new List<TimeSlot>();
@@ -64,6 +64,12 @@ namespace TeamProject.Models
 
             return courts;
         }
+        public IEnumerable<Court> AllCourtsSameBranch(int courtId)
+        {
+            var branchId = Find(courtId).Branch.Id;
+            return Get("branchId=@branchId", new { branchId });
+        }
+
     }
 
 }

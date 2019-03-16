@@ -8,7 +8,7 @@ namespace TeamProject.ModelsViews
 {
     public class BookViewModel
     {
-        public Court Court { get; set; }
-        public IEnumerable<TimeSlot> TimeSlots { get; set; }
+        public int CourtId { get; set; }
+        public IEnumerable<Court> Courts { get; set; }
     }
 }

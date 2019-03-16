@@ -29,14 +29,34 @@ namespace TeamProject.ApiControllers
         //{
         //}
 
-        //// PUT: api/Book/5
-        //public void Put(int id, [FromBody]string value)
-        //{
-        //}
+        // PUT: api/Book/5
+        public void Put(int id, PutView putView)
+        {
+            var booking = new Booking()
+            {
+                CourtId = putView.CourtId,
+                BookedAt = putView.BookedAt,
+                UserId = putView.UserId,
+                Duration = 60
+            };
+
+            db.Bookings.Add(booking);
+        }
 
         //// DELETE: api/Book/5
         //public void Delete(int id)
         //{
         //}
+    }
+    public class PutView
+    {
+        public int Year { get; set; }
+        public int Month { get; set; }
+        public int Day { get; set; }
+        public int Hour { get; set; }
+        public int CourtId { get; set; }
+        public int UserId { get; set; }
+
+        public DateTime BookedAt { get => new DateTime(Year, Month, Day, Hour, 0, 0); }
     }
 }

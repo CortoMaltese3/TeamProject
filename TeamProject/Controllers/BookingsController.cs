@@ -16,10 +16,12 @@ namespace TeamProject.Controllers
         private ProjectDbContext db = new ProjectDbContext();
         public ActionResult Book(int id)
         {
+            var courtsInSameBranch = db.Courts.AllCourtsSameBranch(id).ToList();
+
             var bookViewModel = new BookViewModel()
             {
-                Court = db.Courts.Find(id),
-                TimeSlots = new List<TimeSlot>()
+                CourtId = id,
+                Courts = courtsInSameBranch
             };
             return View(bookViewModel);
         }
