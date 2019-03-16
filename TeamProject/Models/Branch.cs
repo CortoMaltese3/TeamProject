@@ -5,6 +5,7 @@ namespace TeamProject.Models
     using System.ComponentModel.DataAnnotations;
     using System.ComponentModel.DataAnnotations.Schema;
     using System.Data.Entity.Spatial;
+    using System.Web;
 
     [Table("Branch")]
     public partial class Branch
@@ -46,6 +47,9 @@ namespace TeamProject.Models
         public double Distance { get; set; }
 
         public virtual User User { get; set; }
+
+        [NotMapped]
+        public HttpPostedFileBase ImageFile { get; set; }
 
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Court> Court { get; set; }
