@@ -10,14 +10,15 @@
 {
     <div class="card mb-3 rounded rounded-lg border border-success d-flex p-2 bd-highlight d-flex">
         <div class="row no-gutters">
-            <div class="col-md-4">
+            <div class="col-md-4" style="margin-top:auto;margin-bottom:auto;">
                 <img src="@court.ImageCourt" class="card-img" alt="@court.Name">
             </div>
             <div class="col-md-8">
                 <div class="card-body align-content-end flex-column">
                     <h5 class="card-title">@court.Name</h5>
-                    <p class="card-text">@court.Review</p>
-                    <a href="/bookings/index" class="btn btn-success btn-lg active mt-auto" role="button" aria-pressed="true">Book Now!</a>
+                    <p class="card-text">@court.Description</p>
+                    <a href="/bookings/book/@court.Id" class="btn btn-success btn-lg active mt-auto" role="button" aria-pressed="true">Book Now!</a>
+                    <a href="/Courts/Details/@court.Id" class="btn btn-success btn-lg active mt-auto" role="button" aria-pressed="true">Details!</a>
                 </div>
             </div>
         </div>
