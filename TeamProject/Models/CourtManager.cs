@@ -64,6 +64,12 @@ namespace TeamProject.Models
 
             return courts;
         }
+        public IEnumerable<Court> AllCourtsSameBranch(int courtId)
+        {
+            var branchId = Find(courtId).Branch.Id;
+            return Get("branchId=@branchId", new { branchId });
+        }
+
     }
 
 }
