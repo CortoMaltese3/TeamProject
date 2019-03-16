@@ -64,10 +64,16 @@ namespace TeamProject.Areas.Admin.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult Create( Branch branch)
         {
-            branch.ImageCourt = Path.GetFileName(branch.ImageFile.FileName);
-            string fileName = Path.Combine(Server.MapPath("~/Images/BranchesImages/"), branch.ImageCourt);
-            branch.ImageFile.SaveAs(fileName);
-
+            if (branch.ImageFile == null)
+            {
+                branch.ImageCourt = "na_image.jpg";
+            }
+            else
+            {
+                branch.ImageCourt = Path.GetFileName(branch.ImageFile.FileName);
+                string fileName = Path.Combine(Server.MapPath("~/Images/BranchesImages/"), branch.ImageCourt);
+                branch.ImageFile.SaveAs(fileName);
+            }
             if (ModelState.IsValid)
             {
                 db.Branches.Add(branch);

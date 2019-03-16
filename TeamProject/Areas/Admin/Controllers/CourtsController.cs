@@ -50,10 +50,17 @@ namespace TeamProject.Areas.Admin.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult Create (Court court)
         {
-            court.ImageCourt = Path.GetFileName(court.ImageFile.FileName);
-            string fileName = Path.Combine(Server.MapPath("~/Images/CourtsImages/"), court.ImageCourt);
-            court.ImageFile.SaveAs(fileName);
 
+            if (court.ImageFile == null)
+            {
+                court.ImageCourt = "na_image.jpg";
+            }
+            else
+            {
+                court.ImageCourt = Path.GetFileName(court.ImageFile.FileName);
+                string fileName = Path.Combine(Server.MapPath("~/Images/CourtsImages/"), court.ImageCourt);
+                court.ImageFile.SaveAs(fileName);
+            }
             if (ModelState.IsValid)
             {
                 db.Courts.Add(court);
