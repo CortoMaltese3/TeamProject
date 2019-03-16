@@ -48,7 +48,7 @@ namespace TeamProject.Areas.Admin.Controllers
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "Id,BranchId,Name,ImageCourt,MaxPlayers,Price")] Court court)
+        public ActionResult Create (Court court)
         {
             court.ImageCourt = Path.GetFileName(court.ImageFile.FileName);
             string fileName = Path.Combine(Server.MapPath("~/Images/CourtsImages/"), court.ImageCourt);
@@ -90,7 +90,7 @@ namespace TeamProject.Areas.Admin.Controllers
             if (ImageFile != null)
             {
                 court.ImageCourt = Path.GetFileName(court.ImageFile.FileName);
-                string fileName = Path.Combine(Server.MapPath("~/Images/"), court.ImageCourt);
+                string fileName = Path.Combine(Server.MapPath("~/Images/CourtImages"), court.ImageCourt);
                 court.ImageFile.SaveAs(fileName);
             }
 

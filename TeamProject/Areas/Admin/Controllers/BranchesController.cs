@@ -62,10 +62,10 @@ namespace TeamProject.Areas.Admin.Controllers
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "Id,UserId,Name,Longitude,Latitude,City,Address,ZipCode")] Branch branch)
+        public ActionResult Create( Branch branch)
         {
             branch.ImageCourt = Path.GetFileName(branch.ImageFile.FileName);
-            string fileName = Path.Combine(Server.MapPath("~/Images/"), branch.ImageCourt);
+            string fileName = Path.Combine(Server.MapPath("~/Images/BranchesImages"), branch.ImageCourt);
             branch.ImageFile.SaveAs(fileName);
 
             if (ModelState.IsValid)
