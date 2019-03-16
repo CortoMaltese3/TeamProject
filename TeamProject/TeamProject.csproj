@@ -176,7 +176,6 @@
     <Compile Include="Controllers\LoginController.cs" />
     <Compile Include="Controllers\ReviewsController.cs" />
     <Compile Include="Areas\Admin\Controllers\TimeSlotsController.cs" />
-    <Compile Include="Areas\Admin\Controllers\UserRolesController.cs" />
     <Compile Include="Areas\Admin\Controllers\UsersController.cs" />
     <Compile Include="Controllers\UsersController.cs" />
     <Compile Include="Global.asax.cs">
@@ -330,11 +329,6 @@
     <Content Include="Areas\Admin\Views\TimeSlots\Details.cshtml" />
     <Content Include="Areas\Admin\Views\TimeSlots\Edit.cshtml" />
     <Content Include="Areas\Admin\Views\TimeSlots\Index.cshtml" />
-    <Content Include="Areas\Admin\Views\UserRoles\Create.cshtml" />
-    <Content Include="Areas\Admin\Views\UserRoles\Delete.cshtml" />
-    <Content Include="Areas\Admin\Views\UserRoles\Details.cshtml" />
-    <Content Include="Areas\Admin\Views\UserRoles\Edit.cshtml" />
-    <Content Include="Areas\Admin\Views\UserRoles\Index.cshtml" />
     <Content Include="Views\Shared\_LayoutHome.cshtml" />
     <Content Include="Views\Shared\_LoginPartial.cshtml" />
     <Content Include="Views\Shared\_NavBarPartial.cshtml" />
