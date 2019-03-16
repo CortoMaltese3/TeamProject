@@ -15,8 +15,6 @@
     box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
 }
 
-
-
 .timeslots .timeslot div:first-child {
     border: none;
     font-weight: bold;
@@ -24,26 +22,24 @@
     justify-content:flex-end;
 }
 
-    .timeslots .timeslot div[value="0"] {
-        border: none;
-        box-shadow: none;
-    }
+.timeslots .timeslot div[value="0"] {
+    border: none;
+    box-shadow: none;
+}
 
-    .timeslots .timeslot div[value="2"] {
-        background: #F0F0F0;
-        box-shadow: none;
-    }
+.timeslots .timeslot div[value="2"] {
+    background: #F0F0F0;
+    box-shadow: none;
+}
 
 .timeslots .timeslot div[value="1"] {
     background: #deee86;
 }
 
-    .timeslots .timeslot div[value="1"]:hover {
-        background: #d2e859;
-        cursor: pointer;
-    }
-
-
+.timeslots .timeslot div[value="1"]:hover {
+    background: #d2e859;
+    cursor: pointer;
+}
 
 nav {
     position: relative;
@@ -54,5 +50,6 @@ nav li:hover {
     background: #d2e859;
     cursor: pointer;
 }
+
 
 
