@@ -11,10 +11,10 @@
             <li class="nav-item active">@Html.ActionLink("Courts", "Index", "Courts", new { area = "" }, new { @class = "navbar-brand" })</li>         
             @if (Session["User"] != null)
             {               
-                if(Session["Admin"].Equals("Admin"))
+                if(Session["Admin"].Equals("Admin") || Session["Owner"].Equals("Owner"))
                 {
                     <li class="nav-item ">
-                        @Html.ActionLink("Panel", "Index", "Users", new { area = "Admin" }, new { @class = "navbar-brand" })
+                        @Html.ActionLink("Panel", "Index", "Panel", new { area = "Admin" }, new { @class = "navbar-brand" })
                     </li>
                 }
             }

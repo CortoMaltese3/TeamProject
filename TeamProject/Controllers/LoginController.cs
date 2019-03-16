@@ -30,6 +30,8 @@ namespace TeamProject.Controllers
 
                 Session["Admin"] = loggedinuser.Roles.Any(x => x.Description.Equals("Admin"))? "Admin":"";
 
+                Session["Owner"] = loggedinuser.Roles.Any(o => o.Description.Equals("Owner")) ? "Owner" : "" ;
+
                 ViewBag.Name = loggedinuser.Firstname;
                 return RedirectToAction("index", "home");
             }
