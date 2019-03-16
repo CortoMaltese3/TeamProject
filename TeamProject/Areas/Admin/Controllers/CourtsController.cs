@@ -51,7 +51,7 @@ namespace TeamProject.Areas.Admin.Controllers
         public ActionResult Create([Bind(Include = "Id,BranchId,Name,ImageCourt,MaxPlayers,Price")] Court court)
         {
             court.ImageCourt = Path.GetFileName(court.ImageFile.FileName);
-            string fileName = Path.Combine(Server.MapPath("~/Images/"), court.ImageCourt);
+            string fileName = Path.Combine(Server.MapPath("~/Images/CourtsImages/"), court.ImageCourt);
             court.ImageFile.SaveAs(fileName);
 
             if (ModelState.IsValid)
