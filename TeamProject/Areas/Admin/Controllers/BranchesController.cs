@@ -1,8 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Globalization;
+using System.IO;
 using System.Linq;
 using System.Net;
+using System.Web;
 using System.Web.Mvc;
 using TeamProject.Models;
 using TeamProject.ModelsViews;
@@ -62,6 +64,10 @@ namespace TeamProject.Areas.Admin.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult Create([Bind(Include = "Id,UserId,Name,Longitude,Latitude,City,Address,ZipCode")] Branch branch)
         {
+            branch.ImageCourt = Path.GetFileName(branch.ImageFile.FileName);
+            string fileName = Path.Combine(Server.MapPath("~/Images/"), branch.ImageCourt);
+            branch.ImageFile.SaveAs(fileName);
+
             if (ModelState.IsValid)
             {
                 db.Branches.Add(branch);
@@ -93,8 +99,15 @@ namespace TeamProject.Areas.Admin.Controllers
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include = "Id,UserId,Name,Longitude,Latitude,City,Address,ZipCode")] Branch branch)
-        {
+        public ActionResult Edit( Branch branch, HttpPostedFileBase ImageFile)
+        {   
+            if(ImageFile != null)
+            {
+                branch.ImageCourt = Path.GetFileName(branch.ImageFile.FileName);
+                string fileName = Path.Combine(Server.MapPath("~/Images/"), branch.ImageCourt);
+                branch.ImageFile.SaveAs(fileName);
+            }
+
             if (ModelState.IsValid)
             {
                 db.Branches.Update(branch);// Entry(branch).State = EntityState.Modified;
