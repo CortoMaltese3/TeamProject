@@ -9,7 +9,7 @@ using TeamProject.ModelsViews;
 
 namespace TeamProject.Areas.Admin.Controllers
 {
-    [Authorize(Roles = "Admin")]
+    [Authorize(Roles = "Admin, Owner")]
     public class BranchesController : Controller
     {
         private const double FIXED_DISTANCE = 10000;
@@ -20,16 +20,13 @@ namespace TeamProject.Areas.Admin.Controllers
         // GET: Branches
         public ActionResult Index()
         {
-            //return a list sorted by distance.
-            List<Branch> branches = new List<Branch>();
+            var branches = db.Branches.Get();
+            var loggedInUser = Session["User"] as User;
 
-            var branch = db.Branches.Get();//.Include(b => b.User);
-
-            foreach (var bran in branch)
+            if (Session["Owner"].Equals("Owner"))
             {
-                branches.Add(bran);
+                return View(branches.Where(b => b.UserId == loggedInUser.Id).ToList());
             }
-            branches.Sort((x, y) => x.Distance.CompareTo(y.Distance));
             return View(branches.ToList());
         }
 
