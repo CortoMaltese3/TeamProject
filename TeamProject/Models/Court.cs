@@ -26,6 +26,8 @@ namespace TeamProject.Models
 
         [NotMapped]
         public HttpPostedFileBase ImageFile { get; set; }
+        
+        public string Description { get; set; }
 
         public int MaxPlayers { get; set; }
 

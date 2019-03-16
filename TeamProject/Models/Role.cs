@@ -18,6 +18,7 @@ namespace TeamProject.Models
 
         [Required]
         public string Description { get; set; }
+
         #region NotMapped
         public bool IsNew { get; set; }
         public bool IsEnabled { get; set; }
