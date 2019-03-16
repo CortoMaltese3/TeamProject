@@ -4,6 +4,8 @@ using System.Collections.Generic;
 using System.Data;
 using System.Linq;
 using System.Web;
+using TeamProject.ModelsViews;
+
 namespace TeamProject.Models
 {
     public class TimeSlotManager : TableManager<TimeSlot>
@@ -53,6 +55,18 @@ namespace TeamProject.Models
 
             return timeslots;
         }
+        public IEnumerable<TimeslotApiView> GetForBooking(int courtId)
+        {
+            IEnumerable<TimeslotApiView> courtTimeslots = Enumerable.Empty<TimeslotApiView>();
+            _db.UsingConnection((dbCon) =>
+            {
+                courtTimeslots = dbCon
+                    .Query<TimeslotApiView>("GetTimeslotsAt",
+                        new { CourtId = courtId, DateFrom = "2019-03-01", DateTo = "2019-03-17 23:59:59" },
+                        commandType: CommandType.StoredProcedure);
+            });
 
+            return courtTimeslots;
+        }
     }
 }

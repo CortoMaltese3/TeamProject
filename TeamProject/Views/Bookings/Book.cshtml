@@ -1,0 +1,152 @@
+﻿@model TeamProject.ModelsViews.BookViewModel
+@using TeamProject.Models
+@{
+    ViewBag.Title = "Book";
+    Layout = "~/Views/Shared/_LayoutBooking.cshtml";
+    var loggedUserId = (Session["User"] as User)?.Id ?? 0;
+}
+
+@section styles
+{
+    <link rel="stylesheet" href="~/Content/book.css" />
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.2/css/all.css" integrity="sha384-fnmOCqbTlWIlj8LyTjo7mOUStjsKC4pOpQbqyi7RrhN7udi9RwhKkMHpvLbHG9Sr" crossorigin="anonymous">
+}
+<div class="row">
+
+    <nav class="col-2 sidenav">
+        <ul class="list-group">
+            @foreach (var court in Model.Courts)
+            {
+                <li court-id="@court.Id" class="list-group-item d-flex justify-content-between align-items-center">@court.Name</li>
+            }
+        </ul>
+    </nav>
+
+    <main class="col-10">
+        <h1 class="bd-title">Book for <span id="court-title"></span></h1>
+        <div class="row">
+            <div id="prevweekbtn" class="col-1"><i style="font-size: 48px; color: Dodgerblue;" class="fas fa-arrow-circle-left"></i></div>
+            <h3 id="timeslot-week" class="col text-lg-center">11/03/2019 - 17/03/2019</h3>
+            <div id="next-week-btn" class="col-1"><i style="font-size: 48px; color: Dodgerblue;" class="fas fa-arrow-circle-right"></i></div>
+        </div>
+        <div id="data-container"></div>
+    </main>
+
+</div>
+@section scripts
+{
+    <script>
+
+        $(document).ready(function () {
+            const $button = $('#get-data'),
+                $container = $('#data-container'),
+                weekDateStart = getMonday(new Date());
+
+            function getTimeslots(courtId) {
+
+                updateCourtTitle(courtId);
+
+                $.getJSON('/api/book/' + courtId).done(function (data) {
+                    let weekDays = getTimeslotsHeader(),
+                        tbody = '';
+
+                    data.map(function (timeslot) {
+                        let localhour = hourTo24Format(timeslot.Hour);
+
+                        tbody += '<div class="row timeslot" time="' + timeslot.Hour +'">';
+
+                        tbody += '<div class="col text-center">' + localhour + '</div>';
+
+                        for (let j = 0; j < 7; j++) {
+                            tbody += '<div class="col text-center" day="'+j+'" value="' + timeslot['Day' + (j + 1)] + '">' + (timeslot['Day'+(j+1)] == 1 ? localhour : '') + '</div>';
+                        }
+
+                        tbody += '</div>';
+                    });
+                    let table = '<div class="timeslots"><div class="row">' + weekDays + '</div>' +
+                        tbody +'</div>';
+                    $container.html(table);
+
+                });
+            }
+
+            $('#data-container').on('click', '.timeslot div[value="1"]', function (e) {
+                let hour = $(this).parent().attr('time'),
+                    day = $(this).attr('day'),
+                    courtId = $('nav.sidenav li.active').attr('court-id');
+                let dateTime = new Date(2019, 3, weekDateStart + parseInt(day,10), getHour(hour), 0, 0);
+
+                $.ajax({
+                    url: '/api/book/1',
+                    type: "PUT",
+                    accepts: "application/json",
+                    contentType: "application/json",
+                    data: JSON.stringify({
+                        year: dateTime.getFullYear(),
+                        month: dateTime.getMonth(),
+                        day: dateTime.getDate(),
+                        hour: dateTime.getHours(),
+                        courtId: courtId,
+                        userId:@loggedUserId
+                    }),
+                    success: function (result) {
+                        console.log(result);
+                        getTimeslots(courtId);
+                    }
+                });
+
+            });
+
+            // on court click (sidebar navigation)
+            // sets clicked court item active
+            $('nav').on('click', 'li', function (e) {
+                const courtId= $(this).attr('court-id');
+
+                $(this).siblings().removeClass('active');
+                $(this).addClass('active');
+
+                getTimeslots(courtId);
+            });
+
+            // calculates and returns weeks start date based on current date
+            function getMonday(currentDate) {
+                const day = currentDate.getDay(),
+                    diff = currentDate.getDate() - day + (day == 0 ? -6 : 1);
+                return new Date(currentDate.setDate(diff)).getDate();
+            }
+
+            // converts hour string to in 24 format string
+            function hourTo24Format(hour) {
+                return getHour(hour) + ':00';
+            }
+
+            // returns hour from hour type string
+            function getHour(hour) {
+                return new Date('2019-01-01 ' + hour).getHours();
+            }
+
+            // updates court title from courtId parameter
+            function updateCourtTitle(courtId) {
+                const courtName = $('nav.sidenav li[court-id="' + courtId + '"]')
+                    .text();
+
+                $('#court-title')
+                    .text(courtName);
+            }
+
+            // returns divs with week days for timeslot header
+            function getTimeslotsHeader() {
+                return ["", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"]
+                    .map(function (i) {
+                        return '<div class="col text-center">' + i + '</div>';
+                    }).join('');
+            }
+
+            $('nav.sidenav li[court-id="@Model.CourtId"]').addClass('active');
+
+            getTimeslots(@Model.CourtId);
+        });
+
+    </script>
+}
+
