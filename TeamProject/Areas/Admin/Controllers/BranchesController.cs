@@ -20,7 +20,7 @@ namespace TeamProject.Areas.Admin.Controllers
         public ActionResult Index()
         {
             var branches = db.Branches.Get();
-
+            
             // If Owner filter only owners branches
             if (!User.IsInRole("Admin"))
             {
