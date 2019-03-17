@@ -20,30 +20,24 @@ namespace TeamProject.Controllers
 
         public ActionResult Nearest(string latitude, string longitude)
         {
-            try
+
+            if (!double.TryParse(latitude, NumberStyles.Float | NumberStyles.AllowThousands, CultureInfo.InvariantCulture, out double latitudeFixed) ||
+                !double.TryParse(longitude, NumberStyles.Float | NumberStyles.AllowThousands, CultureInfo.InvariantCulture, out double longitudeFixed))
             {
-                if (!double.TryParse(latitude, NumberStyles.Float | NumberStyles.AllowThousands, CultureInfo.InvariantCulture, out double latitudeFixed) ||
-                    !double.TryParse(longitude, NumberStyles.Float | NumberStyles.AllowThousands, CultureInfo.InvariantCulture, out double longitudeFixed))
-                {
 
-                    return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
-                }
-
-                BranchManager branchManager = new BranchManager(new ProjectDbContext());
-                IEnumerable<Branch> branches = db.Branches.Nearest(latitudeFixed, longitudeFixed, FIXED_DISTANCE);
-
-                return View(new NearestBrachView()
-                {
-                    Latitude = latitudeFixed,
-                    Longitude = longitudeFixed,
-                    Branches = branches
-                });
-
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            catch (NotImplementedException)
+
+            BranchManager branchManager = new BranchManager(new ProjectDbContext());
+            IEnumerable<Branch> branches = db.Branches.Nearest(latitudeFixed, longitudeFixed, FIXED_DISTANCE);
+
+            return View(new NearestBrachView()
             {
-                return new HttpStatusCodeResult(HttpStatusCode.NotImplemented);
-            }
+                Latitude = latitudeFixed,
+                Longitude = longitudeFixed,
+                Branches = branches
+            });
+
         }
 
     }
