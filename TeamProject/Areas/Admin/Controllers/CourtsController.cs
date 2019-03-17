@@ -22,15 +22,13 @@ namespace TeamProject.Areas.Admin.Controllers
             return View(court.ToList());
         }
          public ActionResult IndexByBranch(int id)
-        {
-            //var branch = db.Branches.Get().Where(x => x.Id == id);
-            //List<Court> courts = new List<Court>();
+        {         
             var courts = db.Courts.Get().Where(c => c.BranchId == id).ToList();
-            if(courts.Count() ==0)
-            {
-               ViewBag.court = "There are no Courts";
-               return View("index",courts);
-            }
+            //if(courts.Count() ==0)
+            //{
+            //   ViewBag.court = "There are no Courts";
+            //   return View("index",courts);
+            //}
             return View("index",courts);
         }
         // GET: Courts/Details/5
