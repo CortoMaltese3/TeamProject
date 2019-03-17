@@ -66,6 +66,11 @@ namespace TeamProject.Models
 
             }
         }
+        public bool IsInRole(string role)
+        {
+            return Roles
+                .Count(r => r.Description.Equals(role, StringComparison.InvariantCultureIgnoreCase)) == 1;
+        }
         #endregion
     }
 }
