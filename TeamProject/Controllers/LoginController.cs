@@ -22,15 +22,17 @@ namespace TeamProject.Controllers
         public ActionResult Login(string email, string password)
         {
             UserManager manager = new UserManager(db);
-            var loggedInUser = manager.Login(email, password);
+            var loggedinuser = manager.Login(email, password);
 
-            if (loggedInUser != null)
+            if (loggedinuser != null)
             {
-                Session["user"] = loggedInUser;
-                Session["Admin"] = User.IsInRole("Admin") ? "Admin": string.Empty;
-                Session["Owner"] = User.IsInRole("Owner") ? "Owner" : string.Empty; 
+                Session["user"] = loggedinuser;
 
-                ViewBag.Name = loggedInUser.Firstname;
+                Session["Admin"] = loggedinuser.Roles.Any(x => x.Description.Equals("Admin"))? "Admin":"";
+
+                Session["Owner"] = loggedinuser.Roles.Any(o => o.Description.Equals("Owner")) ? "Owner" : "" ;
+
+                ViewBag.Name = loggedinuser.Firstname;
                 return RedirectToAction("index", "home");
             }
             else
