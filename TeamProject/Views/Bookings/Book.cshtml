@@ -25,7 +25,7 @@
     <main class="col-10">
         <h1 class="bd-title">Book for <span id="court-title"></span></h1>
         <div class="row">
-            <div id="prevweekbtn" class="col-1"><i style="font-size: 48px; color: Dodgerblue;" class="fas fa-arrow-circle-left"></i></div>
+            <div id="prev-week-btn" class="col-1"><i style="font-size: 48px; color: Dodgerblue;" class="fas fa-arrow-circle-left"></i></div>
             <h3 id="timeslot-week" class="col text-lg-center">11/03/2019 - 17/03/2019</h3>
             <div id="next-week-btn" class="col-1"><i style="font-size: 48px; color: Dodgerblue;" class="fas fa-arrow-circle-right"></i></div>
         </div>
@@ -35,18 +35,32 @@
 </div>
 @section scripts
 {
-    <script>
+<script>
 
         $(document).ready(function () {
-            const $button = $('#get-data'),
-                $container = $('#data-container'),
-                weekDateStart = getMonday(new Date());
+            const $container = $('#data-container');
+            const timeslotDate = TimeslotDate(refreshTimeslotsTable);
+
+            let utils = {
+                getSelectedCourtId: () => $('nav.sidenav li.active').attr('court-id')
+            }
+
+            $('#next-week-btn').on('click', timeslotDate.goNextWeek);
+            $('#prev-week-btn').on('click', timeslotDate.goPrevWeek);
+
+            function refreshTimeslotsTable() {
+                getTimeslots(utils.getSelectedCourtId());
+            }
 
             function getTimeslots(courtId) {
 
                 updateCourtTitle(courtId);
 
-                $.getJSON('/api/book/' + courtId).done(function (data) {
+                $.getJSON('/api/book/' + courtId, {
+                    fromDate: timeslotDate.firstWeekDate().toUTCString(),
+                    toDate: timeslotDate.lastWeekDate().toUTCString()
+                }).done(function (data) {
+
                     let weekDays = getTimeslotsHeader(),
                         tbody = '';
 
@@ -73,22 +87,21 @@
             $('#data-container').on('click', '.timeslot div[value="1"]', function (e) {
                 let hour = $(this).parent().attr('time'),
                     day = $(this).attr('day'),
-                    courtId = $('nav.sidenav li.active').attr('court-id');
-                let dateTime = new Date(2019, 3, weekDateStart + parseInt(day,10), getHour(hour), 0, 0);
+                    dateTime = timeslotDate.getSelectedDate(parseInt(day, 10), getHour(hour));
 
+                let data = {
+                    courtId: utils.getSelectedCourtId(),
+                    userId: @loggedUserId,
+                    bookedAt: dateTime.toUTCString()
+                };
+
+                console.log(dateTime);
                 $.ajax({
-                    url: '/api/book/1',
+                    url: '/api/book/',
                     type: "PUT",
                     accepts: "application/json",
                     contentType: "application/json",
-                    data: JSON.stringify({
-                        year: dateTime.getFullYear(),
-                        month: dateTime.getMonth(),
-                        day: dateTime.getDate(),
-                        hour: dateTime.getHours(),
-                        courtId: courtId,
-                        userId:@loggedUserId
-                    }),
+                    data: JSON.stringify(data),
                     success: function (result) {
                         console.log(result);
                         getTimeslots(courtId);
@@ -144,9 +157,51 @@
 
             $('nav.sidenav li[court-id="@Model.CourtId"]').addClass('active');
 
-            getTimeslots(@Model.CourtId);
+            timeslotDate.updatePeriod();
+
+
+
         });
 
-    </script>
+        function TimeslotDate(onDateChange) {
+            const $weekPeriodTitle = $('#timeslot-week');
+            const that = {
+                currentDate: new Date(),
+                firstWeekDay: function () {
+                    return that.firstWeekDate().getDate();
+                },
+                firstWeekDate: function () {
+                    const day = that.currentDate.getDay(),
+                        diff = that.currentDate.getDate() - day + (day == 0 ? -6 : 1);
+                    return new Date(that.currentDate.setDate(diff));
+                },
+                lastWeekDate: function () {
+                    return new Date(that.firstWeekDate().setDate(that.firstWeekDate().getDate() + 7));
+                },
+                updatePeriod: function () {
+                    $weekPeriodTitle.text(that.firstWeekDate().toLocaleDateString() + ' - ' +
+                        that.lastWeekDate().toLocaleDateString());
+                    onDateChange();
+                },
+                goNextWeek: function () {
+                    that.currentDate.setDate(that.currentDate.getDate() + 7);
+                    that.updatePeriod();
+                },
+                goPrevWeek: function () {
+                    that.currentDate.setDate(that.currentDate.getDate() - 7);
+                    that.updatePeriod();
+                },
+                getSelectedDate: function (day, hour) {
+                    return new Date(that.firstWeekDate().getFullYear(),
+                        that.firstWeekDate().getMonth(),
+                        that.firstWeekDay() + day,
+                        hour,
+                        0, 0);
+                }
+            }
+            return that;
+        }
+
+</script>
 }
 

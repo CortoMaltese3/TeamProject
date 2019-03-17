@@ -15,13 +15,12 @@ namespace TeamProject.ApiControllers
         // GET: api/Book
         //public IEnumerable<string> Get()
         //{
-        //    return new string[] { "value1", "value2" };
         //}
 
         // GET: api/Book/5
-        public IEnumerable<TimeslotApiView> Get(int id)
+        public IEnumerable<TimeslotApiView> Get(int id, DateTime fromDate, DateTime toDate)
         {
-            return db.TimeSlots.GetForBooking(id);
+            return db.TimeSlots.GetForBooking(id, fromDate, toDate);
         }
 
         //// POST: api/Book
@@ -30,16 +29,15 @@ namespace TeamProject.ApiControllers
         //}
 
         // PUT: api/Book/5
-        public void Put(int id, PutView putView)
+        public void Put(PutView putView)
         {
             var booking = new Booking()
             {
                 CourtId = putView.CourtId,
-                BookedAt = putView.BookedAt,
+                BookedAt = putView.BookedAt.ToLocalTime(),
                 UserId = putView.UserId,
                 Duration = 60
             };
-
             db.Bookings.Add(booking);
         }
 
@@ -50,13 +48,10 @@ namespace TeamProject.ApiControllers
     }
     public class PutView
     {
-        public int Year { get; set; }
-        public int Month { get; set; }
-        public int Day { get; set; }
-        public int Hour { get; set; }
         public int CourtId { get; set; }
         public int UserId { get; set; }
 
-        public DateTime BookedAt { get => new DateTime(Year, Month, Day, Hour, 0, 0); }
+        public DateTime BookedAt { get; set; }
     }
+
 }

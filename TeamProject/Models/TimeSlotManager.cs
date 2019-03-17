@@ -55,14 +55,20 @@ namespace TeamProject.Models
 
             return timeslots;
         }
-        public IEnumerable<TimeslotApiView> GetForBooking(int courtId)
+        public IEnumerable<TimeslotApiView> GetForBooking(int courtId, DateTime fromDate, DateTime toDate)
         {
             IEnumerable<TimeslotApiView> courtTimeslots = Enumerable.Empty<TimeslotApiView>();
+
             _db.UsingConnection((dbCon) =>
             {
                 courtTimeslots = dbCon
                     .Query<TimeslotApiView>("GetTimeslotsAt",
-                        new { CourtId = courtId, DateFrom = "2019-03-01", DateTo = "2019-03-17 23:59:59" },
+                        new
+                        {
+                            CourtId = courtId,
+                            DateFrom = fromDate.ToString("yyyy-MM-dd"),
+                            DateTo = toDate.ToString("yyyy-MM-dd 23:59:00.000")
+                        },
                         commandType: CommandType.StoredProcedure);
             });
 
