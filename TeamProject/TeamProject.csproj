@@ -171,6 +171,7 @@
     <Compile Include="Areas\Admin\Controllers\BranchesController.cs" />
     <Compile Include="Areas\Admin\Controllers\PanelController.cs" />
     <Compile Include="Areas\Admin\Controllers\BookingsController.cs" />
+    <Compile Include="Areas\Admin\Controllers\RolesController.cs" />
     <Compile Include="Controllers\BranchesController.cs" />
     <Compile Include="Areas\Admin\Controllers\CourtsController.cs" />
     <Compile Include="Areas\Admin\Controllers\FacilitiesController.cs" />
