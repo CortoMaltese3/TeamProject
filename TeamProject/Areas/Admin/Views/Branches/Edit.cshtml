@@ -3,7 +3,7 @@
 @{
     ViewBag.Title = "Edit";
     Layout = "~/Areas/Admin/Views/Shared/_Layout.cshtml";
-    var isAdmin = Session["Admin"].Equals("Admin");
+    var isAdmin = User.IsInRole("Admin");
 }
 
 <h2>Edit</h2>

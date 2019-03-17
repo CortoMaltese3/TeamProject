@@ -14,21 +14,20 @@ namespace TeamProject.Areas.Admin.Controllers
     [Authorize(Roles = "Admin, Owner")]
     public class BranchesController : Controller
     {
-        private const double FIXED_DISTANCE = 10000;
-
         private ProjectDbContext db = new ProjectDbContext();
-        
 
         // GET: Branches
         public ActionResult Index()
         {
             var branches = db.Branches.Get();
-            var loggedInUser = Session["User"] as User;
 
-            if (Session["Owner"].Equals("Owner"))
+            // If Owner filter only owners branches
+            if (!User.IsInRole("Admin"))
             {
-                return View(branches.Where(b => b.UserId == loggedInUser.Id).ToList());
+                var ownerUser = Session["User"] as User;
+                branches = db.Branches.Get().Where(b => b.UserId == ownerUser.Id);
             }
+
             return View(branches.ToList());
         }
 
@@ -102,9 +101,9 @@ namespace TeamProject.Areas.Admin.Controllers
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit( Branch branch, HttpPostedFileBase ImageFile)
-        {   
-            if(ImageFile != null)
+        public ActionResult Edit(Branch branch, HttpPostedFileBase ImageFile)
+        {
+            if (ImageFile != null)
             {
                 branch.ImageCourt = Path.GetFileName(branch.ImageFile.FileName);
                 string fileName = Path.Combine(Server.MapPath("~/Images/BranchesImages/"), branch.ImageCourt);
