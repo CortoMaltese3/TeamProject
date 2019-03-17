@@ -6,7 +6,6 @@ namespace TeamProject.Models
     using System.ComponentModel.DataAnnotations.Schema;
     using System.Data.Entity.Spatial;
 
-    [Table("TimeSlot")]
     public partial class TimeSlot
     {
         public int Id { get; set; }

@@ -6,7 +6,6 @@ namespace TeamProject.Models
     using System.ComponentModel.DataAnnotations.Schema;
     using System.Data.Entity.Spatial;
 
-    [Table("Review")]
     public partial class Review
     {
         public int Id { get; set; }

@@ -6,12 +6,11 @@ namespace TeamProject.Models
     using System.ComponentModel.DataAnnotations.Schema;
     using System.Data.Entity.Spatial;
 
-    [Table("Facility")]
     public partial class Facility
     {        
         public Facility()
         {
-            Branch = new HashSet<Branch>();
+            Branch = new List<Branch>();
         }
 
         public int Id { get; set; }
