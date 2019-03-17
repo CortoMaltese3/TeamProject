@@ -170,7 +170,7 @@
     <Compile Include="Areas\Admin\AdminAreaRegistration.cs" />
     <Compile Include="Areas\Admin\Controllers\BranchesController.cs" />
     <Compile Include="Areas\Admin\Controllers\PanelController.cs" />
-    <Compile Include="Controllers\BookingsController.cs" />
+    <Compile Include="Areas\Admin\Controllers\BookingsController.cs" />
     <Compile Include="Controllers\BranchesController.cs" />
     <Compile Include="Areas\Admin\Controllers\CourtsController.cs" />
     <Compile Include="Areas\Admin\Controllers\FacilitiesController.cs" />
@@ -315,11 +315,11 @@
     <Content Include="Scripts\popper.js.map" />
     <Content Include="Scripts\popper-utils.min.js.map" />
     <Content Include="Scripts\popper-utils.js.map" />
-    <Content Include="Views\Bookings\Create.cshtml" />
-    <Content Include="Views\Bookings\Delete.cshtml" />
-    <Content Include="Views\Bookings\Details.cshtml" />
-    <Content Include="Views\Bookings\Edit.cshtml" />
-    <Content Include="Views\Bookings\Index.cshtml" />
+    <Content Include="Areas\Admin\Views\Bookings\Create.cshtml" />
+    <Content Include="Areas\Admin\Views\Bookings\Delete.cshtml" />
+    <Content Include="Areas\Admin\Views\Bookings\Details.cshtml" />
+    <Content Include="Areas\Admin\Views\Bookings\Edit.cshtml" />
+    <Content Include="Areas\Admin\Views\Bookings\Index.cshtml" />
     <Content Include="Areas\Admin\Views\Courts\Create.cshtml" />
     <Content Include="Areas\Admin\Views\Courts\Delete.cshtml" />
     <Content Include="Areas\Admin\Views\Courts\Details.cshtml" />
@@ -351,7 +351,7 @@
     <Content Include="Views\Login\Index.cshtml" />
     <Content Include="Areas\Admin\Views\Users\Details.cshtml" />
     <Content Include="Areas\Admin\Views\Users\Delete.cshtml" />
-    <Content Include="Views\Bookings\Book.cshtml" />
+    <Content Include="Views\Courts\Book.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
