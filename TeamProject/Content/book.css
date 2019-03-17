@@ -34,6 +34,7 @@
 
 .timeslots .timeslot div[value="1"] {
     background: #deee86;
+
 }
 
 .timeslots .timeslot div[value="1"]:hover {
@@ -41,12 +42,12 @@
     cursor: pointer;
 }
 
-nav {
+nav.sidenav {
     position: relative;
     top: 100px;
 }
 
-nav li:hover {
+nav.sidenav li:hover {
     background: #d2e859;
     cursor: pointer;
 }
