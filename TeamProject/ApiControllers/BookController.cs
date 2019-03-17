@@ -29,13 +29,13 @@ namespace TeamProject.ApiControllers
         //}
 
         // PUT: api/Book/5
-        public void Put(PutView putView)
+        public void Put(PutBookModel putBookModel)
         {
             var booking = new Booking()
             {
-                CourtId = putView.CourtId,
-                BookedAt = putView.BookedAt.ToLocalTime(),
-                UserId = putView.UserId,
+                CourtId = putBookModel.CourtId,
+                BookedAt = putBookModel.BookedAt.ToLocalTime(),
+                UserId = putBookModel.UserId,
                 Duration = 60
             };
             db.Bookings.Add(booking);
@@ -46,12 +46,6 @@ namespace TeamProject.ApiControllers
         //{
         //}
     }
-    public class PutView
-    {
-        public int CourtId { get; set; }
-        public int UserId { get; set; }
 
-        public DateTime BookedAt { get; set; }
-    }
 
 }
