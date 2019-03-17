@@ -45,6 +45,7 @@ namespace TeamProject.Controllers
         {
             Session.Clear();
             Session.Abandon();
+            Request.GetOwinContext().Authentication.SignOut();
             return RedirectToAction("Index", "Home");
         }
 
