@@ -57,12 +57,20 @@ namespace TeamProject.Models
         }
         public IEnumerable<TimeslotApiView> GetForBooking(int courtId, DateTime fromDate, DateTime toDate)
         {
+            return GetForTimeSlotsPivot(courtId, fromDate, toDate, "GetTimeslotsAt");
+        }
+        public IEnumerable<TimeslotApiView> GetForView(int courtId, DateTime fromDate, DateTime toDate)
+        {
+            return GetForTimeSlotsPivot(courtId, fromDate, toDate, "GetTimeslots");
+        }
+        private IEnumerable<TimeslotApiView> GetForTimeSlotsPivot(int courtId, DateTime fromDate, DateTime toDate, string procedure)
+        {
             IEnumerable<TimeslotApiView> courtTimeslots = Enumerable.Empty<TimeslotApiView>();
 
             _db.UsingConnection((dbCon) =>
             {
                 courtTimeslots = dbCon
-                    .Query<TimeslotApiView>("GetTimeslotsAt",
+                    .Query<TimeslotApiView>(procedure,
                         new
                         {
                             CourtId = courtId,
@@ -74,5 +82,6 @@ namespace TeamProject.Models
 
             return courtTimeslots;
         }
+
     }
 }
