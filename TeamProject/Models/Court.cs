@@ -20,7 +20,7 @@ namespace TeamProject.Models
         [Display(Name = "Court Name")]
         public string Name { get; set; }
 
-        [Required]
+        
         [StringLength(500)]
         public string ImageCourt { get; set; }
 

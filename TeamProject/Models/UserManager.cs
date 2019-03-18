@@ -91,7 +91,7 @@ namespace TeamProject.Models
                 {
                     claims.Add(new Claim(ClaimTypes.Role, role.Description));
                 }
-
+                
                 var identity = new ClaimsIdentity(claims, DefaultAuthenticationTypes.ApplicationCookie);
 
                 HttpContext.Current.GetOwinContext().Authentication.SignIn(
