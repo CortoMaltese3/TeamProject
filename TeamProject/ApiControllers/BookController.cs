@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Net;
 using System.Net.Http;
+using System.Security.Claims;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Web.Http;
@@ -12,6 +13,7 @@ using TeamProject.ModelsViews;
 
 namespace TeamProject.ApiControllers
 {
+    [Authorize]
     public class BookController : ApiController
     {
         private ProjectDbContext db = new ProjectDbContext();
@@ -26,19 +28,30 @@ namespace TeamProject.ApiControllers
         [HttpPost]
         public PostResponse Post(PutBookModel putBookModel)
         {
+            if (!GetLoggedInUserId(out int loggedUserId))
+            {
+                return new PostResponse() { Status = "Empty Logged User" };
+            }
+
             var booking = new Booking()
             {
                 CourtId = putBookModel.CourtId,
                 BookedAt = putBookModel.BookedAt.ToLocalTime(),
-                UserId = putBookModel.UserId,
+                UserId = loggedUserId,
                 Duration = 60
             };
 
             db.Bookings.Add(booking);
-            
+
             return new PostResponse() { Status=db.LastActionStatus};
         }
+        private bool GetLoggedInUserId(out int loggedUserId)
+        {
+            var identity = User.Identity as ClaimsIdentity;
+            var userDateId = identity.FindFirst(c => c.Type == ClaimTypes.UserData).Value;
 
+            return int.TryParse(userDateId, out loggedUserId);
+        }
         public class PostResponse
         {
             public string Status { get; set; }
