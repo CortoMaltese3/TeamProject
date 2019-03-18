@@ -12,10 +12,6 @@ namespace TeamProject.ApiControllers
     public class BookController : ApiController
     {
         private ProjectDbContext db = new ProjectDbContext();
-        // GET: api/Book
-        //public IEnumerable<string> Get()
-        //{
-        //}
 
         // GET: api/Book/5
         public IEnumerable<TimeslotApiView> Get(int id, DateTime fromDate, DateTime toDate)
@@ -23,13 +19,8 @@ namespace TeamProject.ApiControllers
             return db.TimeSlots.GetForBooking(id, fromDate, toDate);
         }
 
-        //// POST: api/Book
-        //public void Post([FromBody]string value)
-        //{
-        //}
-
-        // PUT: api/Book/5
-        public void Put(PutBookModel putBookModel)
+        // POST: api/Book
+        public IHttpActionResult Post(PutBookModel putBookModel)
         {
             var booking = new Booking()
             {
@@ -39,13 +30,9 @@ namespace TeamProject.ApiControllers
                 Duration = 60
             };
             db.Bookings.Add(booking);
+
+            return Ok();
         }
 
-        //// DELETE: api/Book/5
-        //public void Delete(int id)
-        //{
-        //}
     }
-
-
 }

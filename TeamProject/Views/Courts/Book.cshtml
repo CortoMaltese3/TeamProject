@@ -136,12 +136,12 @@
 
                 $.ajax({
                     url: '/api/book/',
-                    type: "PUT",
+                    type: "POST",
                     accepts: "application/json",
                     contentType: "application/json",
                     data: JSON.stringify(data),
                     success: function (result) {
-                        //console.log(result);
+                        console.log(result);
                         refreshTimeslotsTable();
                     }
                 });
