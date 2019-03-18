@@ -1,7 +1,11 @@
-﻿
+﻿@using TeamProject.Models;
 @{
     ViewBag.Title = "Index";
+    User user = Session["user"] as User;
 }
 
-<h2>Welcome</h2>
+<div class="container">
+    <h2 class="text-center" style="margin-top:150px;">Welcome @user.Firstname @user.Lastname</h2>
+</div>
+
 

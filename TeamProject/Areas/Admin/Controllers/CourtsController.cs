@@ -1,4 +1,5 @@
-﻿using System.IO;
+﻿using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Net;
 using System.Web;
@@ -20,7 +21,16 @@ namespace TeamProject.Areas.Admin.Controllers
 
             return View(court.ToList());
         }
-
+         public ActionResult IndexByBranch(int id)
+        {         
+            var courts = db.Courts.Get().Where(c => c.BranchId == id).ToList();
+            //if(courts.Count() ==0)
+            //{
+            //   ViewBag.court = "There are no Courts";
+            //   return View("index",courts);
+            //}
+            return View("index",courts);
+        }
         // GET: Courts/Details/5
         public ActionResult Details(int? id)
         {
@@ -135,6 +145,8 @@ namespace TeamProject.Areas.Admin.Controllers
             db.Courts.Remove(court.Id);
             return RedirectToAction("Index");
         }
+
+        
 
 
     }
