@@ -240,6 +240,7 @@
     <Content Include="Images\CourtsImages\Rouf3.jpg" />
     <Content Include="Images\CourtsImages\VurwnasCourt.jpg" />
     <Content Include="Images\CourtsImages\ZwgrafouCourt1.jpg" />
+    <Content Include="Images\CourtsImages\αρχείο λήψης.jpg" />
     <Content Include="Images\LoginImage\business-team-meeting.jpg" />
     <Content Include="Models\DbSchema.sql" />
     <Content Include="Scripts\bootstrap.bundle.js" />
