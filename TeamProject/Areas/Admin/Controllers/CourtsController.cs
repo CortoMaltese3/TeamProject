@@ -16,27 +16,15 @@ namespace TeamProject.Areas.Admin.Controllers
         // GET: Courts
         public ActionResult Index(int? id)
         {
-            if(id != null)
-            {
-                ViewBag.BranchId = id;
-                var courts = db.Courts.Get().Where(c => c.BranchId == id).ToList();
-                return View("index", courts);
-            }
-            var court = db.Courts.Get();
-            ViewBag.BranchName = new SelectList (db.Branches.Get(),"Id","Name");
 
-            return View(court.ToList());
+
+            var courts = db.Courts.Get().Where(c => c.BranchId == (id ?? 0)).ToList();
+
+            ViewBag.BranchName = new SelectList(db.Branches.Get(), "Id", "Name");
+
+            return View(courts);
         }
-        // public ActionResult IndexByBranch(int id)
-        //{         
-        //    var courts = db.Courts.Get().Where(c => c.BranchId == id).ToList();
-        //    //if(courts.Count() ==0)
-        //    //{
-        //    //   ViewBag.court = "There are no Courts";
-        //    //   return View("index",courts);
-        //    //}
-        //    return View("index",courts);
-        //}
+      
         // GET: Courts/Details/5
         public ActionResult Details(int? id)
         {
@@ -44,7 +32,7 @@ namespace TeamProject.Areas.Admin.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            Court court = db.Courts.Find(id??0);
+            Court court = db.Courts.Find(id ?? 0);
             if (court == null)
             {
                 return HttpNotFound();
@@ -56,6 +44,7 @@ namespace TeamProject.Areas.Admin.Controllers
         public ActionResult Create()
         {
             ViewBag.BranchId = new SelectList(db.Branches.Get(), "Id", "Name");
+            
             return View();
         }
 
@@ -64,7 +53,7 @@ namespace TeamProject.Areas.Admin.Controllers
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create (Court court)
+        public ActionResult Create(Court court)
         {
 
             if (court.ImageFile == null)
@@ -81,7 +70,7 @@ namespace TeamProject.Areas.Admin.Controllers
             if (ModelState.IsValid)
             {
                 db.Courts.Add(court);
-                return RedirectToAction("Index");
+                return RedirectToAction("Index", new { id = court.Id });
             }
 
             ViewBag.BranchId = new SelectList(db.Branches.Get(), "Id", "Name", court.BranchId);
@@ -95,7 +84,7 @@ namespace TeamProject.Areas.Admin.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            Court court = db.Courts.Find(id??0);
+            Court court = db.Courts.Find(id ?? 0);
             if (court == null)
             {
                 return HttpNotFound();
@@ -109,7 +98,7 @@ namespace TeamProject.Areas.Admin.Controllers
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit( Court court, HttpPostedFileBase ImageFile)
+        public ActionResult Edit(Court court, HttpPostedFileBase ImageFile)
         {
             if (ImageFile != null)
             {
@@ -121,7 +110,7 @@ namespace TeamProject.Areas.Admin.Controllers
             if (ModelState.IsValid)
             {
                 db.Courts.Update(court);
-                return RedirectToAction("Index");
+                return RedirectToAction("Index", new { id = court.Id });
             }
             ViewBag.BranchId = new SelectList(db.Branches.Get(), "Id", "Name", court.BranchId);
             ViewBag.Id = court.Id;
@@ -135,7 +124,7 @@ namespace TeamProject.Areas.Admin.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            Court court = db.Courts.Find(id??0);
+            Court court = db.Courts.Find(id ?? 0);
             if (court == null)
             {
                 return HttpNotFound();
@@ -150,10 +139,10 @@ namespace TeamProject.Areas.Admin.Controllers
         {
             Court court = db.Courts.Find(id);
             db.Courts.Remove(court.Id);
-            return RedirectToAction("Index");
+            return RedirectToAction("Index",new { id = court.Id});
         }
 
-        
+
 
 
     }

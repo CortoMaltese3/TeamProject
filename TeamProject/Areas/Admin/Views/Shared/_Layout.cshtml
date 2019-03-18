@@ -39,10 +39,7 @@
                             </li>
 
                             if (Session["Admin"].Equals("Admin"))
-                            {
-                                <li class="nav-item">
-                                    @Html.ActionLink("Courts", "Index", "Courts", new { area = "Admin" }, new { @class = "nav-link" })
-                                </li>
+                            {                               
                                 <li class="nav-item">
                                     @Html.ActionLink("Facilities", "Index", "Facilities", new { area = "Admin" }, new { @class = "nav-link" })
                                 </li>
