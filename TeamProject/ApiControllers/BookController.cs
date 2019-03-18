@@ -3,9 +3,12 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Net;
 using System.Net.Http;
+using System.Threading;
+using System.Threading.Tasks;
 using System.Web.Http;
 using TeamProject.Models;
 using TeamProject.ModelsViews;
+
 
 namespace TeamProject.ApiControllers
 {
@@ -20,7 +23,8 @@ namespace TeamProject.ApiControllers
         }
 
         // POST: api/Book
-        public IHttpActionResult Post(PutBookModel putBookModel)
+        [HttpPost]
+        public PostResponse Post(PutBookModel putBookModel)
         {
             var booking = new Booking()
             {
@@ -29,10 +33,17 @@ namespace TeamProject.ApiControllers
                 UserId = putBookModel.UserId,
                 Duration = 60
             };
-            db.Bookings.Add(booking);
 
-            return Ok();
+            db.Bookings.Add(booking);
+            
+            return new PostResponse() { Status=db.LastActionStatus};
         }
 
+        public class PostResponse
+        {
+            public string Status { get; set; }
+            public string BookKey { get; set; }
+        }
     }
+
 }

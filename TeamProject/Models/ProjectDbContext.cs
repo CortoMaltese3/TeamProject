@@ -1,11 +1,16 @@
 ﻿using System;
 using System.Configuration;
+using System.Data.Common;
 using System.Data.SqlClient;
 namespace TeamProject.Models
 {
     public class ProjectDbContext
     {
+        public static readonly string ACTION_STATUS_OK = "Ok";
+        public static readonly string ACTION_STATUS_ERROR = "Error";
         private string _connectionString;
+        public string LastActionStatus { get => LastActionError.Equals(string.Empty) ? ACTION_STATUS_OK : ACTION_STATUS_ERROR; }
+        public string LastActionError { get; private set; }
         public ProjectDbContext()
         {
             _connectionString = ConfigurationManager.ConnectionStrings["ConnectionString"].ConnectionString;
@@ -21,6 +26,7 @@ namespace TeamProject.Models
         }
         public void UsingConnection(Action<SqlConnection> action)
         {
+            LastActionError = string.Empty;
             try
             {
                 using (SqlConnection sqlConnection = new SqlConnection(_connectionString))
@@ -28,10 +34,9 @@ namespace TeamProject.Models
                     action(sqlConnection);
                 }
             }
-            catch (Exception)
+            catch (DbException e)
             {
-
-                throw;
+                LastActionError = e.Message;
             }
         }
         public CourtManager Courts { get; set; }

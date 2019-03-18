@@ -141,7 +141,12 @@
                     contentType: "application/json",
                     data: JSON.stringify(data),
                     success: function (result) {
-                        console.log(result);
+                        if (result.Status === "Ok") {
+                            console.log("Ok");
+                        } else {
+                            console.log("Error");
+                        }
+                        
                         refreshTimeslotsTable();
                     }
                 });
