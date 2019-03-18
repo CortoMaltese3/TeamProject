@@ -6,7 +6,7 @@
     @if (Session["user"] != null)
     {
         <li class="nav-item">
-            <span class="nav-link">Welcome @user.Firstname!</span>
+            <span class="nav-link">Welcome, @user.Firstname!</span>
         </li>
         <li class="nav-item">
             @Html.ActionLink("Logout", "Logout", "Login", new { area = "" }, new { @class = "nav-link" })

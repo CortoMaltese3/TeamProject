@@ -14,23 +14,29 @@ namespace TeamProject.Areas.Admin.Controllers
         private ProjectDbContext db = new ProjectDbContext();
 
         // GET: Courts
-        public ActionResult Index()
+        public ActionResult Index(int? id)
         {
-            var court = db.Courts.Get();//.Include(c => c.Branch);
+            if(id != null)
+            {
+                ViewBag.BranchId = id;
+                var courts = db.Courts.Get().Where(c => c.BranchId == id).ToList();
+                return View("index", courts);
+            }
+            var court = db.Courts.Get();
             ViewBag.BranchName = new SelectList (db.Branches.Get(),"Id","Name");
 
             return View(court.ToList());
         }
-         public ActionResult IndexByBranch(int id)
-        {         
-            var courts = db.Courts.Get().Where(c => c.BranchId == id).ToList();
-            //if(courts.Count() ==0)
-            //{
-            //   ViewBag.court = "There are no Courts";
-            //   return View("index",courts);
-            //}
-            return View("index",courts);
-        }
+        // public ActionResult IndexByBranch(int id)
+        //{         
+        //    var courts = db.Courts.Get().Where(c => c.BranchId == id).ToList();
+        //    //if(courts.Count() ==0)
+        //    //{
+        //    //   ViewBag.court = "There are no Courts";
+        //    //   return View("index",courts);
+        //    //}
+        //    return View("index",courts);
+        //}
         // GET: Courts/Details/5
         public ActionResult Details(int? id)
         {
@@ -71,6 +77,7 @@ namespace TeamProject.Areas.Admin.Controllers
                 string fileName = Path.Combine(Server.MapPath("~/Images/CourtsImages/"), court.ImageCourt);
                 court.ImageFile.SaveAs(fileName);
             }
+
             if (ModelState.IsValid)
             {
                 db.Courts.Add(court);
