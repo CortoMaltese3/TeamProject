@@ -78,8 +78,8 @@
                         return tbody;
                     },
 
-                    // set active courtId on side nav bar 
-                    // and update header title 
+                    // set active courtId on side nav bar
+                    // and update header title
                     setActiveCourt: function (courtId) {
                         const $courtItem = $('nav.sidenav li[court-id="' + courtId + '"]');
 
@@ -94,9 +94,9 @@
             $('nav').on('click', 'li', onNavCourtClick);
 
             utils.setActiveCourt(@Model.CourtId);
-            
+
             // update period date title
-            // and call refreshtimeslots 
+            // and call refreshtimeslots
             timeslotDate.updatePeriod();
 
             // refresh timeslots called from updatePeriod
@@ -108,8 +108,8 @@
             function getTimeslots(courtId) {
 
                 $.getJSON('/api/book/' + courtId, {
-                    fromDate: timeslotDate.firstWeekDate().toUTCString(),
-                    toDate: timeslotDate.lastWeekDate().toUTCString()
+                    fromDate: timeslotDate.firstWeekDate().utc().format(),
+                    toDate: timeslotDate.lastWeekDate().utc().format()
                 }).done(function (data) {
 
                     $container.html(
@@ -121,7 +121,7 @@
                 });
             }
 
-            
+
             // on clicked timeslot book selected date time
             function onTimeslotClick() {
                 let hour = $(this).parent().attr('time'),
@@ -130,7 +130,7 @@
 
                 let data = {
                     courtId: utils.getSelectedCourtId(),
-                    bookedAt: dateTime.toUTCString()
+                    bookedAt: dateTime.utc().format()
                 };
 
                 $.ajax({
@@ -145,7 +145,7 @@
                         } else {
                             console.log("Error");
                         }
-                        
+
                         refreshTimeslotsTable();
                     }
                 });
@@ -160,7 +160,7 @@
 
                 utils.setActiveCourt(courtId);
                 getTimeslots(courtId);
-                
+
             }
 
 
@@ -178,39 +178,42 @@
             function TimeslotDate(onDateChange) {
                 const $weekPeriodTitle = $('#timeslot-week');
                 const that = {
-                    currentDate: new Date(),
+                    currentDate: moment(new Date()),
                     firstWeekDay: function () {
-                        return that.firstWeekDate().getDate();
+                        return that.firstWeekDate().date();
                     },
                     // calculates and returns weeks start date based on current date
                     firstWeekDate: function () {
-                        const day = that.currentDate.getDay(),
-                            diff = that.currentDate.getDate() - day + (day == 0 ? -6 : 1);
-                        return new Date(that.currentDate.setDate(diff));
+                        const day = that.currentDate.day(),
+                            diff = (day == 0 ? -6 : 1) - day;
+                        return moment(that.currentDate)
+                            .add(diff, 'days');
                     },
                     lastWeekDate: function () {
-                        return new Date(that.firstWeekDate().setDate(that.firstWeekDate().getDate() + 7));
+                        return that.firstWeekDate()
+                            .add(6, 'days');
                     },
                     updatePeriod: function () {
+                        let date = that.firstWeekDate();
                         $weekPeriodTitle.text(
-                            that.firstWeekDate().toLocaleDateString() + ' - ' +
-                            that.lastWeekDate().toLocaleDateString());
+                            date.format("DD/MM/YYYY") + ' - ' +
+                            date.add(6,'days').format("DD/MM/YYYY"));
                         onDateChange();
                     },
                     goNextWeek: function () {
-                        that.currentDate.setDate(that.currentDate.getDate() + 7);
+                        that.currentDate.add(7, 'days');
                         that.updatePeriod();
                     },
                     goPrevWeek: function () {
-                        that.currentDate.setDate(that.currentDate.getDate() - 7);
+                        that.currentDate.subtract(7, 'days');
                         that.updatePeriod();
                     },
                     getSelectedDate: function (day, hour) {
-                        return new Date(that.firstWeekDate().getFullYear(),
-                            that.firstWeekDate().getMonth(),
-                            that.firstWeekDay() + day,
-                            hour,
-                            0, 0);
+                        return that.firstWeekDate()
+                            .add(day, 'days')
+                            .hour(hour)
+                            .minute(0)
+                            .second(0);
                     }
                 }
                 return that;
