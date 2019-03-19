@@ -23,7 +23,7 @@ namespace TeamProject.Areas.Admin.Controllers
 
             return View(courts);
         }
-      
+
         // GET: Courts/Details/5
         public ActionResult Details(int? id)
         {
@@ -44,7 +44,7 @@ namespace TeamProject.Areas.Admin.Controllers
         {
             ViewBag.BranchId = new SelectList(db.Branches.Get(), "Id", "Name");
             ViewBag.Id = id;
-            
+
             return View();
         }
 
@@ -55,7 +55,6 @@ namespace TeamProject.Areas.Admin.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult Create(Court court)
         {
-
             if (court.ImageFile == null)
             {
                 court.ImageCourt = "na_image.jpg";
@@ -66,7 +65,6 @@ namespace TeamProject.Areas.Admin.Controllers
                 string fileName = Path.Combine(Server.MapPath("~/Images/Courts/"), court.ImageCourt);
                 court.ImageFile.SaveAs(fileName);
             }
-
             if (ModelState.IsValid)
             {
                 db.Courts.Add(court);
@@ -101,18 +99,22 @@ namespace TeamProject.Areas.Admin.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult Edit(Court court, HttpPostedFileBase ImageFile)
         {
-            if (ImageFile != null)
+            if (ImageFile == null)
+            {
+                court.ImageCourt = "na_image.jpg";
+            }
+            else
             {
                 court.ImageCourt = Path.GetFileName(court.ImageFile.FileName);
                 string fileName = Path.Combine(Server.MapPath("~/Images/Courts/"), court.ImageCourt);
                 court.ImageFile.SaveAs(fileName);
             }
-
             if (ModelState.IsValid)
             {
                 db.Courts.Update(court);
                 return RedirectToAction("Index", new { id = court.BranchId });
             }
+
             ViewBag.BranchId = new SelectList(db.Branches.Get(), "Id", "Name", court.BranchId);
             ViewBag.Id = court.BranchId;
             return View(court);
@@ -140,7 +142,7 @@ namespace TeamProject.Areas.Admin.Controllers
         {
             Court court = db.Courts.Find(id);
             db.Courts.Remove(court.Id);
-            return RedirectToAction("Index",new { id = court.BranchId});
+            return RedirectToAction("Index", new { id = court.BranchId });
         }
     }
 }

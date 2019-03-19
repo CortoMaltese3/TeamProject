@@ -103,7 +103,11 @@ namespace TeamProject.Areas.Admin.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult Edit(Branch branch, HttpPostedFileBase ImageFile)
         {
-            if (ImageFile != null)
+            if (ImageFile == null)
+            {
+                branch.ImageBranch = "na_image.jpg";
+            }
+            else
             {
                 branch.ImageBranch = Path.GetFileName(branch.ImageFile.FileName);
                 string fileName = Path.Combine(Server.MapPath("~/Images/Branches/"), branch.ImageBranch);
