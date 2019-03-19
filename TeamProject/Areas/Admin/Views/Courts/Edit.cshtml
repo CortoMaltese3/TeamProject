@@ -87,10 +87,7 @@
 <table class="table">
     <tr>
         <th>
-            @Html.DisplayNameFor(model => model.Name)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.TimeSlot.FirstOrDefault().Day)
+            @Html.DisplayNameFor(model => model.TimeSlot.FirstOrDefault().DayName)
         </th>
         <th>
             @Html.DisplayNameFor(model => model.TimeSlot.FirstOrDefault().Hour)
@@ -104,7 +101,7 @@
     {
         <tr>
             <td>
-                @Html.DisplayFor(modelItem => item.Day)
+                @Html.DisplayFor(modelItem => item.DayName)
             </td>
             <td>
                 @Html.DisplayFor(modelItem => item.Hour)

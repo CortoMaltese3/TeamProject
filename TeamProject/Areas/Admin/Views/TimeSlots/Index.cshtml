@@ -4,7 +4,7 @@
     ViewBag.Title = "Index";
 }
 
-<h2>Index</h2>
+<h2>TimeSlots <small class="text-muted">@Model.FirstOrDefault().Court.Name</small></h2>
 
 <p>
     @Html.ActionLink("Create New", "Create", new { id = ViewBag.id })
@@ -12,10 +12,7 @@
 <table class="table">
     <tr>
         <th>
-            @Html.DisplayNameFor(model => model.Court.Name)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.Day)
+            @Html.DisplayNameFor(model => model.DayName)
         </th>
         <th>
             @Html.DisplayNameFor(model => model.Hour)
@@ -30,10 +27,7 @@
     {
         <tr>
             <td>
-                @Html.DisplayFor(modelItem => item.Court.Name)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Day)
+                @Html.DisplayFor(modelItem => item.DayName)
             </td>
             <td>
                 @Html.DisplayFor(modelItem => item.Hour)
