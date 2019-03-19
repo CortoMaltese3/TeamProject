@@ -63,7 +63,7 @@ namespace TeamProject.Areas.Admin.Controllers
             else
             {
                 court.ImageCourt = Path.GetFileName(court.ImageFile.FileName);
-                string fileName = Path.Combine(Server.MapPath("~/Images/CourtsImages/"), court.ImageCourt);
+                string fileName = Path.Combine(Server.MapPath("~/Images/Courts/"), court.ImageCourt);
                 court.ImageFile.SaveAs(fileName);
             }
 
@@ -103,7 +103,7 @@ namespace TeamProject.Areas.Admin.Controllers
             if (ImageFile != null)
             {
                 court.ImageCourt = Path.GetFileName(court.ImageFile.FileName);
-                string fileName = Path.Combine(Server.MapPath("~/Images/CourtImages/"), court.ImageCourt);
+                string fileName = Path.Combine(Server.MapPath("~/Images/Courts/"), court.ImageCourt);
                 court.ImageFile.SaveAs(fileName);
             }
 

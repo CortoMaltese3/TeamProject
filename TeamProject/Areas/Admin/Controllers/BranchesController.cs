@@ -67,7 +67,7 @@ namespace TeamProject.Areas.Admin.Controllers
             else
             {
                 branch.ImageBranch = Path.GetFileName(branch.ImageFile.FileName);
-                string fileName = Path.Combine(Server.MapPath("~/Images/BranchesImages/"), branch.ImageBranch);
+                string fileName = Path.Combine(Server.MapPath("~/Images/Branches/"), branch.ImageBranch);
                 branch.ImageFile.SaveAs(fileName);
             }
             if (ModelState.IsValid)
@@ -106,7 +106,7 @@ namespace TeamProject.Areas.Admin.Controllers
             if (ImageFile != null)
             {
                 branch.ImageBranch = Path.GetFileName(branch.ImageFile.FileName);
-                string fileName = Path.Combine(Server.MapPath("~/Images/BranchesImages/"), branch.ImageBranch);
+                string fileName = Path.Combine(Server.MapPath("~/Images/Branches/"), branch.ImageBranch);
                 branch.ImageFile.SaveAs(fileName);
             }
 
