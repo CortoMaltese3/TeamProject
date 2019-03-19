@@ -62,12 +62,12 @@ namespace TeamProject.Areas.Admin.Controllers
         {
             if (branch.ImageFile == null)
             {
-                branch.ImageCourt = "na_image.jpg";
+                branch.ImageBranch = "na_image.jpg";
             }
             else
             {
-                branch.ImageCourt = Path.GetFileName(branch.ImageFile.FileName);
-                string fileName = Path.Combine(Server.MapPath("~/Images/BranchesImages/"), branch.ImageCourt);
+                branch.ImageBranch = Path.GetFileName(branch.ImageFile.FileName);
+                string fileName = Path.Combine(Server.MapPath("~/Images/Branches/"), branch.ImageBranch);
                 branch.ImageFile.SaveAs(fileName);
             }
             if (ModelState.IsValid)
@@ -105,8 +105,8 @@ namespace TeamProject.Areas.Admin.Controllers
         {
             if (ImageFile != null)
             {
-                branch.ImageCourt = Path.GetFileName(branch.ImageFile.FileName);
-                string fileName = Path.Combine(Server.MapPath("~/Images/BranchesImages/"), branch.ImageCourt);
+                branch.ImageBranch = Path.GetFileName(branch.ImageFile.FileName);
+                string fileName = Path.Combine(Server.MapPath("~/Images/Branches/"), branch.ImageBranch);
                 branch.ImageFile.SaveAs(fileName);
             }
 

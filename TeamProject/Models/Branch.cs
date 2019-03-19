@@ -40,7 +40,7 @@ namespace TeamProject.Models
         [StringLength(200)]
         public string ZipCode { get; set; }
 
-        public string ImageCourt { get; set; }
+        public string ImageBranch { get; set; }
 
         public double Distance { get; set; }
 
