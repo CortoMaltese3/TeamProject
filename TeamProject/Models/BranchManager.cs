@@ -103,7 +103,7 @@ namespace TeamProject.Models
                         if (!branchDictionary.TryGetValue(branch.Id, out branchEntry))
                         {
                             branchEntry = branch;
-                            branchEntry.ImageCourt = court.ImageCourt;
+                            branchEntry.ImageBranch = court.ImageCourt;
                             branchDictionary.Add(branchEntry.Id, branchEntry);
                         }
 
