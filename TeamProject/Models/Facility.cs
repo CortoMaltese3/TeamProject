@@ -18,7 +18,9 @@ namespace TeamProject.Models
         [Required]
         [StringLength(20)]
         public string Description { get; set; }
-        
+
+        public string ImageFacility { get; set; }
+
         public virtual ICollection<Branch> Branch { get; set; }
     }
 }

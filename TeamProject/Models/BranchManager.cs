@@ -14,14 +14,14 @@ namespace TeamProject.Models
             {
                 { "FindById", "Branch.id = @id" },
                 { "InsertQuery",
-                    "INSERT INTO Branch ([UserId],[Name],[Longitude],[Latitude],[City],[Address],[ZipCode]) " +
-                    "VALUES (@UserId,@Name,@Longitude,@Latitude,@City,@Address,@ZipCode)" +
+                    "INSERT INTO Branch ([UserId],[Name],[Longitude],[Latitude],[City],[Address],[ZipCode],[ImageCourt]) " +
+                    "VALUES (@UserId,@Name,@Longitude,@Latitude,@City,@Address,@ZipCode,@ImageCourt)" +
                     "SELECT * FROM Branch WHERE Branch.Id = (SELECT SCOPE_IDENTITY())"},
                 { "RemoveQuery",
                     "DELETE FROM Branch WHERE Id = @Id" },
                 { "UpdateQuery",
                     "UPDATE Branch SET " +
-                    "[UserId]=@UserId,[Name]=@Name,[Longitude]=@Longitude,[Latitude]=@Latitude,[City]=@City,[Address]=@Address,[ZipCode]=@ZipCode " +
+                    "[UserId]=@UserId,[Name]=@Name,[Longitude]=@Longitude,[Latitude]=@Latitude,[City]=@City,[Address]=@Address,[ZipCode]=@ZipCode, [ImageCourt]=@ImageCourt " +
                     "WHERE Id = @Id"}
             };
             _db = projectDbContext;
@@ -103,7 +103,6 @@ namespace TeamProject.Models
                         if (!branchDictionary.TryGetValue(branch.Id, out branchEntry))
                         {
                             branchEntry = branch;
-                            branchEntry.ImageBranch = court.ImageCourt;
                             branchDictionary.Add(branchEntry.Id, branchEntry);
                         }
 
