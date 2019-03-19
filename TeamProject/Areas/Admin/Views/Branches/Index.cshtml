@@ -1,5 +1,5 @@
 ﻿@model IEnumerable<TeamProject.Models.Branch>
-
+@using TeamProject.Models
 @{
     ViewBag.Title = "Index";
     Layout = "~/Areas/Admin/Views/Shared/_Layout.cshtml";
@@ -22,6 +22,9 @@
             @Html.DisplayNameFor(model => model.City)
         </th>
         <th>
+            Image
+        </th>
+        <th>
             @Html.DisplayNameFor(model => model.Address)
         </th>
         <th>
@@ -33,7 +36,7 @@
 @foreach (var item in Model) {
     <tr>
         <td>
-            @Html.DisplayFor(modelItem => item.UserId)
+            @Html.DisplayFor(modelItem => item.User.UserName)
         </td>
         <td>
             @Html.DisplayFor(modelItem => item.Name)
@@ -42,16 +45,29 @@
             @Html.DisplayFor(modelItem => item.City)
         </td>
         <td>
+            <div class="popover__wrapper">
+                <a>
+                    <p class="popover-title">
+                        <i class="fas fa-images"></i>
+                    </p>
+                </a>
+                <div class="push popover__content">
+                    <p class="popover__message">@Html.DisplayFor(modelitem => item.Name)</p>
+                    <img width="200" src="~/Images/Branches/@Url.Content(item.ImageBranch)" />
+                </div>
+            </div>
+        </td>
+        <td>
             @Html.DisplayFor(modelItem => item.Address)
         </td>
         <td>
             @Html.DisplayFor(modelItem => item.ZipCode)
         </td>
         <td>
-            @Html.ActionLink("Edit", "Edit", new { id=item.Id }) |
-            @Html.ActionLink("Details", "Details", new { id=item.Id }) |
-            @Html.ActionLink("Delete", "Delete", new { id=item.Id }) |
-            @Html.ActionLink("Courts", "Index", "courts", new { id = item.Id },null)
+            @Html.ActionLink("Edit", "Edit", new { id = item.Id }) |
+            @Html.ActionLink("Details", "Details", new { id = item.Id }) |
+            @Html.ActionLink("Delete", "Delete", new { id = item.Id }) |
+            @Html.ActionLink("Courts", "Index", "courts", new { id = item.Id }, null)
         </td>
     </tr>
 }

@@ -8,7 +8,7 @@ using TeamProject.Models;
 
 namespace TeamProject.Areas.Admin.Controllers
 {
-    [Authorize(Roles = "Admin")]
+    [Authorize(Roles = "Admin, Owner")]
     public class CourtsController : Controller
     {
         private ProjectDbContext db = new ProjectDbContext();
@@ -16,15 +16,14 @@ namespace TeamProject.Areas.Admin.Controllers
         // GET: Courts
         public ActionResult Index(int? id)
         {
-
-
             var courts = db.Courts.Get().Where(c => c.BranchId == (id ?? 0)).ToList();
 
             ViewBag.BranchName = new SelectList(db.Branches.Get(), "Id", "Name");
+            ViewBag.Id = id;
 
             return View(courts);
         }
-      
+
         // GET: Courts/Details/5
         public ActionResult Details(int? id)
         {
@@ -41,10 +40,11 @@ namespace TeamProject.Areas.Admin.Controllers
         }
 
         // GET: Courts/Create
-        public ActionResult Create()
+        public ActionResult Create(int? id)
         {
             ViewBag.BranchId = new SelectList(db.Branches.Get(), "Id", "Name");
-            
+            ViewBag.Id = id;
+
             return View();
         }
 
@@ -55,7 +55,6 @@ namespace TeamProject.Areas.Admin.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult Create(Court court)
         {
-
             if (court.ImageFile == null)
             {
                 court.ImageCourt = "na_image.jpg";
@@ -63,17 +62,17 @@ namespace TeamProject.Areas.Admin.Controllers
             else
             {
                 court.ImageCourt = Path.GetFileName(court.ImageFile.FileName);
-                string fileName = Path.Combine(Server.MapPath("~/Images/CourtsImages/"), court.ImageCourt);
+                string fileName = Path.Combine(Server.MapPath("~/Images/Courts/"), court.ImageCourt);
                 court.ImageFile.SaveAs(fileName);
             }
-
             if (ModelState.IsValid)
             {
                 db.Courts.Add(court);
-                return RedirectToAction("Index", new { id = court.Id });
+                return RedirectToAction("Index", new { id = court.BranchId });
             }
 
             ViewBag.BranchId = new SelectList(db.Branches.Get(), "Id", "Name", court.BranchId);
+            ViewBag.Id = court.BranchId;
             return View(court);
         }
 
@@ -100,20 +99,24 @@ namespace TeamProject.Areas.Admin.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult Edit(Court court, HttpPostedFileBase ImageFile)
         {
-            if (ImageFile != null)
+            if (ImageFile == null)
+            {
+                court.ImageCourt = "na_image.jpg";
+            }
+            else
             {
                 court.ImageCourt = Path.GetFileName(court.ImageFile.FileName);
-                string fileName = Path.Combine(Server.MapPath("~/Images/CourtImages/"), court.ImageCourt);
+                string fileName = Path.Combine(Server.MapPath("~/Images/Courts/"), court.ImageCourt);
                 court.ImageFile.SaveAs(fileName);
             }
-
             if (ModelState.IsValid)
             {
                 db.Courts.Update(court);
-                return RedirectToAction("Index", new { id = court.Id });
+                return RedirectToAction("Index", new { id = court.BranchId });
             }
+
             ViewBag.BranchId = new SelectList(db.Branches.Get(), "Id", "Name", court.BranchId);
-            ViewBag.Id = court.Id;
+            ViewBag.Id = court.BranchId;
             return View(court);
         }
 
@@ -139,11 +142,7 @@ namespace TeamProject.Areas.Admin.Controllers
         {
             Court court = db.Courts.Find(id);
             db.Courts.Remove(court.Id);
-            return RedirectToAction("Index",new { id = court.Id});
+            return RedirectToAction("Index", new { id = court.BranchId });
         }
-
-
-
-
     }
 }

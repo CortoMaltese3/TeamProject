@@ -66,6 +66,13 @@ namespace TeamProject.Models
 
             }
         }
+        public string UserName
+        {
+            get
+            {
+                return Firstname +" " +Lastname;
+            }
+        }
         public bool IsInRole(string role)
         {
             return Roles

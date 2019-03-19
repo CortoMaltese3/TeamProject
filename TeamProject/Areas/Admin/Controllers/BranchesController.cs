@@ -27,7 +27,7 @@ namespace TeamProject.Areas.Admin.Controllers
                 var ownerUser = Session["User"] as User;
                 branches = db.Branches.Get().Where(b => b.UserId == ownerUser.Id);
             }
-
+            
             return View(branches.ToList());
         }
 
@@ -67,7 +67,7 @@ namespace TeamProject.Areas.Admin.Controllers
             else
             {
                 branch.ImageBranch = Path.GetFileName(branch.ImageFile.FileName);
-                string fileName = Path.Combine(Server.MapPath("~/Images/BranchesImages/"), branch.ImageBranch);
+                string fileName = Path.Combine(Server.MapPath("~/Images/Branches/"), branch.ImageBranch);
                 branch.ImageFile.SaveAs(fileName);
             }
             if (ModelState.IsValid)
@@ -103,10 +103,14 @@ namespace TeamProject.Areas.Admin.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult Edit(Branch branch, HttpPostedFileBase ImageFile)
         {
-            if (ImageFile != null)
+            if (ImageFile == null)
+            {
+                branch.ImageBranch = "na_image.jpg";
+            }
+            else
             {
                 branch.ImageBranch = Path.GetFileName(branch.ImageFile.FileName);
-                string fileName = Path.Combine(Server.MapPath("~/Images/BranchesImages/"), branch.ImageBranch);
+                string fileName = Path.Combine(Server.MapPath("~/Images/Branches/"), branch.ImageBranch);
                 branch.ImageFile.SaveAs(fileName);
             }
 
