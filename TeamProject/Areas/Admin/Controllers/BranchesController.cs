@@ -27,7 +27,7 @@ namespace TeamProject.Areas.Admin.Controllers
                 var ownerUser = Session["User"] as User;
                 branches = db.Branches.Get().Where(b => b.UserId == ownerUser.Id);
             }
-
+            
             return View(branches.ToList());
         }
 

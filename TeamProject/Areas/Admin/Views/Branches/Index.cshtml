@@ -1,5 +1,5 @@
 ﻿@model IEnumerable<TeamProject.Models.Branch>
-
+@using TeamProject.Models
 @{
     ViewBag.Title = "Index";
     Layout = "~/Areas/Admin/Views/Shared/_Layout.cshtml";
@@ -33,7 +33,7 @@
 @foreach (var item in Model) {
     <tr>
         <td>
-            @Html.DisplayFor(modelItem => item.UserId)
+            @Html.DisplayFor(modelItem => item.User.UserName)
         </td>
         <td>
             @Html.DisplayFor(modelItem => item.Name)
