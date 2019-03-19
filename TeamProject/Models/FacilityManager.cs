@@ -14,14 +14,14 @@ namespace TeamProject.Models
             {
                 { "FindById", "Facility.id = @id" },
                 { "InsertQuery",
-                    " INSERT INTO Facility ([Description]) " +
-                    " VALUES (@Description) " +
+                    " INSERT INTO Facility ([Description], [ImageFacility]) " +
+                    " VALUES (@Description, @ImageFacility) " +
                     " SELECT * FROM Facility WHERE Facility.Id = (SELECT SCOPE_IDENTITY()) "},
                 { "RemoveQuery",
                     " DELETE FROM Facility WHERE Id = @Id" },
                 { "UpdateQuery",
                     " UPDATE Facility SET " +
-                    " [Description] = @Description " +
+                    " [Description] = @Description, [ImageFacility]=@ImageFacility " +
                     " WHERE Id = @Id"}
             };
             _db = projectDbContext;
