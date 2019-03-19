@@ -8,7 +8,7 @@ using TeamProject.Models;
 
 namespace TeamProject.Areas.Admin.Controllers
 {
-    [Authorize(Roles = "Admin")]
+    [Authorize(Roles = "Admin, Owner")]
     public class CourtsController : Controller
     {
         private ProjectDbContext db = new ProjectDbContext();
@@ -16,11 +16,10 @@ namespace TeamProject.Areas.Admin.Controllers
         // GET: Courts
         public ActionResult Index(int? id)
         {
-
-
             var courts = db.Courts.Get().Where(c => c.BranchId == (id ?? 0)).ToList();
 
             ViewBag.BranchName = new SelectList(db.Branches.Get(), "Id", "Name");
+            ViewBag.Id = id;
 
             return View(courts);
         }
@@ -41,9 +40,10 @@ namespace TeamProject.Areas.Admin.Controllers
         }
 
         // GET: Courts/Create
-        public ActionResult Create()
+        public ActionResult Create(int? id)
         {
             ViewBag.BranchId = new SelectList(db.Branches.Get(), "Id", "Name");
+            ViewBag.Id = id;
             
             return View();
         }
@@ -70,10 +70,11 @@ namespace TeamProject.Areas.Admin.Controllers
             if (ModelState.IsValid)
             {
                 db.Courts.Add(court);
-                return RedirectToAction("Index", new { id = court.Id });
+                return RedirectToAction("Index", new { id = court.BranchId });
             }
 
             ViewBag.BranchId = new SelectList(db.Branches.Get(), "Id", "Name", court.BranchId);
+            ViewBag.Id = court.BranchId;
             return View(court);
         }
 
@@ -110,10 +111,10 @@ namespace TeamProject.Areas.Admin.Controllers
             if (ModelState.IsValid)
             {
                 db.Courts.Update(court);
-                return RedirectToAction("Index", new { id = court.Id });
+                return RedirectToAction("Index", new { id = court.BranchId });
             }
             ViewBag.BranchId = new SelectList(db.Branches.Get(), "Id", "Name", court.BranchId);
-            ViewBag.Id = court.Id;
+            ViewBag.Id = court.BranchId;
             return View(court);
         }
 
@@ -139,11 +140,7 @@ namespace TeamProject.Areas.Admin.Controllers
         {
             Court court = db.Courts.Find(id);
             db.Courts.Remove(court.Id);
-            return RedirectToAction("Index",new { id = court.Id});
+            return RedirectToAction("Index",new { id = court.BranchId});
         }
-
-
-
-
     }
 }
