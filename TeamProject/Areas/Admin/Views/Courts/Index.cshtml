@@ -1,12 +1,12 @@
 ﻿@model IEnumerable<TeamProject.Models.Court>
-@using TeamProject.Models;
+@*@using TeamProject.Models;*@
 @{
     ViewBag.Title = "Index";
 }
 
 <h2>Courts</h2>
 <p>
-    @Html.ActionLink("Create New", "Create", new { id = ViewBag.BranchId })
+    @Html.ActionLink("Create New", "Create", new { id = ViewBag.Id })
 </p>
 <table class="table">
     <tr>
@@ -53,6 +53,9 @@
             </td>
         </tr>
     }
-
 </table>
+
+<div>
+    @Html.ActionLink("Back to Branches", "Index", "Branches", new { id = ViewBag.Id }, null)
+</div>
 
