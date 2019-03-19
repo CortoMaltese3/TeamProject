@@ -99,11 +99,7 @@ namespace TeamProject.Areas.Admin.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult Edit(Court court, HttpPostedFileBase ImageFile)
         {
-            if (ImageFile == null)
-            {
-                court.ImageCourt = "na_image.jpg";
-            }
-            else
+            if (ImageFile != null)
             {
                 court.ImageCourt = Path.GetFileName(court.ImageFile.FileName);
                 string fileName = Path.Combine(Server.MapPath("~/Images/Courts/"), court.ImageCourt);
