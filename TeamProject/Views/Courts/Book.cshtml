@@ -30,7 +30,7 @@
         </div>
         <div id="data-container"></div>
 
-        <!-- Modal -->
+        <!-- Modal for booking confirmation -->
         <div class="modal fade" id="confirm-modal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
             <div class="modal-dialog" role="document">
                 <div class="modal-content">
@@ -59,9 +59,6 @@
     <script>
 
         $(document).ready(function () {
-            $('#test-modal').click(function () {
-                $('#confirm-modal').modal('show');
-            })
             
             const $container = $('#data-container'),
                 timeslotDate = TimeslotDate(refreshTimeslotsTable),
