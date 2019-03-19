@@ -17,7 +17,7 @@
             @Html.DisplayNameFor(model => model.Name)
         </th>
         <th>
-            @Html.DisplayNameFor(model => model.Description)
+            Court Image
         </th>
         <th>
             @Html.DisplayNameFor(model => model.MaxPlayers)
@@ -38,7 +38,17 @@
                 @Html.DisplayFor(modelItem => item.Name)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.Description)
+                <div class="popover__wrapper">
+                    <a>
+                        <p class="popover-title">
+                            <i class="fas fa-images"></i>
+                        </p>
+                    </a>
+                    <div class="push popover__content">
+                        <p class="popover__message">@Html.DisplayFor(modelitem => item.Name)</p>
+                        <img width="200" src="~/Images/Courts/@Url.Content(item.ImageCourt) "/>
+                    </div>
+                </div>
             </td>
             <td>
                 @Html.DisplayFor(modelItem => item.MaxPlayers)
