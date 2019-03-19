@@ -3,7 +3,6 @@
 @{
     ViewBag.Title = "Book";
     Layout = "~/Views/Shared/_LayoutBooking.cshtml";
-    var loggedUserId = (Session["User"] as User)?.Id ?? 0;
 }
 
 @section styles
@@ -24,20 +23,43 @@
 
     <main class="col-10">
         <h1 class="bd-title">Book for <span id="court-title"></span></h1>
-        <div class="row">
-            <div id="prev-week-btn" class="col-1"><i style="font-size: 48px; color: Dodgerblue;" class="fas fa-arrow-circle-left"></i></div>
+        <div class="row timeslot-header">
+            <div id="prev-week-btn" class="col-1"><i class="fas fa-arrow-circle-left"></i></div>
             <h3 id="timeslot-week" class="col text-lg-center">11/03/2019 - 17/03/2019</h3>
-            <div id="next-week-btn" class="col-1"><i style="font-size: 48px; color: Dodgerblue;" class="fas fa-arrow-circle-right"></i></div>
+            <div id="next-week-btn" class="col-1"><i class="fas fa-arrow-circle-right"></i></div>
         </div>
         <div id="data-container"></div>
+
+        <!-- Modal for booking confirmation -->
+        <div class="modal fade" id="confirm-modal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="exampleModalLabel">Confirm Booking</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        <p>Please Confirm Booking Info</p>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
+                        <button id="confirm-booking" type="button" class="btn btn-primary">Confirm</button>
+                    </div>
+                </div>
+            </div>
+        </div>
     </main>
 
 </div>
 @section scripts
 {
+    <script src="~/Scripts/moment.js"></script>
     <script>
 
         $(document).ready(function () {
+            
             const $container = $('#data-container'),
                 timeslotDate = TimeslotDate(refreshTimeslotsTable),
                 $courtTitle=$('#court-title'),
@@ -78,8 +100,8 @@
                         return tbody;
                     },
 
-                    // set active courtId on side nav bar 
-                    // and update header title 
+                    // set active courtId on side nav bar
+                    // and update header title
                     setActiveCourt: function (courtId) {
                         const $courtItem = $('nav.sidenav li[court-id="' + courtId + '"]');
 
@@ -87,16 +109,17 @@
                         $courtTitle.text($courtItem.text());
                     }
                 }
+            let bookingData;
 
             $('#next-week-btn').on('click', timeslotDate.goNextWeek);
             $('#prev-week-btn').on('click', timeslotDate.goPrevWeek);
             $('#data-container').on('click', '.timeslot div[value="1"]', onTimeslotClick);
             $('nav').on('click', 'li', onNavCourtClick);
-
+            $('#confirm-booking').on('click', onBookingConfirm);
             utils.setActiveCourt(@Model.CourtId);
-            
+
             // update period date title
-            // and call refreshtimeslots 
+            // and call refreshtimeslots
             timeslotDate.updatePeriod();
 
             // refresh timeslots called from updatePeriod
@@ -108,8 +131,8 @@
             function getTimeslots(courtId) {
 
                 $.getJSON('/api/book/' + courtId, {
-                    fromDate: timeslotDate.firstWeekDate().toUTCString(),
-                    toDate: timeslotDate.lastWeekDate().toUTCString()
+                    fromDate: timeslotDate.firstWeekDate().utc().format(),
+                    toDate: timeslotDate.lastWeekDate().utc().format()
                 }).done(function (data) {
 
                     $container.html(
@@ -121,37 +144,42 @@
                 });
             }
 
-            
+
             // on clicked timeslot book selected date time
             function onTimeslotClick() {
                 let hour = $(this).parent().attr('time'),
                     day = $(this).attr('day'),
                     dateTime = timeslotDate.getSelectedDate(parseInt(day, 10), getHour(hour));
 
-                let data = {
+                bookingData = {
                     courtId: utils.getSelectedCourtId(),
-                    userId: @loggedUserId,
-                    bookedAt: dateTime.toUTCString()
+                    bookedAt: dateTime.utc().format()
                 };
+
+                $('#confirm-modal').modal('show');
+
+            }
+
+            function onBookingConfirm() {
+                $('#confirm-modal').modal('hide');
 
                 $.ajax({
                     url: '/api/book/',
                     type: "POST",
                     accepts: "application/json",
                     contentType: "application/json",
-                    data: JSON.stringify(data),
+                    data: JSON.stringify(bookingData),
                     success: function (result) {
                         if (result.Status === "Ok") {
                             console.log("Ok");
                         } else {
                             console.log("Error");
                         }
-                        
+
                         refreshTimeslotsTable();
                     }
                 });
             }
-
             // on court click (sidebar navigation)
             // sets clicked court item active
             function onNavCourtClick() {
@@ -161,7 +189,7 @@
 
                 utils.setActiveCourt(courtId);
                 getTimeslots(courtId);
-                
+
             }
 
 
@@ -179,39 +207,42 @@
             function TimeslotDate(onDateChange) {
                 const $weekPeriodTitle = $('#timeslot-week');
                 const that = {
-                    currentDate: new Date(),
+                    currentDate: moment(new Date()),
                     firstWeekDay: function () {
-                        return that.firstWeekDate().getDate();
+                        return that.firstWeekDate().date();
                     },
                     // calculates and returns weeks start date based on current date
                     firstWeekDate: function () {
-                        const day = that.currentDate.getDay(),
-                            diff = that.currentDate.getDate() - day + (day == 0 ? -6 : 1);
-                        return new Date(that.currentDate.setDate(diff));
+                        const day = that.currentDate.day(),
+                            diff = (day == 0 ? -6 : 1) - day;
+                        return moment(that.currentDate)
+                            .add(diff, 'days');
                     },
                     lastWeekDate: function () {
-                        return new Date(that.firstWeekDate().setDate(that.firstWeekDate().getDate() + 7));
+                        return that.firstWeekDate()
+                            .add(6, 'days');
                     },
                     updatePeriod: function () {
+                        let date = that.firstWeekDate();
                         $weekPeriodTitle.text(
-                            that.firstWeekDate().toLocaleDateString() + ' - ' +
-                            that.lastWeekDate().toLocaleDateString());
+                            date.format("DD/MM/YYYY") + ' - ' +
+                            date.add(6,'days').format("DD/MM/YYYY"));
                         onDateChange();
                     },
                     goNextWeek: function () {
-                        that.currentDate.setDate(that.currentDate.getDate() + 7);
+                        that.currentDate.add(7, 'days');
                         that.updatePeriod();
                     },
                     goPrevWeek: function () {
-                        that.currentDate.setDate(that.currentDate.getDate() - 7);
+                        that.currentDate.subtract(7, 'days');
                         that.updatePeriod();
                     },
                     getSelectedDate: function (day, hour) {
-                        return new Date(that.firstWeekDate().getFullYear(),
-                            that.firstWeekDate().getMonth(),
-                            that.firstWeekDay() + day,
-                            hour,
-                            0, 0);
+                        return that.firstWeekDate()
+                            .add(day, 'days')
+                            .hour(hour)
+                            .minute(0)
+                            .second(0);
                     }
                 }
                 return that;

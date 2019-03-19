@@ -52,5 +52,9 @@ nav.sidenav li:hover {
     cursor: pointer;
 }
 
+.timeslot-header div {
+    font-size: 48px;
+    color: Dodgerblue;
+}
 
 

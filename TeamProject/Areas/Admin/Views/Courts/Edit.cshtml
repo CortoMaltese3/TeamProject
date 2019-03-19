@@ -2,9 +2,8 @@
 
 @{
     ViewBag.Title = "Edit";
+    var isAdmin = User.IsInRole("Admin");
 }
-
-<h2>Edit</h2>
 
 
 @using (Html.BeginForm("Edit", "Courts", FormMethod.Post, new { enctype = "multipart/form-data" }))
@@ -12,19 +11,25 @@
     @Html.AntiForgeryToken()
 
 <div class="form-horizontal">
-    <h4>Court</h4>
+    <h4>Court Edit</h4>
     <hr />
     @Html.ValidationSummary(true, "", new { @class = "text-danger" })
     @Html.HiddenFor(model => model.Id)
 
-    <div class="form-group">
-        @Html.LabelFor(model => model.BranchId, "BranchId", htmlAttributes: new { @class = "control-label col-md-2" })
-        <div class="col-md-10">
-            @Html.DropDownList("BranchId", null, htmlAttributes: new { @class = "form-control" })
-            @Html.ValidationMessageFor(model => model.BranchId, "", new { @class = "text-danger" })
+    @if (isAdmin)
+    {
+        <div class="form-group">
+            @Html.LabelFor(model => model.BranchId, "BranchId", htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.DropDownList("BranchId", null, htmlAttributes: new { @class = "form-control" })
+                @Html.ValidationMessageFor(model => model.BranchId, "", new { @class = "text-danger" })
+            </div>
         </div>
-    </div>
-
+    }
+    else
+    {
+        @Html.HiddenFor(model => model.BranchId)
+    }
     <div class="form-group">
         @Html.LabelFor(model => model.Name, htmlAttributes: new { @class = "control-label col-md-2" })
         <div class="col-md-10">
@@ -32,7 +37,7 @@
             @Html.ValidationMessageFor(model => model.Name, "", new { @class = "text-danger" })
         </div>
     </div>
-    
+
     <div class="form-group">
         @Html.LabelFor(model => model.Description, htmlAttributes: new { @class = "control-label col-md-2" })
         <div class="col-md-10">
@@ -40,14 +45,6 @@
             @Html.ValidationMessageFor(model => model.Description, "", new { @class = "text-danger" })
         </div>
     </div>
-
-    @*<div class="form-group">
-        @Html.LabelFor(model => model.ImageCourt, htmlAttributes: new { @class = "control-label col-md-2" })
-        <div class="col-md-10">
-            @Html.EditorFor(model => model.ImageCourt, new { htmlAttributes = new { @class = "form-control" } })
-            @Html.ValidationMessageFor(model => model.ImageCourt, "", new { @class = "text-danger" })
-        </div>
-    </div>*@
 
     <div class="form-group">
         @Html.LabelFor(model => model.MaxPlayers, htmlAttributes: new { @class = "control-label col-md-2" })
@@ -64,14 +61,14 @@
             @Html.ValidationMessageFor(model => model.Price, "", new { @class = "text-danger" })
         </div>
     </div>
-    @*<div class="form-group">
+    <div class="form-group">
         @Html.LabelFor(model => model.ImageCourt, htmlAttributes: new { @class = "control-label col-md-2" })
         <div class="col-md-10">
-            <input type="file" name="ImageFile" />
+            <input type="file" name="imagefile" />
             @Html.ValidationMessageFor(model => model.ImageCourt, "", new { @class = "text-danger" })
         </div>
-    </div>*@
-
+    </div>
+    @Html.HiddenFor(model => model.ImageCourt)
     <div class="form-group">
         <div class="col-md-offset-2 col-md-10">
             <input type="submit" value="Save" class="btn btn-secondary" />
@@ -80,17 +77,14 @@
 </div>
 }
 <div>
-    @Html.ActionLink("Back to List", "Index",new { id=Model.BranchId})
+    @Html.ActionLink("Back to Courts", "Index",new { id=Model.BranchId})
 </div>
 <hr />
 <h2>Timeslots</h2>
 <table class="table">
     <tr>
         <th>
-            @Html.DisplayNameFor(model => model.Name)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.TimeSlot.FirstOrDefault().Day)
+            @Html.DisplayNameFor(model => model.TimeSlot.FirstOrDefault().DayName)
         </th>
         <th>
             @Html.DisplayNameFor(model => model.TimeSlot.FirstOrDefault().Hour)
@@ -104,7 +98,7 @@
     {
         <tr>
             <td>
-                @Html.DisplayFor(modelItem => item.Day)
+                @Html.DisplayFor(modelItem => item.DayName)
             </td>
             <td>
                 @Html.DisplayFor(modelItem => item.Hour)

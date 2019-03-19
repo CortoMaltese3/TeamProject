@@ -8,8 +8,6 @@ namespace TeamProject.ModelsViews
     public class PutBookModel
     {
         public int CourtId { get; set; }
-        public int UserId { get; set; }
-
         public DateTime BookedAt { get; set; }
     }
 }

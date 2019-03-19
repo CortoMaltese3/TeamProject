@@ -31,7 +31,7 @@
     <div class="card mb-3 rounded rounded-lg border border-success d-flex p-2 bd-highlight d-flex">
         <div class="row no-gutters">
             <div class="col-md-4" style="margin-top:auto;margin-bottom:auto;">
-                <img src="~/Images/CourtsImages/@branch.ImageCourt" class="card-img" alt="@branch.Name" style="height:auto;">
+                <img src="~/Images/Branches/@branch.ImageBranch" class="card-img" alt="@branch.Name" style="height:auto;">
             </div>
             <div class="col-md-8">
                 <div class="card-body align-content-end flex-column">
@@ -44,7 +44,7 @@
         </div>
     </div>
     listOfBranches += string.Format(CultureInfo.InvariantCulture,
-        "['{0}',{1},{2},'{3}','{4}'],", branch.Name, branch.Latitude, branch.Longitude, branch.ImageCourt, branch.Address);
+        "['{0}',{1},{2},'{3}','{4}'],", branch.Name, branch.Latitude, branch.Longitude, branch.ImageBranch, branch.Address);
 
 }
 @section scripts

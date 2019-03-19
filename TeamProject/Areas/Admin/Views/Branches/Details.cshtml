@@ -1,75 +1,87 @@
 ﻿@model TeamProject.Models.Branch
-
+@using TeamProject.Models;
 @{
     ViewBag.Title = "Details";
     Layout = "~/Areas/Admin/Views/Shared/_Layout.cshtml";
 }
 
 <h2>Details</h2>
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-sm">
+            <h4>Branch</h4>
+            <hr />
+            <dl class="dl-horizontal">
+                <dt>
+                    @Html.DisplayNameFor(model => model.User.Firstname)
+                </dt>
 
-<div>
-    <h4>Branch</h4>
-    <hr />
-    <dl class="dl-horizontal">
-        <dt>
-            @Html.DisplayNameFor(model => model.User.Firstname)
-        </dt>
+                <dd>
+                    @Html.DisplayFor(model => model.User.Firstname)
+                </dd>
 
-        <dd>
-            @Html.DisplayFor(model => model.User.Firstname)
-        </dd>
+                <dt>
+                    @Html.DisplayNameFor(model => model.Name)
+                </dt>
 
-        <dt>
-            @Html.DisplayNameFor(model => model.Name)
-        </dt>
+                <dd>
+                    @Html.DisplayFor(model => model.Name)
+                </dd>
 
-        <dd>
-            @Html.DisplayFor(model => model.Name)
-        </dd>
+                <dt>
+                    @Html.DisplayNameFor(model => model.Longitude)
+                </dt>
 
-        <dt>
-            @Html.DisplayNameFor(model => model.Longitude)
-        </dt>
+                <dd>
+                    @Html.DisplayFor(model => model.Longitude)
+                </dd>
 
-        <dd>
-            @Html.DisplayFor(model => model.Longitude)
-        </dd>
+                <dt>
+                    @Html.DisplayNameFor(model => model.Latitude)
+                </dt>
 
-        <dt>
-            @Html.DisplayNameFor(model => model.Latitude)
-        </dt>
+                <dd>
+                    @Html.DisplayFor(model => model.Latitude)
+                </dd>
 
-        <dd>
-            @Html.DisplayFor(model => model.Latitude)
-        </dd>
+                <dt>
+                    @Html.DisplayNameFor(model => model.City)
+                </dt>
 
-        <dt>
-            @Html.DisplayNameFor(model => model.City)
-        </dt>
+                <dd>
+                    @Html.DisplayFor(model => model.City)
+                </dd>
 
-        <dd>
-            @Html.DisplayFor(model => model.City)
-        </dd>
+                <dt>
+                    @Html.DisplayNameFor(model => model.Address)
+                </dt>
 
-        <dt>
-            @Html.DisplayNameFor(model => model.Address)
-        </dt>
+                <dd>
+                    @Html.DisplayFor(model => model.Address)
+                </dd>
 
-        <dd>
-            @Html.DisplayFor(model => model.Address)
-        </dd>
+                <dt>
+                    @Html.DisplayNameFor(model => model.ZipCode)
+                </dt>
 
-        <dt>
-            @Html.DisplayNameFor(model => model.ZipCode)
-        </dt>
+                <dd>
+                    @Html.DisplayFor(model => model.ZipCode)
+                </dd>
 
-        <dd>
-            @Html.DisplayFor(model => model.ZipCode)
-        </dd>
-
-    </dl>
+            </dl>
+        </div>
+        <div class="col-sm">
+            <h4>@Html.DisplayNameFor(model => model.ImageBranch)</h4>
+            <hr />
+            <dl class="dl-horizontal">
+                <dd>
+                    <img src="~/Images/Branches/@Model.ImageBranch" alt="@Model.Name" />
+                </dd>
+            </dl>
+        </div>
+    </div>
 </div>
 <p>
     @Html.ActionLink("Edit", "Edit", new { id = Model.Id }) |
-    @Html.ActionLink("Back to List", "Index")
+    @Html.ActionLink("Back to Branches", "Index")
 </p>
