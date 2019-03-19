@@ -3,7 +3,6 @@
 @{
     ViewBag.Title = "Book";
     Layout = "~/Views/Shared/_LayoutBooking.cshtml";
-    var loggedUserId = (Session["User"] as User)?.Id ?? 0;
 }
 
 @section styles
@@ -131,7 +130,6 @@
 
                 let data = {
                     courtId: utils.getSelectedCourtId(),
-                    userId: @loggedUserId,
                     bookedAt: dateTime.toUTCString()
                 };
 
