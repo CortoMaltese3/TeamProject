@@ -96,7 +96,7 @@
                                 let dateTime = date.clone().add(day, 'days').hour(localhour.hour());
                                 let showTime = timeslot['Day' + (day + 1)] + '">' + (timeslot['Day' + (day + 1)] == 1 ? localhour.format('HH:mm') : '');
 
-                                tbody += '<div class="col text-center" date = "' + dateTime.format() + '" value="' + showTime + '</div>';
+                                tbody += '<div class="col text-center" date = "' + dateTime.utc().format() + '" value="' + showTime + '</div>';
                             }
 
                             tbody += '</div>';
@@ -156,10 +156,10 @@
 
                 bookingData = {
                     courtId: utils.getSelectedCourtId(),
-                    bookedAt: dateTime.utc().format()
+                    bookedAt: dateTime.format()
                 };
 
-                openModalConfirmation(dateTime.format('dddd DD/MM/YYYY HH:mm'), $courtTitle.text());
+                openModalConfirmation(dateTime.local().format('dddd DD/MM/YYYY HH:mm'), $courtTitle.text());
 
             }
 
@@ -190,7 +190,6 @@
                     data: JSON.stringify(bookingData),
                     success: function (result) {
                         if (result.Status === "Ok") {
-                            console.log(result);
                             // TODO
                             // Redirect to Booking Information and Send email
                             window.location.href = '/Admin/Bookings/Details/'+result.BookingId;
@@ -198,10 +197,8 @@
                             // TODO
                             // Open Modal with Error message
                             openModalWithError('<h3>Unable to Book selected Timeslot<h3><p>Please try again</p>');
-                            //console.log('<h3>Unable to Book selected Timeslot<h3><p>Please try again</p>');
+                            refreshTimeslotsTable();
                         }
-
-                        refreshTimeslotsTable();
                     }
                 });
             }
