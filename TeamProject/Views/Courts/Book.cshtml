@@ -82,16 +82,20 @@
                     // return div with week days timeslots body
                     getTimeslotsBody: function (data) {
                         let tbody = '';
+                        let date = timeslotDate.firstWeekDate().hour(0).minute(0).second(0);
 
                         data.map(function (timeslot) {
-                            let localhour = hourTo24Format(timeslot.Hour);
+                            let localhour = moment(timeslot.Hour,'HH:mm');
 
-                            tbody += '<div class="row timeslot" time="' + timeslot.Hour + '">';
+                            tbody += '<div class="row timeslot">';
 
-                            tbody += '<div class="col text-center">' + localhour + '</div>';
+                            tbody += '<div class="col text-center">' + localhour.format('HH:mm') + '</div>';
 
-                            for (let j = 0; j < 7; j++) {
-                                tbody += '<div class="col text-center" day="' + j + '" value="' + timeslot['Day' + (j + 1)] + '">' + (timeslot['Day' + (j + 1)] == 1 ? localhour : '') + '</div>';
+                            for (let day = 0; day < 7; day++) {
+                                let dateTime = date.clone().add(day, 'days').hour(localhour.hour());
+                                let showTime = timeslot['Day' + (day + 1)] + '">' + (timeslot['Day' + (day + 1)] == 1 ? localhour.format('HH:mm') : '');
+
+                                tbody += '<div class="col text-center" date = "' + dateTime.format() + '" value="' + showTime + '</div>';
                             }
 
                             tbody += '</div>';
@@ -147,9 +151,7 @@
 
             // on clicked timeslot book selected date time
             function onTimeslotClick() {
-                let hour = $(this).parent().attr('time'),
-                    day = $(this).attr('day'),
-                    dateTime = timeslotDate.getSelectedDate(parseInt(day, 10), getHour(hour));
+                let dateTime = moment($(this).attr('date'));
 
                 bookingData = {
                     courtId: utils.getSelectedCourtId(),
