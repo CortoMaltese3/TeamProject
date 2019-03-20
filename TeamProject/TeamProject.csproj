@@ -246,6 +246,7 @@
     <Compile Include="Models\BranchManager.cs" />
     <Compile Include="Models\Court.cs" />
     <Compile Include="Models\CourtManager.cs" />
+    <Compile Include="Models\CourtTimeslots.cs" />
     <Compile Include="Models\Facility.cs" />
     <Compile Include="Models\FacilityManager.cs" />
     <Compile Include="Models\IDatabaseActions.cs" />

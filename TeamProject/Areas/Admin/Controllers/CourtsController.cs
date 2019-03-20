@@ -84,12 +84,15 @@ namespace TeamProject.Areas.Admin.Controllers
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
             Court court = db.Courts.Find(id ?? 0);
+            CourtTimeslots courtTimeslots = new CourtTimeslots();
+            
             if (court == null)
             {
                 return HttpNotFound();
             }
             ViewBag.BranchId = new SelectList(db.Branches.Get(), "Id", "Name", court.BranchId);
-            return View(court);
+
+            return View(courtTimeslots.timeSlotManager.GetForView(id ?? 0));
         }
 
         // POST: Courts/Edit/5
