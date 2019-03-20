@@ -21,11 +21,12 @@ namespace TeamProject.Models
         [Key]
         public int Id { get; set; }
 
-        
+
+        [DisplayName ("Firstname (optional)")]
         [StringLength(50)]
         public string Firstname { get; set; }
 
-        
+        [DisplayName ("Lastname (optional)")]
         [StringLength(50)]
         public string Lastname { get; set; }
 
