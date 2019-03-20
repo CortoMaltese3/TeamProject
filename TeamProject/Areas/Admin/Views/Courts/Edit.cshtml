@@ -82,7 +82,7 @@
 <hr />
 <h2>Timeslots</h2>
 <table class="table">
-    <tr>
+    @*<tr>
         <th>
             @Html.DisplayNameFor(model => model.TimeSlot.FirstOrDefault().DayName)
         </th>
@@ -92,9 +92,31 @@
         <th>
             @Html.DisplayNameFor(model => model.TimeSlot.FirstOrDefault().Duration)
         </th>
+    </tr>*@
+
+
+    <tr>
+        <th>Time</th>
+        <th>Monday</th>
+        <th>Tuesday</th>
+        <th>Wednesday</th>
+        <th>Thursday</th>
+        <th>Friday</th>
+        <th>Saturday</th>
+        <th>Sunday</th>
     </tr>
 
-    @foreach (var item in Model.TimeSlot)
+    @foreach(var item in Model.TimeSlot)
+    {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.Hour)
+            </td>                        
+        </tr>
+    }
+
+
+    @*@foreach (var item in Model.TimeSlot)
     {
         <tr>
             <td>
@@ -107,7 +129,7 @@
                 @Html.DisplayFor(modelItem => item.Duration)
             </td>
         </tr>
-    }
+    }*@
 
 </table>
 <div>
