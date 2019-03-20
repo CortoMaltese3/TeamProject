@@ -41,9 +41,9 @@ namespace TeamProject.ApiControllers
                 Duration = 60
             };
 
-            db.Bookings.Add(booking);
+            booking=db.Bookings.Add(booking);
 
-            return new PostResponse() { Status=db.LastActionStatus};
+            return new PostResponse() { Status = db.LastActionStatus, BookingId = booking?.Id??0 };
         }
         private bool GetLoggedInUserId(out int loggedUserId)
         {
@@ -55,7 +55,7 @@ namespace TeamProject.ApiControllers
         public class PostResponse
         {
             public string Status { get; set; }
-            public string BookKey { get; set; }
+            public int BookingId { get; set; }
         }
     }
 

@@ -45,7 +45,7 @@
                         <p></p>
                     </div>
                     <div class="modal-footer">
-                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
+                        <button id="cancel-booking" type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
                         <button id="confirm-booking" type="button" class="btn btn-primary">Confirm</button>
                     </div>
                 </div>
@@ -60,7 +60,7 @@
     <script>
 
         $(document).ready(function () {
-            
+
             const $container = $('#data-container'),
                 timeslotDate = TimeslotDate(refreshTimeslotsTable),
                 $courtTitle=$('#court-title'),
@@ -164,7 +164,18 @@
             }
 
             function openModalConfirmation(dateTime, courtName) {
+                $('#exampleModalLabel').text('Confirm Booking');
+                $('cancel-booking').show();
+                $('#confirm-booking').text('Confirm');
                 $('#confirm-modal .modal-body p:nth-child(2)').html('<h4>' + dateTime + '<small class="text-muted"> at ' + courtName + '</small></h4>');
+                $('#confirm-modal').modal('show');
+            }
+
+            function openModalWithError(error) {
+                $('#exampleModalLabel').text('Unable to Book');
+                $('cancel-booking').hide();
+                $('#confirm-booking').text('Ok');
+                $('#confirm-modal .modal-body').html(error);
                 $('#confirm-modal').modal('show');
             }
 
@@ -179,13 +190,15 @@
                     data: JSON.stringify(bookingData),
                     success: function (result) {
                         if (result.Status === "Ok") {
+                            console.log(result);
                             // TODO
                             // Redirect to Booking Information and Send email
-                            console.log("Ok");
+                            window.location.href = '/Admin/Bookings/Details/'+result.BookingId;
                         } else {
                             // TODO
                             // Open Modal with Error message
-                            console.log("Error");
+                            openModalWithError('<h3>Unable to Book selected Timeslot<h3><p>Please try again</p>');
+                            //console.log('<h3>Unable to Book selected Timeslot<h3><p>Please try again</p>');
                         }
 
                         refreshTimeslotsTable();
