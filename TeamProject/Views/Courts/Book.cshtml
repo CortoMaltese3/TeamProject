@@ -42,6 +42,7 @@
                     </div>
                     <div class="modal-body">
                         <p>Please Confirm Booking Info</p>
+                        <p></p>
                     </div>
                     <div class="modal-footer">
                         <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
@@ -82,7 +83,7 @@
                     // return div with week days timeslots body
                     getTimeslotsBody: function (data) {
                         let tbody = '';
-                        let date = timeslotDate.firstWeekDate().hour(0).minute(0).second(0);
+                        let date = timeslotDate.firstWeekDate();//.hour(0).minute(0).second(0);
 
                         data.map(function (timeslot) {
                             let localhour = moment(timeslot.Hour,'HH:mm');
@@ -158,8 +159,13 @@
                     bookedAt: dateTime.utc().format()
                 };
 
-                $('#confirm-modal').modal('show');
+                openModalConfirmation(dateTime.format('dddd DD/MM/YYYY HH:mm'), $courtTitle.text());
 
+            }
+
+            function openModalConfirmation(dateTime, courtName) {
+                $('#confirm-modal .modal-body p:nth-child(2)').html('<h4>' + dateTime + '<small class="text-muted"> at ' + courtName + '</small></h4>');
+                $('#confirm-modal').modal('show');
             }
 
             function onBookingConfirm() {
@@ -173,8 +179,12 @@
                     data: JSON.stringify(bookingData),
                     success: function (result) {
                         if (result.Status === "Ok") {
+                            // TODO
+                            // Redirect to Booking Information and Send email
                             console.log("Ok");
                         } else {
+                            // TODO
+                            // Open Modal with Error message
                             console.log("Error");
                         }
 
@@ -182,6 +192,7 @@
                     }
                 });
             }
+
             // on court click (sidebar navigation)
             // sets clicked court item active
             function onNavCourtClick() {
@@ -194,22 +205,12 @@
 
             }
 
-
-
-            // converts hour string to in 24 format string
-            function hourTo24Format(hour) {
-                return getHour(hour) + ':00';
-            }
-
-            // returns hour from hour type string
-            function getHour(hour) {
-                return new Date('2019-01-01 ' + hour).getHours();
-            }
-
+            // Datetime Manager for Timeslot table
             function TimeslotDate(onDateChange) {
                 const $weekPeriodTitle = $('#timeslot-week');
+
                 const that = {
-                    currentDate: moment(new Date()),
+                    currentDate: moment(new Date()).hour(0).minute(0).second(0),
                     firstWeekDay: function () {
                         return that.firstWeekDate().date();
                     },
@@ -238,13 +239,6 @@
                     goPrevWeek: function () {
                         that.currentDate.subtract(7, 'days');
                         that.updatePeriod();
-                    },
-                    getSelectedDate: function (day, hour) {
-                        return that.firstWeekDate()
-                            .add(day, 'days')
-                            .hour(hour)
-                            .minute(0)
-                            .second(0);
                     }
                 }
                 return that;
