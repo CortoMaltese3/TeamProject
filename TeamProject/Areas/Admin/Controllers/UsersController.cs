@@ -37,6 +37,7 @@ namespace TeamProject.Areas.Admin.Controllers
             return View();
         }
 
+        [AllowAnonymous]
         public ActionResult Join()
         {
             return View();

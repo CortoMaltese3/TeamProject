@@ -14,7 +14,7 @@
     }
     else
     {
-        <li class="nav-item">@Html.ActionLink("Join", "Create", "Users", routeValues: null, htmlAttributes: new { @class = "nav-link" })</li>
+        <li class="nav-item">@Html.ActionLink("Join", "Join", "Users", new { area = "Admin" }, htmlAttributes: new { @class = "nav-link" })</li>
         <li class="nav-item">@Html.ActionLink("Sign in", "Index", "Login", routeValues: null, htmlAttributes: new { @class = "nav-link" })</li>
     }
 </ul>
