@@ -41,8 +41,13 @@ namespace TeamProject.ApiControllers
                 Duration = 60
             };
             booking = db.Bookings.Add(booking);
+                Duration = 60,
+                BookKey = Guid.NewGuid().ToString("N")
+        };
 
-            return new PostResponse() { Status = db.LastActionStatus, BookingId = booking?.Id??0 };
+            booking=db.Bookings.Add(booking);
+
+            return new PostResponse() { Status = db.LastActionStatus, BookingId = booking?.Id??0,BookKey = booking.BookKey };
         }
         private bool GetLoggedInUserId(out int loggedUserId)
         {
@@ -55,6 +60,7 @@ namespace TeamProject.ApiControllers
         {
             public string Status { get; set; }
             public int BookingId { get; set; }
+            public string BookKey { get; set; }
         }
     }
 

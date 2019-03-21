@@ -420,6 +420,7 @@
     <Content Include="Areas\Admin\Views\Users\Details.cshtml" />
     <Content Include="Areas\Admin\Views\Users\Delete.cshtml" />
     <Content Include="Views\Courts\Book.cshtml" />
+    <Content Include="Views\Courts\Confirmed.cshtml" />
     <Content Include="Views\Users\Create.cshtml" />
   </ItemGroup>
   <ItemGroup>
