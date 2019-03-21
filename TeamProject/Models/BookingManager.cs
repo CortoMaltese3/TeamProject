@@ -56,6 +56,23 @@ namespace TeamProject.Models
 
             return Bookings;
         }
+        public override Booking Add(Booking book)
+        {
+                            
+            _db.UsingConnection(dbCon =>
+            {
+                book.Id = dbCon.ExecuteScalar<int>(
+                    "IF (SELECT Count(*) FROM Booking WHERE CourtId = @CourtId AND BookedAt = @BookedAt)=0 " +
+                    "BEGIN" +
+                    "    INSERT INTO Booking (CourtId, BookedAt, UserId, Duration) " +
+                    "    VALUES (@CourtId, @BookedAt, @UserId, @Duration) " +
+                    "    SELECT SCOPE_IDENTITY() AS Id " +
+                    "END", 
+                    book);
+            });
+            return book;
+            //insert into booking(courtId, book) SELECT 3 AS CourtId, 'Monday' as book FROM(SELECT TOP 1 FROM Booking WHERE CourtId = @CourtId AND book = 'Monday') b where b.ExistsId = 0
+        }
 
     }
 }

@@ -92,7 +92,7 @@ namespace TeamProject.Areas.Admin.Controllers
             {
                 return HttpNotFound();
             }
-            ViewBag.UserId = new SelectList(db.Users.Get(), "Id", "Firstname", branch.UserId);
+            ViewBag.UserId = new SelectList(db.Users.Get(), "Id", "UserName", branch.UserId);
             return View(branch);
         }
 
@@ -119,7 +119,7 @@ namespace TeamProject.Areas.Admin.Controllers
                 db.Branches.Update(branch);// Entry(branch).State = EntityState.Modified;
                 return RedirectToAction("Index");
             }
-            ViewBag.UserId = new SelectList(db.Users.Get(), "Id", "Firstname", branch.UserId);
+            ViewBag.UserId = new SelectList(db.Users.Get(), "Id", "UserName", branch.UserId);
             return View(branch);
         }
 
