@@ -5,6 +5,7 @@ namespace TeamProject.Models
     using System.ComponentModel.DataAnnotations;
     using System.ComponentModel.DataAnnotations.Schema;
     using System.Data.Entity.Spatial;
+    using System.Web;
 
     public partial class Facility
     {        
@@ -18,6 +19,9 @@ namespace TeamProject.Models
         [Required]
         [StringLength(20)]
         public string Description { get; set; }
+
+        [NotMapped]
+        public HttpPostedFileBase ImageFile { get; set; }
 
         public string ImageFacility { get; set; }
 
