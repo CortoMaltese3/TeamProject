@@ -12,7 +12,14 @@ namespace TeamProject
         public static void RegisterRoutes(RouteCollection routes)
         {
             routes.IgnoreRoute("{resource}.axd/{*pathInfo}");
-            
+
+            routes.MapRoute(
+                name: "Booking",
+                url: "Courts/Confirmed/{BookKey}",
+                defaults: new { controller = "Courts", action = "Confirmed", BookKey = UrlParameter.Optional },
+                namespaces: new[] { "TeamProject.Controllers" }
+            );
+
             routes.MapRoute(
                 name: "Default",
                 url: "{controller}/{action}/{id}",

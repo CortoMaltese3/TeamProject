@@ -18,6 +18,8 @@ namespace TeamProject.Models
 
         public int Duration { get; set; }
 
+        public string BookKey { get; set; }
+
         public virtual Court Court { get; set; }
 
         public virtual User User { get; set; }
