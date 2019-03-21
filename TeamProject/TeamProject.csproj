@@ -294,6 +294,7 @@
     <Content Include="Images\Courts\VurwnasCourt.jpg" />
     <Content Include="Images\Courts\ZwgrafouCourt1.jpg" />
     <Content Include="Images\Courts\αρχείο λήψης.jpg" />
+    <Content Include="Images\Facilities\Parking-Sign.jpg" />
     <Content Include="Images\Login\business-team-meeting.jpg" />
     <Content Include="Models\DbSchema.sql" />
     <Content Include="Scripts\bootstrap.bundle.js" />
