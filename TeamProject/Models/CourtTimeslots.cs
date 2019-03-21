@@ -9,10 +9,7 @@ namespace TeamProject.Models
     {
         public Court court { get; set; }
 
-        public TimeSlotManager timeSlotManager { get; set; }
-       
-
-
+        public IEnumerable<ModelsViews.TimeslotApiView> timeslotApiViews { get; set; }
 
     }
 }
