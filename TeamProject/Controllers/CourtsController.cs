@@ -37,10 +37,13 @@ namespace TeamProject.Controllers
 
         public ActionResult Confirmed(string BookKey)
         {
-            var booking = db.Bookings.Get().Where(x=> x.BookKey == BookKey).FirstOrDefault();
+            var booking = db.Bookings.Get().Where(x => x.BookKey == BookKey).FirstOrDefault();
+            var branch = db.Branches.Get().Where(x => x.Id == booking.Court.BranchId).FirstOrDefault();
+            ViewBag.address = branch.Address;
+            ViewBag.city = branch.City;
 
-            ViewBag.address = db.Branches.Get().Where(x => x.Id == booking.Court.BranchId).FirstOrDefault().Address;
-            ViewBag.city = db.Branches.Get().Where(x => x.Id == booking.Court.BranchId).FirstOrDefault().City;
+            SmtpMessageChunk.SendMessageSmtp(booking, branch);
+
             return View(booking);
         }
     }
