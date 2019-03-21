@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Data;
 using System.Data.Entity;
+using System.IO;
 using System.Linq;
 using System.Net;
 using System.Web;
@@ -52,8 +53,18 @@ namespace TeamProject.Areas.Admin.Controllers
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "Id,Description")] Facility facility)
+        public ActionResult Create(Facility facility)
         {
+            if (facility.ImageFile == null)
+            {
+                facility.ImageFacility = "na_image.jpg";
+            }
+            else
+            {
+                facility.ImageFacility = Path.GetFileName(facility.ImageFile.FileName);
+                string fileName = Path.Combine(Server.MapPath("~/Images/Facilities/"), facility.ImageFacility);
+                facility.ImageFile.SaveAs(fileName);
+            }
             if (ModelState.IsValid)
             {
                 db.Facilities.Add(facility);               
@@ -85,8 +96,15 @@ namespace TeamProject.Areas.Admin.Controllers
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include = "Id,Description")] Facility facility)
+        public ActionResult Edit(Facility facility, HttpPostedFileBase ImageFile)
         {
+            if (ImageFile != null)
+            {
+                facility.ImageFacility = Path.GetFileName(facility.ImageFile.FileName);
+                string fileName = Path.Combine(Server.MapPath("~/Images/Facilities/"), facility.ImageFacility);
+                facility.ImageFile.SaveAs(fileName);
+            }
+
             if (ModelState.IsValid)
             {
                 db.Facilities.Update(facility);               

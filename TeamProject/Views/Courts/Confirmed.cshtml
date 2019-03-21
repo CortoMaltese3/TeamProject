@@ -1,9 +1,19 @@
-﻿@model TeamProject.Models.Court
+﻿@model TeamProject.Models.Booking
 
 @{
     ViewBag.Title = "Confirmed";
 }
-
-<h2>Confirmed</h2>
-
-<div> @ViewBag.BookKey</div>
+<div class="container-fluid text-center" style="height:500px;">
+    <div class="">
+        <br />
+        <br /><br /><br />
+        <h2>@Model.User.UserName Thanks for booking.</h2>
+        <br />
+        <div> You have book <strong> @Model.Court.Name </strong> at <strong>@Model.BookedAt</strong></div>
+        <br />
+        <span>Your booking number is <strong>@Model.BookKey</strong></span>
+        <br />
+        <br />
+        <span>You can find the Court in @ViewBag.City at @ViewBag.address</span>
+    </div>
+</div>

@@ -14,6 +14,9 @@
         <th>
             @Html.DisplayNameFor(model => model.Description)
         </th>
+        <th>
+            Facility Image
+        </th>
         <th></th>
     </tr>
 
@@ -22,9 +25,22 @@
         <td>
             @Html.DisplayFor(modelItem => item.Description)
         </td>
+         <td>
+            <div class="popover__wrapper">
+                <a>
+                    <p class="popover-title">
+                        <i class="fas fa-images"></i>
+                    </p>
+                </a>
+                <div class="push popover__content">
+                    <p class="popover__message">@Html.DisplayFor(modelitem => item.Description)</p>
+                    <img width="200" src="~/Images/Facilities/@item.ImageFacility" />
+                </div>
+            </div>
+        </td> 
         <td>
-            @Html.ActionLink("Delete", "Delete", new { id=item.Id }) |
-            @Html.ActionLink("Edit","Edit",new { id = item.Id})
+            @Html.ActionLink("Delete", "Delete", new { id = item.Id }) |
+            @Html.ActionLink("Edit", "Edit", new { id = item.Id })
         </td>
     </tr>
 }

@@ -12,10 +12,13 @@ namespace TeamProject.Controllers
     {
         private ProjectDbContext db = new ProjectDbContext();
         // GET: Courts
-        public ActionResult Index()
+        public ActionResult Index(int? id)
         {
             var court = db.Courts.Get().ToList();
-
+            if(id != null)
+            {
+                court = db.Courts.Get().Where(x => x.BranchId == id).ToList();
+            }
             return View(court);
         }
         [Authorize]
@@ -34,12 +37,11 @@ namespace TeamProject.Controllers
 
         public ActionResult Confirmed(string BookKey)
         {
-            //Changing the booking id with datetime and making the final string.
-            //ViewBag.BookKey = Guid.NewGuid().ToString("N");
-            //var book = db.Bookings.Find(id);     
-            
+            var booking = db.Bookings.Get().Where(x=> x.BookKey == BookKey).FirstOrDefault();
 
-            return View();
+            ViewBag.address = db.Branches.Get().Where(x => x.Id == booking.Court.BranchId).FirstOrDefault().Address;
+            ViewBag.city = db.Branches.Get().Where(x => x.Id == booking.Court.BranchId).FirstOrDefault().City;
+            return View(booking);
         }
     }
 }
