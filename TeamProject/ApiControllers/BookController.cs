@@ -38,11 +38,10 @@ namespace TeamProject.ApiControllers
                 CourtId = putBookModel.CourtId,
                 BookedAt = putBookModel.BookedAt.ToLocalTime(),
                 UserId = loggedUserId,
-                Duration = 60,
-                BookKey = Guid.NewGuid().ToString("N")
-        };
-
-            booking=db.Bookings.Add(booking);
+                BookKey = Guid.NewGuid().ToString("N"),
+                Duration = 60
+            };
+            booking = db.Bookings.Add(booking);
 
             return new PostResponse() { Status = db.LastActionStatus, BookingId = booking?.Id??0,BookKey = booking.BookKey };
         }
