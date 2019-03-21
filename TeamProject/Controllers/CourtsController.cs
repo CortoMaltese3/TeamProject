@@ -30,5 +30,16 @@ namespace TeamProject.Controllers
             };
             return View(bookViewModel);
         }
+
+
+        public ActionResult Confirmed(string BookKey)
+        {
+            //Changing the booking id with datetime and making the final string.
+            //ViewBag.BookKey = Guid.NewGuid().ToString("N");
+            //var book = db.Bookings.Find(id);     
+            
+
+            return View();
+        }
     }
 }

@@ -192,7 +192,8 @@
                         if (result.Status === "Ok") {
                             // TODO
                             // Redirect to Booking Information and Send email
-                            window.location.href = '/Admin/Bookings/Details/'+result.BookingId;
+                            
+                            window.location.href = '/Courts/Confirmed/'+result.BookKey;
                         } else {
                             // TODO
                             // Open Modal with Error message
