@@ -40,8 +40,8 @@ namespace TeamProject.ApiControllers
                 UserId = loggedUserId,
                 Duration = 60
             };
-
-            booking=db.Bookings.Add(booking);
+            //insert into booking (courtId , book) SELECT 3 AS CourtId, 'Monday' as book FROM (select count(*) as ExistsId from booking where courtId=1 and book='Monday') b where b.ExistsId=0
+            booking = db.Bookings.Add(booking);
 
             return new PostResponse() { Status = db.LastActionStatus, BookingId = booking?.Id??0 };
         }
