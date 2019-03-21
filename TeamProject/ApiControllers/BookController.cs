@@ -30,7 +30,12 @@ namespace TeamProject.ApiControllers
         {
             if (!GetLoggedInUserId(out int loggedUserId))
             {
-                return new PostResponse() { Status = "Empty Logged User" };
+                return new PostResponse() { Status = "You must log in first" };
+            }
+
+            if (!IsValidDate(putBookModel.BookedAt))
+            {
+                return new PostResponse() { Status = $"Can't Book on date before {DateTime.Now.Date}" };
             }
 
             var booking = new Booking()
@@ -41,9 +46,24 @@ namespace TeamProject.ApiControllers
                 BookKey = Guid.NewGuid().ToString("N"),
                 Duration = 60
             };
+
             booking = db.Bookings.Add(booking);
 
-            return new PostResponse() { Status = db.LastActionStatus, BookingId = booking?.Id??0,BookKey = booking.BookKey };
+            if (booking.Id == 0)
+            {
+                return new PostResponse() { Status = $"At <small class='text-muted'>{putBookModel.BookedAt.ToLocalTime()}</small>" };
+            }
+
+            return new PostResponse()
+            {
+                Status = db.LastActionStatus,
+                BookingId = booking.Id,
+                BookKey = booking.BookKey
+            };
+        }
+        private bool IsValidDate(DateTime BookedAt)
+        {
+            return DateTime.Compare(BookedAt.Date, DateTime.Now.Date) >= 0;
         }
         private bool GetLoggedInUserId(out int loggedUserId)
         {

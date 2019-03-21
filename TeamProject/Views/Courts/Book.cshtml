@@ -197,6 +197,7 @@
                     contentType: "application/json",
                     data: JSON.stringify(bookingData),
                     success: function (result) {
+
                         if (result.Status === "Ok") {
                             // TODO
                             // Redirect to Booking Information and Send email
@@ -206,7 +207,7 @@
                             // TODO
                             // Open Modal with Error message
                             refreshTimeslotsTable();
-                            openModalWithError('Unable to Book','<h4>Unable to Book selected Timeslot<h4><p>Please try again</p>');
+                            openModalWithError('Failed to complete booking','<h4>'+result.Status+'<h4><p>Please try again</p>');
                         }
                     }
                 });
