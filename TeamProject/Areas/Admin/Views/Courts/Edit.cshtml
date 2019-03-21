@@ -81,7 +81,7 @@
 </div>
 <hr />
 <h2>Timeslots</h2>
-<table class="table">
+<table class="table timeSlots" >
 
     <tr>
         <th>Time</th>
@@ -97,29 +97,29 @@
     @foreach(var item in Model.TimeslotApiViews)
     {
     <tr>
-        <td>
+        <td>            
             @Html.DisplayFor(modelItem => item.Hour)
         </td>
         <td>
-            @Html.DisplayFor(modelItem => item.Day1)
+            @Html.ActionLink($"{item.Day1}", "Edit", "Timeslots", new { id = item.Day1 }, new { @class})            
         </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.Day2)
+        <td>            
+            @Html.ActionLink($"{item.Day2}", "Edit", "Timeslots", new { id = item.Day2 }, null)
         </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.Day3)
+        <td>            
+            @Html.ActionLink($"{item.Day3}", "Edit", "Timeslots", new { id = item.Day3 }, null)
         </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.Day4)
+        <td>            
+            @Html.ActionLink($"{item.Day4}", "Edit", "Timeslots", new { id = item.Day4 }, null)
         </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.Day5)
+        <td>            
+            @Html.ActionLink($"{item.Day5}", "Edit", "Timeslots", new { id = item.Day5 }, null)
         </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.Day6)
+        <td>            
+            @Html.ActionLink($"{item.Day6}", "Edit", "Timeslots", new { id = item.Day6 }, null)
         </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.Day7)
+        <td>            
+            @Html.ActionLink($"{item.Day7}", "Edit", "Timeslots", new { id = item.Day7 }, null)
         </td>
     </tr>
     }
