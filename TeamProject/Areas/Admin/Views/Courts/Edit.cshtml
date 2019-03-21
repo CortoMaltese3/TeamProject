@@ -14,61 +14,61 @@
     <h4>Court Edit</h4>
     <hr />
     @Html.ValidationSummary(true, "", new { @class = "text-danger" })
-    @Html.HiddenFor(model => model.Id)
+    @Html.HiddenFor(model => model.Court.Id)
 
     @if (isAdmin)
     {
         <div class="form-group">
-            @Html.LabelFor(model => model.BranchId, "BranchId", htmlAttributes: new { @class = "control-label col-md-2" })
+            @Html.LabelFor(model => model.Court.BranchId, "BranchId", htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
                 @Html.DropDownList("BranchId", null, htmlAttributes: new { @class = "form-control" })
-                @Html.ValidationMessageFor(model => model.BranchId, "", new { @class = "text-danger" })
+                @Html.ValidationMessageFor(model => model.Court.BranchId, "", new { @class = "text-danger" })
             </div>
         </div>
     }
     else
     {
-        @Html.HiddenFor(model => model.BranchId)
+        @Html.HiddenFor(model => model.Court.BranchId)
     }
     <div class="form-group">
-        @Html.LabelFor(model => model.Name, htmlAttributes: new { @class = "control-label col-md-2" })
+        @Html.LabelFor(model => model.Court.Name, htmlAttributes: new { @class = "control-label col-md-2" })
         <div class="col-md-10">
-            @Html.EditorFor(model => model.Name, new { htmlAttributes = new { @class = "form-control" } })
-            @Html.ValidationMessageFor(model => model.Name, "", new { @class = "text-danger" })
+            @Html.EditorFor(model => model.Court.Name, new { htmlAttributes = new { @class = "form-control" } })
+            @Html.ValidationMessageFor(model => model.Court.Name, "", new { @class = "text-danger" })
         </div>
     </div>
 
     <div class="form-group">
-        @Html.LabelFor(model => model.Description, htmlAttributes: new { @class = "control-label col-md-2" })
+        @Html.LabelFor(model => model.Court.Description, htmlAttributes: new { @class = "control-label col-md-2" })
         <div class="col-md-10">
-            @Html.EditorFor(model => model.Description, new { htmlAttributes = new { @class = "form-control" } })
-            @Html.ValidationMessageFor(model => model.Description, "", new { @class = "text-danger" })
+            @Html.EditorFor(model => model.Court.Description, new { htmlAttributes = new { @class = "form-control" } })
+            @Html.ValidationMessageFor(model => model.Court.Description, "", new { @class = "text-danger" })
         </div>
     </div>
 
     <div class="form-group">
-        @Html.LabelFor(model => model.MaxPlayers, htmlAttributes: new { @class = "control-label col-md-2" })
+        @Html.LabelFor(model => model.Court.MaxPlayers, htmlAttributes: new { @class = "control-label col-md-2" })
         <div class="col-md-10">
-            @Html.EditorFor(model => model.MaxPlayers, new { htmlAttributes = new { @class = "form-control" } })
-            @Html.ValidationMessageFor(model => model.MaxPlayers, "", new { @class = "text-danger" })
+            @Html.EditorFor(model => model.Court.MaxPlayers, new { htmlAttributes = new { @class = "form-control" } })
+            @Html.ValidationMessageFor(model => model.Court.MaxPlayers, "", new { @class = "text-danger" })
         </div>
     </div>
 
     <div class="form-group">
-        @Html.LabelFor(model => model.Price, htmlAttributes: new { @class = "control-label col-md-2" })
+        @Html.LabelFor(model => model.Court.Price, htmlAttributes: new { @class = "control-label col-md-2" })
         <div class="col-md-10">
-            @Html.EditorFor(model => model.Price, new { htmlAttributes = new { @class = "form-control" } })
-            @Html.ValidationMessageFor(model => model.Price, "", new { @class = "text-danger" })
+            @Html.EditorFor(model => model.Court.Price, new { htmlAttributes = new { @class = "form-control" } })
+            @Html.ValidationMessageFor(model => model.Court.Price, "", new { @class = "text-danger" })
         </div>
     </div>
     <div class="form-group">
-        @Html.LabelFor(model => model.ImageCourt, htmlAttributes: new { @class = "control-label col-md-2" })
+        @Html.LabelFor(model => model.Court.ImageCourt, htmlAttributes: new { @class = "control-label col-md-2" })
         <div class="col-md-10">
             <input type="file" name="imagefile" />
-            @Html.ValidationMessageFor(model => model.ImageCourt, "", new { @class = "text-danger" })
+            @Html.ValidationMessageFor(model => model.Court.ImageCourt, "", new { @class = "text-danger" })
         </div>
     </div>
-    @Html.HiddenFor(model => model.ImageCourt)
+    @Html.HiddenFor(model => model.Court.ImageCourt)
     <div class="form-group">
         <div class="col-md-offset-2 col-md-10">
             <input type="submit" value="Save" class="btn btn-secondary" />
@@ -77,23 +77,11 @@
 </div>
 }
 <div>
-    @Html.ActionLink("Back to Courts", "Index",new { id=Model.BranchId})
+    @Html.ActionLink("Back to Courts", "Index",new { id=Model.Court.BranchId })
 </div>
 <hr />
 <h2>Timeslots</h2>
 <table class="table">
-    @*<tr>
-        <th>
-            @Html.DisplayNameFor(model => model.TimeSlot.FirstOrDefault().DayName)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.TimeSlot.FirstOrDefault().Hour)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.TimeSlot.FirstOrDefault().Duration)
-        </th>
-    </tr>*@
-
 
     <tr>
         <th>Time</th>
@@ -106,34 +94,39 @@
         <th>Sunday</th>
     </tr>
 
-    @foreach(var item in Model.TimeSlot)
+    @foreach(var item in Model.TimeslotApiViews)
     {
-        <tr>
-            <td>
-                @Html.DisplayFor(modelItem => item.Hour)
-            </td>                        
-        </tr>
+    <tr>
+        <td>
+            @Html.DisplayFor(modelItem => item.Hour)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Day1)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Day2)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Day3)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Day4)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Day5)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Day6)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Day7)
+        </td>
+    </tr>
     }
-
-
-    @*@foreach (var item in Model.TimeSlot)
-    {
-        <tr>
-            <td>
-                @Html.DisplayFor(modelItem => item.DayName)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Hour)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Duration)
-            </td>
-        </tr>
-    }*@
 
 </table>
 <div>
-    @Html.ActionLink("Edit TimeSlots", "Index", "Timeslots", new { id = Model.Id }, null)
+    @Html.ActionLink("Edit TimeSlots", "Index", "Timeslots", new { id = Model.Court.Id }, null)
 </div>
 
 

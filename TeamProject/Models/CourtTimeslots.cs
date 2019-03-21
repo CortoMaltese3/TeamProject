@@ -7,9 +7,9 @@ namespace TeamProject.Models
 {
     public class CourtTimeslots
     {
-        public Court court { get; set; }
+        public Court Court { get; set; }
 
-        public IEnumerable<ModelsViews.TimeslotApiView> timeslotApiViews { get; set; }
+        public IEnumerable<ModelsViews.TimeslotApiView> TimeslotApiViews { get; set; }
 
     }
 }
