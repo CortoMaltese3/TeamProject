@@ -94,9 +94,10 @@
 
                             for (let day = 0; day < 7; day++) {
                                 let dateTime = date.clone().add(day, 'days').hour(localhour.hour());
-                                let showTime = timeslot['Day' + (day + 1)] + '">' + (timeslot['Day' + (day + 1)] == 1 ? localhour.format('HH:mm') : '');
-
-                                tbody += '<div class="col text-center" date = "' + dateTime.utc().format() + '" value="' + showTime + '</div>';
+                                let timeSlotValue = timeslotDate.okToSelectDate(dateTime) ? timeslot['Day' + (day + 1)] : "0";
+                                let showTime = (timeSlotValue == 1 ? localhour.format('HH:mm') : '');
+                                //if (timeslotDate.okToSelectDate(showTime)) 
+                                tbody += '<div class="col text-center" date = "' + dateTime.utc().format() + '" value="' + timeSlotValue + '">' + showTime + '</div>';
                             }
 
                             tbody += '</div>';
@@ -233,8 +234,9 @@
                     firstWeekDate: function () {
                         const day = currentDate.day(),
                             diff = (day == 0 ? -6 : 1) - day;
-                        return moment(currentDate)
+                        const date = moment(currentDate)
                             .add(diff, 'days');
+                        return date;//.isAfter(startDate) ? date : startDate;
                     },
                     lastWeekDate: function () {
                         return that.firstWeekDate()
@@ -261,6 +263,8 @@
                             date.format("DD/MM/YYYY") + ' - ' +
                             date.add(6, 'days').format("DD/MM/YYYY"));
                         onDateChange();
+                    }, okToSelectDate: function (date) {
+                        return date.isSameOrAfter(startDate);
                     }
                 }
                 return that;
