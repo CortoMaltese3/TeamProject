@@ -43,6 +43,7 @@ namespace TeamProject.Areas.Admin.Controllers
         {
             return View();
         }
+        [AllowAnonymous]
         [HttpPost]
         [ValidateAntiForgeryToken]
         public ActionResult Join(User user)
