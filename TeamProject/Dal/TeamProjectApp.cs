@@ -1,13 +1,16 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Linq;
 using System.Web;
 using TeamProject.Models;
+using TeamProject.ModelsViews;
 
 namespace TeamProject.Dal
 {
     public class TeamProjectApp
     {
+        
         private ProjectDbContext _db = new ProjectDbContext();
         #region Users 
 
@@ -91,6 +94,28 @@ namespace TeamProject.Dal
         {
             var user = _db.Users.Find(id);
             _db.Users?.Remove(id);
+        }
+        #endregion
+        #region Branches 
+        private const double FIXED_DISTANCE = 20000;
+        public NearestBrachView GetNearestBranches(string latitude, string longitude)
+        {
+            if (!double.TryParse(latitude, NumberStyles.Float | NumberStyles.AllowThousands, CultureInfo.InvariantCulture, out double latitudeFixed) ||
+                !double.TryParse(longitude, NumberStyles.Float | NumberStyles.AllowThousands, CultureInfo.InvariantCulture, out double longitudeFixed))
+            {
+
+                return null;
+            }
+
+            BranchManager branchManager = new BranchManager(new ProjectDbContext());
+            IEnumerable<Branch> branches = _db.Branches.Nearest(latitudeFixed, longitudeFixed, FIXED_DISTANCE);
+
+            return new NearestBrachView()
+            {
+                Latitude = latitudeFixed,
+                Longitude = longitudeFixed,
+                Branches = branches
+            };
         }
         #endregion
     }
