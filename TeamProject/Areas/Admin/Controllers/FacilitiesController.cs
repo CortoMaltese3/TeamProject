@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Data;
 using System.IO;
 using System.Linq;
@@ -9,7 +10,7 @@ using TeamProject.Models;
 
 namespace TeamProject.Areas.Admin.Controllers
 {
-    
+
     public class FacilitiesController : Controller
     {
 
@@ -19,7 +20,7 @@ namespace TeamProject.Areas.Admin.Controllers
         [Authorize(Roles = "Admin")]
         public ActionResult Index()
         {
-            var facility = db.Facilities.Get();            
+            var facility = db.Facilities.Get();
             return View(facility.ToList());
         }
 
@@ -32,7 +33,7 @@ namespace TeamProject.Areas.Admin.Controllers
                 return RedirectToAction("Index");
                 //return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            Facility facility = db.Facilities.Find(id??0);            
+            Facility facility = db.Facilities.Find(id ?? 0);
             if (facility == null)
             {
                 return RedirectToAction("Index");
@@ -44,36 +45,41 @@ namespace TeamProject.Areas.Admin.Controllers
         [Authorize(Roles = "Owner,Admin")]
         public ActionResult ChooseFacilities(int id)
         {
-            var facilities = db.Facilities.Get().ToList();
-            var branchfacilities = new BranchFacilities();
-            ViewBag.BranchId = id;
+            var facilityFormModel = new FacilityFormModel()
+            {
+                AvailableFacilities = db.BranchFacilities.GetFacilities(id),
+                BranchId = id
+            };
 
-            return View(facilities);
+            return View(facilityFormModel);
         }
 
-       
-        public ActionResult AddFacilities(int id, BranchFacilities branchFacilities)
-        {            
-            //var facilities = db.Branches.Add().Facility(facility.Id);
-            if (ModelState.IsValid)
+        public ActionResult AddFacilities(FacilityFormModel facilityFormModel)
+        {
+            if (!ModelState.IsValid)
             {
-                var facilities = branchFacilities.SelectedFacilities;
-                foreach (var item in facilities)
-                {
-                    db.BranchFacilities.Add(new BranchFacilities() { BranchId = id , FacilityId = item });
-                }
+                facilityFormModel.AvailableFacilities = db.BranchFacilities.GetFacilities(facilityFormModel.BranchId);
+                return View(facilityFormModel);
             }
 
+            // remove all branch facilities
+            db.BranchFacilities.Remove(facilityFormModel.BranchId);
+            
+            // add selected facilities
+            var facilities = facilityFormModel.SelectedFacilities;
+            foreach (var item in facilities)
+            {
+                db.BranchFacilities.Add(new BranchFacilities() { BranchId = facilityFormModel.BranchId, FacilityId = item });
+            }
 
-
-            return RedirectToAction("Index","Branches");
+            return RedirectToAction("Index", "Branches");
         }
 
         // GET: Facilities/Create
         [Authorize(Roles = "Admin")]
         public ActionResult Create(int? id)
         {
-            ViewBag.FacilityId = new SelectList(db.Facilities.Get().Where(branch => branch.Id == (id ?? 0)), "Id", "Description");           
+            ViewBag.FacilityId = new SelectList(db.Facilities.Get().Where(branch => branch.Id == (id ?? 0)), "Id", "Description");
             return View();
         }
 
@@ -97,11 +103,11 @@ namespace TeamProject.Areas.Admin.Controllers
             }
             if (ModelState.IsValid)
             {
-                db.Facilities.Add(facility);               
+                db.Facilities.Add(facility);
                 return RedirectToAction("Index");
             }
 
-            ViewBag.FacilityId = new SelectList(db.Facilities.Get(), "Id", "Description", facility.Id );          
+            ViewBag.FacilityId = new SelectList(db.Facilities.Get(), "Id", "Description", facility.Id);
 
             return View(facility);
         }
@@ -114,7 +120,7 @@ namespace TeamProject.Areas.Admin.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            Facility facility = db.Facilities.Find(id??0);
+            Facility facility = db.Facilities.Find(id ?? 0);
             if (facility == null)
             {
                 return HttpNotFound();
@@ -139,7 +145,7 @@ namespace TeamProject.Areas.Admin.Controllers
 
             if (ModelState.IsValid)
             {
-                db.Facilities.Update(facility);               
+                db.Facilities.Update(facility);
                 return RedirectToAction("Index");
             }
             return View(facility);
@@ -153,7 +159,7 @@ namespace TeamProject.Areas.Admin.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            Facility facility = db.Facilities.Find(id??0);
+            Facility facility = db.Facilities.Find(id ?? 0);
             if (facility == null)
             {
                 return HttpNotFound();
@@ -168,7 +174,7 @@ namespace TeamProject.Areas.Admin.Controllers
         public ActionResult DeleteConfirmed(int id)
         {
             Facility facility = db.Facilities.Find(id);
-            db.Facilities.Remove(facility.Id);            
+            db.Facilities.Remove(facility.Id);
             return RedirectToAction("Index");
         }
     }

@@ -1,23 +1,25 @@
-﻿@model IEnumerable<TeamProject.Models.Facility>
-
+﻿@model TeamProject.Models.FacilityFormModel
 @{
     ViewBag.Title = "ChooseFacilities";
 }
-
 <h2>ChooseFacilities</h2>
 <br />
-<form method="get" action="~/Admin/Facilities/AddFacilities/@ViewBag.BranchId">
+<form method="get" action="~/Admin/Facilities/AddFacilities/@Model.BranchId">
+    @Html.HiddenFor(model => model.BranchId)
     <div class="row form-group particularities-container">
         <div class="col-xs-6 col-sm-3">
-            @foreach (var item in Model)
+            @foreach (var item in Model.AvailableFacilities)
             {
                 <div class="toggle_container inline">
                     <div class="toggle">
-                        <input class="form-check-input" type="checkbox"name="SelectedFacilities"
-                               value="@item.Id">
+                        <input class="form-check-input" 
+                               type="checkbox"
+                               name="selectedFacilities"
+                               value="@item.Value"
+                               @if (item.Selected) { @Html.Raw("checked") }>
                     </div>
                     <div class="label_container">
-                        <label class="form-check-label">@item.Description</label>
+                        <label class="form-check-label">@item.Text</label>
                     </div>
                 </div>
             }
@@ -26,14 +28,13 @@
     <br />
     <button type="submit" class="btn btn-secondary" value="Submit">Add Facilities</button>
 </form>
-
 @*<form>
-    @foreach (var item in Model)
-    {
-        <div class="form-check form-check-inline">
-            <input class="form-check-input" type="checkbox" id="inlineCheckbox1" value="@item.Id">
-            <label class="form-check-label" for="inlineCheckbox1">@item.Description</label>
-        </div>
-    }
-    <button type="submit" class="btn btn-secondary">Add Facilities</button>
-</form>*@
+        @foreach (var item in Model)
+        {
+            <div class="form-check form-check-inline">
+                <input class="form-check-input" type="checkbox" id="inlineCheckbox1" value="@item.Id">
+                <label class="form-check-label" for="inlineCheckbox1">@item.Description</label>
+            </div>
+        }
+        <button type="submit" class="btn btn-secondary">Add Facilities</button>
+    </form>*@
