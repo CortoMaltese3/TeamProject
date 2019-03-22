@@ -232,6 +232,7 @@
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="App_Start\WebApiConfig.cs" />
     <Compile Include="Areas\Admin\AdminAreaRegistration.cs" />
+    <Compile Include="Areas\Admin\Controllers\BranchFacilitiesController.cs" />
     <Compile Include="Areas\Admin\Controllers\BranchesController.cs" />
     <Compile Include="Areas\Admin\Controllers\PanelController.cs" />
     <Compile Include="Areas\Admin\Controllers\BookingsController.cs" />
@@ -245,7 +246,10 @@
     <Compile Include="Controllers\ReviewsController.cs" />
     <Compile Include="Areas\Admin\Controllers\TimeSlotsController.cs" />
     <Compile Include="Areas\Admin\Controllers\UsersController.cs" />
-    <Compile Include="Controllers\UsersController.cs" />
+    <Compile Include="Dal\TeamProjectApp.cs" />
+    <Compile Include="Models\BranchFacilities.cs" />
+    <Compile Include="Models\BranchFacilitiesManager.cs" />
+    <Compile Include="Models\FacilityFormModel.cs" />
     <Compile Include="SmtpMessageChunk.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
@@ -350,6 +354,8 @@
     <Content Include="Areas\Admin\Views\Roles\Delete.cshtml" />
     <Content Include="Areas\Admin\Views\Panel\Index.cshtml" />
     <Content Include="Areas\Admin\Views\Users\Join.cshtml" />
+    <Content Include="Areas\Admin\Views\BranchFacilities\ChooseFacilities.cshtml" />
+    <Content Include="Areas\Admin\Views\Bookings\CourtBookings.cshtml" />
     <None Include="Scripts\jquery-3.3.1.intellisense.js" />
     <Content Include="Scripts\google-maps-nearest.js" />
     <Content Include="Scripts\google-maps.js" />
@@ -436,7 +442,7 @@
     <Content Include="Areas\Admin\Views\Users\Delete.cshtml" />
     <Content Include="Views\Courts\Book.cshtml" />
     <Content Include="Views\Courts\Confirmed.cshtml" />
-    <Content Include="Views\Users\Create.cshtml" />
+    <Content Include="Views\Shared\_LayoutBooking.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

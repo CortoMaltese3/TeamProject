@@ -64,8 +64,8 @@ namespace TeamProject.Models
                 book.Id = dbCon.ExecuteScalar<int>(
                     "IF (SELECT Count(*) FROM Booking WHERE CourtId = @CourtId AND BookedAt = @BookedAt)=0 " +
                     "BEGIN" +
-                    "    INSERT INTO Booking (CourtId, BookedAt, UserId, Duration) " +
-                    "    VALUES (@CourtId, @BookedAt, @UserId, @Duration) " +
+                    "    INSERT INTO Booking (CourtId, BookedAt, UserId, Duration, BookKey) " +
+                    "    VALUES (@CourtId, @BookedAt, @UserId, @Duration, @BookKey) " +
                     "    SELECT SCOPE_IDENTITY() AS Id " +
                     "END", 
                     book);

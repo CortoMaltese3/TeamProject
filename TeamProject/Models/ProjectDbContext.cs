@@ -16,6 +16,7 @@ namespace TeamProject.Models
             _connectionString = ConfigurationManager.ConnectionStrings["ConnectionString"].ConnectionString;
             Courts = new CourtManager(this);
             Branches = new BranchManager(this);
+            BranchFacilities = new BranchFacilitiesManager(this);
             Users = new UserManager(this);
             Facilities = new FacilityManager(this);
             UserRoles = new UserRolesManager(this);
@@ -41,6 +42,7 @@ namespace TeamProject.Models
         }
         public CourtManager Courts { get; set; }
         public BranchManager Branches { get; set; }
+        public BranchFacilitiesManager BranchFacilities { get; set; }
         public UserManager Users { get; set; }
         public UserRolesManager UserRoles { get; set; }
         public FacilityManager Facilities { get; set; }

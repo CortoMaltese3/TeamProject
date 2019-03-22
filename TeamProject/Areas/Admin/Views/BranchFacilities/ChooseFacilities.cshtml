@@ -1,0 +1,32 @@
+﻿@model TeamProject.Models.FacilityFormModel
+@{
+    ViewBag.Title = "ChooseFacilities";
+}
+<h2>ChooseFacilities</h2>
+<br />
+
+@using (Html.BeginForm())
+{
+    @Html.HiddenFor(model => model.BranchId)
+    <div class="row form-group particularities-container">
+        <div class="col-xs-6 col-sm-3">
+            @foreach (var item in Model.AvailableFacilities)
+            {
+                <div class="toggle_container inline">
+                    <div class="toggle">
+                        <input class="form-check-input"
+                               type="checkbox"
+                               name="selectedFacilities"
+                               value="@item.Value"
+                               @if (item.Selected) { @Html.Raw("checked") }>
+                    </div>
+                    <div class="label_container">
+                        <label class="form-check-label">@item.Text</label>
+                    </div>
+                </div>
+            }
+        </div>
+    </div>
+    <br />
+    <button type="submit" class="btn btn-secondary" value="Submit">Add Facilities</button>
+}
