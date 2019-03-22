@@ -7,10 +7,11 @@ using TeamProject.Models;
 
 namespace TeamProject.Areas.Admin.Controllers
 {
+    [Authorize(Roles = "Owner,Admin")]
     public class BranchFacilitiesController : Controller
     {
         private ProjectDbContext db = new ProjectDbContext();
-        [Authorize(Roles = "Owner,Admin")]
+        
         public ActionResult ChooseFacilities(int id)
         {
             var facilityFormModel = new FacilityFormModel()
@@ -22,7 +23,8 @@ namespace TeamProject.Areas.Admin.Controllers
             return View(facilityFormModel);
         }
 
-        public ActionResult AddFacilities(FacilityFormModel facilityFormModel)
+        [HttpPost]
+        public ActionResult ChooseFacilities(FacilityFormModel facilityFormModel)
         {
             if (!ModelState.IsValid)
             {

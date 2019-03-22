@@ -4,7 +4,9 @@
 }
 <h2>ChooseFacilities</h2>
 <br />
-<form method="get" action="~/Admin/Facilities/AddFacilities/@Model.BranchId">
+
+@using (Html.BeginForm())
+{
     @Html.HiddenFor(model => model.BranchId)
     <div class="row form-group particularities-container">
         <div class="col-xs-6 col-sm-3">
@@ -12,7 +14,7 @@
             {
                 <div class="toggle_container inline">
                     <div class="toggle">
-                        <input class="form-check-input" 
+                        <input class="form-check-input"
                                type="checkbox"
                                name="selectedFacilities"
                                value="@item.Value"
@@ -27,14 +29,4 @@
     </div>
     <br />
     <button type="submit" class="btn btn-secondary" value="Submit">Add Facilities</button>
-</form>
-@*<form>
-        @foreach (var item in Model)
-        {
-            <div class="form-check form-check-inline">
-                <input class="form-check-input" type="checkbox" id="inlineCheckbox1" value="@item.Id">
-                <label class="form-check-label" for="inlineCheckbox1">@item.Description</label>
-            </div>
-        }
-        <button type="submit" class="btn btn-secondary">Add Facilities</button>
-    </form>*@
+}
