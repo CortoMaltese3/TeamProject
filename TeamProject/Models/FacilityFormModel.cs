@@ -9,13 +9,8 @@ namespace TeamProject.Models
     public class FacilityFormModel
     {
         public int BranchId { get; set; }
-        public IList<int> SelectedFacilities { get; set; }
-        public IList<SelectListItem> AvailableFacilities { get; set; }
+        public IEnumerable<int> SelectedFacilities { get; set; }
+        public IEnumerable<SelectListItem> AvailableFacilities { get; set; }
 
-        public FacilityFormModel()
-        {
-            SelectedFacilities = new List<int>();
-            AvailableFacilities = new List<SelectListItem>();
-        }
     }
 }
