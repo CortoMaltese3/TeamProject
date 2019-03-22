@@ -245,7 +245,6 @@
     <Compile Include="Controllers\ReviewsController.cs" />
     <Compile Include="Areas\Admin\Controllers\TimeSlotsController.cs" />
     <Compile Include="Areas\Admin\Controllers\UsersController.cs" />
-    <Compile Include="Controllers\UsersController.cs" />
     <Compile Include="SmtpMessageChunk.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
@@ -437,7 +436,6 @@
     <Content Include="Areas\Admin\Views\Users\Delete.cshtml" />
     <Content Include="Views\Courts\Book.cshtml" />
     <Content Include="Views\Courts\Confirmed.cshtml" />
-    <Content Include="Views\Users\Create.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
