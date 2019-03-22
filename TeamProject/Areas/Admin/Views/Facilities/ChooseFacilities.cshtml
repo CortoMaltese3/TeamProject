@@ -6,7 +6,7 @@
 
 <h2>ChooseFacilities</h2>
 <br />
-<form method="get" action="~/Admin/Branches/AddFacilities">
+<form method="get" action="~/Admin/Facilities/AddFacilities/@ViewBag.BranchId">
     <div class="row form-group particularities-container">
         <div class="col-xs-6 col-sm-3">
             @foreach (var item in Model)

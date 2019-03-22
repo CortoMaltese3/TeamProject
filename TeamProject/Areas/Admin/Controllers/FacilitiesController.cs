@@ -46,9 +46,27 @@ namespace TeamProject.Areas.Admin.Controllers
         {
             var facilities = db.Facilities.Get().ToList();
             var branchfacilities = new BranchFacilities();
-            branchfacilities.BranchId = id;
+            ViewBag.BranchId = id;
 
             return View(facilities);
+        }
+
+       
+        public ActionResult AddFacilities(int id, BranchFacilities branchFacilities)
+        {            
+            //var facilities = db.Branches.Add().Facility(facility.Id);
+            if (ModelState.IsValid)
+            {
+                var facilities = branchFacilities.SelectedFacilities;
+                foreach (var item in facilities)
+                {
+                    db.BranchFacilities.Add(new BranchFacilities() { BranchId = id , FacilityId = item });
+                }
+            }
+
+
+
+            return RedirectToAction("Index","Branches");
         }
 
         // GET: Facilities/Create

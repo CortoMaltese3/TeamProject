@@ -13,12 +13,12 @@ namespace TeamProject.Models
         public Branch Branch { get; set; }
         public Facility Facility { get; set; }
 
-        public IList<string> SelectedFacilities { get; set; }
+        public IList<int> SelectedFacilities { get; set; }
         public IList<Facility> AvailableFacilities { get; set; }
 
         public BranchFacilities()
         {
-            SelectedFacilities = new List<string>();
+            SelectedFacilities = new List<int>();
             AvailableFacilities = new List<Facility>();
         }
     }
