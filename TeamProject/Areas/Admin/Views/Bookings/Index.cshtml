@@ -13,7 +13,7 @@
 <div class="row">
 
     <nav class="col-2 sidenav">
-        <ul class="list-group">
+        <ul class="list-group shadow-sm">
             @foreach (var court in Model.Courts)
             {
                 <li court-id="@court.Id" class="list-group-item d-flex justify-content-between align-items-center">@court.Name</li>
