@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
+using System.Web.Mvc;
 
 namespace TeamProject.Models
 {
@@ -12,6 +13,14 @@ namespace TeamProject.Models
         public Branch Branch { get; set; }
         public Facility Facility { get; set; }
 
+        public IList<string> SelectedFacilities { get; set; }
+        public IList<Facility> AvailableFacilities { get; set; }
 
+        public BranchFacilities()
+        {
+            SelectedFacilities = new List<string>();
+            AvailableFacilities = new List<Facility>();
+        }
     }
+
 }

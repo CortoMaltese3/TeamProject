@@ -13,7 +13,8 @@
             {
                 <div class="toggle_container inline">
                     <div class="toggle">
-                        <input class="form-check-input" type="checkbox" value="@item.Id">
+                        <input class="form-check-input" type="checkbox"name="SelectedFacilities"
+                               value="@item.Id">
                     </div>
                     <div class="label_container">
                         <label class="form-check-label">@item.Description</label>
@@ -23,7 +24,7 @@
         </div>
     </div>
     <br />
-    <button type="submit" class="btn btn-secondary">Add Facilities</button>
+    <button type="submit" class="btn btn-secondary" value="Submit">Add Facilities</button>
 </form>
 
 @*<form>

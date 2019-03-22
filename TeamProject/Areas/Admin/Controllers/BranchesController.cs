@@ -80,11 +80,22 @@ namespace TeamProject.Areas.Admin.Controllers
             return View(branch);
         }
 
-        public ActionResult AddFacilities(int id,Facility facility)
+        public ActionResult AddFacilities(BranchFacilities branchFacilities)
         {
             //Find branch and add the facilities to it!
-            var branch = db.Branches.Get().Where(x => x.Id == id).FirstOrDefault();
+            var branch = branchFacilities.BranchId;
+
             //var facilities = db.Branches.Add().Facility(facility.Id);
+            if (ModelState.IsValid)
+            {
+                var facilities = branchFacilities.SelectedFacilities;
+                foreach (var item in facilities)
+                {
+                    //db.BranchFacilities.Add(branch, item);
+                }
+            }
+            
+            
 
             return RedirectToAction("Index");
         }

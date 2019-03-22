@@ -42,9 +42,11 @@ namespace TeamProject.Areas.Admin.Controllers
         }
 
         [Authorize(Roles = "Owner,Admin")]
-        public ActionResult ChooseFacilities(int? id)
+        public ActionResult ChooseFacilities(int id)
         {
             var facilities = db.Facilities.Get().ToList();
+            var branchfacilities = new BranchFacilities();
+            branchfacilities.BranchId = id;
 
             return View(facilities);
         }
