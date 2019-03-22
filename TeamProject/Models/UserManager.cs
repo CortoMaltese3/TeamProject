@@ -101,31 +101,5 @@ namespace TeamProject.Models
 
             return loggedInUser;
         }
-        public bool EmailExists(string email)
-        {
-            return Get("Email=@email", new { email }).Count() > 0;
-        }
-        public bool AddSimpleUser(User user)
-        {
-            //adding the new user in db!
-            var newUser = Add(user);
-            if (newUser == null)
-            {
-                return false;
-            }
-
-            //finding the role id for type "user"
-            var role = _db.Roles.GetUserRole();
-
-            //adding the role id with user id in the connection table.
-            var UserRole = new UserRoles()
-            {
-                UserId = newUser.Id,
-                RoleId = role.Id
-            };
-            var newUserRoles = _db.UserRoles.Add(UserRole);
-
-            return newUserRoles != null;
-        }
     }
 }

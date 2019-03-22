@@ -3,32 +3,30 @@ using System.Web.Mvc;
 using TeamProject.Models;
 using System.Linq;
 using System;
+using TeamProject.Dal;
+using System.Collections.Generic;
 
 namespace TeamProject.Areas.Admin.Controllers
 {
     [Authorize(Roles = "Admin")]
     public class UsersController : Controller
     {
-        private ProjectDbContext db = new ProjectDbContext();
+        private TeamProjectApp app = new TeamProjectApp();
 
         // GET: Users
         public ActionResult Index()
         {
-            return View(db.Users.Get());
+            return View(app.GetAllUsers());
         }
 
         // GET: Users/Details/5
         public ActionResult Details(int? id)
         {
-            if (id == null)
-            {
-                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
-            }
-            var user = db.Users.Find(id ?? 0);
-            if (user == null)
+            if (!app.GetUserById(id ?? 0, out User user))
             {
                 return HttpNotFound();
             }
+
             return View(user);
         }
 
@@ -43,13 +41,13 @@ namespace TeamProject.Areas.Admin.Controllers
         {
             return View();
         }
+
         [AllowAnonymous]
         [HttpPost]
         [ValidateAntiForgeryToken]
         public ActionResult Join(User user)
         {
-            return CreateUser(user, 
-                CreateValidations,
+            return CreateUser(user,
                 () => Redirect("~/Home/Index"));
         }
 
@@ -61,19 +59,18 @@ namespace TeamProject.Areas.Admin.Controllers
         public ActionResult Create(User user)
         {
             return CreateUser(user,
-                CreateValidations,
                 () => RedirectToAction("Index"));
         }
 
-        private ActionResult CreateUser(User user, Func<User, bool> validations, Func<ActionResult> redirectTo)
+        private ActionResult CreateUser(User user, Func<ActionResult> redirectTo)
         {
 
-            if (!validations(user))
+            if (!UserValidations(user))
             {
                 return View(user);
             }
 
-            if (!db.Users.AddSimpleUser(user))
+            if (!app.AddSimpleUser(user))
             {
                 ModelState.AddModelError("UserName", "Failed to create new user.");
                 return View(user);
@@ -82,10 +79,10 @@ namespace TeamProject.Areas.Admin.Controllers
             return redirectTo();
 
         }
-        private bool CreateValidations(User user)
+        private bool UserValidations(User user)
         {
             //UserManager manager = new UserManager(db);
-            if (db.Users.EmailExists(user.Email))
+            if (app.EmailExists(user.Email))
             {
                 ModelState.AddModelError("Email", "E-mail already taken! Choose an other E-mail!");
                 return false;
@@ -97,35 +94,23 @@ namespace TeamProject.Areas.Admin.Controllers
             }
             return ModelState.IsValid;
         }
+
         // GET: Users/Edit/5
         public ActionResult Edit(int? id)
         {
-            if (id == null)
-            {
-                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
-            }
-            User user = db.Users.Find(id ?? 0);
-            if (user == null)
+            if (!app.GetUserById(id ?? 0, out User user))
             {
                 return HttpNotFound();
             }
 
-            // find roles not enabled for selected user
-            var roles = db
-                .Roles
-                .Get()
-                .Where(r => !user.Roles.Any(ur => ur.Id == r.Id))
-                .Select(r => new Role()
-                {
-                    Id = r.Id,
-                    Description = r.Description,
-                    IsEnabled = false,
-                    IsNew = true
-                });
+            // find roles that are not enabled for 
+            // the selected user and add them to 
+            // user.Roles list with IsNew property = true
+            app.AddNotEnabledRolesToUser(user);
 
-            // add found roles to user
-            user.Roles.AddRange(roles);
+            // order by description
             user.Roles = user.Roles.OrderBy(r => r.Description).ToList();
+
             return View(user);
         }
 
@@ -136,46 +121,25 @@ namespace TeamProject.Areas.Admin.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult Edit(User user)
         {
-            if (ModelState.IsValid)
+            if (!ModelState.IsValid)
             {
-                // remove existing roles that got disabled 
-                user.Roles
-                    .Where(r => !r.IsNew && !r.IsEnabled)
-                    .ToList()
-                    .ForEach((role) =>
-                    {
-                        db.UserRoles.Remove(user.Id, role.Id);
-                    });
-
-                // add new roles
-                user.Roles
-                    .Where(r => r.IsNew && r.IsEnabled)
-                    .ToList()
-                    .ForEach((role) =>
-                        {
-                            db.UserRoles.Add(new UserRoles() { UserId = user.Id, RoleId = role.Id });
-                        });
-
-                //update user
-                db.Users.Update(user);
-
-                return RedirectToAction("Index");
+                return View(user);
             }
-            return View(user);
+
+            // update user and add or remove selected roles
+            app.UpdateUserAndRoles(user);
+
+            return RedirectToAction("Index");
         }
 
         // GET: Users/Delete/5
         public ActionResult Delete(int? id)
         {
-            if (id == null)
-            {
-                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
-            }
-            var user = db.Users.Find(id ?? 0);
-            if (user == null)
+            if (!app.GetUserById(id ?? 0, out User user))
             {
                 return HttpNotFound();
             }
+
             return View(user);
         }
 
@@ -184,10 +148,10 @@ namespace TeamProject.Areas.Admin.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult DeleteConfirmed(int id)
         {
-            var user = db.Users.Find(id);
-            db.Users.Remove(id);
+            app.RemoveUserById(id);
             return RedirectToAction("Index");
         }
+
 
 
     }
