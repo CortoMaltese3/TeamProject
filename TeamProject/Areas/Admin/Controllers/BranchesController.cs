@@ -80,6 +80,15 @@ namespace TeamProject.Areas.Admin.Controllers
             return View(branch);
         }
 
+        public ActionResult AddFacilities(int id,Facility facility)
+        {
+            //Find branch and add the facilities to it!
+            var branch = db.Branches.Get().Where(x => x.Id == id).FirstOrDefault();
+            //var facilities = db.Branches.Add().Facility(facility.Id);
+
+            return RedirectToAction("Index");
+        }
+
         // GET: Branches/Edit/5
         public ActionResult Edit(int? id)
         {

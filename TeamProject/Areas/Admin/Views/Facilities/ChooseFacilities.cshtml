@@ -1,0 +1,38 @@
+﻿@model IEnumerable<TeamProject.Models.Facility>
+
+@{
+    ViewBag.Title = "ChooseFacilities";
+}
+
+<h2>ChooseFacilities</h2>
+<br />
+<form method="get" action="~/Admin/Branches/AddFacilities">
+    <div class="row form-group particularities-container">
+        <div class="col-xs-6 col-sm-3">
+            @foreach (var item in Model)
+            {
+                <div class="toggle_container inline">
+                    <div class="toggle">
+                        <input class="form-check-input" type="checkbox" value="@item.Id">
+                    </div>
+                    <div class="label_container">
+                        <label class="form-check-label">@item.Description</label>
+                    </div>
+                </div>
+            }
+        </div>
+    </div>
+    <br />
+    <button type="submit" class="btn btn-secondary">Add Facilities</button>
+</form>
+
+@*<form>
+    @foreach (var item in Model)
+    {
+        <div class="form-check form-check-inline">
+            <input class="form-check-input" type="checkbox" id="inlineCheckbox1" value="@item.Id">
+            <label class="form-check-label" for="inlineCheckbox1">@item.Description</label>
+        </div>
+    }
+    <button type="submit" class="btn btn-secondary">Add Facilities</button>
+</form>*@

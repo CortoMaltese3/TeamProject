@@ -350,6 +350,7 @@
     <Content Include="Areas\Admin\Views\Roles\Delete.cshtml" />
     <Content Include="Areas\Admin\Views\Panel\Index.cshtml" />
     <Content Include="Areas\Admin\Views\Users\Join.cshtml" />
+    <Content Include="Areas\Admin\Views\Facilities\ChooseFacilities.cshtml" />
     <None Include="Scripts\jquery-3.3.1.intellisense.js" />
     <Content Include="Scripts\google-maps-nearest.js" />
     <Content Include="Scripts\google-maps.js" />
