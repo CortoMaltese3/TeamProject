@@ -32,9 +32,9 @@
 
                         @if (Session["User"] != null)
                         {
-                            <li class="nav-item">
+                            @*<li class="nav-item">
                                 @Html.ActionLink("Bookings", "Index", "Bookings", new { area = "Admin" }, new { @class = "nav-link" })
-                            </li>
+                            </li>*@
                             <li class="nav-item">
                                 @Html.ActionLink("Branches", "Index", "Branches", new { area = "Admin" }, new { @class = "nav-link" })
                             </li>

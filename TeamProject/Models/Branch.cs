@@ -17,6 +17,7 @@ namespace TeamProject.Models
 
         public int Id { get; set; }
 
+        [Display(Name = "Branch Owner")]
         public int UserId { get; set; }
 
         [Required]

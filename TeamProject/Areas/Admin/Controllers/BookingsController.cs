@@ -16,10 +16,16 @@ namespace TeamProject.Areas.Admin.Controllers
         private ProjectDbContext db = new ProjectDbContext();
 
         // GET: Bookings
-        public ActionResult Index()
+        public ActionResult Index(int id)
         {
-            var booking = db.Bookings.Get();//.Include(b => b.Court).Include(b => b.User);
-            return View(booking.ToList());
+            var courtsInSameBranch = db.Courts.BranchCourts(id).ToList();
+
+            var bookViewModel = new BookViewModel()
+            {
+                CourtId = courtsInSameBranch.FirstOrDefault()?.Id??0,
+                Courts = courtsInSameBranch
+            };
+            return View(bookViewModel);
         }
 
         // GET: Bookings/Details/5

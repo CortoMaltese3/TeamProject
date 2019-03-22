@@ -19,9 +19,11 @@ namespace TeamProject.ApiControllers
         private ProjectDbContext db = new ProjectDbContext();
 
         // GET: api/Book/5
-        public IEnumerable<TimeslotApiView> Get(int id, DateTime fromDate, DateTime toDate)
+        public IEnumerable<TimeslotApiView> Get(int id, string type, DateTime fromDate, DateTime toDate)
         {
-            return db.TimeSlots.GetForBooking(id, fromDate, toDate);
+            return type == "ForBooking"
+                ? db.TimeSlots.GetForBooking(id, fromDate, toDate)
+                : db.TimeSlots.GetBookings(id, fromDate, toDate);
         }
 
         // POST: api/Book
