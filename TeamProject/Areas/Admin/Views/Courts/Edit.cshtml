@@ -101,25 +101,47 @@
             @Html.DisplayFor(modelItem => item.Hour)
         </td>
         <td>
-            @Html.ActionLink($"{item.Day1}", "Edit", "Timeslots", new { id = item.Day1 }, null)            
+            @if (item.Day1 != null)
+            {
+                @Html.ActionLink(item.Day1.ToString(), "Edit", "Timeslots", new { id = item.Day1 }, new { @class = "btn btn-primary" })
+            }
+
         </td>
-        <td>            
-            @Html.ActionLink($"{item.Day2}", "Edit", "Timeslots", new { id = item.Day2 }, null)
+        <td>
+            @if (item.Day2 != null)
+            {
+                @Html.ActionLink(item.Day2.ToString(), "Edit", "Timeslots", new { id = item.Day2 }, null)
+            }
         </td>
-        <td>            
-            @Html.ActionLink($"{item.Day3}", "Edit", "Timeslots", new { id = item.Day3 }, null)
+        <td>
+            @if (item.Day3 != null)
+            {
+                @Html.ActionLink(item.Day3.ToString(), "Edit", "Timeslots", new { id = item.Day3 }, null)
+            }
         </td>
-        <td>            
-            @Html.ActionLink($"{item.Day4}", "Edit", "Timeslots", new { id = item.Day4 }, null)
+        <td>
+            @if (item.Day4 != null)
+            {
+                @Html.ActionLink(item.Day4.ToString(), "Edit", "Timeslots", new { id = item.Day4 }, null)
+            }
         </td>
-        <td>            
-            @Html.ActionLink($"{item.Day5}", "Edit", "Timeslots", new { id = item.Day5 }, null)
+        <td>
+            @if (item.Day5 != null)
+            {
+                @Html.ActionLink(item.Day5.ToString(), "Edit", "Timeslots", new { id = item.Day5 }, null)
+            }
         </td>
-        <td>            
-            @Html.ActionLink($"{item.Day6}", "Edit", "Timeslots", new { id = item.Day6 }, null)
+        <td>
+            @if (item.Day6 != null)
+            {
+                @Html.ActionLink(item.Day6.ToString(), "Edit", "Timeslots", new { id = item.Day6 }, null)
+            }
         </td>
-        <td>            
-            @Html.ActionLink($"{item.Day7}", "Edit", "Timeslots", new { id = item.Day7 }, null)
+        <td>
+            @if (item.Day7 != null)
+            {
+                @Html.ActionLink(item.Day7.ToString(), "Edit", "Timeslots", new { id = item.Day7 }, null)
+            }
         </td>
     </tr>
     }

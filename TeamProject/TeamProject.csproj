@@ -440,7 +440,7 @@
     <Content Include="Views\Login\Index.cshtml" />
     <Content Include="Areas\Admin\Views\Users\Details.cshtml" />
     <Content Include="Areas\Admin\Views\Users\Delete.cshtml" />
-    <Content Include="Views\Courts\Book.cshtml" />
+    <Content Include="Views\Courts\Booking.cshtml" />
     <Content Include="Views\Courts\Confirmed.cshtml" />
     <Content Include="Views\Shared\_LayoutBooking.cshtml" />
   </ItemGroup>
