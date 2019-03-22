@@ -2,6 +2,7 @@
 using System.Web.Mvc;
 using TeamProject.Models;
 using System.Linq;
+using System;
 
 namespace TeamProject.Areas.Admin.Controllers
 {
@@ -42,6 +43,14 @@ namespace TeamProject.Areas.Admin.Controllers
         {
             return View();
         }
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult Join(User user)
+        {
+            return CreateUser(user, 
+                CreateValidations,
+                () => Redirect("~/Home/Index"));
+        }
 
         // POST: Users/Create
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
@@ -50,32 +59,43 @@ namespace TeamProject.Areas.Admin.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult Create(User user)
         {
-            //UserManager manager = new UserManager(db);
-            var CheckEmail = db.Users.Get("Email=@Email", new { Email = user.Email }).Count();
-            if (CheckEmail > 0)
-            {
-                ModelState.AddModelError("Email", "E-mail already taken! Choose an other E-mail!");
-            }
-
-            if (ModelState.IsValid)
-            {
-                //adding the new user in db!
-                var Newuser = db.Users.Add(user);
-
-                //finding the role id for type "user"
-                var role = db.Roles.Get("Description=@Description", new { Description = "User" }).FirstOrDefault();
-                //adding the role id with user id in the connection table.
-                var UserRole = new UserRoles();
-                UserRole.UserId = Newuser.Id;
-                UserRole.RoleId = role.Id;
-                db.UserRoles.Add(UserRole);
-
-                return RedirectToAction("Index");
-            }
-
-            return View(user);
+            return CreateUser(user,
+                CreateValidations,
+                () => RedirectToAction("Index"));
         }
 
+        private ActionResult CreateUser(User user, Func<User, bool> validations, Func<ActionResult> redirectTo)
+        {
+
+            if (!validations(user))
+            {
+                return View(user);
+            }
+
+            if (!db.Users.AddSimpleUser(user))
+            {
+                ModelState.AddModelError("UserName", "Failed to create new user.");
+                return View(user);
+            }
+
+            return redirectTo();
+
+        }
+        private bool CreateValidations(User user)
+        {
+            //UserManager manager = new UserManager(db);
+            if (db.Users.EmailExists(user.Email))
+            {
+                ModelState.AddModelError("Email", "E-mail already taken! Choose an other E-mail!");
+                return false;
+            }
+            if (user.Password == null)
+            {
+                ModelState.AddModelError("Password", "Password is required");
+                return false;
+            }
+            return ModelState.IsValid;
+        }
         // GET: Users/Edit/5
         public ActionResult Edit(int? id)
         {

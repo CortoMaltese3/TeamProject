@@ -72,8 +72,8 @@ namespace TeamProject.Models
 
         public User Login(string email, string password)
         {
-           
-            var loggedInUser = Get("Email=@email and Password=@password",new { email,password}).FirstOrDefault();
+
+            var loggedInUser = Get("Email=@email and Password=@password", new { email, password }).FirstOrDefault();
 
             if (loggedInUser != null)
             {
@@ -84,7 +84,7 @@ namespace TeamProject.Models
                     new Claim(
                         "http://schemas.microsoft.com/accesscontrolservice/2010/07/claims/identityprovider",
                         "ASP.NET Identity", "http://www.w3.org/2001/XMLSchema#string"),
-                    new Claim(ClaimTypes.Name, email),  
+                    new Claim(ClaimTypes.Name, email),
                     new Claim(ClaimTypes.UserData, loggedInUser.Id.ToString())
                 });
 
@@ -92,7 +92,7 @@ namespace TeamProject.Models
                 {
                     claims.Add(new Claim(ClaimTypes.Role, role.Description));
                 }
-                
+
                 var identity = new ClaimsIdentity(claims, DefaultAuthenticationTypes.ApplicationCookie);
 
                 HttpContext.Current.GetOwinContext().Authentication.SignIn(
@@ -100,6 +100,32 @@ namespace TeamProject.Models
             }
 
             return loggedInUser;
+        }
+        public bool EmailExists(string email)
+        {
+            return Get("Email=@email", new { email }).Count() > 0;
+        }
+        public bool AddSimpleUser(User user)
+        {
+            //adding the new user in db!
+            var newUser = Add(user);
+            if (newUser == null)
+            {
+                return false;
+            }
+
+            //finding the role id for type "user"
+            var role = _db.Roles.GetUserRole();
+
+            //adding the role id with user id in the connection table.
+            var UserRole = new UserRoles()
+            {
+                UserId = newUser.Id,
+                RoleId = role.Id
+            };
+            var newUserRoles = _db.UserRoles.Add(UserRole);
+
+            return newUserRoles != null;
         }
     }
 }
