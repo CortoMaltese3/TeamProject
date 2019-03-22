@@ -25,7 +25,7 @@
         <h1 class="bd-title">Book for <span id="court-title"></span></h1>
         <div class="row timeslot-header">
             <div id="prev-week-btn" class="col-1"><i class="fas fa-arrow-circle-left"></i></div>
-            <h3 id="timeslot-week" class="col text-lg-center">11/03/2019 - 17/03/2019</h3>
+            <h3 id="timeslot-week" class="col text-lg-center">...</h3>
             <div id="next-week-btn" class="col-1"><i class="fas fa-arrow-circle-right"></i></div>
         </div>
         <div id="data-container"></div>
@@ -72,10 +72,12 @@
                     },
 
                     // returns divs with week days for timeslot header
-                    getTimeslotsHeader: function(data) {
-                        return ["", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"]
-                            .map(function (i) {
-                                return '<div class="col text-center">' + i + '</div>';
+                    getTimeslotsHeader: function (date) {
+                        let headerBlock = '<div class="col text-center">{date}</div>';
+
+                        return headerBlock.replace('{date}', '') +
+                            [0, 1, 2, 3, 4, 5, 6].map(function (i) {
+                                return headerBlock.replace('{date}', date.add(i,'days').format('dddd<br/>DD MMM'));
                             })
                             .join('');
                     },
@@ -96,7 +98,6 @@
                                 let dateTime = date.clone().add(day, 'days').hour(localhour.hour());
                                 let timeSlotValue = timeslotDate.okToSelectDate(dateTime) ? timeslot['Day' + (day + 1)] : "0";
                                 let showTime = (timeSlotValue == 1 ? localhour.format('HH:mm') : '');
-                                //if (timeslotDate.okToSelectDate(showTime)) 
                                 tbody += '<div class="col text-center" date = "' + dateTime.utc().format() + '" value="' + timeSlotValue + '">' + showTime + '</div>';
                             }
 
@@ -135,15 +136,17 @@
 
             // Get timeslots and build container header+body
             function getTimeslots(courtId) {
-
+                const fromDate = timeslotDate.firstWeekDate(),
+                    toDate = timeslotDate.lastWeekDate();
+                
                 $.getJSON('/api/book/' + courtId, {
-                    fromDate: timeslotDate.firstWeekDate().utc().format(),
-                    toDate: timeslotDate.lastWeekDate().utc().format()
+                    fromDate: fromDate.clone().utc().format(),
+                    toDate: toDate.utc().format()
                 }).done(function (data) {
 
                     $container.html(
                         '<div class="timeslots">' +
-                            '<div class="row">' + utils.getTimeslotsHeader() + '</div>' +
+                        '<div class="row">' + utils.getTimeslotsHeader(fromDate) + '</div>' +
                             utils.getTimeslotsBody(data) +
                         '</div>');
 
@@ -199,14 +202,14 @@
                     success: function (result) {
 
                         if (result.Status === "Ok") {
-                            // TODO
+
                             // Redirect to Booking Information and Send email
-                            
-                            window.location.href = '/Courts/Confirmed/'+result.BookKey;
+                            window.location.href = '/Courts/Confirmed/' + result.BookKey;
+
                         } else {
-                            // TODO
-                            // Open Modal with Error message
                             refreshTimeslotsTable();
+
+                            // Open Modal with Error message
                             openModalWithError('Failed to complete booking','<h4>'+result.Status+'<h4><p>Please try again</p>');
                         }
                     }
