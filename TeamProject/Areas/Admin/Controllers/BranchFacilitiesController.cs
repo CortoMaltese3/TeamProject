@@ -2,10 +2,12 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
+using System.Web.Mvc;
+using TeamProject.Models;
 
 namespace TeamProject.Areas.Admin.Controllers
 {
-    public class BranchFacilitiesController
+    public class BranchFacilitiesController : Controller
     {
         private ProjectDbContext db = new ProjectDbContext();
         [Authorize(Roles = "Owner,Admin")]
