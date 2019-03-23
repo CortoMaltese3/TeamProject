@@ -1,1 +1,39 @@
 ﻿
+.timeSlots td:first-child {
+    font-weight: bold;
+    text-align: right;
+}
+
+.timeSlots td:first-child {
+    text-align: right;
+    padding-top: 20px;
+}
+
+.timeSlots th {
+    text-align: center;
+}
+
+/*extra css*/
+.timeSlots td {
+    margin: 5px;
+    font-weight: bold;
+    /*justify-content: center;*/
+    text-align: center;
+}
+
+.timeSlots td a {
+    display: inline-block;
+    padding-top: 20px;
+    padding-bottom: 20px;
+    width: 100%;
+    border-radius: .25em;
+    border: 1px solid rgba(0,0,0,.125);
+    font-weight: normal;
+    text-align: center;
+    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+}
+
+
+.timeSlots td a {
+    background: #deee86;
+}
