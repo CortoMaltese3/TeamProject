@@ -1,4 +1,4 @@
-﻿@model TeamProject.ModelsViews.BookViewModel
+﻿@model TeamProject.ModelsViews.BranchCourtsTimeslots
 @using TeamProject.Models
 @{
     ViewBag.Title = "Bookings";
@@ -11,12 +11,21 @@
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.2/css/all.css" integrity="sha384-fnmOCqbTlWIlj8LyTjo7mOUStjsKC4pOpQbqyi7RrhN7udi9RwhKkMHpvLbHG9Sr" crossorigin="anonymous">
 }
 <div class="row">
-
+    @using (Html.BeginForm(FormMethod.Get))
+    {
+        @Html.HiddenFor(item => item.BranchId)
+        @Html.HiddenFor(item => item.CourtId)
+        @Html.HiddenFor(item => item.fromDate, new { utcvalue = Model.fromDate.ToString("yyyy-MM-dd") })
+        @Html.HiddenFor(item => item.toDate, new { utcvalue = Model.toDate.ToString("yyyy-MM-dd") })
+    }
     <nav class="col-2 sidenav">
         <ul class="list-group shadow-sm">
             @foreach (var court in Model.Courts)
             {
-                <li court-id="@court.Id" class="list-group-item d-flex justify-content-between align-items-center">@court.Name</li>
+                <li court-id="@court.Id" 
+                    class="list-group-item d-flex justify-content-between align-items-center">
+                    @court.Name
+                </li>
             }
         </ul>
     </nav>
@@ -25,165 +34,117 @@
         <h1 class="bd-title">Bookings for <small class="text-muted" id="court-title"></small></h1>
         <div class="row timeslot-header">
             <div id="prev-week-btn" class="col-1"><i class="fas fa-arrow-circle-left"></i></div>
-            <h3 id="timeslot-week" class="col text-lg-center">...</h3>
+            <h3 id="timeslot-week" class="col text-lg-center"></h3>
             <div id="next-week-btn" class="col-1"><i class="fas fa-arrow-circle-right"></i></div>
         </div>
-        <div id="data-container"></div>
+        <div id="data-container">
+            <table class="table timeSlots">
+                <tr>
+                    <th></th>
+                    <th>Monday</th>
+                    <th>Tuesday</th>
+                    <th>Wednesday</th>
+                    <th>Thursday</th>
+                    <th>Friday</th>
+                    <th>Saturday</th>
+                    <th>Sunday</th>
+                </tr>
+                @foreach (var item in Model.TimeslotApiViews)
+                {
+                    <tr>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Hour)
+                        </td>
+                        <td>
+                            @if ((item.Day1 ?? 0) > 0)
+                            {
+                                @Html.ActionLink(item.Hour.ToString("hh\\:mm"), "Details", "Bookings", new { id = item.Day1, branchId = Model.BranchId }, new { id = item.Day1, @class = "" })
+                            }
+                        </td>
+                        <td>
+                            @if ((item.Day2 ?? 0) > 0)
+                            {
+                                @Html.ActionLink(item.Hour.ToString("hh\\:mm"), "Details", "Bookings", new { id = item.Day2, branchId = Model.BranchId }, new { id = item.Day2, @class = "" })
+                            }
+                        </td>
+                        <td>
+                            @if ((item.Day3 ?? 0) > 0)
+                            {
+                                @Html.ActionLink(item.Hour.ToString("hh\\:mm"), "Details", "Bookings", new { id = item.Day3, branchId = Model.BranchId }, new { id = item.Day3, @class = "" })
+                            }
+                        </td>
+                        <td>
+                            @if ((item.Day4 ?? 0) > 0)
+                            {
+                                @Html.ActionLink(item.Hour.ToString("hh\\:mm"), "Details", "Bookings", new { id = item.Day4, branchId = Model.BranchId }, new { id = item.Day4, @class = "" })
+                            }
+                        </td>
+                        <td>
+                            @if ((item.Day5 ?? 0) > 0)
+                            {
+                                @Html.ActionLink(item.Hour.ToString("hh\\:mm"), "Details", "Bookings", new { id = item.Day5, branchId = Model.BranchId }, new { id = item.Day5, @class = "" })
+                            }
+                        </td>
+                        <td>
+                            @if ((item.Day6 ?? 0) > 0)
+                            {
+                                @Html.ActionLink(item.Hour.ToString("hh\\:mm"), "Details", "Bookings", new { id = item.Day6, branchId = Model.BranchId }, new { id = item.Day6, @class = "" })
+                            }
+                        </td>
+                        <td>
+                            @if ((item.Day7 ?? 0) > 0)
+                            {
+                                @Html.ActionLink(item.Hour.ToString("hh\\:mm"), "Details", "Bookings", new { id = item.Day7, branchId = Model.BranchId }, new { id = item.Day7, @class = "" })
+                            }
+                        </td>
+                    </tr>
+                }
+            </table>
+
+        </div>
 
         <div>
-            @Html.ActionLink("Back to Branch", "Index", "Branches", new { id = Model.Courts.FirstOrDefault().BranchId }, null)
+            @Html.ActionLink("Back to Branch", "Index", "Branches", new { id = Model.BranchId }, null)
         </div>
     </main>
-
 </div>
 @section scripts
 {
     <script src="~/Scripts/moment.js"></script>
     <script>
-
         $(document).ready(function () {
+            const dateFrom = moment($('#fromDate').attr('utcvalue'));
+            const dateTo = moment($('#toDate').attr('utcvalue'));
 
-            const $container = $('#data-container'),
-                timeslotDate = TimeslotDate(refreshTimeslotsTable),
-                $courtTitle=$('#court-title'),
-                utils = {
+            $('#next-week-btn').on('click', function () {
+                $('#fromDate').attr('value', dateFrom.add(7, 'days').format());
+                $('#toDate').attr('value', dateTo.add(7, 'days').format());
+                $('form').submit();
+            });
 
-                    // returns selected courtId
-                    getSelectedCourtId: function () {
-                        return $('nav.sidenav li.active').attr('court-id');
-                    },
+            $('#prev-week-btn').on('click', function () {
+                $('#fromDate').attr('value', dateFrom.subtract(7, 'days').format());
+                $('#toDate').attr('value', dateTo.subtract(7, 'days').format());
+                $('form').submit();
+            });
 
-                    // returns divs with week days for timeslot header
-                    getTimeslotsHeader: function (date) {
-                        let headerBlock = '<div class="col text-center">{date}</div>';
+            $('.sidenav').on('click', 'li', function () {
+                $('#CourtId').attr('value', $(this).attr('court-id'));
+                $('form').submit();
+            });
 
-                        return headerBlock.replace('{date}', '') +
-                            [0, 1, 2, 3, 4, 5, 6].map(function (i) {
-                                return headerBlock.replace('{date}', date.add(i,'days').format('dddd<br/>DD MMM'));
-                            }).join('');
-                    },
+            // set active courtId on side nav bar
+            // and update header title
+            const selectedCourtName = $('nav.sidenav li[court-id="' + @Model.CourtId + '"]')
+                .addClass('active')
+                .text()
+            $('#court-title')
+                .text(selectedCourtName);
 
-                    // return div with week days timeslots body
-                    getTimeslotsBody: function (data) {
-                        console.log(data);
-                        let tbody = '';
-                        let date = timeslotDate.firstWeekDate();
-
-                        data.map(function (timeslot) {
-                            let localhour = moment(timeslot.Hour,'HH:mm');
-
-                            tbody += '<div class="row timeslot">';
-
-                            tbody += '<div class="col text-center">' + localhour.format('HH:mm') + '</div>';
-
-                            for (let day = 0; day < 7; day++) {
-                                let dateTime = date.clone().add(day, 'days').hour(localhour.hour());
-                                let dayValue = timeslot['Day' + (day + 1)];
-                                timeSlotValue = dayValue > 0 ? "1" : dayValue == 0 ? "2" : "0";
-                                let showTime = (timeSlotValue == 1 ? localhour.format('HH:mm') : '');
-                                tbody += '<div class="col text-center" booking-id="' + timeslot['Day' + (day + 1)] + '" value="' + timeSlotValue + '"><a href ="/Admin/Bookings/Edit/' + timeslot['Day' + (day + 1)] + '">'+showTime+'</a></div>';
-                            }
-
-                            tbody += '</div>';
-                        });
-
-                        return tbody;
-                    },
-
-                    // set active courtId on side nav bar
-                    // and update header title
-                    setActiveCourt: function (courtId) {
-                        const $courtItem = $('nav.sidenav li[court-id="' + courtId + '"]');
-
-                        $courtItem.addClass('active');
-                        $courtTitle.text($courtItem.text());
-                    }
-                }
-
-            $('#next-week-btn').on('click', timeslotDate.goNextWeek);
-            $('#prev-week-btn').on('click', timeslotDate.goPrevWeek);
-
-            $('nav').on('click', 'li', onNavCourtClick);
-            utils.setActiveCourt(@Model.CourtId);
-
-            // update period date title
-            // and call refreshtimeslots
-            timeslotDate.updatePeriod();
-
-            // refresh timeslots called from updatePeriod
-            function refreshTimeslotsTable() {
-                getTimeslots(utils.getSelectedCourtId());
-            }
-
-            // Get timeslots and build container header+body
-            function getTimeslots(courtId) {
-                const fromDate = timeslotDate.firstWeekDate(),
-                    toDate = timeslotDate.lastWeekDate();
-
-                $.getJSON('/api/book/' + courtId, {
-                    type: 'Bookings',
-                    fromDate: fromDate.clone().utc().format(),
-                    toDate: toDate.utc().format()
-                }).done(function (data) {
-
-                    $container.html(
-                        '<div class="timeslots">' +
-                        '<div class="row">' + utils.getTimeslotsHeader(fromDate) + '</div>' +
-                            utils.getTimeslotsBody(data) +
-                        '</div>');
-
-                });
-            }
-
-            // on court click (sidebar navigation)
-            // sets clicked court item active
-            function onNavCourtClick() {
-                const courtId = $(this).attr('court-id');
-
-                $(this).siblings().removeClass('active');
-
-                utils.setActiveCourt(courtId);
-                getTimeslots(courtId);
-
-            }
-
-            // Datetime Manager for Timeslot table
-            function TimeslotDate(onDateChange) {
-                const $weekPeriodTitle = $('#timeslot-week'),
-                    currentDate = moment(new Date()).hour(0).minute(0).second(0),
-                    startDate = currentDate.clone();
-
-                const that = {
-                    // calculates and returns weeks start date based on current date
-                    firstWeekDate: function () {
-                        const day = currentDate.day(),
-                            diff = (day == 0 ? -6 : 1) - day;
-                        const date = moment(currentDate)
-                            .add(diff, 'days');
-                        return date;
-                    },
-                    lastWeekDate: function () {
-                        return that.firstWeekDate()
-                            .add(6, 'days');
-                    },
-                    goNextWeek: function () {
-                        currentDate.add(7, 'days');
-                        that.updatePeriod();
-                    },
-                    goPrevWeek: function () {
-                            currentDate.subtract(7, 'days');
-                            that.updatePeriod();
-                    },
-                    updatePeriod: function () {
-                        let date = that.firstWeekDate();
-                        $weekPeriodTitle.text(
-                            date.format("DD/MM/YYYY") + ' - ' +
-                            date.add(6, 'days').format("DD/MM/YYYY"));
-                        onDateChange();
-                    }
-                }
-                return that;
-            }
+            $('#timeslot-week')
+                .text(
+                dateFrom.format("DD/MM/YYYY") + ' - ' +
+                dateTo.format("DD/MM/YYYY"));
         });
 
     </script>

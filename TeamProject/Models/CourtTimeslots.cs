@@ -12,4 +12,6 @@ namespace TeamProject.Models
         public IEnumerable<ModelsViews.TimeslotApiView> TimeslotApiViews { get; set; }
 
     }
+
+
 }

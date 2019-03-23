@@ -16,20 +16,33 @@ namespace TeamProject.Areas.Admin.Controllers
         private ProjectDbContext db = new ProjectDbContext();
 
         // GET: Bookings
-        public ActionResult Index(int id)
+        public ActionResult Index(int id, int? courtId, DateTime? fromDate, DateTime? toDate)
         {
-            var courtsInSameBranch = db.Courts.BranchCourts(id).ToList();
-
-            var bookViewModel = new BookViewModel()
+            var model = new BranchCourtsTimeslots()
             {
-                CourtId = courtsInSameBranch.FirstOrDefault()?.Id??0,
-                Courts = courtsInSameBranch
+                BranchId = id,
+                CourtId = courtId ?? db.Courts.BranchCourts(id).FirstOrDefault().Id,
+                fromDate = fromDate ?? StartOfWeek(DateTime.Now),
+                Courts = db.Courts.BranchCourts(id)
             };
-            return View(bookViewModel);
+
+            model.toDate = toDate ?? model.fromDate.AddDays(6);
+
+            model.TimeslotApiViews = db.TimeSlots
+                .GetBookings(model.CourtId, model.fromDate, model.toDate)
+                .OrderBy(t => t.Hour);
+
+            return View(model);
+
+        }
+        private DateTime StartOfWeek(DateTime dt)
+        {
+            int diff = (7 + (dt.DayOfWeek - DayOfWeek.Monday)) % 7;
+            return dt.AddDays(-1 * diff).Date;
         }
 
         // GET: Bookings/Details/5
-        public ActionResult Details(int? id)
+        public ActionResult Details(int? id, int? branchId)
         {
             if (id == null)
             {
@@ -40,6 +53,7 @@ namespace TeamProject.Areas.Admin.Controllers
             {
                 return HttpNotFound();
             }
+            ViewBag.BranchId = branchId;
             return View(booking);
         }
 
