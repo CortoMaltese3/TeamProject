@@ -103,7 +103,7 @@
         <td>
             @if (item.Day1 != null)
             {
-                @Html.ActionLink(item.Day1.ToString(), "Edit", "Timeslots", new { id = item.Day1 }, new { @class = "btn btn-primary" })
+                @Html.ActionLink("Booked", "Edit", "Timeslots", new { id = item.Day1 }, new { @class = "btn btn-primary" })
             }
 
         </td>
