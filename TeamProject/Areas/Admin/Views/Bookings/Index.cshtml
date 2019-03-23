@@ -1,4 +1,4 @@
-﻿@model TeamProject.ModelsViews.BranchCourtsTimeslots
+﻿@model TeamProject.ModelsViews.BookingsSearchResult
 @using TeamProject.Models
 @{
     ViewBag.Title = "Bookings";
@@ -15,14 +15,14 @@
     {
         @Html.HiddenFor(item => item.BranchId)
         @Html.HiddenFor(item => item.CourtId)
-        @Html.HiddenFor(item => item.fromDate, new { utcvalue = Model.fromDate.ToString("yyyy-MM-dd") })
-        @Html.HiddenFor(item => item.toDate, new { utcvalue = Model.toDate.ToString("yyyy-MM-dd") })
+        @Html.HiddenFor(item => item.FromDate, new { utcvalue = Model.FromDate.ToString("yyyy-MM-dd") })
+        @Html.HiddenFor(item => item.ToDate, new { utcvalue = Model.ToDate.ToString("yyyy-MM-dd") })
     }
     <nav class="col-2 sidenav">
         <ul class="list-group shadow-sm">
             @foreach (var court in Model.Courts)
             {
-                <li court-id="@court.Id" 
+                <li court-id="@court.Id"
                     class="list-group-item d-flex justify-content-between align-items-center">
                     @court.Name
                 </li>
@@ -56,45 +56,73 @@
                             @Html.DisplayFor(modelItem => item.Hour)
                         </td>
                         <td>
-                            @if ((item.Day1 ?? 0) > 0)
+                            @if (item.Day1 > 0)
                             {
-                                @Html.ActionLink(item.Hour.ToString("hh\\:mm"), "Details", "Bookings", new { id = item.Day1, branchId = Model.BranchId }, new { id = item.Day1, @class = "" })
+                                @Html.ActionLink(item.Hour.ToString("hh\\:mm"), "Details", "Bookings", new { id = item.Day1 }, new { id = item.Day1 })
+                            }
+                            else if (item.Day1 == 0)
+                            {
+                                <div>Available</div>
                             }
                         </td>
                         <td>
-                            @if ((item.Day2 ?? 0) > 0)
+                            @if (item.Day2 > 0)
                             {
-                                @Html.ActionLink(item.Hour.ToString("hh\\:mm"), "Details", "Bookings", new { id = item.Day2, branchId = Model.BranchId }, new { id = item.Day2, @class = "" })
+                                @Html.ActionLink(item.Hour.ToString("hh\\:mm"), "Details", "Bookings", new { id = item.Day2 }, new { id = item.Day2 })
+                            }
+                            else if (item.Day2 == 0)
+                            {
+                                <div>Available</div>
                             }
                         </td>
                         <td>
-                            @if ((item.Day3 ?? 0) > 0)
+                            @if (item.Day3 > 0)
                             {
-                                @Html.ActionLink(item.Hour.ToString("hh\\:mm"), "Details", "Bookings", new { id = item.Day3, branchId = Model.BranchId }, new { id = item.Day3, @class = "" })
+                                @Html.ActionLink(item.Hour.ToString("hh\\:mm"), "Details", "Bookings", new { id = item.Day3 }, new { id = item.Day3 })
+                            }
+                            else if (item.Day3 == 0)
+                            {
+                                <div>Available</div>
                             }
                         </td>
                         <td>
-                            @if ((item.Day4 ?? 0) > 0)
+                            @if (item.Day4 > 0)
                             {
-                                @Html.ActionLink(item.Hour.ToString("hh\\:mm"), "Details", "Bookings", new { id = item.Day4, branchId = Model.BranchId }, new { id = item.Day4, @class = "" })
+                                @Html.ActionLink(item.Hour.ToString("hh\\:mm"), "Details", "Bookings", new { id = item.Day4 }, new { id = item.Day4 })
+                            }
+                            else if (item.Day4 == 0)
+                            {
+                                <div>Available</div>
                             }
                         </td>
                         <td>
-                            @if ((item.Day5 ?? 0) > 0)
+                            @if (item.Day5 > 0)
                             {
-                                @Html.ActionLink(item.Hour.ToString("hh\\:mm"), "Details", "Bookings", new { id = item.Day5, branchId = Model.BranchId }, new { id = item.Day5, @class = "" })
+                                @Html.ActionLink(item.Hour.ToString("hh\\:mm"), "Details", "Bookings", new { id = item.Day5 }, new { id = item.Day5 })
+                            }
+                            else if (item.Day5 == 0)
+                            {
+                                <div>Available</div>
                             }
                         </td>
                         <td>
-                            @if ((item.Day6 ?? 0) > 0)
+                            @if (item.Day6 > 0)
                             {
-                                @Html.ActionLink(item.Hour.ToString("hh\\:mm"), "Details", "Bookings", new { id = item.Day6, branchId = Model.BranchId }, new { id = item.Day6, @class = "" })
+                                @Html.ActionLink(item.Hour.ToString("hh\\:mm"), "Details", "Bookings", new { id = item.Day6 }, new { id = item.Day6 })
+                            }
+                            else if (item.Day6 == 0)
+                            {
+                                <div>Available</div>
                             }
                         </td>
                         <td>
-                            @if ((item.Day7 ?? 0) > 0)
+                            @if (item.Day7 > 0)
                             {
-                                @Html.ActionLink(item.Hour.ToString("hh\\:mm"), "Details", "Bookings", new { id = item.Day7, branchId = Model.BranchId }, new { id = item.Day7, @class = "" })
+                                @Html.ActionLink(item.Hour.ToString("hh\\:mm"), "Details", "Bookings", new { id = item.Day7 }, new { id = item.Day7 })
+                            }
+                            else if (item.Day7 == 0)
+                            {
+                                <div>Available</div>
                             }
                         </td>
                     </tr>
@@ -113,18 +141,18 @@
     <script src="~/Scripts/moment.js"></script>
     <script>
         $(document).ready(function () {
-            const dateFrom = moment($('#fromDate').attr('utcvalue'));
-            const dateTo = moment($('#toDate').attr('utcvalue'));
+            const dateFrom = moment($('#FromDate').attr('utcvalue'));
+            const dateTo = moment($('#ToDate').attr('utcvalue'));
 
             $('#next-week-btn').on('click', function () {
-                $('#fromDate').attr('value', dateFrom.add(7, 'days').format());
-                $('#toDate').attr('value', dateTo.add(7, 'days').format());
+                $('#FromDate').attr('value', dateFrom.add(7, 'days').format());
+                $('#ToDate').attr('value', dateTo.add(7, 'days').format());
                 $('form').submit();
             });
 
             $('#prev-week-btn').on('click', function () {
-                $('#fromDate').attr('value', dateFrom.subtract(7, 'days').format());
-                $('#toDate').attr('value', dateTo.subtract(7, 'days').format());
+                $('#FromDate').attr('value', dateFrom.subtract(7, 'days').format());
+                $('#ToDate').attr('value', dateTo.subtract(7, 'days').format());
                 $('form').submit();
             });
 

@@ -16,20 +16,20 @@ namespace TeamProject.Areas.Admin.Controllers
         private ProjectDbContext db = new ProjectDbContext();
 
         // GET: Bookings
-        public ActionResult Index(int id, int? courtId, DateTime? fromDate, DateTime? toDate)
+        public ActionResult Index(BookingsSearchForm bookingSearchForm)
         {
-            var model = new BranchCourtsTimeslots()
+            var model = new BookingsSearchResult()
             {
-                BranchId = id,
-                CourtId = courtId ?? db.Courts.BranchCourts(id).FirstOrDefault().Id,
-                fromDate = fromDate ?? StartOfWeek(DateTime.Now),
-                Courts = db.Courts.BranchCourts(id)
+                BranchId = bookingSearchForm.Id,
+                CourtId = bookingSearchForm.CourtId ?? db.Courts.BranchCourts(bookingSearchForm.Id).FirstOrDefault()?.Id ?? 0,
+                FromDate = bookingSearchForm.FromDate ?? StartOfWeek(DateTime.Now),
+                Courts = db.Courts.BranchCourts(bookingSearchForm.Id)
             };
 
-            model.toDate = toDate ?? model.fromDate.AddDays(6);
+            model.ToDate = bookingSearchForm.ToDate ?? model.FromDate.AddDays(6);
 
             model.TimeslotApiViews = db.TimeSlots
-                .GetBookings(model.CourtId, model.fromDate, model.toDate)
+                .GetBookings(model.CourtId, model.FromDate, model.ToDate)
                 .OrderBy(t => t.Hour);
 
             return View(model);
@@ -42,7 +42,8 @@ namespace TeamProject.Areas.Admin.Controllers
         }
 
         // GET: Bookings/Details/5
-        public ActionResult Details(int? id, int? branchId)
+        //public ActionResult Details(int? id, int? branchId)
+        public ActionResult Details(int? id)
         {
             if (id == null)
             {
@@ -53,7 +54,7 @@ namespace TeamProject.Areas.Admin.Controllers
             {
                 return HttpNotFound();
             }
-            ViewBag.BranchId = branchId;
+            ViewBag.BranchId = booking.Court.BranchId;
             return View(booking);
         }
 
