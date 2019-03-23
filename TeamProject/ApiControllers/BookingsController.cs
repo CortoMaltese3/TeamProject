@@ -23,7 +23,7 @@ namespace TeamProject.ApiControllers
             return db.Bookings
                 .Get("Booking.Id=@id", new { id })
                 .FirstOrDefault()
-                .User;
+                ?.User;
         }
     }
 }

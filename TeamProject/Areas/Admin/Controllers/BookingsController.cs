@@ -11,6 +11,7 @@ using TeamProject.ModelsViews;
 
 namespace TeamProject.Areas.Admin.Controllers
 {
+    [Authorize(Roles = "Owner")]
     public class BookingsController : Controller
     {
         private ProjectDbContext db = new ProjectDbContext();
