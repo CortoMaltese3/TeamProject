@@ -19,23 +19,28 @@
     font-weight: bold;
     /*justify-content: center;*/
     text-align: center;
+    width:12.5%
 }
 
-.timeSlots td a {
-    display: inline-block;
-    padding-top: 20px;
-    padding-bottom: 20px;
-    width: 100%;
-    border-radius: .25em;
-    border: 1px solid rgba(0,0,0,.125);
-    font-weight: normal;
-    text-align: center;
-    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
-    background: #deee86;
-}
-
-
-    .timeSlots td div {
+    .timeSlots td a[booked] {
+        display: inline-block;
+        padding-top: 20px;
+        padding-bottom: 20px;
+        width: 100%;
+        border-radius: .25em;
+        border: 1px solid rgba(0,0,0,.125);
+        font-weight: normal;
+        text-align: center;
+        color: blue;
+        box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+        background: #deee86;
+        
+    }
+    .timeSlots td a[booked]:hover {
+        cursor:pointer;
+    }
+    .timeSlots td a:not([booked]) {
+        display: inline-block;
         background: #F0F0F0;
         padding-top: 20px;
         padding-bottom: 20px;

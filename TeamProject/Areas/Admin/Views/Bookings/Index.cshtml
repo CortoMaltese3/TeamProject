@@ -39,94 +39,168 @@
         </div>
         <div id="data-container">
             <table class="table timeSlots">
-                <tr>
-                    <th></th>
-                    <th>Monday</th>
-                    <th>Tuesday</th>
-                    <th>Wednesday</th>
-                    <th>Thursday</th>
-                    <th>Friday</th>
-                    <th>Saturday</th>
-                    <th>Sunday</th>
-                </tr>
-                @foreach (var item in Model.TimeslotApiViews)
-                {
+                <thead>
                     <tr>
-                        <td>
-                            @Html.DisplayFor(modelItem => item.Hour)
-                        </td>
-                        <td>
-                            @if (item.Day1 > 0)
-                            {
-                                @Html.ActionLink(item.Hour.ToString("hh\\:mm"), "Details", "Bookings", new { id = item.Day1 }, new { id = item.Day1 })
-                            }
-                            else if (item.Day1 == 0)
-                            {
-                                <div>Available</div>
-                            }
-                        </td>
-                        <td>
-                            @if (item.Day2 > 0)
-                            {
-                                @Html.ActionLink(item.Hour.ToString("hh\\:mm"), "Details", "Bookings", new { id = item.Day2 }, new { id = item.Day2 })
-                            }
-                            else if (item.Day2 == 0)
-                            {
-                                <div>Available</div>
-                            }
-                        </td>
-                        <td>
-                            @if (item.Day3 > 0)
-                            {
-                                @Html.ActionLink(item.Hour.ToString("hh\\:mm"), "Details", "Bookings", new { id = item.Day3 }, new { id = item.Day3 })
-                            }
-                            else if (item.Day3 == 0)
-                            {
-                                <div>Available</div>
-                            }
-                        </td>
-                        <td>
-                            @if (item.Day4 > 0)
-                            {
-                                @Html.ActionLink(item.Hour.ToString("hh\\:mm"), "Details", "Bookings", new { id = item.Day4 }, new { id = item.Day4 })
-                            }
-                            else if (item.Day4 == 0)
-                            {
-                                <div>Available</div>
-                            }
-                        </td>
-                        <td>
-                            @if (item.Day5 > 0)
-                            {
-                                @Html.ActionLink(item.Hour.ToString("hh\\:mm"), "Details", "Bookings", new { id = item.Day5 }, new { id = item.Day5 })
-                            }
-                            else if (item.Day5 == 0)
-                            {
-                                <div>Available</div>
-                            }
-                        </td>
-                        <td>
-                            @if (item.Day6 > 0)
-                            {
-                                @Html.ActionLink(item.Hour.ToString("hh\\:mm"), "Details", "Bookings", new { id = item.Day6 }, new { id = item.Day6 })
-                            }
-                            else if (item.Day6 == 0)
-                            {
-                                <div>Available</div>
-                            }
-                        </td>
-                        <td>
-                            @if (item.Day7 > 0)
-                            {
-                                @Html.ActionLink(item.Hour.ToString("hh\\:mm"), "Details", "Bookings", new { id = item.Day7 }, new { id = item.Day7 })
-                            }
-                            else if (item.Day7 == 0)
-                            {
-                                <div>Available</div>
-                            }
-                        </td>
+                        <th></th>
+                        <th>Monday</th>
+                        <th>Tuesday</th>
+                        <th>Wednesday</th>
+                        <th>Thursday</th>
+                        <th>Friday</th>
+                        <th>Saturday</th>
+                        <th>Sunday</th>
                     </tr>
-                }
+                </thead>
+                <tbody>
+                    @foreach (var item in Model.TimeslotApiViews)
+                    {
+                        <tr>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.Hour)
+                            </td>
+                            <td>
+                                @if (item.Day1 > 0)
+                                {
+                                    @Html.ActionLink("Booked", "Details", "Bookings",
+                                        new { id = item.Day1 },
+                                        new {
+                                            id = item.Day1,
+                                            booked = "true",
+                                            data_html = "true",
+                                            data_placement = "top",
+                                            data_toggle = "popover",
+                                            title = "Booked at " + @item.Hour.ToString("hh\\:mm"),
+                                            data_content = ""
+                                        })
+                                }
+                                else if (item.Day1 == 0)
+                                {
+                                    <a>Available</a>
+                                }
+                            </td>
+                            <td>
+                                @if (item.Day2 > 0)
+                                {
+                                    @Html.ActionLink("Booked", "Details", "Bookings",
+                                        new { id = item.Day2 },
+                                        new {
+                                            id = item.Day2,
+                                            booked = "true",
+                                            data_html = "true",
+                                            data_placement = "top",
+                                            data_toggle = "popover",
+                                            title = "Booked at " + @item.Hour.ToString("hh\\:mm"),
+                                            data_content = ""
+                                        })
+                                }
+                                else if (item.Day2 == 0)
+                                {
+                                    <a>Available</a>
+                                }
+                            </td>
+                            <td>
+                                @if (item.Day3 > 0)
+                                {
+                                    @Html.ActionLink("Booked", "Details", "Bookings",
+                                        new { id = item.Day3 },
+                                        new {
+                                            id = item.Day3,
+                                            booked = "true",
+                                            data_html = "true",
+                                            data_placement = "top",
+                                            data_toggle = "popover",
+                                            title = "Booked at " + @item.Hour.ToString("hh\\:mm"),
+                                            data_content = ""
+                                        })
+                                }
+                                else if (item.Day3 == 0)
+                                {
+                                    <a>Available</a>
+                                }
+                            </td>
+                            <td>
+                                @if (item.Day4 > 0)
+                                {
+                                    @Html.ActionLink("Booked", "Details", "Bookings",
+                                        new { id = item.Day4 },
+                                        new {
+                                            id = item.Day4,
+                                            booked = "true",
+                                            data_html = "true",
+                                            data_placement = "top",
+                                            data_toggle = "popover",
+                                            title = "Booked at " + @item.Hour.ToString("hh\\:mm"),
+                                            data_content = ""
+                                        })
+                                }
+                                else if (item.Day4 == 0)
+                                {
+                                    <a>Available</a>
+                                }
+                            </td>
+                            <td>
+                                @if (item.Day5 > 0)
+                                {
+                                    @Html.ActionLink("Booked", "Details", "Bookings",
+                                        new { id = item.Day5 },
+                                        new {
+                                            id = item.Day5,
+                                            booked = "true",
+                                            data_html = "true",
+                                            data_placement = "top",
+                                            data_toggle = "popover",
+                                            title = "Booked at " + @item.Hour.ToString("hh\\:mm"),
+                                            data_content = ""
+                                        })
+                                }
+                                else if (item.Day5 == 0)
+                                {
+                                    <a>Available</a>
+                                }
+                            </td>
+                            <td>
+                                @if (item.Day6 > 0)
+                                {
+                                    @Html.ActionLink("Booked", "Details", "Bookings",
+                                        new { id = item.Day6 },
+                                        new {
+                                            id = item.Day6,
+                                            booked = "true",
+                                            data_html = "true",
+                                            data_placement = "top",
+                                            data_toggle = "popover",
+                                            title = "Booked at " + @item.Hour.ToString("hh\\:mm"),
+                                            data_content = ""
+                                        })
+                                }
+                                else if (item.Day6 == 0)
+                                {
+                                    <a>Available</a>
+                                }
+                            </td>
+                            <td>
+                                @if (item.Day7 > 0)
+                                {
+                                    @Html.ActionLink("Booked", "Details", "Bookings",
+                                        new { id = item.Day7 },
+                                        new {
+                                            id = item.Day7,
+                                            booked = "true",
+                                            data_html = "true",
+                                            data_placement = "top",
+                                            data_toggle = "popover",
+                                            title = "Booked at " + @item.Hour.ToString("hh\\:mm"),
+                                            data_content = ""
+                                        })
+                                }
+                                else if (item.Day7 == 0)
+                                {
+                                    <a>Available</a>
+                                }
+                            </td>
+                        </tr>
+                    }
+                </tbody>
             </table>
 
         </div>
@@ -141,38 +215,79 @@
     <script src="~/Scripts/moment.js"></script>
     <script>
         $(document).ready(function () {
+            $('[data-toggle="popover"]')
+                .popover();
+
+            $('.timeSlots td a[booked]')
+                .hover(function () {
+                    const $popover = $(this);
+                    if ($popover.attr('data-content') == '') {
+                        $.getJSON('/api/bookings/', {
+                            id: $popover.attr('id')
+                        }).done(function (data) {
+                            console.log('from api request');
+                            $popover.attr('data-content',
+                                data.Firstname + ' ' + data.Lastname + '</br><em>' + data.Email+'</em>');
+                            $popover.popover('show');
+                        });
+                    } else {
+                        $popover.popover('show');
+                    }
+
+
+            }, function () {
+                $(this).popover('hide');
+            });
             const dateFrom = moment($('#FromDate').attr('utcvalue'));
             const dateTo = moment($('#ToDate').attr('utcvalue'));
 
+            // on next-week-button clicked add 7 days to FromDate, ToDate inputs and submit form
             $('#next-week-btn').on('click', function () {
                 $('#FromDate').attr('value', dateFrom.add(7, 'days').format());
                 $('#ToDate').attr('value', dateTo.add(7, 'days').format());
                 $('form').submit();
             });
 
+            // on next-week-button clicked subtract 7 days to FromDate, ToDate inputs and submit form
             $('#prev-week-btn').on('click', function () {
                 $('#FromDate').attr('value', dateFrom.subtract(7, 'days').format());
                 $('#ToDate').attr('value', dateTo.subtract(7, 'days').format());
                 $('form').submit();
             });
 
+            // on side nav court (li) clicked set CourtId input and submit form
             $('.sidenav').on('click', 'li', function () {
                 $('#CourtId').attr('value', $(this).attr('court-id'));
                 $('form').submit();
             });
 
             // set active courtId on side nav bar
-            // and update header title
             const selectedCourtName = $('nav.sidenav li[court-id="' + @Model.CourtId + '"]')
                 .addClass('active')
                 .text()
+
+            // and update header title
             $('#court-title')
                 .text(selectedCourtName);
 
+            // set period from to to title
             $('#timeslot-week')
                 .text(
                 dateFrom.format("DD/MM/YYYY") + ' - ' +
                 dateTo.format("DD/MM/YYYY"));
+
+            // set days header with day + month
+            $('table thead tr')
+                .html(getDayHeaders(dateFrom.clone()));
+
+            function getDayHeaders(date) {
+                let headerBlock = '<th>{date}</th>';
+
+                return headerBlock.replace('{date}', '') +
+                    [0, 1, 2, 3, 4, 5, 6].map(function (i) {
+                        return headerBlock.replace('{date}', date.add(i, 'days').format('dddd<br/>DD MMM'));
+                    }).join('');
+            }
         });
 
     </script>
