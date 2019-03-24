@@ -32,14 +32,11 @@
 
                         @if (Session["User"] != null)
                         {
-                            @*<li class="nav-item">
-                                @Html.ActionLink("Bookings", "Index", "Bookings", new { area = "Admin" }, new { @class = "nav-link" })
-                            </li>*@
                             <li class="nav-item">
                                 @Html.ActionLink("Branches", "Index", "Branches", new { area = "Admin" }, new { @class = "nav-link" })
                             </li>
 
-                            if (Session["Admin"].Equals("Admin"))
+                            if (User.IsInRole("Admin"))
                             {                               
                                 <li class="nav-item">
                                     @Html.ActionLink("Facilities", "Index", "Facilities", new { area = "Admin" }, new { @class = "nav-link" })

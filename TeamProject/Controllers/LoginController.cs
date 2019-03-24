@@ -27,8 +27,6 @@ namespace TeamProject.Controllers
             if (loggedInUser != null)
             {
                 Session["user"] = loggedInUser;
-                Session["Admin"] = loggedInUser.IsInRole("Admin") ? "Admin" : string.Empty;
-                Session["Owner"] = loggedInUser.IsInRole("Owner") ? "Owner" : string.Empty;
 
                 ViewBag.Name = loggedInUser.Firstname;
                 return RedirectToAction("index", "home");

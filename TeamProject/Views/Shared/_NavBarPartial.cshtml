@@ -11,7 +11,7 @@
             <li class="nav-item active">@Html.ActionLink("Courts", "Index", "Courts", new { area = "" }, new { @class = "navbar-brand" })</li>         
             @if (Session["User"] != null)
             {               
-                if(Session["Admin"].Equals("Admin") || Session["Owner"].Equals("Owner"))
+                if(User.IsInRole("Admin")||User.IsInRole("Owner"))
                 {
                     <li class="nav-item ">
                         @Html.ActionLink("Panel", "Index", "Panel", new { area = "Admin" }, new { @class = "navbar-brand" })
