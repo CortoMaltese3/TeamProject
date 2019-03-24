@@ -18,6 +18,41 @@ namespace TeamProject.ModelsViews
         public int? Day5 { get; set; }
         public int? Day6 { get; set; }
         public int? Day7 { get; set; }
-     
+
+        public int? this[int day]
+        {
+            get
+            {
+                int? dayId = 0;
+
+                switch (day)
+                {
+                    case 1:
+                        dayId = Day1;
+                        break;
+                    case 2:
+                        dayId = Day2;
+                        break;
+                    case 3:
+                        dayId = Day3;
+                        break;
+                    case 4:
+                        dayId = Day4;
+                        break;
+                    case 5:
+                        dayId = Day5;
+                        break;
+                    case 6:
+                        dayId = Day6;
+                        break;
+                    case 7:
+                        dayId = Day7;
+                        break;
+
+                }
+
+                return dayId;
+            }
+        }
     }
 }

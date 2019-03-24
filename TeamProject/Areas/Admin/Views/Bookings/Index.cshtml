@@ -58,216 +58,40 @@
                             <td>
                                 @Html.DisplayFor(modelItem => item.Hour)
                             </td>
-                            <td>
-                                @if (item.Day1 > 0)
-                                {
+                            @for (var i = 1; i < 7; i++)
+                            {
+                                var bookId = item[i];
+                                <td>
+                                    @if (bookId > 0)
+                                    {
 
-                                    <a href="#"
-                                       data-toggle="dropdown"
-                                       aria-haspopup="true"
-                                       aria-expanded="false" booked>
-                                        <div id="@item.Day1"
-                                             data-html="true"
-                                             data-placement="left"
-                                             data-toggle="popover"
-                                             title=""
-                                             data-content=""
-                                             booked>
-                                            booked
+                                        <a href="#"
+                                           data-toggle="dropdown"
+                                           aria-haspopup="true"
+                                           aria-expanded="false" booked>
+                                            <div id="@bookId"
+                                                 data-html="true"
+                                                 data-placement="left"
+                                                 data-toggle="popover"
+                                                 title=""
+                                                 data-content=""
+                                                 booked>
+                                                booked
+                                            </div>
+                                        </a>
+                                        <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                                            @Html.ActionLink("Details", "Details", "Bookings", new { id = bookId }, new { @class = "dropdown-item" })
+                                            <div class="dropdown-divider"></div>
+                                            @Html.ActionLink("Cancel", "Delete", "Bookings", new { id = bookId }, new { @class = "dropdown-item" })
                                         </div>
-                                    </a>
-                                    <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-                                        @Html.ActionLink("Details", "Details", "Bookings", new { id = item.Day1 }, new { @class = "dropdown-item" })
-                                        <div class="dropdown-divider"></div>
-                                        @Html.ActionLink("Cancel", "Delete", "Bookings", new { id = item.Day1 }, new { @class = "dropdown-item" })
-                                    </div>
 
-                                }
-                                else if (item.Day1 == 0)
-                                {
-                                    <a notbooked>-</a>
-                                }
-                            </td>
-                            <td>
-                                @if (item.Day2 > 0)
-                                {
-
-                                    <a href="#"
-                                       data-toggle="dropdown"
-                                       aria-haspopup="true"
-                                       aria-expanded="false" booked>
-                                        <div id="@item.Day2"
-                                             data-html="true"
-                                             data-placement="left"
-                                             data-toggle="popover"
-                                             title=""
-                                             data-content=""
-                                             booked>
-                                            booked
-                                        </div>
-                                    </a>
-                                    <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-                                        @Html.ActionLink("Booking Details", "Details", "Bookings", new { id = item.Day2 }, new { @class = "dropdown-item" })
-                                        <div class="dropdown-divider"></div>
-                                        @Html.ActionLink("Cancel", "Delete", "Bookings", new { id = item.Day2 }, new { @class = "dropdown-item" })
-                                    </div>
-
-                                }
-                                else if (item.Day2 == 0)
-                                {
-                                    <a notbooked>-</a>
-                                }
-                            </td>
-                            <td>
-                                @if (item.Day3 > 0)
-                                {
-
-                                    <a href="#"
-                                       data-toggle="dropdown"
-                                       aria-haspopup="true"
-                                       aria-expanded="false" booked>
-                                        <div id="@item.Day3"
-                                             data-html="true"
-                                             data-placement="left"
-                                             data-toggle="popover"
-                                             title=""
-                                             data-content=""
-                                             booked>
-                                            booked
-                                        </div>
-                                    </a>
-                                    <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-                                        @Html.ActionLink("Booking Details", "Details", "Bookings", new { id = item.Day3 }, new { @class = "dropdown-item" })
-                                        <div class="dropdown-divider"></div>
-                                        @Html.ActionLink("Cancel", "Delete", "Bookings", new { id = item.Day3 }, new { @class = "dropdown-item" })
-                                    </div>
-
-                                }
-                                else if (item.Day3 == 0)
-                                {
-                                    <a notbooked>-</a>
-                                }
-                            </td>
-                            <td>
-                                @if (item.Day4 > 0)
-                                {
-
-                                    <a href="#"
-                                       data-toggle="dropdown"
-                                       aria-haspopup="true"
-                                       aria-expanded="false" booked>
-                                        <div id="@item.Day4"
-                                             data-html="true"
-                                             data-placement="left"
-                                             data-toggle="popover"
-                                             title=""
-                                             data-content=""
-                                             booked>
-                                            booked
-                                        </div>
-                                    </a>
-                                    <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-                                        @Html.ActionLink("Booking Details", "Details", "Bookings", new { id = item.Day4 }, new { @class = "dropdown-item" })
-                                        <div class="dropdown-divider"></div>
-                                        @Html.ActionLink("Cancel", "Delete", "Bookings", new { id = item.Day4 }, new { @class = "dropdown-item" })
-                                    </div>
-
-                                }
-                                else if (item.Day4 == 0)
-                                {
-                                    <a notbooked>-</a>
-                                }
-                            </td>
-                            <td>
-                                @if (item.Day5 > 0)
-                                {
-
-                                    <a href="#"
-                                       data-toggle="dropdown"
-                                       aria-haspopup="true"
-                                       aria-expanded="false" booked>
-                                        <div id="@item.Day5"
-                                             data-html="true"
-                                             data-placement="left"
-                                             data-toggle="popover"
-                                             title=""
-                                             data-content=""
-                                             booked>
-                                            booked
-                                        </div>
-                                    </a>
-                                    <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-                                        @Html.ActionLink("Booking Details", "Details", "Bookings", new { id = item.Day5 }, new { @class = "dropdown-item" })
-                                        <div class="dropdown-divider"></div>
-                                        @Html.ActionLink("Cancel", "Delete", "Bookings", new { id = item.Day5 }, new { @class = "dropdown-item" })
-                                    </div>
-
-                                }
-                                else if (item.Day5 == 0)
-                                {
-                                    <a notbooked>-</a>
-                                }
-                            </td>
-                            <td>
-                                @if (item.Day6 > 0)
-                                {
-
-                                    <a href="#"
-                                       data-toggle="dropdown"
-                                       aria-haspopup="true"
-                                       aria-expanded="false" booked>
-                                        <div id="@item.Day6"
-                                             data-html="true"
-                                             data-placement="left"
-                                             data-toggle="popover"
-                                             title=""
-                                             data-content=""
-                                             booked>
-                                            booked
-                                        </div>
-                                    </a>
-                                    <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-                                        @Html.ActionLink("Booking Details", "Details", "Bookings", new { id = item.Day6 }, new { @class = "dropdown-item" })
-                                        <div class="dropdown-divider"></div>
-                                        @Html.ActionLink("Cancel", "Delete", "Bookings", new { id = item.Day6 }, new { @class = "dropdown-item" })
-                                    </div>
-
-                                }
-                                else if (item.Day6 == 0)
-                                {
-                                    <a notbooked>-</a>
-                                }
-                            </td>
-                            <td>
-                                @if (item.Day7 > 0)
-                                {
-
-                                    <a href="#"
-                                       data-toggle="dropdown"
-                                       aria-haspopup="true"
-                                       aria-expanded="false" booked>
-                                        <div id="@item.Day7"
-                                             data-html="true"
-                                             data-placement="left"
-                                             data-toggle="popover"
-                                             title=""
-                                             data-content=""
-                                             booked>
-                                            booked
-                                        </div>
-                                    </a>
-                                    <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-                                        @Html.ActionLink("Booking Details", "Details", "Bookings", new { id = item.Day7 }, new { @class = "dropdown-item" })
-                                        <div class="dropdown-divider"></div>
-                                        @Html.ActionLink("Cancel", "Delete", "Bookings", new { id = item.Day7 }, new { @class = "dropdown-item" })
-                                    </div>
-
-                                }
-                                else if (item.Day7 == 0)
-                                {
-                                    <a notbooked>-</a>
-                                }
-                            </td>
+                                    }
+                                    else if (bookId == 0)
+                                    {
+                                        <a notbooked>-</a>
+                                    }
+                                </td>
+                            }
                         </tr>
                     }
                 </tbody>
