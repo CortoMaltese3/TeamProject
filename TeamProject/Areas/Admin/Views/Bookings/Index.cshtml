@@ -69,13 +69,13 @@
                                             data_html = "true",
                                             data_placement = "top",
                                             data_toggle = "popover",
-                                            title = "Booked at " + @item.Hour.ToString("hh\\:mm"),
+                                            title = "",
                                             data_content = ""
                                         })
                                 }
                                 else if (item.Day1 == 0)
                                 {
-                                    <a>Available</a>
+                                    <a>-</a>
                                 }
                             </td>
                             <td>
@@ -89,13 +89,13 @@
                                             data_html = "true",
                                             data_placement = "top",
                                             data_toggle = "popover",
-                                            title = "Booked at " + @item.Hour.ToString("hh\\:mm"),
+                                            title = "",
                                             data_content = ""
                                         })
                                 }
                                 else if (item.Day2 == 0)
                                 {
-                                    <a>Available</a>
+                                    <a>-</a>
                                 }
                             </td>
                             <td>
@@ -109,13 +109,13 @@
                                             data_html = "true",
                                             data_placement = "top",
                                             data_toggle = "popover",
-                                            title = "Booked at " + @item.Hour.ToString("hh\\:mm"),
+                                            title = "",
                                             data_content = ""
                                         })
                                 }
                                 else if (item.Day3 == 0)
                                 {
-                                    <a>Available</a>
+                                    <a>-</a>
                                 }
                             </td>
                             <td>
@@ -129,13 +129,13 @@
                                             data_html = "true",
                                             data_placement = "top",
                                             data_toggle = "popover",
-                                            title = "Booked at " + @item.Hour.ToString("hh\\:mm"),
+                                            title = "",
                                             data_content = ""
                                         })
                                 }
                                 else if (item.Day4 == 0)
                                 {
-                                    <a>Available</a>
+                                    <a>-</a>
                                 }
                             </td>
                             <td>
@@ -149,13 +149,13 @@
                                             data_html = "true",
                                             data_placement = "top",
                                             data_toggle = "popover",
-                                            title = "Booked at " + @item.Hour.ToString("hh\\:mm"),
+                                            title = "",
                                             data_content = ""
                                         })
                                 }
                                 else if (item.Day5 == 0)
                                 {
-                                    <a>Available</a>
+                                    <a>-</a>
                                 }
                             </td>
                             <td>
@@ -169,13 +169,13 @@
                                             data_html = "true",
                                             data_placement = "top",
                                             data_toggle = "popover",
-                                            title = "Booked at " + @item.Hour.ToString("hh\\:mm"),
+                                            title = "",
                                             data_content = ""
                                         })
                                 }
                                 else if (item.Day6 == 0)
                                 {
-                                    <a>Available</a>
+                                    <a>-</a>
                                 }
                             </td>
                             <td>
@@ -189,13 +189,13 @@
                                             data_html = "true",
                                             data_placement = "top",
                                             data_toggle = "popover",
-                                            title = "Booked at " + @item.Hour.ToString("hh\\:mm"),
+                                            title = "",
                                             data_content = ""
                                         })
                                 }
                                 else if (item.Day7 == 0)
                                 {
-                                    <a>Available</a>
+                                    <a>-</a>
                                 }
                             </td>
                         </tr>
@@ -215,49 +215,56 @@
     <script src="~/Scripts/moment.js"></script>
     <script>
         $(document).ready(function () {
+            const dateFrom = moment($('#FromDate').attr('utcvalue'));
+            const dateTo = moment($('#ToDate').attr('utcvalue'));
+
             $('[data-toggle="popover"]')
                 .popover();
 
+            // on booked hover populate popover and show
             $('.timeSlots td a[booked]')
                 .hover(function () {
                     const $popover = $(this);
+
+                    // get data from api call if empty
                     if ($popover.attr('data-content') == '') {
                         $.getJSON('/api/bookings/', {
                             id: $popover.attr('id')
                         }).done(function (data) {
-                            console.log('from api request');
-                            $popover.attr('data-content',
-                                data.Firstname + ' ' + data.Lastname + '</br><em>' + data.Email+'</em>');
+
+                            // populate popover
+                            $popover
+                                .attr('data-content',
+                                    data.Username + '</br><em>' + data.Email + '</em>')
+                                .attr('data-original-title',
+                                    moment(data.BookedAt).format("DD/MM/YYYY HH:mm"));
+
                             $popover.popover('show');
                         });
                     } else {
                         $popover.popover('show');
                     }
 
-
-            }, function () {
-                $(this).popover('hide');
-            });
-            const dateFrom = moment($('#FromDate').attr('utcvalue'));
-            const dateTo = moment($('#ToDate').attr('utcvalue'));
+                }, function () {
+                    $(this).popover('hide');
+                });
 
             // on next-week-button clicked add 7 days to FromDate, ToDate inputs and submit form
-            $('#next-week-btn').on('click', function () {
-                $('#FromDate').attr('value', dateFrom.add(7, 'days').format());
-                $('#ToDate').attr('value', dateTo.add(7, 'days').format());
-                $('form').submit();
-            });
+            $('#next-week-btn').on('click', () => updateDateAndSubmit(7));
 
             // on next-week-button clicked subtract 7 days to FromDate, ToDate inputs and submit form
-            $('#prev-week-btn').on('click', function () {
-                $('#FromDate').attr('value', dateFrom.subtract(7, 'days').format());
-                $('#ToDate').attr('value', dateTo.subtract(7, 'days').format());
+            $('#prev-week-btn').on('click', () => updateDateAndSubmit(-7));
+
+            function updateDateAndSubmit(value) {
+                $('#FromDate').attr('value', dateFrom.add(value, 'days').format());
+                $('#ToDate').attr('value', dateTo.add(value, 'days').format());
                 $('form').submit();
-            });
+            }
 
             // on side nav court (li) clicked set CourtId input and submit form
             $('.sidenav').on('click', 'li', function () {
-                $('#CourtId').attr('value', $(this).attr('court-id'));
+                const courtId = $(this).attr('court-id');
+                $('#CourtId').attr('value', courtId);
                 $('form').submit();
             });
 
@@ -272,9 +279,8 @@
 
             // set period from to to title
             $('#timeslot-week')
-                .text(
-                dateFrom.format("DD/MM/YYYY") + ' - ' +
-                dateTo.format("DD/MM/YYYY"));
+                .text(dateFrom.format("DD/MM/YYYY") + ' - ' +
+                    dateTo.format("DD/MM/YYYY"));
 
             // set days header with day + month
             $('table thead tr')
@@ -285,7 +291,10 @@
 
                 return headerBlock.replace('{date}', '') +
                     [0, 1, 2, 3, 4, 5, 6].map(function (i) {
-                        return headerBlock.replace('{date}', date.add(i, 'days').format('dddd<br/>DD MMM'));
+                        const dayHeader = headerBlock.replace('{date}',
+                            date.format('dddd<br/>DD MMM'));
+                        date.add(1, 'days');
+                        return dayHeader;
                     }).join('');
             }
         });

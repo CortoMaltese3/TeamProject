@@ -18,12 +18,14 @@ namespace TeamProject.ApiControllers
     {
         private ProjectDbContext db = new ProjectDbContext();
         // GET: api/Bookings/5
-        public User Get(int id)
+        public BookingInfo Get(int id)
         {
             return db.Bookings
                 .Get("Booking.Id=@id", new { id })
-                .FirstOrDefault()
-                ?.User;
+                .Select(b => new BookingInfo(b))
+                .FirstOrDefault();
         }
+
+
     }
 }

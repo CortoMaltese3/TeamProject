@@ -77,7 +77,9 @@
 
                         return headerBlock.replace('{date}', '') +
                             [0, 1, 2, 3, 4, 5, 6].map(function (i) {
-                                return headerBlock.replace('{date}', date.add(i,'days').format('dddd<br/>DD MMM'));
+                                const dayHeader = headerBlock.replace('{date}', date.format('dddd<br/>DD MMM'));
+                                date.add(1, 'days');
+                                return dayHeader;
                             })
                             .join('');
                     },

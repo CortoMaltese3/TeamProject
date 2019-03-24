@@ -28,16 +28,16 @@ namespace TeamProject.ApiControllers
 
         // POST: api/Book
         [HttpPost]
-        public PostResponse Post(PutBookModel putBookModel)
+        public PostBookResponse Post(PutBookModel putBookModel)
         {
             if (!GetLoggedInUserId(out int loggedUserId))
             {
-                return new PostResponse() { Status = "You must log in first" };
+                return new PostBookResponse() { Status = "You must log in first" };
             }
 
             if (!IsValidDate(putBookModel.BookedAt))
             {
-                return new PostResponse() { Status = $"Can't Book on date before {DateTime.Now.Date}" };
+                return new PostBookResponse() { Status = $"Can't Book on date before {DateTime.Now.Date}" };
             }
 
             var booking = new Booking()
@@ -53,10 +53,10 @@ namespace TeamProject.ApiControllers
 
             if (booking.Id == 0)
             {
-                return new PostResponse() { Status = $"At <small class='text-muted'>{putBookModel.BookedAt.ToLocalTime()}</small>" };
+                return new PostBookResponse() { Status = $"At <small class='text-muted'>{putBookModel.BookedAt.ToLocalTime()}</small>" };
             }
 
-            return new PostResponse()
+            return new PostBookResponse()
             {
                 Status = db.LastActionStatus,
                 BookingId = booking.Id,
@@ -74,12 +74,7 @@ namespace TeamProject.ApiControllers
 
             return int.TryParse(userDateId, out loggedUserId);
         }
-        public class PostResponse
-        {
-            public string Status { get; set; }
-            public int BookingId { get; set; }
-            public string BookKey { get; set; }
-        }
+
     }
 
 }
