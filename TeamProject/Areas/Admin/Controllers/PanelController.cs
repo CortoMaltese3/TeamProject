@@ -9,6 +9,7 @@ namespace TeamProject.Areas.Admin.Controllers
     public class PanelController : Controller
     {
         // GET: Admin/Panel
+        [Authorize (Roles ="Admin,Owner")]
         public ActionResult Index()
         {
             return View();
