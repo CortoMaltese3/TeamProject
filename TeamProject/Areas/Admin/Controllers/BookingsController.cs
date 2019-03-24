@@ -131,6 +131,7 @@ namespace TeamProject.Areas.Admin.Controllers
             {
                 return HttpNotFound();
             }
+            ViewBag.BranchId = booking.Court.BranchId;
             return View(booking);
         }
 
