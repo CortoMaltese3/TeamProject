@@ -409,7 +409,6 @@
     <Content Include="Scripts\popper.js.map" />
     <Content Include="Scripts\popper-utils.min.js.map" />
     <Content Include="Scripts\popper-utils.js.map" />
-    <Content Include="Areas\Admin\Views\Bookings\Create.cshtml" />
     <Content Include="Areas\Admin\Views\Bookings\Delete.cshtml" />
     <Content Include="Areas\Admin\Views\Bookings\Details.cshtml" />
     <Content Include="Areas\Admin\Views\Bookings\Edit.cshtml" />

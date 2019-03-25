@@ -59,32 +59,6 @@ namespace TeamProject.Areas.Admin.Controllers
             return View(booking);
         }
 
-        // GET: Bookings/Create
-        public ActionResult Create()
-        {
-            ViewBag.CourtId = new SelectList(db.Courts.Get(), "Id", "Name");
-            ViewBag.UserId = new SelectList(db.Users.Get(), "Id", "Firstname");
-            return View();
-        }
-
-        // POST: Bookings/Create
-        // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
-        // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "Id,CourtId,UserId,BookedAt,Duration")] Booking booking)
-        {
-            if (ModelState.IsValid)
-            {
-                db.Bookings.Add(booking);
-                return RedirectToAction("Index");
-            }
-
-            ViewBag.CourtId = new SelectList(db.Courts.Get(), "Id", "Name", booking.CourtId);
-            ViewBag.UserId = new SelectList(db.Users.Get(), "Id", "Firstname", booking.UserId);
-            return View(booking);
-        }
-
         // GET: Bookings/Edit/5
         public ActionResult Edit(int? id)
         {
