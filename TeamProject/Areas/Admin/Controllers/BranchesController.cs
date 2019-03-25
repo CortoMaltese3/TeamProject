@@ -4,6 +4,7 @@ using System.Globalization;
 using System.IO;
 using System.Linq;
 using System.Net;
+using System.Security.Claims;
 using System.Web;
 using System.Web.Mvc;
 using TeamProject.Models;
@@ -20,14 +21,14 @@ namespace TeamProject.Areas.Admin.Controllers
         public ActionResult Index()
         {
             var branches = db.Branches.Get();
-            
+
             // If Owner filter only owners branches
             if (!User.IsInRole("Admin"))
             {
                 var ownerUser = Session["User"] as User;
                 branches = db.Branches.Get().Where(b => b.UserId == ownerUser.Id);
             }
-            
+
             return View(branches.ToList());
         }
 
@@ -49,8 +50,8 @@ namespace TeamProject.Areas.Admin.Controllers
         // GET: Branches/Create
         public ActionResult Create()
         {
-            ViewBag.UserId = new SelectList(db.Users.Get(), "Id", "Firstname");
-            return View();
+            GetLoggedInUserId(out int userId);
+            return View(new Branch() { UserId = userId });
         }
 
         // POST: Branches/Create
@@ -80,25 +81,6 @@ namespace TeamProject.Areas.Admin.Controllers
             return View(branch);
         }
 
-        //public ActionResult AddFacilities(int? id, BranchFacilities branchFacilities)
-        //{
-        //    //Find branch and add the facilities to it!
-        //    branchFacilities.BranchId = id ?? 0;
-
-        //    //var facilities = db.Branches.Add().Facility(facility.Id);
-        //    if (ModelState.IsValid)
-        //    {
-        //        var facilities = branchFacilities.SelectedFacilities;
-        //        foreach (var item in facilities)
-        //        {
-        //            //db.BranchFacilities.Add(branch, item);
-        //        }
-        //    }
-            
-            
-
-        //    return RedirectToAction("Index");
-        //}
 
         // GET: Branches/Edit/5
         public ActionResult Edit(int? id)
@@ -167,6 +149,12 @@ namespace TeamProject.Areas.Admin.Controllers
             db.Branches.Remove(branch.Id);
             return RedirectToAction("Index");
         }
+        private bool GetLoggedInUserId(out int loggedUserId)
+        {
+            var identity = User.Identity as ClaimsIdentity;
+            var userDateId = identity.FindFirst(c => c.Type == ClaimTypes.UserData).Value;
 
+            return int.TryParse(userDateId, out loggedUserId);
+        }
     }
 }
