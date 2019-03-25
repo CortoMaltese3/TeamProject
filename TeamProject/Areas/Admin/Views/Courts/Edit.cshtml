@@ -11,7 +11,7 @@
     @Html.AntiForgeryToken()
 
 <div class="form-horizontal">
-    <h4>Court Edit</h4>
+    <h2>Court Edit</h2>
     <hr />
     @Html.ValidationSummary(true, "", new { @class = "text-danger" })
     @Html.HiddenFor(model => model.Court.Id)
@@ -105,7 +105,6 @@
             {
                 @Html.ActionLink(item.Hour.ToString("hh\\:mm"), "Details", "Timeslots", new { id = item.Day1 }, new { id = item.Day1, @class = "" })
             }
-
         </td>
         <td>
             @if (item.Day2 != null)
