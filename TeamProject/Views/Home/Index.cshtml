@@ -22,7 +22,7 @@
         <div class="carousel-item active">
             <img class="d-block w-100" src="~/Images/Carrousel/FIFA-2018-World-Cup-Featured-1366x768.jpg" alt="First slide">
             <div class="carousel-caption d-none d-md-block">
-                <h5>World Cup!</h5>
+                <h5>On the road to World Cup?</h5>
                 <p>Find Your Court Now!</p>
             </div>
         </div>
@@ -57,7 +57,7 @@
             <input id="latitude" hidden name="latitude" type="text">
             <input id="longitude" hidden name="longitude" type="text">
             <div class="input-group-append">
-                <button id="form-search" class="btn btn-success rounded-pill" type="submit">Search!</button>
+                <button id="form-search" class="btn btn-success rounded-pill" type="submit">Search</button>
             </div>
         </form>
     </div>
@@ -78,7 +78,7 @@
                 <div class="card bg-dark text-white rounded ml-3 mt-3 mr-3">
                     <img src="~/Images/Courts/@court.ImageCourt" class="card-img movie-Thumbnail" alt="@court.Name">
                     <div class="card-img-overlay">
-                        <h4 class="card-title text-center">@court.Name</h4>
+                        <h4 class="card-title text-center" style="text-shadow: -1px 0 black, 0 1px black, 1px 0 black, 0 -1px black;" >@court.Name</h4>
                         <a href="/Courts/Booking/@court.Id" class="btn btn-block btn-success bottom">Book Now only @court.Price&euro; ! </a>
                     </div>
                 </div>
@@ -89,7 +89,7 @@
 
 
 @*adding Social Links*@
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+@*<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 <div class="box" style="opacity:1;">
     <div class="container">
         <div class="row">
@@ -167,7 +167,7 @@
             </div>
         </div>
     </div>
-</div>
+</div>*@
 
 @section Scripts{
 

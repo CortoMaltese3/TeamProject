@@ -32,7 +32,8 @@
             <!-- Grid column -->
             <div class="col-md-2 mb-3">
                 <h6 class="text-uppercase font-weight-bold">
-                    <a href="#!">Contact</a>
+                    @*<a href="#">Contact</a>*@
+                    @Html.ActionLink("Contact", "Contact", "Home")
                 </h6>
             </div>
             <!-- Grid column -->
@@ -63,7 +64,7 @@
             <!-- Grid column -->
             <div class="col-md-12">
 
-                <div class="mb-5 flex-center" style="margin-left:+33.5%">
+                <div class="mb-5 flex-center" style="margin-left:+37%">
                     <!-- Facebook -->
                     <a class="fb-ic" href="https://www.facebook.com">
                         <img src="https://cdn1.iconfinder.com/data/icons/iconza-circle-social/64/697057-facebook-512.png" style="width:7%" />
@@ -73,9 +74,9 @@
                         <img src="https://cdn3.iconfinder.com/data/icons/pyconic-icons-3-1/512/twitter-circle-512.png" style="width:5%" />
                     </a>&nbsp;&nbsp;&nbsp;
                     <!-- Google +-->
-                    <a class="gplus-ic" href="https://plus.google.com/discover">
+                    @*<a class="gplus-ic" href="https://plus.google.com/discover">
                         <img src="http://icons-for-free.com/free-icons/png/512/107180.png" style="width:5.5%" />
-                    </a>&nbsp;&nbsp;&nbsp;
+                    </a>&nbsp;&nbsp;&nbsp;*@
                     <!--Instagram-->
                     <a class="ins-ic" href="https://www.instagram.com/">
                         <img src="https://cdn4.iconfinder.com/data/icons/social-messaging-ui-color-shapes-2-free/128/social-instagram-new-circle-512.png" style="width:5%" />
@@ -84,7 +85,7 @@
                     <a data-pin-do="buttonPin" data-pin-tall="true" style="width:30%" data-pin-round="true" href="https://www.pinterest.com/pin/create/button/?url=https%3A%2F%2Fwww.flickr.com%2Fphotos%2Fkentbrew%2F6851755809%2F&media=https%3A%2F%2Ffarm8.staticflickr.com%2F7027%2F6851755809_df5b2051c9_z.jpg&description=Next%20stop%3A%20Pinterest"><img src="//assets.pinterest.com/images/pidgets/pinit_fg_en_round_red_32.png" /></a>
                     &nbsp;&nbsp;&nbsp;
                     <!--Github-->
-                    <a class="pin-ic align-middle" href="https://github.com/session/">
+                    <a class="pin-ic align-middle" href="https://github.com/CortoMaltese3/TeamProject">
                         <img src="https://image.flaticon.com/icons/svg/25/25231.svg" style="width:5%" />
                     </a>
 
@@ -98,7 +99,7 @@
     <!-- Footer Links -->
     <!-- Copyright -->
     <div class="footer-copyright text-center py-3 text-secondary">
-        &copy; @DateTime.Now.Year - TeamProject - All Rights Reserved
+        &copy; @DateTime.Now.Year - BookYourCourt - All Rights Reserved
     </div>
     <!-- Copyright -->
 </footer>
