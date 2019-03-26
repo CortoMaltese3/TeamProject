@@ -29,7 +29,7 @@ namespace TeamProject.Controllers
 
         public ActionResult About()
         {
-            ViewBag.Message = "Your application description page.";
+            ViewBag.Message = "Contributors' Wall of Glory";
 
             return View();
         }

@@ -1,7 +1,22 @@
 ﻿@{
-    ViewBag.Title = "About";
+    ViewBag.Title = "About us";
+}
+@section Styles{
+    <link type="text/css" rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,400,500">
+    <link type="text/css" rel="stylesheet" href="~/Content/Contact.css" />
 }
 <h2>@ViewBag.Title.</h2>
-<h3>@ViewBag.Message</h3>
+<h6>@ViewBag.Message</h6>
 
-<p>Use this area to provide additional information.</p>
+<div class="container">
+    <div class="row">
+        <img src="~/Images/About/g_xiros.jpg" style=""height="200" width="200" />
+        <img src="~/Images/About/g_lymperopoulos.jpg" height="200" width="200" />
+        <img src="~/Images/About/f_boukouvala.jpg" height="200" width="200" />
+    </div>
+    <br />
+    <div class="row">
+        <img src="~/Images/About/g_chaniotakis.jpg" height="200" width="200" />
+        <img src="~/Images/About/g_kalomalos.jpg" height="200" width="200" />
+    </div>
+</div>

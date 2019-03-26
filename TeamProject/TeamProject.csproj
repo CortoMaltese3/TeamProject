@@ -303,6 +303,11 @@
     <Content Include="Dashboard\Dashboard.css" />
     <Content Include="favicon.ico" />
     <Content Include="Global.asax" />
+    <Content Include="Images\About\f_boukouvala.jpg" />
+    <Content Include="Images\About\g_chaniotakis.jpg" />
+    <Content Include="Images\About\g_kalomalos.jpg" />
+    <Content Include="Images\About\g_lymperopoulos.jpg" />
+    <Content Include="Images\About\g_xiros.jpg" />
     <Content Include="Images\Branches\na_image.jpg" />
     <Content Include="Images\Carrousel\880x495_cmsv2_a9dcd7ed-1ff5-5d7c-8de0-63b847a68c91-3156825.jpg" />
     <Content Include="Images\Carrousel\FIFA-2018-World-Cup-Featured-1366x768.jpg" />

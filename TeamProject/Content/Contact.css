@@ -42,3 +42,10 @@ input[type=submit]:hover {
         margin-top: 0;
     }
 }
+
+.group-item img {
+    float: left;
+    margin-right: auto;
+    width: 200px;
+    height: 200px;
+}
