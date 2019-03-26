@@ -115,14 +115,14 @@ namespace TeamProject.Models
             return branches;
         }
 
-        private IEnumerable<TimeslotApiView> GetBookingsByBranchAndDay(int courtId)
+        private IEnumerable<BookingReport> GetBookingsByBranchAndDay(int courtId)
         {
-            IEnumerable<TimeslotApiView> courtTimeslots = Enumerable.Empty<TimeslotApiView>();
+            IEnumerable<BookingReport> courtTimeslots = Enumerable.Empty<BookingReport>();
 
             _db.UsingConnection((dbCon) =>
             {
                 courtTimeslots = dbCon
-                    .Query<TimeslotApiView>("GetBookingsByBranchAndDay",
+                    .Query<BookingReport>("GetBookingsByBranchAndDay",
                         new
                         {
                             CourtId = courtId
