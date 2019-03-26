@@ -143,9 +143,9 @@
                 function geocodeLatLng(geocoder, latLng) {
                     $('#Latitude').val(latLng.lat().toString().replace('.', ','));
                     $('#Longitude').val(latLng.lng().toString().replace('.', ','));
-                    //marker.position = {
-                    //    lat: latLng.lat(), lng: latLng.lng()
-                    //};
+
+                    marker.setPosition(latLng);
+
                     geocoder.geocode({ 'location': latLng }, function (results, status) {
                         if (status === 'OK') {
                             // console.log(results);
