@@ -59,6 +59,12 @@ namespace TeamProject.Models
         {
             return GetForTimeSlotsPivot(courtId, fromDate, toDate, "GetTimeslotsAt");
         }
+
+        public IEnumerable<TimeslotApiView> GetBookings(int courtId, DateTime fromDate, DateTime toDate)
+        {
+            return GetForTimeSlotsPivot(courtId, fromDate, toDate, "GetBookingsAt");
+        }
+
         public IEnumerable<TimeslotApiView> GetForView(int courtId)
         {
             IEnumerable<TimeslotApiView> courtTimeslots = Enumerable.Empty<TimeslotApiView>();

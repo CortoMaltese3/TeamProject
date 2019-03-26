@@ -11,18 +11,39 @@ using TeamProject.ModelsViews;
 
 namespace TeamProject.Areas.Admin.Controllers
 {
+    [Authorize(Roles = "Owner")]
     public class BookingsController : Controller
     {
         private ProjectDbContext db = new ProjectDbContext();
 
         // GET: Bookings
-        public ActionResult Index()
+        public ActionResult Index(BookingsSearchForm bookingSearchForm)
         {
-            var booking = db.Bookings.Get();//.Include(b => b.Court).Include(b => b.User);
-            return View(booking.ToList());
+            var model = new BookingsSearchResult()
+            {
+                BranchId = bookingSearchForm.Id,
+                CourtId = bookingSearchForm.CourtId ?? db.Courts.BranchCourts(bookingSearchForm.Id).FirstOrDefault()?.Id ?? 0,
+                FromDate = bookingSearchForm.FromDate ?? StartOfWeek(DateTime.Now),
+                Courts = db.Courts.BranchCourts(bookingSearchForm.Id)
+            };
+
+            model.ToDate = bookingSearchForm.ToDate ?? model.FromDate.AddDays(6);
+
+            model.TimeslotApiViews = db.TimeSlots
+                .GetBookings(model.CourtId, model.FromDate, model.ToDate)
+                .OrderBy(t => t.Hour);
+
+            return View(model);
+
+        }
+        private DateTime StartOfWeek(DateTime dt)
+        {
+            int diff = (7 + (dt.DayOfWeek - DayOfWeek.Monday)) % 7;
+            return dt.AddDays(-1 * diff).Date;
         }
 
         // GET: Bookings/Details/5
+        //public ActionResult Details(int? id, int? branchId)
         public ActionResult Details(int? id)
         {
             if (id == null)
@@ -34,32 +55,7 @@ namespace TeamProject.Areas.Admin.Controllers
             {
                 return HttpNotFound();
             }
-            return View(booking);
-        }
-
-        // GET: Bookings/Create
-        public ActionResult Create()
-        {
-            ViewBag.CourtId = new SelectList(db.Courts.Get(), "Id", "Name");
-            ViewBag.UserId = new SelectList(db.Users.Get(), "Id", "Firstname");
-            return View();
-        }
-
-        // POST: Bookings/Create
-        // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
-        // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "Id,CourtId,UserId,BookedAt,Duration")] Booking booking)
-        {
-            if (ModelState.IsValid)
-            {
-                db.Bookings.Add(booking);
-                return RedirectToAction("Index");
-            }
-
-            ViewBag.CourtId = new SelectList(db.Courts.Get(), "Id", "Name", booking.CourtId);
-            ViewBag.UserId = new SelectList(db.Users.Get(), "Id", "Firstname", booking.UserId);
+            ViewBag.BranchId = booking.Court.BranchId;
             return View(booking);
         }
 
@@ -109,6 +105,7 @@ namespace TeamProject.Areas.Admin.Controllers
             {
                 return HttpNotFound();
             }
+            ViewBag.BranchId = booking.Court.BranchId;
             return View(booking);
         }
 

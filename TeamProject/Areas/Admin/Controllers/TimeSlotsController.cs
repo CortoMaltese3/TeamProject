@@ -118,6 +118,5 @@ namespace TeamProject.Areas.Admin.Controllers
             db.TimeSlots.Remove(id);
             return RedirectToAction("Index", new { id = timeSlot.CourtId });
         }
-
     }
 }

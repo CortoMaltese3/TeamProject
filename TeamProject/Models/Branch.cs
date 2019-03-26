@@ -17,6 +17,7 @@ namespace TeamProject.Models
 
         public int Id { get; set; }
 
+        [Display(Name = "Branch Owner")]
         public int UserId { get; set; }
 
         [Required]
@@ -28,7 +29,6 @@ namespace TeamProject.Models
 
         public double Latitude { get; set; }
 
-        [Required]
         [StringLength(20)]
         public string City { get; set; }
 
@@ -36,7 +36,6 @@ namespace TeamProject.Models
         [StringLength(200)]
         public string Address { get; set; }
 
-        [Required]
         [StringLength(200)]
         public string ZipCode { get; set; }
 

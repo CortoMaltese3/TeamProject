@@ -1,13 +1,25 @@
 ﻿@model TeamProject.Models.Branch
-
 @{
     ViewBag.Title = "Edit";
     Layout = "~/Areas/Admin/Views/Shared/_Layout.cshtml";
     var isAdmin = User.IsInRole("Admin");
 }
-
+@section styles{
+    <style>
+        /* Always set the map height explicitly to define the size of the div
+        * element that contains the map. */
+        #map {
+            height: 425px;
+        }
+        /* Optional: Makes the sample page fill the window. */
+        html, body {
+            height: 100%;
+            margin: 0;
+            padding: 0;
+        }
+    </style>
+}
 <h2>Edit</h2>
-
 @using (Html.BeginForm("Edit", "Branches", FormMethod.Post, new { enctype = "multipart/form-data" }))
 {
     @Html.AntiForgeryToken()
@@ -17,7 +29,6 @@
     <hr />
     @Html.ValidationSummary(true, "", new { @class = "text-danger" })
     @Html.HiddenFor(model => model.Id)
-
     @if (isAdmin)
     {
         <div class="form-group">
@@ -26,7 +37,6 @@
                 @Html.DropDownList("UserId", null, htmlAttributes: new { @class = "form-control" })
                 @Html.ValidationMessageFor(model => model.UserId, "", new { @class = "text-danger" })
             </div>
-
         </div>
     }
     else
@@ -40,30 +50,31 @@
             @Html.ValidationMessageFor(model => model.Name, "", new { @class = "text-danger" })
         </div>
     </div>
+    @*<div class="form-group">
+            @Html.LabelFor(model => model.Longitude, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.HiddenFor(model => model.Longitude, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.Longitude, "", new { @class = "text-danger" })
+            </div>
+        </div>*@
+    @*<div class="form-group">
+            @Html.LabelFor(model => model.Latitude, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.HiddenFor(model => model.Latitude, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.Latitude, "", new { @class = "text-danger" })
+            </div>
+        </div>*@
+    @*<div class="form-group">
+            @Html.LabelFor(model => model.City, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.City, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.City, "", new { @class = "text-danger" })
+            </div>
+        </div>*@
+    @Html.HiddenFor(model => model.Latitude)
+    @Html.HiddenFor(model => model.Longitude)
 
-    <div class="form-group">
-        @Html.LabelFor(model => model.Longitude, htmlAttributes: new { @class = "control-label col-md-2" })
-        <div class="col-md-10">
-            @Html.HiddenFor(model => model.Longitude, new { htmlAttributes = new { @class = "form-control" } })
-            @Html.ValidationMessageFor(model => model.Longitude, "", new { @class = "text-danger" })
-        </div>
-    </div>
 
-    <div class="form-group">
-        @Html.LabelFor(model => model.Latitude, htmlAttributes: new { @class = "control-label col-md-2" })
-        <div class="col-md-10">
-            @Html.HiddenFor(model => model.Latitude, new { htmlAttributes = new { @class = "form-control" } })
-            @Html.ValidationMessageFor(model => model.Latitude, "", new { @class = "text-danger" })
-        </div>
-    </div>
-
-    <div class="form-group">
-        @Html.LabelFor(model => model.City, htmlAttributes: new { @class = "control-label col-md-2" })
-        <div class="col-md-10">
-            @Html.EditorFor(model => model.City, new { htmlAttributes = new { @class = "form-control" } })
-            @Html.ValidationMessageFor(model => model.City, "", new { @class = "text-danger" })
-        </div>
-    </div>
 
     <div class="form-group">
         @Html.LabelFor(model => model.Address, htmlAttributes: new { @class = "control-label col-md-2" })
@@ -72,14 +83,14 @@
             @Html.ValidationMessageFor(model => model.Address, "", new { @class = "text-danger" })
         </div>
     </div>
-
-    <div class="form-group">
-        @Html.LabelFor(model => model.ZipCode, htmlAttributes: new { @class = "control-label col-md-2" })
-        <div class="col-md-10">
-            @Html.EditorFor(model => model.ZipCode, new { htmlAttributes = new { @class = "form-control" } })
-            @Html.ValidationMessageFor(model => model.ZipCode, "", new { @class = "text-danger" })
-        </div>
-    </div>
+    <div class="form-group" id="map"></div>
+    @*<div class="form-group">
+            @Html.LabelFor(model => model.ZipCode, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.ZipCode, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.ZipCode, "", new { @class = "text-danger" })
+            </div>
+        </div>*@
     <div class="form-group">
         @Html.LabelFor(model => model.ImageBranch, htmlAttributes: new { @class = "control-label col-md-2" })
         <div class="col-md-10">
@@ -87,20 +98,73 @@
             @Html.ValidationMessageFor(model => model.ImageBranch, "", new { @class = "text-danger" })
         </div>
     </div>
-
     <div class="form-group">
         <div class="col-md-offset-2 col-md-10">
             <input type="submit" value="Save" class="btn btn-default" />
         </div>
     </div>
 </div>
-    
-}
 
+}
 <div>
     @Html.ActionLink("Back to Branches", "Index")
 </div>
-
 @section Scripts {
     @Scripts.Render("~/bundles/jqueryval")
+
+
+    <script>
+
+        function initMap() {
+            
+            showMap({
+                zoom: 12,
+                center: {
+                    lat: parseFloat($('#Latitude').val().replace(',','.')),
+                    lng: parseFloat($('#Longitude').val().replace(',', '.'))
+                }
+            });
+
+            function showMap(options) {
+                var geocoder = new google.maps.Geocoder;
+                var map = new google.maps.Map(document.getElementById('map'), options);
+
+                const marker = new google.maps.Marker({
+                    position: new google.maps.LatLng(options.center.lat,
+                        options.center.lng),
+                    map: map,
+                    title: $('#Name').val()
+                });
+
+                map.addListener('click', function (e) {
+                    geocodeLatLng(geocoder, e.latLng);
+                });
+
+                function geocodeLatLng(geocoder, latLng) {
+                    $('#Latitude').val(latLng.lat().toString().replace('.', ','));
+                    $('#Longitude').val(latLng.lng().toString().replace('.', ','));
+
+                    marker.setPosition(latLng);
+
+                    geocoder.geocode({ 'location': latLng }, function (results, status) {
+                        if (status === 'OK') {
+                            // console.log(results);
+                            if (results[0]) {
+                                $('#Address').val(results[0].formatted_address);
+                            } else {
+                                console.log('No results found');
+                            }
+                        } else {
+                            console.log('Geocoder failed due to: ' + status);
+                        }
+                    });
+                }
+            }
+
+
+        }
+
+    </script>
+    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDrnm2ptgfajjtlCfM97wat7Jsx5KZ0UoA&callback=initMap"></script>
+    @*key=AIzaSyDrnm2ptgfajjtlCfM97wat7Jsx5KZ0UoA&*@
 }

@@ -2,7 +2,7 @@
 
 
 <nav class="navbar navbar-dark navbar-expand-lg sticky-top bg-dark test">
-    @Html.ActionLink("TeamProject", "Index", "Home", new { area = "" }, new { @class = "navbar-brand font-italic" })
+    @Html.ActionLink("BookYourCourt", "Index", "Home", new { area = "" }, new { @class = "navbar-brand font-italic" })
     <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
         <span class="navbar-toggler-icon"></span>
     </button>
@@ -11,7 +11,7 @@
             <li class="nav-item active">@Html.ActionLink("Courts", "Index", "Courts", new { area = "" }, new { @class = "navbar-brand" })</li>         
             @if (Session["User"] != null)
             {               
-                if(Session["Admin"].Equals("Admin") || Session["Owner"].Equals("Owner"))
+                if(User.IsInRole("Admin")||User.IsInRole("Owner"))
                 {
                     <li class="nav-item ">
                         @Html.ActionLink("Panel", "Index", "Panel", new { area = "Admin" }, new { @class = "navbar-brand" })

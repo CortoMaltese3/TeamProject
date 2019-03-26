@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Data;
-using System.Data.Entity;
 using System.IO;
 using System.Linq;
 using System.Net;
@@ -11,20 +10,22 @@ using TeamProject.Models;
 
 namespace TeamProject.Areas.Admin.Controllers
 {
-    [Authorize(Roles = "Admin")]
+
     public class FacilitiesController : Controller
     {
+
         private ProjectDbContext db = new ProjectDbContext();
 
         // GET: Facilities
-
+        [Authorize(Roles = "Admin")]
         public ActionResult Index()
         {
-            var facility = db.Facilities.Get();            
+            var facility = db.Facilities.Get();
             return View(facility.ToList());
         }
 
         // GET: Facilities/Details/5
+        [Authorize(Roles = "Admin")]
         public ActionResult Details(int? id)
         {
             if (id == null)
@@ -32,7 +33,7 @@ namespace TeamProject.Areas.Admin.Controllers
                 return RedirectToAction("Index");
                 //return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            Facility facility = db.Facilities.Find(id??0);            
+            Facility facility = db.Facilities.Find(id ?? 0);
             if (facility == null)
             {
                 return RedirectToAction("Index");
@@ -41,10 +42,12 @@ namespace TeamProject.Areas.Admin.Controllers
             return View(facility);
         }
 
+
         // GET: Facilities/Create
+        [Authorize(Roles = "Admin")]
         public ActionResult Create(int? id)
         {
-            ViewBag.FacilityId = new SelectList(db.Facilities.Get().Where(branch => branch.Id == (id ?? 0)), "Id", "Description");           
+            ViewBag.FacilityId = new SelectList(db.Facilities.Get().Where(branch => branch.Id == (id ?? 0)), "Id", "Description");
             return View();
         }
 
@@ -53,6 +56,7 @@ namespace TeamProject.Areas.Admin.Controllers
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [Authorize(Roles = "Admin")]
         public ActionResult Create(Facility facility)
         {
             if (facility.ImageFile == null)
@@ -67,23 +71,24 @@ namespace TeamProject.Areas.Admin.Controllers
             }
             if (ModelState.IsValid)
             {
-                db.Facilities.Add(facility);               
+                db.Facilities.Add(facility);
                 return RedirectToAction("Index");
             }
 
-            ViewBag.FacilityId = new SelectList(db.Facilities.Get(), "Id", "Description", facility.Id );          
+            ViewBag.FacilityId = new SelectList(db.Facilities.Get(), "Id", "Description", facility.Id);
 
             return View(facility);
         }
 
         // GET: Facilities/Edit/5
+        [Authorize(Roles = "Admin")]
         public ActionResult Edit(int? id)
         {
             if (id == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            Facility facility = db.Facilities.Find(id??0);
+            Facility facility = db.Facilities.Find(id ?? 0);
             if (facility == null)
             {
                 return HttpNotFound();
@@ -96,6 +101,7 @@ namespace TeamProject.Areas.Admin.Controllers
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [Authorize(Roles = "Admin")]
         public ActionResult Edit(Facility facility, HttpPostedFileBase ImageFile)
         {
             if (ImageFile != null)
@@ -107,20 +113,21 @@ namespace TeamProject.Areas.Admin.Controllers
 
             if (ModelState.IsValid)
             {
-                db.Facilities.Update(facility);               
+                db.Facilities.Update(facility);
                 return RedirectToAction("Index");
             }
             return View(facility);
         }
 
         // GET: Facilities/Delete/5
+        [Authorize(Roles = "Admin")]
         public ActionResult Delete(int? id)
         {
             if (id == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            Facility facility = db.Facilities.Find(id??0);
+            Facility facility = db.Facilities.Find(id ?? 0);
             if (facility == null)
             {
                 return HttpNotFound();
@@ -131,10 +138,11 @@ namespace TeamProject.Areas.Admin.Controllers
         // POST: Facilities/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
+        [Authorize(Roles = "Admin")]
         public ActionResult DeleteConfirmed(int id)
         {
             Facility facility = db.Facilities.Find(id);
-            db.Facilities.Remove(facility.Id);            
+            db.Facilities.Remove(facility.Id);
             return RedirectToAction("Index");
         }
     }

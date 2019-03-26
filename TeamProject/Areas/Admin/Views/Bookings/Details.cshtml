@@ -1,11 +1,8 @@
 ﻿@model TeamProject.Models.Booking
-
 @{
     ViewBag.Title = "Details";
 }
-
 <h2>Details</h2>
-
 <div>
     <h4>Booking</h4>
     <hr />
@@ -13,38 +10,48 @@
         <dt>
             @Html.DisplayNameFor(model => model.Court.Name)
         </dt>
-
         <dd>
             @Html.DisplayFor(model => model.Court.Name)
         </dd>
-
         <dt>
             @Html.DisplayNameFor(model => model.User.Firstname)
         </dt>
-
         <dd>
             @Html.DisplayFor(model => model.User.Firstname)
         </dd>
-
+        <dt>
+            @Html.DisplayNameFor(model => model.User.Lastname)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.User.Lastname)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.User.Email)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.User.Email)
+        </dd>
         <dt>
             @Html.DisplayNameFor(model => model.BookedAt)
         </dt>
-
         <dd>
             @Html.DisplayFor(model => model.BookedAt)
         </dd>
-
+        <dt>
+            @Html.DisplayNameFor(model => model.BookKey)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.BookKey)
+        </dd>
         <dt>
             @Html.DisplayNameFor(model => model.Duration)
         </dt>
-
         <dd>
             @Html.DisplayFor(model => model.Duration)
         </dd>
-
     </dl>
 </div>
 <p>
-    @Html.ActionLink("Edit", "Edit", new { id = Model.Id }) |
-    @Html.ActionLink("Back to Bookings", "Index")
+    @*@Html.ActionLink("Edit", "Edit", new { id = Model.Id }) |*@
+    @Html.ActionLink("Back to Bookings", "Index", new { id = ViewBag.BranchId })
 </p>

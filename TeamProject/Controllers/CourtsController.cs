@@ -22,7 +22,7 @@ namespace TeamProject.Controllers
             return View(court);
         }
         [Authorize]
-        public ActionResult Book(int id)
+        public ActionResult Booking(int id)
         {
             var courtsInSameBranch = db.Courts.AllCourtsSameBranch(id).ToList();
 

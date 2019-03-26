@@ -29,14 +29,15 @@ namespace TeamProject.Controllers
 
         public ActionResult About()
         {
-            ViewBag.Message = "Your application description page.";
+            ViewBag.Message = "Contributors' Wall of Glory";
 
             return View();
         }
 
         public ActionResult Contact()
         {
-            ViewBag.Message = "Your contact page.";
+            ViewBag.Message = "Whether you would like to partner with us, want more information or run into an issue," +
+                              "we are more than happy to hear from you!";
 
             return View();
         }

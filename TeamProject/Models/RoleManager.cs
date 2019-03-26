@@ -42,6 +42,9 @@ namespace TeamProject.Models
 
             return Roles;
         }
-
+        public Role GetUserRole()
+        {
+            return Get("Description=@Description", new { Description = "User" }).FirstOrDefault();
+        }
     }
 }

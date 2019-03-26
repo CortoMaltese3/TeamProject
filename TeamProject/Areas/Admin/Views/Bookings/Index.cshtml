@@ -1,51 +1,198 @@
-﻿@model IEnumerable<TeamProject.Models.Booking>
-
+﻿@model TeamProject.ModelsViews.BookingsSearchResult
+@using TeamProject.Models
 @{
-    ViewBag.Title = "Index";
+    ViewBag.Title = "Bookings";
+    Layout = "~/Areas/Admin/Views/Shared/_Layout.cshtml";
 }
 
-<h2>Index</h2>
+@section styles
+{
+    <link rel="stylesheet" href="~/Content/book.css" />
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.2/css/all.css" integrity="sha384-fnmOCqbTlWIlj8LyTjo7mOUStjsKC4pOpQbqyi7RrhN7udi9RwhKkMHpvLbHG9Sr" crossorigin="anonymous">
+}
+<div class="row">
+    @using (Html.BeginForm(FormMethod.Get))
+    {
+        @Html.HiddenFor(item => item.BranchId)
+        @Html.HiddenFor(item => item.CourtId)
+        @Html.HiddenFor(item => item.FromDate, new { utcvalue = Model.FromDate.ToString("yyyy-MM-dd") })
+        @Html.HiddenFor(item => item.ToDate, new { utcvalue = Model.ToDate.ToString("yyyy-MM-dd") })
+    }
+    <nav class="col-2 sidenav">
+        <ul class="list-group shadow-sm">
+            @foreach (var court in Model.Courts)
+            {
+                <li court-id="@court.Id"
+                    class="list-group-item d-flex justify-content-between align-items-center">
+                    @court.Name
+                </li>
+            }
+        </ul>
+    </nav>
 
-<p>
-    @Html.ActionLink("Create New", "Create")
-</p>
-<table class="table">
-    <tr>
-        <th>
-            @Html.DisplayNameFor(model => model.Court.Name)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.User.Firstname)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.BookedAt)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.Duration)
-        </th>
-        <th></th>
-    </tr>
+    <main class="col-10">
+        <h2 class="bd-title">Bookings for <small class="text-muted" id="court-title"></small></h2>
+        <div class="row timeslot-header">
+            <div id="prev-week-btn" class="col-1"><i class="fas fa-arrow-circle-left"></i></div>
+            <h3 id="timeslot-week" class="col text-lg-center"></h3>
+            <div id="next-week-btn" class="col-1"><i class="fas fa-arrow-circle-right"></i></div>
+        </div>
+        <div id="data-container">
+            <table class="table timeSlotsBooking">
+                <thead>
+                    <tr>
+                        <th></th>
+                        <th>Monday</th>
+                        <th>Tuesday</th>
+                        <th>Wednesday</th>
+                        <th>Thursday</th>
+                        <th>Friday</th>
+                        <th>Saturday</th>
+                        <th>Sunday</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var item in Model.TimeslotApiViews)
+                    {
+                        <tr>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.Hour)
+                            </td>
+                            @for (var i = 1; i < 7; i++)
+                            {
+                                var bookId = item[i];
+                                <td>
+                                    @if (bookId > 0)
+                                    {
 
-@foreach (var item in Model) {
-    <tr>
-        <td>
-            @Html.DisplayFor(modelItem => item.Court.Name)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.User.Firstname)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.BookedAt)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.Duration)
-        </td>
-        <td>
-            @Html.ActionLink("Edit", "Edit", new { id=item.Id }) |
-            @Html.ActionLink("Details", "Details", new { id=item.Id }) |
-            @Html.ActionLink("Delete", "Delete", new { id=item.Id })
-        </td>
-    </tr>
+                                        <a href="#"
+                                           data-toggle="dropdown"
+                                           aria-haspopup="true"
+                                           aria-expanded="false" booked>
+                                            <div id="@bookId"
+                                                 data-html="true"
+                                                 data-placement="left"
+                                                 data-toggle="popover"
+                                                 title=""
+                                                 data-content=""
+                                                 booked>
+                                                booked
+                                            </div>
+                                        </a>
+                                        <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                                            @Html.ActionLink("Details", "Details", "Bookings", new { id = bookId }, new { @class = "dropdown-item" })
+                                            <div class="dropdown-divider"></div>
+                                            @Html.ActionLink("Cancel", "Delete", "Bookings", new { id = bookId }, new { @class = "dropdown-item" })
+                                        </div>
+
+                                    }
+                                    else if (bookId == 0)
+                                    {
+                                        <a notbooked>-</a>
+                                    }
+                                </td>
+                            }
+                        </tr>
+                    }
+                </tbody>
+            </table>
+
+        </div>
+
+        <div>
+            @Html.ActionLink("Back to Branch", "Index", "Branches", new { id = Model.BranchId }, null)
+        </div>
+    </main>
+</div>
+@section scripts
+{
+    <script src="~/Scripts/moment.js"></script>
+    <script>
+        $(document).ready(function () {
+            const dateFrom = moment($('#FromDate').attr('utcvalue'));
+            const dateTo = moment($('#ToDate').attr('utcvalue'));
+
+            $('[data-toggle="popover"]')
+                .popover();
+
+            // on booked hover populate popover and show
+            $('.timeSlotsBooking td a div[booked]')
+                .hover(function () {
+                    const $popover = $(this);
+
+                    // get data from api call if empty
+                    if ($popover.attr('data-content') == '') {
+                        $.getJSON('/api/bookings/', {
+                            id: $popover.attr('id')
+                        }).done(function (data) {
+
+                            // populate popover
+                            $popover
+                                .attr('data-content',
+                                    data.Username + '</br><em>' + data.Email + '</em>')
+                                .attr('data-original-title',
+                                    moment(data.BookedAt).format("DD/MM/YYYY HH:mm"));
+
+                            $popover.popover('show');
+                        });
+                    } else {
+                        $popover.popover('show');
+                    }
+
+                }, function () {
+                    $(this).popover('hide');
+                });
+
+            // on next-week-button clicked add 7 days to FromDate, ToDate inputs and submit form
+            $('#next-week-btn').on('click', () => updateDateAndSubmit(7));
+
+            // on next-week-button clicked subtract 7 days to FromDate, ToDate inputs and submit form
+            $('#prev-week-btn').on('click', () => updateDateAndSubmit(-7));
+
+            function updateDateAndSubmit(value) {
+                $('#FromDate').attr('value', dateFrom.add(value, 'days').format());
+                $('#ToDate').attr('value', dateTo.add(value, 'days').format());
+                $('form').submit();
+            }
+
+            // on side nav court (li) clicked set CourtId input and submit form
+            $('.sidenav').on('click', 'li', function () {
+                const courtId = $(this).attr('court-id');
+                $('#CourtId').attr('value', courtId);
+                $('form').submit();
+            });
+
+            // set active courtId on side nav bar
+            const selectedCourtName = $('nav.sidenav li[court-id="' + @Model.CourtId + '"]')
+                .addClass('active')
+                .text()
+
+            // and update header title
+            $('#court-title')
+                .text(selectedCourtName);
+
+            // set period from to to title
+            $('#timeslot-week')
+                .text(dateFrom.format("DD/MM/YYYY") + ' - ' +
+                    dateTo.format("DD/MM/YYYY"));
+
+            // set days header with day + month
+            $('table thead tr')
+                .html(getDayHeaders(dateFrom.clone()));
+
+            function getDayHeaders(date) {
+                let headerBlock = '<th>{date}</th>';
+
+                return headerBlock.replace('{date}', '') +
+                    [0, 1, 2, 3, 4, 5, 6].map(function (i) {
+                        const dayHeader = headerBlock.replace('{date}',
+                            date.format('dddd<br/>DD MMM'));
+                        date.add(1, 'days');
+                        return dayHeader;
+                    }).join('');
+            }
+        });
+
+    </script>
 }
 
-</table>

@@ -1,7 +1,49 @@
 ﻿@{
-    ViewBag.Title = "About";
+    ViewBag.Title = "About us";
 }
-<h2>@ViewBag.Title.</h2>
-<h3>@ViewBag.Message</h3>
+@section Styles{
+    <link type="text/css" rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,400,500">
+    <link type="text/css" rel="stylesheet" href="~/Content/Contact.css" />    
+}
+<h2>@ViewBag.Title</h2>
+<h6>@ViewBag.Message</h6>
+<hr />
 
-<p>Use this area to provide additional information.</p>
+<div class="container">
+    <div class="row group-item img">
+        <div class="col-4">
+            <figure>
+                <img src="~/Images/About/g_xiros.jpg" alt="No Image" />
+                <figcaption style="width:200px">Team Leader. Team Leader. Team Leader. Team Leader. Team Leader</figcaption>
+            </figure>
+        </div>
+        <div class="col-4">
+            <figure>
+                <img src="~/Images/About/g_lymperopoulos.jpg" alt="No Image" />
+                <figcaption style="width:200px">Spam your qualities here. Spam your qualities here. Spam your qualities here</figcaption>
+            </figure>
+        </div>
+        <div class="col-4">
+            <figure>
+                <img src="~/Images/About/f_boukouvala.jpg" alt="No Image" />
+                <figcaption style="width:200px">Spam your qualities. Spam your qualities here. Spam your qualities here.</figcaption>
+            </figure>
+        </div>
+    </div>
+    <br />
+
+    <div class="row group-item img">
+        <div class="col-4">
+            <figure>
+                <img src="~/Images/About/g_chaniotakis.jpg" alt="No Image" />
+                <figcaption style="width:200px">Spam your qualities here. Spam your qualities here. Spam your qualities here</figcaption>
+            </figure>
+        </div>
+        <div class="col-4">
+            <figure>
+                <img src="~/Images/About/g_kalomalos.jpg" alt="No Image" />
+                <figcaption style="width:200px">Spam your qualities here. Spam your qualities here. Spam your qualities here</figcaption>
+            </figure>
+        </div>
+    </div>
+</div>

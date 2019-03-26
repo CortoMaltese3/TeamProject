@@ -227,11 +227,13 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="ApiControllers\BookController.cs" />
+    <Compile Include="ApiControllers\BookingsController.cs" />
     <Compile Include="App_Start\BundleConfig.cs" />
     <Compile Include="App_Start\FilterConfig.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="App_Start\WebApiConfig.cs" />
     <Compile Include="Areas\Admin\AdminAreaRegistration.cs" />
+    <Compile Include="Areas\Admin\Controllers\BranchFacilitiesController.cs" />
     <Compile Include="Areas\Admin\Controllers\BranchesController.cs" />
     <Compile Include="Areas\Admin\Controllers\PanelController.cs" />
     <Compile Include="Areas\Admin\Controllers\BookingsController.cs" />
@@ -245,7 +247,14 @@
     <Compile Include="Controllers\ReviewsController.cs" />
     <Compile Include="Areas\Admin\Controllers\TimeSlotsController.cs" />
     <Compile Include="Areas\Admin\Controllers\UsersController.cs" />
-    <Compile Include="Controllers\UsersController.cs" />
+    <Compile Include="Dal\TeamProjectApp.cs" />
+    <Compile Include="ModelsViews\BookingInfo.cs" />
+    <Compile Include="ModelsViews\BookingsSearchForm.cs" />
+    <Compile Include="ModelsViews\BookingsSearchResult.cs" />
+    <Compile Include="ModelsViews\PostBookResponse.cs" />
+    <Compile Include="Models\BranchFacilities.cs" />
+    <Compile Include="Models\BranchFacilitiesManager.cs" />
+    <Compile Include="Models\FacilityFormModel.cs" />
     <Compile Include="SmtpMessageChunk.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
@@ -287,16 +296,24 @@
     <Content Include="Content\bootstrap-reboot.min.css" />
     <Content Include="Content\bootstrap.css" />
     <Content Include="Content\bootstrap.min.css" />
+    <Content Include="Content\Contact.css" />
     <Content Include="Content\google-maps.css" />
     <Content Include="Content\HomePage.css" />
+    <Content Include="Content\Site.css" />
     <Content Include="Dashboard\Dashboard.css" />
     <Content Include="favicon.ico" />
     <Content Include="Global.asax" />
-    <Content Include="Content\Site.css" />
+    <Content Include="Images\About\AltUserImage.jpg" />
+    <Content Include="Images\About\f_boukouvala.jpg" />
+    <Content Include="Images\About\g_chaniotakis.jpg" />
+    <Content Include="Images\About\g_kalomalos.jpg" />
+    <Content Include="Images\About\g_lymperopoulos.jpg" />
+    <Content Include="Images\About\g_xiros.jpg" />
     <Content Include="Images\Branches\na_image.jpg" />
     <Content Include="Images\Carrousel\880x495_cmsv2_a9dcd7ed-1ff5-5d7c-8de0-63b847a68c91-3156825.jpg" />
     <Content Include="Images\Carrousel\FIFA-2018-World-Cup-Featured-1366x768.jpg" />
     <Content Include="Images\Carrousel\Footbal_Men_Ball_Glove_515345_1366x768.jpg" />
+    <Content Include="Images\Contact\HQ.bmp" />
     <Content Include="Images\Courts\AgParaskeuiCourt.jpg" />
     <Content Include="Images\Courts\AthensCourt3.JPG" />
     <Content Include="Images\Courts\court1.jpg" />
@@ -350,6 +367,8 @@
     <Content Include="Areas\Admin\Views\Roles\Delete.cshtml" />
     <Content Include="Areas\Admin\Views\Panel\Index.cshtml" />
     <Content Include="Areas\Admin\Views\Users\Join.cshtml" />
+    <Content Include="Areas\Admin\Views\BranchFacilities\ChooseFacilities.cshtml" />
+    <Content Include="Areas\Admin\Views\Bookings\Index.cshtml" />
     <None Include="Scripts\jquery-3.3.1.intellisense.js" />
     <Content Include="Scripts\google-maps-nearest.js" />
     <Content Include="Scripts\google-maps.js" />
@@ -398,11 +417,10 @@
     <Content Include="Scripts\popper.js.map" />
     <Content Include="Scripts\popper-utils.min.js.map" />
     <Content Include="Scripts\popper-utils.js.map" />
-    <Content Include="Areas\Admin\Views\Bookings\Create.cshtml" />
     <Content Include="Areas\Admin\Views\Bookings\Delete.cshtml" />
     <Content Include="Areas\Admin\Views\Bookings\Details.cshtml" />
     <Content Include="Areas\Admin\Views\Bookings\Edit.cshtml" />
-    <Content Include="Areas\Admin\Views\Bookings\Index.cshtml" />
+    <Content Include="Areas\Admin\Views\Bookings\Indexold.cshtml" />
     <Content Include="Areas\Admin\Views\Courts\Create.cshtml" />
     <Content Include="Areas\Admin\Views\Courts\Delete.cshtml" />
     <Content Include="Areas\Admin\Views\Courts\Details.cshtml" />
@@ -434,13 +452,14 @@
     <Content Include="Views\Login\Index.cshtml" />
     <Content Include="Areas\Admin\Views\Users\Details.cshtml" />
     <Content Include="Areas\Admin\Views\Users\Delete.cshtml" />
-    <Content Include="Views\Courts\Book.cshtml" />
+    <Content Include="Views\Courts\Booking.cshtml" />
     <Content Include="Views\Courts\Confirmed.cshtml" />
-    <Content Include="Views\Users\Create.cshtml" />
+    <Content Include="Views\Shared\_LayoutBooking.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
     <Folder Include="Areas\Admin\Models\" />
+    <Folder Include="Views\Bookings\" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
