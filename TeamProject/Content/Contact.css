@@ -19,9 +19,9 @@ input[type=submit] {
     cursor: pointer;
 }
 
-input[type=submit]:hover {
-    background-color: #45a049;
-}
+    input[type=submit]:hover {
+        background-color: #45a049;
+    }
 
 .column {
     float: left;
@@ -48,4 +48,17 @@ input[type=submit]:hover {
     margin-right: auto;
     width: 200px;
     height: 200px;
+    border: none;
+    margin: 0 auto;
+    
 }
+
+/*.img-with-text {
+    text-align: justify;
+    width: 200px;
+}*/
+
+/*.img-with-text img {
+    display: block;
+    margin: 0 auto;
+}*/

@@ -303,6 +303,7 @@
     <Content Include="Dashboard\Dashboard.css" />
     <Content Include="favicon.ico" />
     <Content Include="Global.asax" />
+    <Content Include="Images\About\AltUserImage.jpg" />
     <Content Include="Images\About\f_boukouvala.jpg" />
     <Content Include="Images\About\g_chaniotakis.jpg" />
     <Content Include="Images\About\g_kalomalos.jpg" />
