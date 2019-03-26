@@ -19,7 +19,10 @@ namespace TeamProject.Controllers
             if(id != null)
             {
                 court = db.Courts.Get().Where(x => x.BranchId == id).ToList();
+               
             }
+            //ViewBag.BranchName = new SelectList(db.Branches.Get(), "Id", "Name");
+            //ViewBag.Id = id;
             return View(court);
         }
         [Authorize]
