@@ -244,6 +244,7 @@
     <Compile Include="Controllers\CourtsController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\LoginController.cs" />
+    <Compile Include="Areas\Admin\Controllers\ReportsController.cs" />
     <Compile Include="Controllers\ReviewsController.cs" />
     <Compile Include="Areas\Admin\Controllers\TimeSlotsController.cs" />
     <Compile Include="Areas\Admin\Controllers\UsersController.cs" />
@@ -252,6 +253,7 @@
     <Compile Include="ModelsViews\BookingsSearchForm.cs" />
     <Compile Include="ModelsViews\BookingsSearchResult.cs" />
     <Compile Include="ModelsViews\PostBookResponse.cs" />
+    <Compile Include="Models\BookingReport.cs" />
     <Compile Include="Models\BranchFacilities.cs" />
     <Compile Include="Models\BranchFacilitiesManager.cs" />
     <Compile Include="Models\FacilityFormModel.cs" />
@@ -369,6 +371,7 @@
     <Content Include="Areas\Admin\Views\Users\Join.cshtml" />
     <Content Include="Areas\Admin\Views\BranchFacilities\ChooseFacilities.cshtml" />
     <Content Include="Areas\Admin\Views\Bookings\Index.cshtml" />
+    <Content Include="Areas\Admin\Views\Reports\Index.cshtml" />
     <None Include="Scripts\jquery-3.3.1.intellisense.js" />
     <Content Include="Scripts\google-maps-nearest.js" />
     <Content Include="Scripts\google-maps.js" />
@@ -460,6 +463,7 @@
     <Folder Include="App_Data\" />
     <Folder Include="Areas\Admin\Models\" />
     <Folder Include="Views\Bookings\" />
+    <Folder Include="Views\Reports\" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
