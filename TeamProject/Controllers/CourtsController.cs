@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net;
 using System.Web;
 using System.Web.Mvc;
 using TeamProject.Models;
@@ -18,7 +19,10 @@ namespace TeamProject.Controllers
             if(id != null)
             {
                 court = db.Courts.Get().Where(x => x.BranchId == id).ToList();
+               
             }
+            //ViewBag.BranchName = new SelectList(db.Branches.Get(), "Id", "Name");
+            //ViewBag.Id = id;
             return View(court);
         }
         [Authorize]
@@ -45,6 +49,20 @@ namespace TeamProject.Controllers
             SmtpMessageChunk.SendMessageSmtp(booking, branch);
 
             return View(booking);
+        }
+
+        public ActionResult Details(int? id)
+        {
+            if (id == null)
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            }
+            Court court = db.Courts.Find(id ?? 0);
+            if (court == null)
+            {
+                return HttpNotFound();
+            }
+            return View(court);
         }
     }
 }

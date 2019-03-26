@@ -19,13 +19,13 @@
         }
     </style>
 }
-<h2>Edit</h2>
+    <h2>Edit Branch</h2>
 @using (Html.BeginForm("Edit", "Branches", FormMethod.Post, new { enctype = "multipart/form-data" }))
 {
     @Html.AntiForgeryToken()
 
 <div class="form-horizontal">
-    <h4>Branch</h4>
+    
     <hr />
     @Html.ValidationSummary(true, "", new { @class = "text-danger" })
     @Html.HiddenFor(model => model.Id)

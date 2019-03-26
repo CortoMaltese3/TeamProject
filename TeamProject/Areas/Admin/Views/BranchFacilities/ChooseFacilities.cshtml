@@ -2,7 +2,7 @@
 @{
     ViewBag.Title = "ChooseFacilities";
 }
-<h2>ChooseFacilities</h2>
+<h2>Edit Facilities</h2>
 <br />
 
 @using (Html.BeginForm())
@@ -28,5 +28,9 @@
         </div>
     </div>
     <br />
-    <button type="submit" class="btn btn-secondary" value="Submit">Add Facilities</button>
+    <div>
+        <button type="submit" class="btn btn-secondary" value="Submit">Add Facilities</button> |
+        @Html.ActionLink("Back to Branches", "Index", "branches")
+    </div>
 }
+   

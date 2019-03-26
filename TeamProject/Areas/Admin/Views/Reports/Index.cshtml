@@ -1,0 +1,44 @@
+﻿@model IEnumerable<TeamProject.Models.Court>
+@{
+    /**/
+
+    ViewBag.Title = "Reports";
+}
+
+
+<div class="container">
+    <h2 class="text-center" style="margin-top:150px;">Branch Total</h2>
+</div>
+<canvas id="doughnutChart"></canvas>
+@section scripts{
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mdbootstrap/4.7.1/js/mdb.min.js"></script>
+    <script>
+        //doughnut
+        var ctxD = document.getElementById("doughnutChart").getContext('2d');
+        var myLineChart = new Chart(ctxD, {
+            type: 'doughnut',
+            data: {
+                labels: ["Red", "Green", "Yellow", "Grey", "Dark Grey"],
+                datasets: [{
+                    /*data: [300, 50, 100, 40, 120]*/
+                    @Html.Raw(ViewBag.Data),
+                    backgroundColor: ["#F7464A", "#46BFBD", "#FDB45C", "#949FB1", "#4D5360"],
+                    hoverBackgroundColor: ["#FF5A5E", "#5AD3D1", "#FFC870", "#A8B3C5", "#616774"]
+                }]
+            },
+            options: {
+                responsive: true
+            }
+        });
+
+    </script>
+}
+<br />
+@foreach (var court in Model)
+{
+    <br />
+    <h2 class="text-center">@court.Name</h2>
+    <canvas id="doughnutChart"></canvas>
+}
+
+

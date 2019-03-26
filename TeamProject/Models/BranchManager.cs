@@ -114,5 +114,23 @@ namespace TeamProject.Models
             });
             return branches;
         }
+
+        private IEnumerable<TimeslotApiView> GetBookingsByBranchAndDay(int courtId)
+        {
+            IEnumerable<TimeslotApiView> courtTimeslots = Enumerable.Empty<TimeslotApiView>();
+
+            _db.UsingConnection((dbCon) =>
+            {
+                courtTimeslots = dbCon
+                    .Query<TimeslotApiView>("GetBookingsByBranchAndDay",
+                        new
+                        {
+                            CourtId = courtId
+                        },
+                        commandType: CommandType.StoredProcedure);
+            });
+
+            return courtTimeslots;
+        }
     }
 }
