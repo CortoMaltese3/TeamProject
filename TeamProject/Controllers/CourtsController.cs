@@ -41,7 +41,7 @@ namespace TeamProject.Controllers
             var branch = db.Branches.Get().Where(x => x.Id == booking.Court.BranchId).FirstOrDefault();
             ViewBag.address = branch.Address;
             ViewBag.city = branch.City;
-
+            
             SmtpMessageChunk.SendMessageSmtp(booking, branch);
 
             return View(booking);
