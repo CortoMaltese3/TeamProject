@@ -5,11 +5,10 @@
     Layout = "~/Areas/Admin/Views/Shared/_Layout.cshtml";
 }
 
-<h2>Details</h2>
 <div class="container-fluid">
+    <h2>Details Branch</h2>
     <div class="row">
         <div class="col-sm">
-            <h4>Branch</h4>
             <hr />
             <dl class="dl-horizontal">
                 <dt>
@@ -71,11 +70,12 @@
             </dl>
         </div>
         <div class="col-sm">
-            <h4>@Html.DisplayNameFor(model => model.ImageBranch)</h4>
             <hr />
-            <dl class="dl-horizontal">
+            <h4>@Html.DisplayNameFor(model => model.ImageBranch)</h4>
+
+            <dl class="dl-horizontal">                
                 <dd>
-                    <img src="~/Images/Branches/@Model.ImageBranch" alt="@Model.Name" />
+                    <img src="~/Images/Branches/@Model.ImageBranch" alt="@Model.Name" style="width:200px;" />
                 </dd>
             </dl>
         </div>
