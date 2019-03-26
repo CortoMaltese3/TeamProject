@@ -296,6 +296,7 @@
     <Content Include="Content\bootstrap-reboot.min.css" />
     <Content Include="Content\bootstrap.css" />
     <Content Include="Content\bootstrap.min.css" />
+    <Content Include="Content\Contact.css" />
     <Content Include="Content\google-maps.css" />
     <Content Include="Content\HomePage.css" />
     <Content Include="Content\Site.css" />
@@ -306,6 +307,7 @@
     <Content Include="Images\Carrousel\880x495_cmsv2_a9dcd7ed-1ff5-5d7c-8de0-63b847a68c91-3156825.jpg" />
     <Content Include="Images\Carrousel\FIFA-2018-World-Cup-Featured-1366x768.jpg" />
     <Content Include="Images\Carrousel\Footbal_Men_Ball_Glove_515345_1366x768.jpg" />
+    <Content Include="Images\Contact\HQ.bmp" />
     <Content Include="Images\Courts\AgParaskeuiCourt.jpg" />
     <Content Include="Images\Courts\AthensCourt3.JPG" />
     <Content Include="Images\Courts\court1.jpg" />
