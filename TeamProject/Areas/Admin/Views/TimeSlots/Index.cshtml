@@ -1,49 +1,80 @@
-﻿@model IEnumerable<TeamProject.Models.TimeSlot>
+﻿@model IEnumerable<TeamProject.ModelsViews.TimeslotApiView>
 
 @{
     ViewBag.Title = "Index";
 }
 
-<h2>TimeSlots <small class="text-muted">@Model.FirstOrDefault().Court.Name</small></h2>
+<h2>TimeSlots <small class="text-muted">@ViewBag.courtName</small></h2>
 
 <p>
     @Html.ActionLink("Create New", "Create", new { id = ViewBag.id })
 </p>
-<table class="table">
+
+<h2>Timeslots</h2>
+<table class="table timeSlots">
     <tr>
-        <th>
-            @Html.DisplayNameFor(model => model.DayName)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.Hour)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.Duration)
-        </th>
-        <th></th>
+        <th>Time</th> 
+        <th>Monday</th>
+        <th>Tuesday</th>
+        <th>Wednesday</th>
+        <th>Thursday</th>
+        <th>Friday</th>
+        <th>Saturday</th>
+        <th>Sunday</th>
     </tr>
 
     @foreach (var item in Model)
     {
         <tr>
             <td>
-                @Html.DisplayFor(modelItem => item.DayName)
-            </td>
-            <td>
                 @Html.DisplayFor(modelItem => item.Hour)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.Duration)
+                @if (item.Day1 != null)
+                {
+                    @Html.ActionLink(item.Hour.ToString("hh\\:mm"), "Details", "Timeslots", new { id = item.Day1 }, new { id = item.Day1, @class = "" })
+                }
             </td>
             <td>
-                @Html.ActionLink("Edit", "Edit", new { id = item.Id }) |
-                @Html.ActionLink("Details", "Details", new { id = item.Id }) |
-                @Html.ActionLink("Delete", "Delete", new { id = item.Id })
+                @if (item.Day2 != null)
+                {
+                    @Html.ActionLink(item.Hour.ToString("hh\\:mm"), "Details", "Timeslots", new { id = item.Day2 }, new { id = item.Day2, @class = "" })
+                }
+            </td>
+            <td>
+                @if (item.Day3 != null)
+                {
+                    @Html.ActionLink(item.Hour.ToString("hh\\:mm"), "Details", "Timeslots", new { id = item.Day3 }, new { id = item.Day3, @class = "" })
+                }
+            </td>
+            <td>
+                @if (item.Day4 != null)
+                {
+                    @Html.ActionLink(item.Hour.ToString("hh\\:mm"), "Details", "Timeslots", new { id = item.Day4 }, new { id = item.Day4, @class = "" })
+                }
+            </td>
+            <td>
+                @if (item.Day5 != null)
+                {
+                    @Html.ActionLink(item.Hour.ToString("hh\\:mm"), "Details", "Timeslots", new { id = item.Day5 }, new { id = item.Day5, @class = "" })
+                }
+            </td>
+            <td>
+                @if (item.Day6 != null)
+                {
+                    @Html.ActionLink(item.Hour.ToString("hh\\:mm"), "Details", "Timeslots", new { id = item.Day6 }, new { id = item.Day6, @class = "" })
+                }
+            </td>
+            <td>
+                @if (item.Day7 != null)
+                {
+                    @Html.ActionLink(item.Hour.ToString("hh\\:mm"), "Details", "Timeslots", new { id = item.Day7 }, new { id = item.Day7, @class = "" })
+                }
             </td>
         </tr>
     }
-
 </table>
+
 <div>
-    @Html.ActionLink("Back to Court", "Edit", "Courts", new { id = ViewBag.id },null)
+    @Html.ActionLink("Back to Courts", "Index", "Courts", new { id = ViewBag.branchId }, null)    
 </div>
