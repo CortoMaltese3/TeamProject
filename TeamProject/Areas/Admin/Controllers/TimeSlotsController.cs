@@ -15,8 +15,14 @@ namespace TeamProject.Areas.Admin.Controllers
         public ActionResult Index(int? id)
         {
             var timeSlot = db.TimeSlots.Get().Where(t => t.CourtId == (id ?? 0));//.Include(t => t.Court);
-            ViewBag.id = id;
-            return View(timeSlot.ToList());
+            ViewBag.id = id;            
+            ViewBag.courtName = db.Courts.Find(id ?? 0).Name;
+            ViewBag.branchId = db.Courts.Find(id ?? 0).BranchId;            
+
+            var timeslotApiViews = db.TimeSlots.GetForView(id ?? 0).OrderBy(t => t.Hour).ToList();
+
+
+            return View(timeslotApiViews);
         }
 
         // GET: TimeSlots/Details/5
