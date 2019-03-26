@@ -14,6 +14,7 @@ namespace TeamProject.Areas.Admin.Controllers
         private ProjectDbContext db = new ProjectDbContext();
 
         // GET: Courts
+        
         public ActionResult Index(int? id)
         {
             var courts = db.Courts.Get().Where(c => c.BranchId == (id ?? 0)).ToList();

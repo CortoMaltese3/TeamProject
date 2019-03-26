@@ -33,6 +33,7 @@ namespace TeamProject.Areas.Admin.Controllers
         }
 
         // GET: Branches/Details/5
+        
         public ActionResult Details(int? id)
         {
             if (id == null)

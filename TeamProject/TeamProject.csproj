@@ -48,8 +48,8 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="BouncyCastle.Crypto, Version=1.8.2.0, Culture=neutral, PublicKeyToken=0e99375e54769942">
-      <HintPath>..\packages\BouncyCastle.1.8.2\lib\BouncyCastle.Crypto.dll</HintPath>
+    <Reference Include="BouncyCastle.Crypto, Version=1.8.5.0, Culture=neutral, PublicKeyToken=0e99375e54769942">
+      <HintPath>..\packages\BouncyCastle.1.8.5\lib\BouncyCastle.Crypto.dll</HintPath>
     </Reference>
     <Reference Include="Dapper, Version=1.60.0.0, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\packages\Dapper.1.60.1\lib\net451\Dapper.dll</HintPath>
@@ -229,8 +229,11 @@
     <Compile Include="ApiControllers\BookController.cs" />
     <Compile Include="ApiControllers\BookingsController.cs" />
     <Compile Include="App_Start\BundleConfig.cs" />
+    <Compile Include="App_Start\BundleConfig2.cs" />
     <Compile Include="App_Start\FilterConfig.cs" />
+    <Compile Include="App_Start\FilterConfig2.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
+    <Compile Include="App_Start\RouteConfig2.cs" />
     <Compile Include="App_Start\WebApiConfig.cs" />
     <Compile Include="Areas\Admin\AdminAreaRegistration.cs" />
     <Compile Include="Areas\Admin\Controllers\BranchFacilitiesController.cs" />
@@ -248,6 +251,7 @@
     <Compile Include="Controllers\ReviewsController.cs" />
     <Compile Include="Areas\Admin\Controllers\TimeSlotsController.cs" />
     <Compile Include="Areas\Admin\Controllers\UsersController.cs" />
+    <Compile Include="Controllers\UserBookingController.cs" />
     <Compile Include="Dal\TeamProjectApp.cs" />
     <Compile Include="ModelsViews\BookingInfo.cs" />
     <Compile Include="ModelsViews\BookingsSearchForm.cs" />
@@ -458,6 +462,7 @@
     <Content Include="Views\Courts\Booking.cshtml" />
     <Content Include="Views\Courts\Confirmed.cshtml" />
     <Content Include="Views\Shared\_LayoutBooking.cshtml" />
+    <Content Include="Views\Courts\Details.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
