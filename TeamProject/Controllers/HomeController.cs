@@ -36,7 +36,8 @@ namespace TeamProject.Controllers
 
         public ActionResult Contact()
         {
-            ViewBag.Message = "Please do not hesitate to contact us for additional information!";
+            ViewBag.Message = "Whether you would like to partner with us, want more information or run into an issue," +
+                              "we are more than happy to hear from you!";
 
             return View();
         }
