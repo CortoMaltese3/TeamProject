@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Web;
-using Dapper;
-
-namespace TeamProject.Models
+﻿namespace TeamProject.Models
 {
     public class BookingReport
     {
@@ -15,9 +9,6 @@ namespace TeamProject.Models
         public int CountOfBookings { get; set; }
 
 
-        public BookingReport(ProjectDbContext dbContext)
-        {
-            
-        }
+
     }
 }

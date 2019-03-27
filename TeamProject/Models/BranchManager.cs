@@ -132,5 +132,19 @@ namespace TeamProject.Models
 
             return courtTimeslots;
         }
+
+
+        private IEnumerable<BookingReport> GetCourtBookings (int courtId, DateTime dateTime)
+        {
+            IEnumerable<BookingReport> bookingReports = Enumerable.Empty<BookingReport>();
+
+            _db.UsingConnection((dbcon) =>
+            {
+                bookingReports = dbcon.Query("select count (CourtId) from Booking where CourtId = @courtid and BookedAt between '@dateTime' and '@dateTime 23:59:59'");
+            });
+
+            return bookingReports;
+            
+        
     }
 }
