@@ -115,14 +115,33 @@ namespace TeamProject.Models
             return branches;
         }
 
-        private IEnumerable<BookingReport> GetBookingsByBranchAndDay(int courtId)
+        private IEnumerable<BookingReport> GetBookingsByBranchAndDay(int branchId)
+        {
+            IEnumerable<BookingReport> branchTimeslots = Enumerable.Empty<BookingReport>();
+
+            _db.UsingConnection((dbCon) =>
+            {
+                branchTimeslots = dbCon
+                    .Query<BookingReport>("GetBookingsByBranchAndDay",
+                        new
+                        {
+                            CourtId = branchId
+                        },
+                        commandType: CommandType.StoredProcedure);
+            });
+
+            return branchTimeslots;
+        }
+
+
+        private IEnumerable<BookingReport> GetBookingsByCourtAndDay(int courtId)
         {
             IEnumerable<BookingReport> courtTimeslots = Enumerable.Empty<BookingReport>();
 
             _db.UsingConnection((dbCon) =>
             {
                 courtTimeslots = dbCon
-                    .Query<BookingReport>("GetBookingsByBranchAndDay",
+                    .Query<BookingReport>("GetBookingsByCourtAndDay",
                         new
                         {
                             CourtId = courtId
@@ -133,18 +152,5 @@ namespace TeamProject.Models
             return courtTimeslots;
         }
 
-
-        private IEnumerable<BookingReport> GetCourtBookings (int courtId, DateTime dateTime)
-        {
-            IEnumerable<BookingReport> bookingReports = Enumerable.Empty<BookingReport>();
-
-            _db.UsingConnection((dbcon) =>
-            {
-                bookingReports = dbcon.Query("select count (CourtId) from Booking where CourtId = @courtid and BookedAt between '@dateTime' and '@dateTime 23:59:59'");
-            });
-
-            return bookingReports;
-            
-        
     }
 }
