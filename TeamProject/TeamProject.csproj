@@ -261,7 +261,6 @@
     <Compile Include="Models\BranchFacilities.cs" />
     <Compile Include="Models\BranchFacilitiesManager.cs" />
     <Compile Include="Models\FacilityFormModel.cs" />
-    <Compile Include="SmtpMessageChunk.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
