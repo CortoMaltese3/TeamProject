@@ -62,6 +62,7 @@ namespace TeamProject.Controllers
             {
                 return HttpNotFound();
             }
+            ViewBag.Facilities = db.Facilities.Get().Where(x => x.Branch == court.Branch);
             return View(court);
         }
     }

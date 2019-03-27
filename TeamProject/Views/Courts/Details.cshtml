@@ -3,63 +3,31 @@
 @{
     ViewBag.Title = "Details";
 }
+<br />
+<h2 class="text-center">@Model.Name Details</h2>
 
-<h2>Court Details</h2>
-
-<div>
+<div class="container-fluid">
+    <div class="col-md-12 col-xl-12 col-sm-12">
+        <img src="~/Images/Courts/@Model.ImageCourt" alt="@Model.Name" class="card-img"/>
+    </div>
     <hr />
-    <dl class="dl-horizontal">
-        <dt>
-            @Html.DisplayNameFor(model => model.BranchId)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.BranchId)
-        </dd>
-
-        <dt>
-            @Html.DisplayNameFor(model => model.Name)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.Name)
-        </dd>
-
-        <dt>
-            @Html.DisplayNameFor(model => model.ImageCourt)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.ImageCourt)
-        </dd>
-
-        <dt>
-            @Html.DisplayNameFor(model => model.Description)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.Description)
-        </dd>
-
-        <dt>
-            @Html.DisplayNameFor(model => model.MaxPlayers)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.MaxPlayers)
-        </dd>
-
-        <dt>
-            @Html.DisplayNameFor(model => model.Price)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.Price)
-        </dd>
-
-    </dl>
+    <div class="row">
+        <div class="col-md-6 border-right">
+            <h2 class="text-center">Description</h2><br />
+            <div class="text-left text-muted">
+             @Model.Description
+            </div>
+        </div>
+        <div class="col-md-6">  
+            <h2 class="text-center"> Facilities </h2>
+                @foreach (var item in ViewBag.Facilities)
+                {
+                    @item
+                }            
+        </div>
+    </div>
+    
 </div>
 <p>
-    @Html.ActionLink("Edit", "Edit", new { id = Model.Id }) |
     @Html.ActionLink("Back to Courts", "Index", "Courts", new { id = Model.Branch.Id }, null)
 </p>
