@@ -291,6 +291,12 @@
     <Compile Include="Models\UserRoles.cs" />
     <Compile Include="Models\UserRolesManager.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Properties\Settings.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTimeSharedInput>True</DesignTimeSharedInput>
+      <DependentUpon>Settings.settings</DependentUpon>
+    </Compile>
+    <Compile Include="SmtpMessageChunk.cs" />
     <Compile Include="Startup.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -375,6 +381,10 @@
     <Content Include="Areas\Admin\Views\BranchFacilities\ChooseFacilities.cshtml" />
     <Content Include="Areas\Admin\Views\Bookings\Index.cshtml" />
     <Content Include="Areas\Admin\Views\Reports\Index.cshtml" />
+    <None Include="Properties\Settings.settings">
+      <Generator>SettingsSingleFileGenerator</Generator>
+      <LastGenOutput>Settings.Designer.cs</LastGenOutput>
+    </None>
     <None Include="Scripts\jquery-3.3.1.intellisense.js" />
     <Content Include="Scripts\google-maps-nearest.js" />
     <Content Include="Scripts\google-maps.js" />
