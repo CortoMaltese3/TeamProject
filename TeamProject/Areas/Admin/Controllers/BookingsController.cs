@@ -32,7 +32,17 @@ namespace TeamProject.Areas.Admin.Controllers
             model.TimeslotApiViews = db.TimeSlots
                 .GetBookings(model.CourtId, model.FromDate, model.ToDate)
                 .OrderBy(t => t.Hour);
-            model.Bookings = new List<Booking>() ;
+            model.Bookings = db.Bookings.Get("CourtId=@CourtId AND BookedAt Between @FromDate And @ToDate", new
+            {
+                CourtId = model.CourtId,
+                FromDate = model.FromDate,
+                ToDate = model.ToDate
+            });
+            if (model.Bookings.Count() == 0)
+            {
+                model.Bookings = new List<Booking>();
+            }
+
             return View(model);
 
         }

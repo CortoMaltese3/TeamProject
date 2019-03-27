@@ -30,7 +30,7 @@ namespace TeamProject.Models
 
         public override IEnumerable<Booking> Get(string queryWhere = null, object parameters = null)
         {
-            IEnumerable<Booking> Bookings = null;
+            IEnumerable<Booking> Bookings = Enumerable.Empty<Booking>();
 
             _db.UsingConnection((dbCon) =>
             {

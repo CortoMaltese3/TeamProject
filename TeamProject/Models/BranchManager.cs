@@ -32,6 +32,7 @@ namespace TeamProject.Models
             IEnumerable<Branch> branches = null;
 
             var branchDictionary = new Dictionary<int, Branch>();
+
             _db.UsingConnection((dbCon) =>
             {
                 branches = dbCon.Query<Branch, User, Facility, Court, Branch>(
@@ -89,21 +90,29 @@ namespace TeamProject.Models
         /// <returns></returns>
         public IEnumerable<Branch> Nearest(double latitude, double longitude, double distanceInMeters = 5000)
         {
-            IEnumerable<Branch> branches = null;
+            IEnumerable<Branch> branches = Enumerable.Empty<Branch>();
 
             var branchDictionary = new Dictionary<int, Branch>();
+            var facilitiyDictionary = new Dictionary<int, Facility>();
             _db.UsingConnection((dbCon) =>
             {
-                branches = dbCon.Query<Branch, Court, Branch>(
+                branches = dbCon.Query<Branch, Court, Facility, Branch>(
                     "GetBranchesDistance",
-                    (branch, court) =>
+                    (branch, court, facility) =>
                     {
                         Branch branchEntry;
 
                         if (!branchDictionary.TryGetValue(branch.Id, out branchEntry))
                         {
                             branchEntry = branch;
+                            branchEntry.Facility = new List<Facility>();
                             branchDictionary.Add(branchEntry.Id, branchEntry);
+                        }
+
+                        if (!facilitiyDictionary.TryGetValue(facility.Id, out Facility facilityEntry))
+                        {
+                            branchEntry.Facility.Add(facility);
+                            facilitiyDictionary.Add(facility.Id, facilityEntry);
                         }
 
                         return branchEntry;
