@@ -15,9 +15,10 @@ namespace TeamProject.Areas.Admin.Controllers
         [Authorize (Roles = "Admin, Owner")]
         public ActionResult Index(int id)
         {
-
+            var branchreport = db.Branches.GetBookingsByBranchAndDay(id);
+            //var courtsreport = db.Branches.GetBookingsByCourtAndDay(id);
             var courts = db.Courts.Get().Where(c => c.BranchId == id);
-            ViewBag.Data = "data: [300, 50, 100, 40, 120]";
+            ViewBag.Data = $"data: [{branchreport.Select(b => b.CountOfBookings)}]";
             return View(courts);
         }
     }

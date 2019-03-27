@@ -124,7 +124,7 @@ namespace TeamProject.Models
             return branches;
         }
 
-        private IEnumerable<BookingReport> GetBookingsByBranchAndDay(int branchId)
+        public IEnumerable<BookingReport> GetBookingsByBranchAndDay(int branchId)
         {
             IEnumerable<BookingReport> branchTimeslots = Enumerable.Empty<BookingReport>();
 
@@ -143,7 +143,7 @@ namespace TeamProject.Models
         }
 
 
-        private IEnumerable<BookingReport> GetBookingsByCourtAndDay(int courtId)
+        public IEnumerable<BookingReport> GetBookingsByCourtAndDay(int courtId)
         {
             IEnumerable<BookingReport> courtTimeslots = Enumerable.Empty<BookingReport>();
 
