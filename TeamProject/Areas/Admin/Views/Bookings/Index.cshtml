@@ -32,11 +32,22 @@
 
     <main class="col-10">
         <h2 class="bd-title">Bookings for <small class="text-muted" id="court-title"></small></h2>
+
+        <ul class="nav nav-tabs tab-selection">
+            <li class="nav-item">
+                <a class="nav-link active" href="#" container="#data-container">Calendar View</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="#" container="#list-container">List View</a>
+            </li>
+        </ul>
+
         <div class="row timeslot-header">
             <div id="prev-week-btn" class="col-1"><i class="fas fa-arrow-circle-left"></i></div>
             <h3 id="timeslot-week" class="col text-lg-center"></h3>
             <div id="next-week-btn" class="col-1"><i class="fas fa-arrow-circle-right"></i></div>
         </div>
+
         <div id="data-container">
             <table class="table timeSlotsBooking">
                 <thead>
@@ -98,7 +109,43 @@
             </table>
 
         </div>
+        <div id="list-container fade">
+            <table class="table">
+                <tr>
+                    <th>
+                        @Html.DisplayNameFor(model => model.Bookings.FirstOrDefault().User.Firstname)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.Bookings.FirstOrDefault().BookedAt)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.Bookings.FirstOrDefault().Duration)
+                    </th>
+                    <th></th>
+                </tr>
 
+                @foreach (var item in Model.Bookings)
+                {
+                    <tr>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.User.Firstname)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.BookedAt)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Duration)
+                        </td>
+                        <td>
+                            @Html.ActionLink("Details", "Details", new { id = item.Id }) |
+                            @Html.ActionLink("Delete", "Delete", new { id = item.Id })
+                        </td>
+                    </tr>
+                }
+
+            </table>
+
+        </div>
         <div>
             @Html.ActionLink("Back to Branch", "Index", "Branches", new { id = Model.BranchId }, null)
         </div>
@@ -191,6 +238,17 @@
                         return dayHeader;
                     }).join('');
             }
+
+            $('.tab-selection li a').on('click', function () {
+                var $prevActive = $('.tab-selection a.active');
+                
+                $prevActive.removeClass('active');
+                $(this).addClass('active');
+
+                $($prevActive.attr('container')).hide();
+                $($(this).attr('container')).show();
+                
+            });
         });
 
     </script>

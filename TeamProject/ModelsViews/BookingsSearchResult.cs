@@ -14,6 +14,7 @@ namespace TeamProject.ModelsViews
         public IEnumerable<Court> Courts { get; set; }
 
         public IEnumerable<ModelsViews.TimeslotApiView> TimeslotApiViews { get; set; }
+        public IEnumerable<Models.Booking> Bookings { get; set; }
 
     }
 }
