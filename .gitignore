@@ -328,9 +328,6 @@ ASALocalRun/
 
 # MFractors (Xamarin productivity tool) working folder 
 .mfractor/
-
-TeamProject/SmtpMessageChunk.cs
-TeamProject/SmtpMessageChunk.cs
 *.config
 TeamProject/Properties/Settings.Designer.cs
 TeamProject/Properties/Settings.settings
