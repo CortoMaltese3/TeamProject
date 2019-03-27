@@ -86,13 +86,13 @@ namespace TeamProject.Areas.Admin.Controllers
             }
             Court court = db.Courts.Find(id ?? 0);
 
-            var timeslotApiViews = db.TimeSlots.GetForView(id ?? 0).OrderBy(t => t.Hour).ToList();
+            //var timeslotApiViews = db.TimeSlots.GetForView(id ?? 0).OrderBy(t => t.Hour).ToList();
 
-            var courtTimeSlots = new CourtTimeslots()
-            {
-                Court = court,
-                TimeslotApiViews = timeslotApiViews
-            };
+            //var courtTimeSlots = new CourtTimeslots()
+            //{
+            //    Court = court,
+            //    TimeslotApiViews = timeslotApiViews
+            //};
             
             if (court == null)
             {
@@ -100,7 +100,7 @@ namespace TeamProject.Areas.Admin.Controllers
             }
             ViewBag.BranchId = new SelectList(db.Branches.Get(), "Id", "Name", court.BranchId);
 
-            return View(courtTimeSlots);
+            return View(court);
         }
 
         // POST: Courts/Edit/5
