@@ -134,7 +134,7 @@ namespace TeamProject.Models
                     .Query<BookingReport>("GetBookingsByBranchAndDay",
                         new
                         {
-                            CourtId = branchId
+                            BranchId = branchId
                         },
                         commandType: CommandType.StoredProcedure);
             });
