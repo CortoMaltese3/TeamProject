@@ -127,10 +127,16 @@
                 <tbody>
                     @foreach (var group in Model.GroupData)
                     {
-                        <tr><th colspan="3">@group.Key</th></tr>
+                        <tr>
+                            <th colspan="3">@group.Key</th>
+                        </tr>
                         foreach (var timeslot in group)
                         {
-                            <tr><td>@Html.DisplayFor(modelItem => timeslot.Time)</td><td>@timeslot.User.UserName</td><td>@timeslot.Duration</td></tr>
+                            <tr>
+                                <td>@Html.DisplayFor(modelItem => timeslot.Time)</td>
+                                <td>@Html.DisplayFor(modelItem => timeslot.User.UserName) </td>
+                                <td>@Html.DisplayFor(modelItem => timeslot.Duration) </td>
+                            </tr>
                         }
                     }
                 </tbody>
@@ -236,7 +242,7 @@
 
                 $($prevActive.attr('container')).toggleClass('d-none');
                 $($(this).attr('container')).toggleClass('d-none');
-                
+
             });
         });
 
