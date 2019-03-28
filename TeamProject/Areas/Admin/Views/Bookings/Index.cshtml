@@ -109,42 +109,32 @@
             </table>
 
         </div>
-        <div id="list-container fade">
+        <div id="list-container" class="d-none">
             <table class="table">
-                <tr>
-                    <th>
-                        @Html.DisplayNameFor(model => model.Bookings.FirstOrDefault().BookedAt)
-                    </th>
-                    <th>
-                        @Html.DisplayNameFor(model => model.Bookings.FirstOrDefault().User.UserName)
-                    </th>
-                    <th>
-                        @Html.DisplayNameFor(model => model.Bookings.FirstOrDefault().Duration)
-                    </th>
-
-                </tr>
-
-                @foreach (var item in Model.Bookings)
-                {
+                <thead>
                     <tr>
-                        <td>
-                            @Html.DisplayFor(modelItem => item.BookedAt)
-                        </td>
-                        <td>
-                            @Html.DisplayFor(modelItem => item.User.UserName)
-                        </td>
-                        <td>
-                            @Html.DisplayFor(modelItem => item.Duration)
-                        </td>
-                        <td>
-                            @Html.ActionLink("Details", "Details", new { id = item.Id }) |
-                            @Html.ActionLink("Cancel", "Delete", new { id = item.Id })
-                        </td>
+                        <th>
+                            Booked Date/Time
+                        </th>
+                        <th>
+                            Name
+                        </th>
+                        <th>
+                            Duration
+                        </th>
                     </tr>
-                }
-
+                </thead>
+                <tbody>
+                    @foreach (var group in Model.GroupData)
+                    {
+                        <tr><th colspan="3">@group.Key</th></tr>
+                        foreach (var timeslot in group)
+                        {
+                            <tr><td>@Html.DisplayFor(modelItem => timeslot.Time)</td><td>@timeslot.User.UserName</td><td>@timeslot.Duration</td></tr>
+                        }
+                    }
+                </tbody>
             </table>
-
         </div>
         <div>
             @Html.ActionLink("Back to Branch", "Index", "Branches", new { id = Model.BranchId }, null)
@@ -224,7 +214,7 @@
                     dateTo.format("DD/MM/YYYY"));
 
             // set days header with day + month
-            $('table thead tr')
+            $('#data-container table thead tr')
                 .html(getDayHeaders(dateFrom.clone()));
 
             function getDayHeaders(date) {
@@ -241,13 +231,12 @@
 
             $('.tab-selection li a').on('click', function () {
                 var $prevActive = $('.tab-selection a.active');
-
                 $prevActive.removeClass('active');
                 $(this).addClass('active');
 
-                $($prevActive.attr('container')).hide();
-                $($(this).attr('container')).show();
-
+                $($prevActive.attr('container')).toggleClass('d-none');
+                $($(this).attr('container')).toggleClass('d-none');
+                
             });
         });
 

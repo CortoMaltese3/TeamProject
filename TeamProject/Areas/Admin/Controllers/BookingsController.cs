@@ -11,6 +11,7 @@ using TeamProject.ModelsViews;
 
 namespace TeamProject.Areas.Admin.Controllers
 {
+
     [Authorize(Roles = "Owner")]
     public class BookingsController : Controller
     {
@@ -38,10 +39,16 @@ namespace TeamProject.Areas.Admin.Controllers
                 FromDate = model.FromDate,
                 ToDate = model.ToDate
             });
-            if (model.Bookings.Count() == 0)
-            {
-                model.Bookings = new List<Booking>();
-            }
+            //if (model.Bookings.Count() == 0)
+            //{
+            //    model.Bookings = new List<Booking>();
+            //}
+            model.GroupData = model
+                .Bookings
+                .OrderBy(b => b.BookedAt)
+                .ThenBy(b => b.User.UserName)
+                .Select(b => new GroupData() { Day = b.BookedAt.ToLongDateString(), Time = b.BookedAt.ToLongTimeString(), User = b.User, Duration = b.Duration })
+                .GroupBy(b => b.Day);
 
             return View(model);
 
