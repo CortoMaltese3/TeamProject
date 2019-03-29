@@ -11,6 +11,7 @@ using TeamProject.ModelsViews;
 
 namespace TeamProject.Areas.Admin.Controllers
 {
+
     [Authorize(Roles = "Owner")]
     public class BookingsController : Controller
     {
@@ -32,7 +33,21 @@ namespace TeamProject.Areas.Admin.Controllers
             model.TimeslotApiViews = db.TimeSlots
                 .GetBookings(model.CourtId, model.FromDate, model.ToDate)
                 .OrderBy(t => t.Hour);
-            model.Bookings = new List<Booking>() ;
+
+            model.Bookings = db.Bookings.Get("CourtId=@CourtId AND BookedAt Between @FromDate And @ToDate", new
+            {
+                model.CourtId,
+                model.FromDate,
+                model.ToDate
+            });
+
+            model.GroupData = model
+                .Bookings
+                .OrderBy(b => b.BookedAt)
+                .ThenBy(b => b.User.UserName)
+                .Select(b => new BookingInfoByDay() { Booking = b })
+                .GroupBy(b => b.Day);
+
             return View(model);
 
         }

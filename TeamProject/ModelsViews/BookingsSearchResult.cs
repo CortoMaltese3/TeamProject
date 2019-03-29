@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Web;
 using TeamProject.Models;
@@ -15,6 +16,15 @@ namespace TeamProject.ModelsViews
 
         public IEnumerable<ModelsViews.TimeslotApiView> TimeslotApiViews { get; set; }
         public IEnumerable<Models.Booking> Bookings { get; set; }
+        public IEnumerable<IGrouping<string, BookingInfoByDay>> GroupData { get; set; }
 
+    }
+    public class BookingInfoByDay
+    {
+        public Booking Booking { get; set; }
+
+        public string Day { get => Booking.BookedAt.ToLongDateString(); }
+
+        public string Time { get => Booking.BookedAt.ToString("HH:mm"); }
     }
 }

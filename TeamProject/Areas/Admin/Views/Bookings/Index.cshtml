@@ -69,7 +69,7 @@
                             <td>
                                 @Html.DisplayFor(modelItem => item.Hour)
                             </td>
-                            @for (var i = 1; i < 7; i++)
+                            @for (var i = 1; i <=7; i++)
                             {
                                 var bookId = item[i];
                                 <td>
@@ -109,42 +109,50 @@
             </table>
 
         </div>
-        <div id="list-container fade">
+        <div id="list-container" class="d-none">
             <table class="table">
-                <tr>
-                    <th>
-                        @Html.DisplayNameFor(model => model.Bookings.FirstOrDefault().User.Firstname)
-                    </th>
-                    <th>
-                        @Html.DisplayNameFor(model => model.Bookings.FirstOrDefault().BookedAt)
-                    </th>
-                    <th>
-                        @Html.DisplayNameFor(model => model.Bookings.FirstOrDefault().Duration)
-                    </th>
-                    <th></th>
-                </tr>
-
-                @foreach (var item in Model.Bookings)
-                {
+                <thead>
                     <tr>
-                        <td>
-                            @Html.DisplayFor(modelItem => item.User.Firstname)
-                        </td>
-                        <td>
-                            @Html.DisplayFor(modelItem => item.BookedAt)
-                        </td>
-                        <td>
-                            @Html.DisplayFor(modelItem => item.Duration)
-                        </td>
-                        <td>
-                            @Html.ActionLink("Details", "Details", new { id = item.Id }) |
-                            @Html.ActionLink("Delete", "Delete", new { id = item.Id })
-                        </td>
+                        <th>
+                            Booked Date/Time
+                        </th>
+                        <th>
+                            Name
+                        </th>
+                        <th>
+                            Email
+                        </th>
+                        <th>
+                            Duration
+                        </th>
+                        <th>
+                            
+                        </th>
                     </tr>
-                }
+                </thead>
+                <tbody>
+                    @foreach (var group in Model.GroupData)
+                    {
+                        <tr>
+                            <th colspan="5">@group.Key</th>
+                        </tr>
+                        foreach (var timeslot in group)
+                        {
+                        <tr>
+                            <td>@Html.DisplayFor(modelItem => timeslot.Time)</td>
+                            <td>@Html.DisplayFor(modelItem => timeslot.Booking.User.UserName) </td>
+                            <td>@Html.DisplayFor(modelItem => timeslot.Booking.User.Email) </td>
+                            <td>@Html.DisplayFor(modelItem => timeslot.Booking.Duration) </td>
+                            <td>
+                                @Html.ActionLink("Details", "Details", new { id = timeslot.Booking.Id }) |
+                                @Html.ActionLink("Delete", "Delete", new { id = timeslot.Booking.Id })
+                            </td>
+                        </tr>
+                        }
 
+                    }
+                </tbody>
             </table>
-
         </div>
         <div>
             @Html.ActionLink("Back to Branch", "Index", "Branches", new { id = Model.BranchId }, null)
@@ -158,6 +166,7 @@
         $(document).ready(function () {
             const dateFrom = moment($('#FromDate').attr('utcvalue'));
             const dateTo = moment($('#ToDate').attr('utcvalue'));
+            const popoversShown = [];
 
             $('[data-toggle="popover"]')
                 .popover();
@@ -180,13 +189,24 @@
                                 .attr('data-original-title',
                                     moment(data.BookedAt).format("DD/MM/YYYY HH:mm"));
 
+                            popoversShown.push($popover);
                             $popover.popover('show');
                         });
                     } else {
+                        popoversShown.push($popover);
                         $popover.popover('show');
                     }
 
                 }, function () {
+
+                    // hide previous popped popovers
+                    popoversShown.forEach(function (i) {
+                        $(i).popover('hide');
+                    });
+
+                    // clear list
+                    popoversShown = [];
+
                     $(this).popover('hide');
                 });
 
@@ -224,7 +244,7 @@
                     dateTo.format("DD/MM/YYYY"));
 
             // set days header with day + month
-            $('table thead tr')
+            $('#data-container table thead tr')
                 .html(getDayHeaders(dateFrom.clone()));
 
             function getDayHeaders(date) {
@@ -239,16 +259,20 @@
                     }).join('');
             }
 
+            // activate clicked tab and show tabs data
             $('.tab-selection li a').on('click', function () {
-                var $prevActive = $('.tab-selection a.active');
-                
-                $prevActive.removeClass('active');
-                $(this).addClass('active');
 
-                $($prevActive.attr('container')).hide();
-                $($(this).attr('container')).show();
-                
+                // hide current active tab
+                var $prevActive = $('.tab-selection a.active');
+                $prevActive.removeClass('active');
+                $($prevActive.attr('container')).toggleClass('d-none');
+
+                // show clicked tab
+                $(this).addClass('active');
+                $($(this).attr('container')).toggleClass('d-none');
+
             });
+
         });
 
     </script>

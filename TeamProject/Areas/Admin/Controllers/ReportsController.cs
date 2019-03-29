@@ -12,12 +12,14 @@ namespace TeamProject.Areas.Admin.Controllers
         private ProjectDbContext db = new ProjectDbContext();
 
         // GET: Reports
-        [Authorize (Roles = "Admin, Owner")]
+        [Authorize(Roles = "Admin, Owner")]
         public ActionResult Index(int id)
         {
-
+            var branchreport = db.Branches.GetBookingsByBranchAndDay(id);
+            //var courtsreport = db.Branches.GetBookingsByCourtAndDay(id);
             var courts = db.Courts.Get().Where(c => c.BranchId == id);
-            ViewBag.Data = "data: [300, 50, 100, 40, 120]";
+            ViewBag.Data = string.Join(",", branchreport.OrderBy(b => b.BookingDayNo).Select(b => b.CountOfBookings)) ;
+            ViewBag.Labels = string.Join(",", branchreport.OrderBy(b => b.BookingDayNo).Select(b => "\"" + b.BookingDay + "\""));
             return View(courts);
         }
     }
