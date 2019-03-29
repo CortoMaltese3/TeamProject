@@ -8,26 +8,31 @@
 
 <div class="container-fluid">
     <div class="col-md-12 col-xl-12 col-sm-12">
-        <img src="~/Images/Courts/@Model.ImageCourt" alt="@Model.Name" class="card-img"/>
+        <img src="~/Images/Courts/@Model.ImageCourt" alt="@Model.Name" class="card-img" />
     </div>
     <hr />
     <div class="row">
         <div class="col-md-6 border-right">
             <h2 class="text-center">Description</h2><br />
             <div class="text-left text-muted">
-             @Model.Description
+                @Model.Description
             </div>
         </div>
-        <div class="col-md-6">  
+        <div class="col-md-6">
             <h2 class="text-center"> Facilities </h2>
+            <div class="row">
                 @foreach (var item in ViewBag.Facilities)
                 {
-                    @item
-                }            
+                    <div class="col-md-3">
+                        <h6 class="text-center">@item.Description</h6>
+                        <img src="~/Images/Facilities/@item.ImageFacility" alt="@item.Description" class="card-img" />
+                    </div>
+                }
+            </div>
         </div>
     </div>
-    
+
 </div>
-<p>
+<div class="mt-5">
     @Html.ActionLink("Back to Courts", "Index", "Courts", new { id = Model.Branch.Id }, null)
-</p>
+</div>
