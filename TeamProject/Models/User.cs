@@ -3,13 +3,12 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
-using System.Data.Entity.Spatial;
 using System.Linq;
 
 namespace TeamProject.Models
 {
 
-    public partial class User
+    public class User
     {
         public User()
         {
@@ -22,11 +21,11 @@ namespace TeamProject.Models
         public int Id { get; set; }
 
 
-        [DisplayName ("First Name (optional)")]
+        [DisplayName("First Name (optional)")]
         [StringLength(50)]
         public string Firstname { get; set; }
 
-        [DisplayName ("Last Name (optional)")]
+        [DisplayName("Last Name (optional)")]
         [StringLength(50)]
         public string Lastname { get; set; }
 
@@ -46,13 +45,13 @@ namespace TeamProject.Models
         [DisplayName("Confirm Password")]
         public string ConfirmPassword { get; set; }
 
-        public virtual ICollection<Booking> Booking { get; set; }
+        public ICollection<Booking> Booking { get; set; }
 
-        public virtual ICollection<Branch> Branch { get; set; }
+        public ICollection<Branch> Branch { get; set; }
 
-        public virtual ICollection<Review> Review { get; set; }
+        public ICollection<Review> Review { get; set; }
 
-        public virtual List<Role> Roles { get; set; }
+        public List<Role> Roles { get; set; }
 
         #region NotMapped
         [DisplayName("User Roles")]
@@ -71,7 +70,7 @@ namespace TeamProject.Models
         {
             get
             {
-                return Firstname +" " +Lastname;
+                return Firstname + " " + Lastname;
             }
         }
 
