@@ -3,8 +3,10 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
+using TeamProject.Dal;
+using TeamProject.Models;
 
-namespace TeamProject.Models
+namespace TeamProject.Managers
 {
     public class FacilityManager : TableManager<Facility>
     {

@@ -8,6 +8,7 @@ using System.Web;
 using System.Web.Mvc;
 using TeamProject.Models;
 using TeamProject.ModelsViews;
+using TeamProject.Dal;
 
 namespace TeamProject.Areas.Admin.Controllers
 {

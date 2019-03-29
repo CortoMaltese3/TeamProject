@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
+using TeamProject.Dal;
 using TeamProject.Models;
 
 namespace TeamProject.Controllers
@@ -34,11 +35,27 @@ namespace TeamProject.Controllers
             return View();
         }
 
+        // GET: Contact
         public ActionResult Contact()
         {
             ViewBag.Message = "Whether you would like to partner with us, want more information or run into an issue," +
                               "we are more than happy to hear from you!";
 
+            return View();
+        }
+
+        //POST: Contact
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult Contact([Bind(Include = "FirstName,LastName,Email,SubjectSelector,Body")]ContactForm contactForm)
+        {
+            if (ModelState.IsValid)
+            {        
+                //ADD EMAIL LOGIC
+                return RedirectToAction("Index");
+            }
+
+            ViewBag.SubjectSelector = contactForm.SubjectSelector;
             return View();
         }
     }
