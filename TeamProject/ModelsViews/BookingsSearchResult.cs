@@ -16,16 +16,15 @@ namespace TeamProject.ModelsViews
 
         public IEnumerable<ModelsViews.TimeslotApiView> TimeslotApiViews { get; set; }
         public IEnumerable<Models.Booking> Bookings { get; set; }
-        public IEnumerable<IGrouping<string, GroupData>> GroupData { get; set; }
+        public IEnumerable<IGrouping<string, BookingInfoByDay>> GroupData { get; set; }
 
     }
-    public class GroupData
+    public class BookingInfoByDay
     {
-        [DisplayFormat(DataFormatString = "{0:dddd dd/MM/yyyy}")]
-        public string Day { get; set; }
-        [DisplayFormat(DataFormatString = "{0:hh\\:mm}")]
-        public string Time { get; set; }
-        public User User { get; set; }
-        public int Duration { get; set; }
+        public Booking Booking { get; set; }
+
+        public string Day { get => Booking.BookedAt.ToLongDateString(); }
+
+        public string Time { get => Booking.BookedAt.ToString("HH:mm"); }
     }
 }

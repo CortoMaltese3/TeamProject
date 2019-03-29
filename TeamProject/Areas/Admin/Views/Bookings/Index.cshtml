@@ -69,7 +69,7 @@
                             <td>
                                 @Html.DisplayFor(modelItem => item.Hour)
                             </td>
-                            @for (var i = 1; i < 7; i++)
+                            @for (var i = 1; i <=7; i++)
                             {
                                 var bookId = item[i];
                                 <td>
@@ -120,7 +120,13 @@
                             Name
                         </th>
                         <th>
+                            Email
+                        </th>
+                        <th>
                             Duration
+                        </th>
+                        <th>
+                            
                         </th>
                     </tr>
                 </thead>
@@ -128,16 +134,22 @@
                     @foreach (var group in Model.GroupData)
                     {
                         <tr>
-                            <th colspan="3">@group.Key</th>
+                            <th colspan="5">@group.Key</th>
                         </tr>
                         foreach (var timeslot in group)
                         {
-                            <tr>
-                                <td>@Html.DisplayFor(modelItem => timeslot.Time)</td>
-                                <td>@Html.DisplayFor(modelItem => timeslot.User.UserName) </td>
-                                <td>@Html.DisplayFor(modelItem => timeslot.Duration) </td>
-                            </tr>
+                        <tr>
+                            <td>@Html.DisplayFor(modelItem => timeslot.Time)</td>
+                            <td>@Html.DisplayFor(modelItem => timeslot.Booking.User.UserName) </td>
+                            <td>@Html.DisplayFor(modelItem => timeslot.Booking.User.Email) </td>
+                            <td>@Html.DisplayFor(modelItem => timeslot.Booking.Duration) </td>
+                            <td>
+                                @Html.ActionLink("Details", "Details", new { id = timeslot.Booking.Id }) |
+                                @Html.ActionLink("Delete", "Delete", new { id = timeslot.Booking.Id })
+                            </td>
+                        </tr>
                         }
+
                     }
                 </tbody>
             </table>
@@ -155,6 +167,7 @@
             const dateFrom = moment($('#FromDate').attr('utcvalue'));
             const dateTo = moment($('#ToDate').attr('utcvalue'));
             const popoversShown = [];
+
             $('[data-toggle="popover"]')
                 .popover();
 
@@ -185,9 +198,15 @@
                     }
 
                 }, function () {
+
+                    // hide previous popped popovers
                     popoversShown.forEach(function (i) {
                         $(i).popover('hide');
                     });
+
+                    // clear list
+                    popoversShown = [];
+
                     $(this).popover('hide');
                 });
 

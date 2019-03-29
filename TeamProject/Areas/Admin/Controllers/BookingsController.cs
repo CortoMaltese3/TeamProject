@@ -45,7 +45,7 @@ namespace TeamProject.Areas.Admin.Controllers
                 .Bookings
                 .OrderBy(b => b.BookedAt)
                 .ThenBy(b => b.User.UserName)
-                .Select(b => new GroupData() { Day = b.BookedAt.ToLongDateString(), Time = b.BookedAt.ToString("HH:mm"), User = b.User, Duration = b.Duration })
+                .Select(b => new BookingInfoByDay() { Booking = b })
                 .GroupBy(b => b.Day);
 
             return View(model);
