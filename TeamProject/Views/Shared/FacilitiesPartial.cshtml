@@ -1,0 +1,12 @@
+﻿@model IEnumerable<TeamProject.Models.Facility>
+
+<h2 class="text-center"> Facilities </h2>
+<div class="row">
+    @foreach (var item in Model)
+    {
+        <div class="col-md-2">
+            <h6 class="text-center">@item.Description</h6>
+            <img src="~/Images/Facilities/@item.ImageFacility" alt="@item.Description" class="card-img" />
+        </div>
+    }
+</div>

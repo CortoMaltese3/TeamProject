@@ -2,7 +2,7 @@
 @using System.Globalization
 
 @{
-    ViewBag.Title = "Nearest";
+    ViewBag.Title = "Nearest Courts";
 }
 @section styles
 {
@@ -28,27 +28,26 @@
 
 @foreach (var branch in Model.Branches)
 {
-    <div class="card mb-3 rounded rounded-lg border border-success d-flex p-2 bd-highlight d-flex">
+    <div class="card mb-3 rounded rounded-lg border border-success shadow d-flex p-2 bd-highlight d-flex">
         <div class="row no-gutters">
             <div class="col-md-4" style="margin-top:auto;margin-bottom:auto;">
-                <img src="~/Images/Branches/@branch.ImageBranch" class="card-img" alt="@branch.Name" style="height:auto;">
+                <img src="~/Images/Branches/@branch.ImageBranch" class="card-img border-success shadow" alt="@branch.Name" style="height:auto;">
+                <p class="text-center">@branch.Address</p>
             </div>
             <div class="col-md-8">
                 <div class="card-body align-content-end flex-column">
-                    <h5 class="card-title">@branch.Name</h5>
-                    <p class="card-columns">@branch.Address</p>
+                    <h2 class="card-title text-center">@branch.Name</h2>
+                    @*<p class="text-center">@branch.Address</p>*@
                     <p class="card-text">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur.</p>
-                    <div>
-                        <ul class="list-group list-group-horizontal-sm">
-                            @foreach (var item in branch.Facility)
-                            {
-                                <li class="list-group-item">@item.Description</li>
-                            }
-                        </ul>
+                    <hr />
+                    <div class="col">
+                        @Html.Partial("FacilitiesPartial", branch.Facility)
                     </div>
                     <br />
+
+
                     <a href="/Courts/index/@branch.Id" class="btn btn-success btn-lg active mt-auto" role="button" aria-pressed="true">View details!</a>
-                    
+
                 </div>
             </div>
         </div>
