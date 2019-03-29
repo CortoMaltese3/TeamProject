@@ -260,6 +260,7 @@
     <Compile Include="Models\BookingReport.cs" />
     <Compile Include="Models\BranchFacilities.cs" />
     <Compile Include="Models\BranchFacilitiesManager.cs" />
+    <Compile Include="Models\ContactForm.cs" />
     <Compile Include="Models\FacilityFormModel.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
@@ -312,7 +313,9 @@
     <Content Include="Content\HomePage.css" />
     <Content Include="Content\Site.css" />
     <Content Include="Dashboard\Dashboard.css" />
-    <Content Include="favicon.ico" />
+    <Content Include="favicon.ico">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
     <Content Include="Global.asax" />
     <Content Include="Images\About\AltUserImage.jpg" />
     <Content Include="Images\About\f_boukouvala.jpg" />

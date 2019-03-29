@@ -34,10 +34,20 @@ namespace TeamProject.Controllers
             return View();
         }
 
+        // GET: Contact
         public ActionResult Contact()
         {
             ViewBag.Message = "Whether you would like to partner with us, want more information or run into an issue," +
                               "we are more than happy to hear from you!";
+
+            return View();
+        }
+
+        //POST: Contact
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult Contact(ContactForm contactForm)
+        {
 
             return View();
         }
