@@ -69,3 +69,10 @@
     text-align: center;
     box-shadow: none;
 }
+
+.timeslot-header .fas:hover {
+    cursor:pointer;
+}
+.timeslot-header .fas:active{
+    cursor:wait;
+}

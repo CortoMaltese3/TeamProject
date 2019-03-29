@@ -472,6 +472,7 @@
     <Content Include="Views\Courts\Confirmed.cshtml" />
     <Content Include="Views\Shared\_LayoutBooking.cshtml" />
     <Content Include="Views\Courts\Details.cshtml" />
+    <Content Include="Views\Shared\_HomePageFooterPartial.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
