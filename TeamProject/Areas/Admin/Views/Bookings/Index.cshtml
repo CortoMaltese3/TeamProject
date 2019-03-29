@@ -154,7 +154,7 @@
         $(document).ready(function () {
             const dateFrom = moment($('#FromDate').attr('utcvalue'));
             const dateTo = moment($('#ToDate').attr('utcvalue'));
-
+            const popoversShown = [];
             $('[data-toggle="popover"]')
                 .popover();
 
@@ -176,13 +176,18 @@
                                 .attr('data-original-title',
                                     moment(data.BookedAt).format("DD/MM/YYYY HH:mm"));
 
+                            popoversShown.push($popover);
                             $popover.popover('show');
                         });
                     } else {
+                        popoversShown.push($popover);
                         $popover.popover('show');
                     }
 
                 }, function () {
+                    popoversShown.forEach(function (i) {
+                        $(i).popover('hide');
+                    });
                     $(this).popover('hide');
                 });
 
@@ -235,15 +240,20 @@
                     }).join('');
             }
 
+            // activate clicked tab and show tabs data
             $('.tab-selection li a').on('click', function () {
+
+                // hide current active tab
                 var $prevActive = $('.tab-selection a.active');
                 $prevActive.removeClass('active');
-                $(this).addClass('active');
-
                 $($prevActive.attr('container')).toggleClass('d-none');
+
+                // show clicked tab
+                $(this).addClass('active');
                 $($(this).attr('container')).toggleClass('d-none');
 
             });
+
         });
 
     </script>
