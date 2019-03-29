@@ -109,10 +109,9 @@ namespace TeamProject.Models
                             branchDictionary.Add(branchEntry.Id, branchEntry);
                         }
 
-                        if (!facilitiyDictionary.TryGetValue(facility.Id, out Facility facilityEntry))
+                        if (!branchEntry.Facility.Contains(facility))
                         {
                             branchEntry.Facility.Add(facility);
-                            facilitiyDictionary.Add(facility.Id, facilityEntry);
                         }
 
                         return branchEntry;
