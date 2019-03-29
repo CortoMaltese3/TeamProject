@@ -7,8 +7,7 @@
         <span class="navbar-toggler-icon"></span>
     </button>
     <div class="collapse navbar-collapse" id="navbarNav">
-        <ul class="navbar-nav">
-            <li class="nav-item active">@Html.ActionLink("Courts", "Index", "Courts", new { area = "" }, new { @class = "navbar-brand" })</li>         
+        <ul class="navbar-nav">        
             @if (Session["User"] != null)
             {               
                 if(User.IsInRole("Admin")||User.IsInRole("Owner"))
