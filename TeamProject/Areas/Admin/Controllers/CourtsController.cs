@@ -85,14 +85,6 @@ namespace TeamProject.Areas.Admin.Controllers
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
             Court court = db.Courts.Find(id ?? 0);
-
-            //var timeslotApiViews = db.TimeSlots.GetForView(id ?? 0).OrderBy(t => t.Hour).ToList();
-
-            //var courtTimeSlots = new CourtTimeslots()
-            //{
-            //    Court = court,
-            //    TimeslotApiViews = timeslotApiViews
-            //};
             
             if (court == null)
             {
