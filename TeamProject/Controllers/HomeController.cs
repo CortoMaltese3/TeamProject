@@ -46,7 +46,7 @@ namespace TeamProject.Controllers
         //POST: Contact
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Contact([Bind(Include = "FirstName,LastName,SubjectSelector,Body")]ContactForm contactForm)
+        public ActionResult Contact([Bind(Include = "FirstName,LastName,Email,SubjectSelector,Body")]ContactForm contactForm)
         {
             if (ModelState.IsValid)
             {        

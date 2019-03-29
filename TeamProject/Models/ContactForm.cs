@@ -19,6 +19,16 @@ namespace TeamProject.Models
         [Required]
         [DisplayName("Body")]
         public string Body { get; set; }
+
+        #region NotMapped
+        public string FullName
+        {
+            get
+            {
+                return FirstName + " " + LastName;
+            }
+        }
+        #endregion
     }
 
     public enum SubjectSelector

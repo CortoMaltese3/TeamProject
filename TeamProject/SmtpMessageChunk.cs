@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using System.IO;
 using MailKit;
 using MailKit.Net.Smtp;
@@ -11,7 +12,7 @@ namespace TeamProject
 {
     public class SmtpMessageChunk
     {
-        public static void SendMessageSmtp( Booking booking, Branch branch)
+        public static void SendMessageSmtp(Booking booking, Branch branch)
         {
             // Compose a message
             MimeMessage mail = new MimeMessage();
@@ -40,12 +41,27 @@ namespace TeamProject
 
                 client.Connect("smtp.mailgun.org", 587, false);
                 client.AuthenticationMechanisms.Remove("XOAUTH2");
-                client.Authenticate(Properties.Settings.Default.Username,Properties.Settings.Default.Password);
+                client.Authenticate(Properties.Settings.Default.Username, Properties.Settings.Default.Password);
 
                 client.Send(mail);
                 client.Disconnect(true);
             }
         }
 
+        public static void SendContactFormEmail(ContactForm contactForm)
+        {
+            //List<string> adminList = new 
+            MimeMessage mail = new MimeMessage();
+            mail.From.Add(new MailboxAddress(contactForm.FullName, contactForm.Email));
+            mail.To.Add(new MailboxAddress("Giorgos Kalomalos", "giorgos.kalomalos@gmail.com"));
+            mail.Subject = contactForm.SubjectSelector.ToString();
+            mail.Body = new TextPart("html")
+            {
+                //contactForm.Body.ToString();
+
+            };
+
     }
+
+}
 }
