@@ -4,6 +4,7 @@ using System.Linq;
 using System.Security.Claims;
 using System.Web;
 using System.Web.Mvc;
+using TeamProject.Dal;
 using TeamProject.Models;
 
 namespace TeamProject.Controllers

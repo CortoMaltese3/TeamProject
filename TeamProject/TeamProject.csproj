@@ -259,7 +259,7 @@
     <Compile Include="ModelsViews\PostBookResponse.cs" />
     <Compile Include="Models\BookingReport.cs" />
     <Compile Include="Models\BranchFacilities.cs" />
-    <Compile Include="Models\BranchFacilitiesManager.cs" />
+    <Compile Include="Managers\BranchFacilitiesManager.cs" />
     <Compile Include="Models\FacilityFormModel.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
@@ -270,26 +270,26 @@
     <Compile Include="ModelsViews\TimeslotApiView.cs" />
     <Compile Include="Models\Booking.cs" />
     <Compile Include="Models\Branch.cs" />
-    <Compile Include="Models\BranchManager.cs" />
+    <Compile Include="Managers\BranchManager.cs" />
     <Compile Include="Models\Court.cs" />
-    <Compile Include="Models\CourtManager.cs" />
+    <Compile Include="Managers\CourtManager.cs" />
     <Compile Include="Models\CourtTimeslots.cs" />
     <Compile Include="Models\Facility.cs" />
-    <Compile Include="Models\FacilityManager.cs" />
-    <Compile Include="Models\IDatabaseActions.cs" />
-    <Compile Include="Models\ProjectDbContext.cs" />
+    <Compile Include="Managers\FacilityManager.cs" />
+    <Compile Include="Managers\IDatabaseActions.cs" />
+    <Compile Include="Dal\ProjectDbContext.cs" />
     <Compile Include="Models\Review.cs" />
-    <Compile Include="Models\BookingManager.cs" />
-    <Compile Include="Models\RoleManager.cs" />
+    <Compile Include="Managers\BookingManager.cs" />
+    <Compile Include="Managers\RoleManager.cs" />
     <Compile Include="Models\Role.cs" />
-    <Compile Include="Models\TableManager.cs" />
+    <Compile Include="Dal\TableManager.cs" />
     <Compile Include="Models\TimeSlot.cs" />
-    <Compile Include="Models\ReviewManager.cs" />
-    <Compile Include="Models\TimeSlotManager.cs" />
+    <Compile Include="Managers\ReviewManager.cs" />
+    <Compile Include="Managers\TimeSlotManager.cs" />
     <Compile Include="Models\User.cs" />
-    <Compile Include="Models\UserManager.cs" />
+    <Compile Include="Managers\UserManager.cs" />
     <Compile Include="Models\UserRoles.cs" />
-    <Compile Include="Models\UserRolesManager.cs" />
+    <Compile Include="Managers\UserRolesManager.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Properties\Settings.Designer.cs">
       <AutoGen>True</AutoGen>
