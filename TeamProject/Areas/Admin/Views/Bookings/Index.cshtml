@@ -51,16 +51,7 @@
         <div id="data-container">
             <table class="table timeSlotsBooking">
                 <thead>
-                    <tr>
-                        <th></th>
-                        <th>Monday</th>
-                        <th>Tuesday</th>
-                        <th>Wednesday</th>
-                        <th>Thursday</th>
-                        <th>Friday</th>
-                        <th>Saturday</th>
-                        <th>Sunday</th>
-                    </tr>
+                    <tr><th></th><th>Monday</th><th>Tuesday</th><th>Wednesday</th><th>Thursday</th><th>Friday</th><th>Saturday</th><th>Sunday</th></tr>
                 </thead>
                 <tbody>
                     @foreach (var item in Model.TimeslotApiViews)
@@ -112,23 +103,7 @@
         <div id="list-container" class="d-none">
             <table class="table">
                 <thead>
-                    <tr>
-                        <th>
-                            Booked Date/Time
-                        </th>
-                        <th>
-                            Name
-                        </th>
-                        <th>
-                            Email
-                        </th>
-                        <th>
-                            Duration
-                        </th>
-                        <th>
-                            
-                        </th>
-                    </tr>
+                    <tr><th>Booked Date/Time<th>Name<th>Email<th>Duration<th></tr>
                 </thead>
                 <tbody>
                     @foreach (var group in Model.GroupData)
@@ -199,16 +174,20 @@
 
                 }, function () {
 
-                    // hide previous popped popovers
-                    popoversShown.forEach(function (i) {
-                        $(i).popover('hide');
-                    });
+                    hideActivePopovers();
 
-                    // clear list
-                    popoversShown = [];
-
-                    $(this).popover('hide');
                 });
+
+            function hideActivePopovers() {
+
+                // hide previous popped popovers
+                $(popoversShown).each(function (index, item) {
+                    $(item).popover('hide');
+                });
+
+                // clear list
+                popoversShown.length = 0;
+            }
 
             // on next-week-button clicked add 7 days to FromDate, ToDate inputs and submit form
             $('#next-week-btn').on('click', () => updateDateAndSubmit(7));
@@ -261,6 +240,8 @@
 
             // activate clicked tab and show tabs data
             $('.tab-selection li a').on('click', function () {
+
+                hideActivePopovers();
 
                 // hide current active tab
                 var $prevActive = $('.tab-selection a.active');

@@ -28,7 +28,8 @@ namespace TeamProject.Areas.Admin.Controllers
                 Courts = db.Courts.BranchCourts(bookingSearchForm.Id)
             };
 
-            model.ToDate = bookingSearchForm.ToDate ?? model.FromDate.AddDays(6);
+            model.ToDate = GetToDateTime(bookingSearchForm.ToDate ?? model.FromDate.AddDays(6));
+            
 
             model.TimeslotApiViews = db.TimeSlots
                 .GetBookings(model.CourtId, model.FromDate, model.ToDate)
@@ -50,6 +51,10 @@ namespace TeamProject.Areas.Admin.Controllers
 
             return View(model);
 
+        }
+        private DateTime GetToDateTime(DateTime date)
+        {
+            return new DateTime(date.Year, date.Month, date.Day, 23, 59, 59);
         }
         private DateTime StartOfWeek(DateTime dt)
         {
