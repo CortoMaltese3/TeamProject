@@ -3,8 +3,10 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using Dapper;
+using TeamProject.Dal;
+using TeamProject.Models;
 
-namespace TeamProject.Models
+namespace TeamProject.Managers
 {
     public class UserRolesManager : TableManager<UserRoles>
     {

@@ -1,13 +1,13 @@
+using System;
+using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
+using System.Web;
+
 namespace TeamProject.Models
 {
-    using System;
-    using System.Collections.Generic;
-    using System.ComponentModel.DataAnnotations;
-    using System.ComponentModel.DataAnnotations.Schema;
-    using System.Data.Entity.Spatial;
-    using System.Web;
 
-    public partial class Branch
+    public class Branch
     {
         public Branch()
         {
@@ -43,13 +43,13 @@ namespace TeamProject.Models
 
         public double Distance { get; set; }
 
-        public virtual User User { get; set; }
+        public User User { get; set; }
 
         [NotMapped]
         public HttpPostedFileBase ImageFile { get; set; }
 
-        public virtual ICollection<Court> Court { get; set; }
+        public ICollection<Court> Court { get; set; }
 
-        public virtual ICollection<Facility> Facility { get; set; }
+        public ICollection<Facility> Facility { get; set; }
     }
 }

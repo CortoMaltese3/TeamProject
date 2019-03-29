@@ -2,6 +2,7 @@
 using System.Linq;
 using System.Net;
 using System.Web.Mvc;
+using TeamProject.Dal;
 using TeamProject.Models;
 
 namespace TeamProject.Areas.Admin.Controllers
@@ -11,15 +12,17 @@ namespace TeamProject.Areas.Admin.Controllers
     {
         private ProjectDbContext db = new ProjectDbContext();
 
+        public ProjectDbContext Db { get => db; set => db = value; }
+
         // GET: TimeSlots
         public ActionResult Index(int? id)
         {
-            var timeSlot = db.TimeSlots.Get().Where(t => t.CourtId == (id ?? 0));//.Include(t => t.Court);
+            var timeSlot = Db.TimeSlots.Get().Where(t => t.CourtId == (id ?? 0));//.Include(t => t.Court);
             ViewBag.id = id;            
-            ViewBag.courtName = db.Courts.Find(id ?? 0).Name;
-            ViewBag.branchId = db.Courts.Find(id ?? 0).BranchId;            
+            ViewBag.courtName = Db.Courts.Find(id ?? 0).Name;
+            ViewBag.branchId = Db.Courts.Find(id ?? 0).BranchId;            
 
-            var timeslotApiViews = db.TimeSlots.GetForView(id ?? 0).OrderBy(t => t.Hour).ToList();
+            var timeslotApiViews = Db.TimeSlots.GetForView(id ?? 0).OrderBy(t => t.Hour).ToList();
 
 
             return View(timeslotApiViews);
@@ -32,7 +35,7 @@ namespace TeamProject.Areas.Admin.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            TimeSlot timeSlot = db.TimeSlots.Find(id ?? 0);
+            TimeSlot timeSlot = Db.TimeSlots.Find(id ?? 0);
             if (timeSlot == null)
             {
                 return HttpNotFound();
@@ -44,7 +47,7 @@ namespace TeamProject.Areas.Admin.Controllers
         // GET: TimeSlots/Create
         public ActionResult Create(int? id)
         {
-            ViewBag.CourtId = new SelectList(db.Courts.Get().Where(c => c.Id == (id ?? 0)), "Id", "Name");
+            ViewBag.CourtId = new SelectList(Db.Courts.Get().Where(c => c.Id == (id ?? 0)), "Id", "Name");
             ViewBag.id = id;
             return View();
         }
@@ -58,11 +61,11 @@ namespace TeamProject.Areas.Admin.Controllers
         {
             if (ModelState.IsValid)
             {
-                db.TimeSlots.Add(timeSlot);
+                Db.TimeSlots.Add(timeSlot);
                 return RedirectToAction("Index", new { id = timeSlot.CourtId });
             }
 
-            ViewBag.CourtId = new SelectList(db.Courts.Get(), "Id", "Name", timeSlot.CourtId);
+            ViewBag.CourtId = new SelectList(Db.Courts.Get(), "Id", "Name", timeSlot.CourtId);
             ViewBag.id = timeSlot.CourtId;
             return View(timeSlot);
         }
@@ -74,12 +77,12 @@ namespace TeamProject.Areas.Admin.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            TimeSlot timeSlot = db.TimeSlots.Find(id ?? 0);
+            TimeSlot timeSlot = Db.TimeSlots.Find(id ?? 0);
             if (timeSlot == null)
             {
                 return HttpNotFound();
             }
-            ViewBag.CourtId = new SelectList(db.Courts.Get(), "Id", "Name", timeSlot.CourtId);
+            ViewBag.CourtId = new SelectList(Db.Courts.Get(), "Id", "Name", timeSlot.CourtId);
             return View(timeSlot);
         }
 
@@ -92,10 +95,10 @@ namespace TeamProject.Areas.Admin.Controllers
         {
             if (ModelState.IsValid)
             {
-                db.TimeSlots.Update(timeSlot);
+                Db.TimeSlots.Update(timeSlot);
                 return RedirectToAction("Index", new { id = timeSlot.CourtId });
             }
-            ViewBag.CourtId = new SelectList(db.Courts.Get(), "Id", "Name", timeSlot.CourtId);
+            ViewBag.CourtId = new SelectList(Db.Courts.Get(), "Id", "Name", timeSlot.CourtId);
             return View(timeSlot);
         }
 
@@ -106,7 +109,7 @@ namespace TeamProject.Areas.Admin.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            TimeSlot timeSlot = db.TimeSlots.Find(id ?? 0);
+            TimeSlot timeSlot = Db.TimeSlots.Find(id ?? 0);
             if (timeSlot == null)
             {
                 return HttpNotFound();
@@ -119,9 +122,9 @@ namespace TeamProject.Areas.Admin.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult DeleteConfirmed(int id)
         {
-            TimeSlot timeSlot = db.TimeSlots.Find(id);
+            TimeSlot timeSlot = Db.TimeSlots.Find(id);
 
-            db.TimeSlots.Remove(id);
+            Db.TimeSlots.Remove(id);
             return RedirectToAction("Index", new { id = timeSlot.CourtId });
         }
     }

@@ -1,14 +1,14 @@
+using System;
+using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
+using System.Web;
+
 namespace TeamProject.Models
 {
-    using System;
-    using System.Collections.Generic;
-    using System.ComponentModel.DataAnnotations;
-    using System.ComponentModel.DataAnnotations.Schema;
-    using System.Data.Entity.Spatial;
-    using System.Web;
 
-    public partial class Facility
-    {        
+    public class Facility : IEquatable<Facility>
+    {
         public Facility()
         {
             Branch = new List<Branch>();
@@ -25,6 +25,12 @@ namespace TeamProject.Models
 
         public string ImageFacility { get; set; }
 
-        public virtual ICollection<Branch> Branch { get; set; }
+        public ICollection<Branch> Branch { get; set; }
+
+        public bool Equals(Facility other)
+        {
+            return other != null &&
+                other.Id == Id;
+        }
     }
 }

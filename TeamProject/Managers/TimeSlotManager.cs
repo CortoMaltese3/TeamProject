@@ -4,9 +4,11 @@ using System.Collections.Generic;
 using System.Data;
 using System.Linq;
 using System.Web;
+using TeamProject.Dal;
+using TeamProject.Models;
 using TeamProject.ModelsViews;
 
-namespace TeamProject.Models
+namespace TeamProject.Managers
 {
     public class TimeSlotManager : TableManager<TimeSlot>
     {

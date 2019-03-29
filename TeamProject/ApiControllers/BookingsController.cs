@@ -7,6 +7,7 @@ using System.Security.Claims;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Web.Http;
+using TeamProject.Dal;
 using TeamProject.Models;
 using TeamProject.ModelsViews;
 

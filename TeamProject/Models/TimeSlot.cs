@@ -1,12 +1,12 @@
+using System;
+using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
+
 namespace TeamProject.Models
 {
-    using System;
-    using System.Collections.Generic;
-    using System.ComponentModel.DataAnnotations;
-    using System.ComponentModel.DataAnnotations.Schema;
-    using System.Data.Entity.Spatial;
 
-    public partial class TimeSlot
+    public  class TimeSlot
     {
         public int Id { get; set; }
 
@@ -28,6 +28,6 @@ namespace TeamProject.Models
 
         public int Duration { get; set; }
 
-        public virtual Court Court { get; set; }
+        public  Court Court { get; set; }
     }
 }

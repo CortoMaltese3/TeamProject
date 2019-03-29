@@ -1,6 +1,7 @@
 ﻿using System.Linq;
 using System.Net;
 using System.Web.Mvc;
+using TeamProject.Dal;
 using TeamProject.Models;
 
 namespace TeamProject.Areas.Admin.Controllers

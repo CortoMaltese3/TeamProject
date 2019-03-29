@@ -4,6 +4,7 @@ using System.Linq;
 using System.Net;
 using System.Web;
 using System.Web.Mvc;
+using TeamProject.Dal;
 using TeamProject.Models;
 using TeamProject.ModelsViews;
 
@@ -62,7 +63,9 @@ namespace TeamProject.Controllers
             {
                 return HttpNotFound();
             }
-            ViewBag.Facilities = db.Facilities.Get().Where(x => x.Branch == court.Branch);
+            //var branch = db.Branches.Get().Where(x => x.Id == court.Branch.Id);
+
+            ViewBag.Facilities = db.Facilities.Get().Where(x => x.Branch.Any(b=>b.Id == court.Branch.Id));
             return View(court);
         }
     }

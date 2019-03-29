@@ -5,6 +5,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
+using TeamProject.Dal;
+using TeamProject.Managers;
 
 namespace TeamProject.Controllers
 {
