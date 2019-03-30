@@ -108,8 +108,9 @@ namespace TeamProject.Dal
                 return null;
             }
 
-            BranchManager branchManager = new BranchManager(new ProjectDbContext());
-            IEnumerable<Branch> branches = _db.Branches.Nearest(latitudeFixed, longitudeFixed, FIXED_DISTANCE);
+            IEnumerable<Branch> branches = _db.Branches
+                .Nearest(latitudeFixed, longitudeFixed, FIXED_DISTANCE)
+                .OrderBy(nb => nb.Distance);
 
             return new NearestBrachView()
             {
