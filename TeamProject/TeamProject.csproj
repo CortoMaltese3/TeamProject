@@ -260,6 +260,7 @@
     <Compile Include="Models\BookingReport.cs" />
     <Compile Include="Models\BranchFacilities.cs" />
     <Compile Include="Managers\BranchFacilitiesManager.cs" />
+    <Compile Include="Models\ContactForm.cs" />
     <Compile Include="Models\FacilityFormModel.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>

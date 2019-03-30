@@ -28,7 +28,7 @@ namespace TeamProject
                     <span>Your booking number is <strong>{booking.BookKey}</strong></span>
                     <br />
                     <br />
-                    <span>You can find the Court in {branch.City} at {branch.Address}</span>
+                    <span>You can find the Court at {branch.Address}</span>
                     <br />
                     <span><strong>Price:</strong> {booking.Court.Price}&euro;",
             };
