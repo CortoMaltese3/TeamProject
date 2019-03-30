@@ -18,5 +18,11 @@
         <br />
         <br />
         <span class="text-center"><strong>Cost :</strong> @Model.Court.Price&euro;</span>
+    </div>   
+</div>
+<div class="col">
+    <div class="col-md-6">
+        @Html.ActionLink("Download as pdf","GetHTMLPageAsPDF",new { BookKey = Model.BookKey },null)
     </div>
 </div>
+
