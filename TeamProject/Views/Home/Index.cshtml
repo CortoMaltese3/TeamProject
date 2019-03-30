@@ -164,14 +164,14 @@
     <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDrnm2ptgfajjtlCfM97wat7Jsx5KZ0UoA&libraries=places"></script>
     <script src="~/Scripts/google-maps.js"></script>
     <script>
-
+        var dataj;
         $(document).ready(function() {
 
             const Carousel = $('.carousel-inner .active img');
             const Nav = $('nav');
 
-            console.log(Carousel);
-            console.log(Nav);
+            //console.log(Carousel);
+            //console.log(Nav);
             $(window).scroll(function () {
 
                 if ($(window).scrollTop() > (Carousel.height() - Nav.height())) {
@@ -181,6 +181,9 @@
                     Nav.removeClass('opacityy');
                 }
             });
+
+
+
         });
     </script>
 }

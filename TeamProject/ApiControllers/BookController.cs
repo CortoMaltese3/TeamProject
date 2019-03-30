@@ -15,6 +15,7 @@ using TeamProject.ModelsViews;
 namespace TeamProject.ApiControllers
 {
     [Authorize]
+    //[Route("api/book/{id}")]
     public class BookController : ApiController
     {
         private ProjectDbContext db = new ProjectDbContext();

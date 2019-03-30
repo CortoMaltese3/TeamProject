@@ -1,4 +1,4 @@
-﻿@model TeamProject.ModelsViews.BookingsSearchResult
+﻿@model IEnumerable<TeamProject.Models.Court>
 @using TeamProject.Models
 @{
     ViewBag.Title = "Bookings";
@@ -11,16 +11,10 @@
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.2/css/all.css" integrity="sha384-fnmOCqbTlWIlj8LyTjo7mOUStjsKC4pOpQbqyi7RrhN7udi9RwhKkMHpvLbHG9Sr" crossorigin="anonymous">
 }
 <div class="row">
-    @using (Html.BeginForm(FormMethod.Get))
-    {
-        @Html.HiddenFor(item => item.BranchId)
-        @Html.HiddenFor(item => item.CourtId)
-        @Html.HiddenFor(item => item.FromDate, new { utcvalue = Model.FromDate.ToString("yyyy-MM-dd") })
-        @Html.HiddenFor(item => item.ToDate, new { utcvalue = Model.ToDate.ToString("yyyy-MM-dd") })
-    }
+    <!-- Courts List -->
     <nav class="col-2 sidenav">
         <ul class="list-group shadow-sm">
-            @foreach (var court in Model.Courts)
+            @foreach (var court in Model)
             {
                 <li court-id="@court.Id"
                     class="list-group-item d-flex justify-content-between align-items-center">
@@ -32,105 +26,51 @@
 
     <main class="col-10">
         <h2 class="bd-title">Bookings for <small class="text-muted" id="court-title"></small></h2>
-
+        
+        <!-- Tab Calendar/List View -->
         <ul class="nav nav-tabs tab-selection">
             <li class="nav-item">
-                <a class="nav-link active" href="#" container="#data-container">Calendar View</a>
+                <a class="nav-link active"
+                   href="#"
+                   update-container="calendar"
+                   container="#calendar-container">Calendar View</a>
             </li>
             <li class="nav-item">
-                <a class="nav-link" href="#" container="#list-container">List View</a>
+                <a class="nav-link"
+                   href="#"
+                   update-container="list"
+                   container="#list-container">List View</a>
             </li>
         </ul>
 
+        <!-- Period + Control Buttons-->
         <div class="row timeslot-header">
             <div id="prev-week-btn" class="col-1"><i class="fas fa-arrow-circle-left"></i></div>
             <h3 id="timeslot-week" class="col text-lg-center"></h3>
             <div id="next-week-btn" class="col-1"><i class="fas fa-arrow-circle-right"></i></div>
         </div>
-
-        <div id="data-container">
+        
+        <!-- Containers -->
+        <div id="calendar-container">
             <table class="table timeSlotsBooking">
                 <thead>
-                    <tr><th></th><th>Monday</th><th>Tuesday</th><th>Wednesday</th><th>Thursday</th><th>Friday</th><th>Saturday</th><th>Sunday</th></tr>
+                    <tr><th></th><th></th><th></th><th></th><th></th><th></th><th></th><th></th></tr>
                 </thead>
-                <tbody>
-                    @foreach (var item in Model.TimeslotApiViews)
-                    {
-                        <tr>
-                            <td>
-                                @Html.DisplayFor(modelItem => item.Hour)
-                            </td>
-                            @for (var i = 1; i <=7; i++)
-                            {
-                                var bookId = item[i];
-                                <td>
-                                    @if (bookId > 0)
-                                    {
-
-                                        <a href="#"
-                                           data-toggle="dropdown"
-                                           aria-haspopup="true"
-                                           aria-expanded="false" booked>
-                                            <div id="@bookId"
-                                                 data-html="true"
-                                                 data-placement="left"
-                                                 data-toggle="popover"
-                                                 title=""
-                                                 data-content=""
-                                                 booked>
-                                                booked
-                                            </div>
-                                        </a>
-                                        <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-                                            @Html.ActionLink("Details", "Details", "Bookings", new { id = bookId }, new { @class = "dropdown-item" })
-                                            <div class="dropdown-divider"></div>
-                                            @Html.ActionLink("Cancel", "Delete", "Bookings", new { id = bookId }, new { @class = "dropdown-item" })
-                                        </div>
-
-                                    }
-                                    else if (bookId == 0)
-                                    {
-                                        <a notbooked>-</a>
-                                    }
-                                </td>
-                            }
-                        </tr>
-                    }
-                </tbody>
+                <tbody></tbody>
             </table>
-
         </div>
         <div id="list-container" class="d-none">
             <table class="table">
                 <thead>
                     <tr><th>Booked Date/Time<th>Name<th>Email<th>Duration<th></tr>
                 </thead>
-                <tbody>
-                    @foreach (var group in Model.GroupData)
-                    {
-                        <tr>
-                            <th colspan="5">@group.Key</th>
-                        </tr>
-                        foreach (var timeslot in group)
-                        {
-                        <tr>
-                            <td>@Html.DisplayFor(modelItem => timeslot.Time)</td>
-                            <td>@Html.DisplayFor(modelItem => timeslot.Booking.User.UserName) </td>
-                            <td>@Html.DisplayFor(modelItem => timeslot.Booking.User.Email) </td>
-                            <td>@Html.DisplayFor(modelItem => timeslot.Booking.Duration) </td>
-                            <td>
-                                @Html.ActionLink("Details", "Details", new { id = timeslot.Booking.Id }) |
-                                @Html.ActionLink("Delete", "Delete", new { id = timeslot.Booking.Id })
-                            </td>
-                        </tr>
-                        }
-
-                    }
-                </tbody>
+                <tbody></tbody>
             </table>
         </div>
+
+        <!-- Back to Branch -->
         <div>
-            @Html.ActionLink("Back to Branch", "Index", "Branches", new { id = Model.BranchId }, null)
+            @Html.ActionLink("Back to Branch", "Index", "Branches", new { id = Model.FirstOrDefault()?.BranchId ?? 0 }, null)
         </div>
     </main>
 </div>
@@ -139,109 +79,71 @@
     <script src="~/Scripts/moment.js"></script>
     <script>
         $(document).ready(function () {
-            const dateFrom = moment($('#FromDate').attr('utcvalue'));
-            const dateTo = moment($('#ToDate').attr('utcvalue'));
-            const popoversShown = [];
+            const dateFrom = firstWeekDate();
+            const dateTo = dateFrom.clone().add(6, 'days').hour(23).minute(59).second(59);
 
             $('[data-toggle="popover"]')
                 .popover();
 
             // on booked hover populate popover and show
-            $('.timeSlotsBooking td a div[booked]')
-                .hover(function () {
+            $('.timeSlotsBooking tbody')
+                .on('mouseenter mouseleave', 'div[booked]', function () {
                     const $popover = $(this);
 
                     // get data from api call if empty
                     if ($popover.attr('data-content') == '') {
-                        $.getJSON('/api/bookings/', {
-                            id: $popover.attr('id')
-                        }).done(function (data) {
+                        $.getJSON(`/api/bookings/GetBookingInfo/${$popover.attr('id')}`)
+                            .done(function (data) {
 
-                            // populate popover
-                            $popover
-                                .attr('data-content',
-                                    data.Username + '</br><em>' + data.Email + '</em>')
-                                .attr('data-original-title',
-                                    moment(data.BookedAt).format("DD/MM/YYYY HH:mm"));
-
-                            popoversShown.push($popover);
-                            $popover.popover('show');
-                        });
+                                // populate popover and show
+                                $popover
+                                    .attr('data-content',
+                                        `${data.Username}</br><em>${data.Email}</em>`)
+                                    .attr('data-original-title',
+                                        moment(data.BookedAt).format("DD/MM/YYYY HH:mm"))
+                                    .popover('show');
+                            });
                     } else {
-                        popoversShown.push($popover);
-                        $popover.popover('show');
+                        $popover.popover('hide');
                     }
-
-                }, function () {
-
-                    hideActivePopovers();
-
                 });
-
-            function hideActivePopovers() {
-
-                // hide previous popped popovers
-                $(popoversShown).each(function (index, item) {
-                    $(item).popover('hide');
-                });
-
-                // clear list
-                popoversShown.length = 0;
-            }
 
             // on next-week-button clicked add 7 days to FromDate, ToDate inputs and submit form
-            $('#next-week-btn').on('click', () => updateDateAndSubmit(7));
+            $('#next-week-btn').on('click', () => moveAndRefresh(7));
 
             // on next-week-button clicked subtract 7 days to FromDate, ToDate inputs and submit form
-            $('#prev-week-btn').on('click', () => updateDateAndSubmit(-7));
+            $('#prev-week-btn').on('click', () => moveAndRefresh(-7));
 
-            function updateDateAndSubmit(value) {
-                $('#FromDate').attr('value', dateFrom.add(value, 'days').format());
-                $('#ToDate').attr('value', dateTo.add(value, 'days').format());
-                $('form').submit();
+            // move week and update container
+            function moveAndRefresh(value) {
+                dateFrom.add(value, 'days');
+                dateTo.add(value, 'days');
+
+                // update header week period
+                $('#timeslot-week')
+                    .text(dateFrom.format("DD/MM/YYYY") + ' - ' +
+                    dateTo.format("DD/MM/YYYY"));
+
+                refreshListBookings();
             }
 
             // on side nav court (li) clicked set CourtId input and submit form
             $('.sidenav').on('click', 'li', function () {
                 const courtId = $(this).attr('court-id');
+
+                $('nav.sidenav li.active').toggleClass('active');
+
+                $(this).toggleClass('active');
+
                 $('#CourtId').attr('value', courtId);
-                $('form').submit();
+
+                $('#court-title').text($(this).text());
+
+                refreshListBookings();
             });
-
-            // set active courtId on side nav bar
-            const selectedCourtName = $('nav.sidenav li[court-id="' + @Model.CourtId + '"]')
-                .addClass('active')
-                .text()
-
-            // and update header title
-            $('#court-title')
-                .text(selectedCourtName);
-
-            // set period from to to title
-            $('#timeslot-week')
-                .text(dateFrom.format("DD/MM/YYYY") + ' - ' +
-                    dateTo.format("DD/MM/YYYY"));
-
-            // set days header with day + month
-            $('#data-container table thead tr')
-                .html(getDayHeaders(dateFrom.clone()));
-
-            function getDayHeaders(date) {
-                let headerBlock = '<th>{date}</th>';
-
-                return headerBlock.replace('{date}', '') +
-                    [0, 1, 2, 3, 4, 5, 6].map(function (i) {
-                        const dayHeader = headerBlock.replace('{date}',
-                            date.format('dddd<br/>DD MMM'));
-                        date.add(1, 'days');
-                        return dayHeader;
-                    }).join('');
-            }
 
             // activate clicked tab and show tabs data
             $('.tab-selection li a').on('click', function () {
-
-                hideActivePopovers();
 
                 // hide current active tab
                 var $prevActive = $('.tab-selection a.active');
@@ -252,10 +154,144 @@
                 $(this).addClass('active');
                 $($(this).attr('container')).toggleClass('d-none');
 
+                refreshListBookings();
             });
 
-        });
+            // ajax call and container updating info
+            const containerInfo = {
+                calendar: { updateFunc: getCalendarHtml, apiAction:'GetCourtsForCalendarView'},
+                list: { updateFunc: getListHtml, apiAction:'GetCourtsForListView'}
+            };
 
+            // refresh data and update container based on selected tab using containerInfo
+            function refreshListBookings() {
+                const courtId = $('nav.sidenav li.active')
+                    .attr('court-id');
+                const tabContainer = $('.tab-selection a.active')
+                    .attr('update-container');
+                const container = containerInfo[tabContainer];
+
+                $.getJSON(`/api/bookings/${container.apiAction}/${courtId}`, {
+                    fromDate: dateFrom.clone().utc().format(),
+                    toDate: dateTo.clone().utc().format()
+                }).done(function (data) {
+
+                    // get container html
+                    const html = container
+                        .updateFunc(data);
+
+                    // update container html
+                    $(`#${tabContainer}-container tbody`)
+                        .html(html);
+                });
+            }
+
+            // generate html for calndar view
+            function getCalendarHtml(data) {
+                // set days header with day + month
+                $('#calendar-container table thead tr')
+                    .html(getDayHeaders(dateFrom.clone()));
+
+                let html = '';
+                for (var hour of data) {
+
+                    html += '<tr>';
+                    html += `<td>${hour.Hour}</td>`;
+                    for (var i = 1; i <= 7; i++) {
+                        let bookId = hour[`Day${i}`];
+
+                        if (bookId > 0) {
+                            html +=
+                                `<td>
+                                    <a href="#"
+                                        data-toggle="dropdown"
+                                        aria-haspopup="true"
+                                        aria-expanded="false" booked>
+                                        <div id="${bookId}"
+                                                data-html="true"
+                                                data-placement="left"
+                                                data-toggle="popover"
+                                                title=""
+                                                data-content=""
+                                                booked>
+                                            booked
+                                        </div>
+                                    </a>
+                                    <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                                        <a class="dropdown-item" href="/Admin/Bookings/Details/${bookId}">Details</a>
+                                        <div class="dropdown-divider"></div>
+                                        <a class="dropdown-item" href="/Admin/Bookings/Delete/${bookId}">Cancel</a>
+                                    </div>
+                                </td>`;
+                        } else if (bookId == 0) {
+                            html += '<td><a notbooked>-</a></td>';
+                        } else  {
+                            html += '<td></td>';
+                        }
+                    }
+                    html += '</tr>';
+                };
+                return html;
+            }
+
+            // get day headers for calendar view
+            function getDayHeaders(date) {
+
+                return '<th></th>' +
+                    [0, 1, 2, 3, 4, 5, 6].map(function (i) {
+                        const dayHeader = `<th>${date.format("dddd<br/>DD MMM")}</th>`;
+                        date.add(1, 'days');
+                        return dayHeader;
+                    }).join('');
+            }
+
+            // generate html for list view
+            function getListHtml(data) {
+                const entries = Object.entries(data);
+
+                let html = '';
+                for (var day of entries) {
+
+                    html +=
+                        `<tr>
+                            <th colspan="5">${day[0]}</th>
+                        </tr>`;
+
+                    for (var booking of day[1]) {
+
+                        html +=
+                            `<tr>
+                                <td>${moment(booking.BookedAt).format("HH:mm")}</td>
+                                <td>${booking.User.UserName}</td>
+                                <td>${booking.User.Email}</td>
+                                <td>${booking.Duration}</td>
+                                <td>
+                                    <a href="/Admin/Bookings/Details/${booking.Id}">Details</a> |
+                                    <a href="/Admin/Bookings/Delete/${booking.Id}">Delete</a>
+                                </td>
+                            </tr>`;
+                    }
+
+                }
+                return html;
+            }
+
+            // calculates and returns weeks start date based on current date
+            function firstWeekDate() {
+                const currentDate = moment().hour(0).minute(0).second(0),
+                    day = currentDate.day(),
+                    diff = (day == 0 ? -6 : 1) - day;
+
+                return currentDate
+                    .add(diff, 'days');
+            }
+
+            // set active courtId on side nav bar
+            $('nav.sidenav li:first-child')
+                .addClass('active');
+
+            moveAndRefresh(0);
+        });
     </script>
 }
 

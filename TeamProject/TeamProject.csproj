@@ -257,8 +257,6 @@
     <Compile Include="Controllers\UserBookingController.cs" />
     <Compile Include="Dal\TeamProjectApp.cs" />
     <Compile Include="ModelsViews\BookingInfo.cs" />
-    <Compile Include="ModelsViews\BookingsSearchForm.cs" />
-    <Compile Include="ModelsViews\BookingsSearchResult.cs" />
     <Compile Include="ModelsViews\PostBookResponse.cs" />
     <Compile Include="Models\BookingReport.cs" />
     <Compile Include="Models\BranchFacilities.cs" />
@@ -441,8 +439,6 @@
     <Content Include="Scripts\popper-utils.js.map" />
     <Content Include="Areas\Admin\Views\Bookings\Delete.cshtml" />
     <Content Include="Areas\Admin\Views\Bookings\Details.cshtml" />
-    <Content Include="Areas\Admin\Views\Bookings\Edit.cshtml" />
-    <Content Include="Areas\Admin\Views\Bookings\Indexold.cshtml" />
     <Content Include="Areas\Admin\Views\Courts\Create.cshtml" />
     <Content Include="Areas\Admin\Views\Courts\Delete.cshtml" />
     <Content Include="Areas\Admin\Views\Courts\Details.cshtml" />
