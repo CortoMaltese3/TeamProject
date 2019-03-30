@@ -43,18 +43,24 @@
 
 @foreach (var court in Model)
 {
-    <div class="card mb-3 rounded rounded-lg border border-success d-flex p-2 bd-highlight d-flex">
+    <div class="card mb-3 rounded rounded-lg border border-success d-flex p-2 bd-highlight d-flex shadow-lg">
         <div class="row no-gutters">
             <div class="col-md-4" style="margin-top:auto;margin-bottom:auto;">
-                <img src="~/Images/Courts/@court.ImageCourt" class="card-img" alt="@court.Name">
+                <img src="~/Images/Courts/@court.ImageCourt" class="card-img shadow" alt="@court.Name">
             </div>
             <div class="col-md-8">
                 <div class="card-body align-content-end flex-column">
                     <h5 class="card-title">@court.Name</h5>
                     <p class="card-text">@court.Description</p>
                     <div class="wrap float-right">
-                        <button href="/Courts/booking/@court.Id" class="button" role="button" aria-pressed="true">Book Now!</button>
-                        <button href="/Courts/Details/@court.Id" class="button" role="button" aria-pressed="true">Details!</button>
+                        <form action="/Courts/booking/@court.Id">
+                            <button class="button shadow" role="button" aria-pressed="true">Book Now!</button>
+                        </form>
+                    </div>
+                    <div class="wrap float-right">
+                        <form action="/Courts/Details/@court.Id">
+                            <button class="button shadow" role="button" aria-pressed="true">Details!</button>
+                        </form>
                     </div>
                 </div>
             </div>
