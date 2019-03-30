@@ -16,6 +16,36 @@
             padding-left: 0px;
             position: relative;
         }
+        .wrap {
+            height: 100%;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .button {
+            width: 140px;
+            height: 45px;
+            font-family: 'Roboto', sans-serif;
+            font-size: 11px;
+            text-transform: uppercase;
+            letter-spacing: 2.5px;
+            font-weight: 500;
+            color: #000;
+            background-color: beige;
+            border: none;
+            border-radius: 45px;
+            box-shadow: 0px 8px 15px rgba(0, 0, 0, 0.1);
+            transition: all 0.3s ease 0s;
+            cursor: pointer;
+            outline: none;
+        }
+
+            .button:hover {
+                background-color: #2EE59D;
+                box-shadow: 0px 15px 20px rgba(46, 229, 157, 0.4);
+                color: #fff;
+                transform: translateY(-7px);
+            }
     </style>
 }
 <h2 class="text-center mt-2">Nearest Pitches</h2>
@@ -44,9 +74,9 @@
                     </div>
                     <br />
 
-
-                    <a href="/Courts/index/@branch.Id" class="btn btn-success btn-lg active mt-auto" role="button" aria-pressed="true">View details!</a>
-
+                    <div class="wrap">
+                        <button href="/Courts/index/@branch.Id" class="button" role="button" aria-pressed="true">View details!</button>
+                    </div>
                 </div>
             </div>
         </div>
