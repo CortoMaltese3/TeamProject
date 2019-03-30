@@ -23,7 +23,28 @@ namespace TeamProject.Dal
         {
             return _db.Users.Get("Email=@email", new { email }).Count() > 0;
         }
-        public bool AddSimpleUser(User user)
+        public (bool valid, string field, string error) AddUser(User user, bool isValid)
+        {
+            if (!isValid)
+            {
+                return (false, string.Empty, string.Empty);
+            }
+            if (EmailExists(user.Email))
+            {
+                return (false, "Email", "E-mail already taken! Choose an other E-mail!");
+            }
+            if (user.Password == null)
+            {
+                return (false, "Password", "Password is required");
+            }
+            if (!AddSimpleUser(user))
+            {
+                return (false, "UserName", "Failed to create new user.");
+            }
+
+            return (true, string.Empty, string.Empty);
+        }
+        private bool AddSimpleUser(User user)
         {
             //adding the new user in db!
             var newUser = _db.Users.Add(user);

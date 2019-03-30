@@ -252,6 +252,7 @@
     <Compile Include="Areas\Admin\Controllers\TimeSlotsController.cs" />
     <Compile Include="Areas\Admin\Controllers\UsersController.cs" />
     <Compile Include="Controllers\UserBookingController.cs" />
+    <Compile Include="Controllers\JoinController.cs" />
     <Compile Include="Dal\TeamProjectApp.cs" />
     <Compile Include="ModelsViews\BookingInfo.cs" />
     <Compile Include="ModelsViews\PostBookResponse.cs" />
@@ -378,7 +379,6 @@
     <Content Include="Areas\Admin\Views\Roles\Edit.cshtml" />
     <Content Include="Areas\Admin\Views\Roles\Delete.cshtml" />
     <Content Include="Areas\Admin\Views\Panel\Index.cshtml" />
-    <Content Include="Areas\Admin\Views\Users\Join.cshtml" />
     <Content Include="Areas\Admin\Views\BranchFacilities\ChooseFacilities.cshtml" />
     <Content Include="Areas\Admin\Views\Bookings\Index.cshtml" />
     <Content Include="Areas\Admin\Views\Reports\Index.cshtml" />
@@ -473,6 +473,7 @@
     <Content Include="Views\Courts\Details.cshtml" />
     <Content Include="Views\Shared\_HomePageFooterPartial.cshtml" />
     <Content Include="Views\Shared\FacilitiesPartial.cshtml" />
+    <Content Include="Views\Join\Join.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
