@@ -3,8 +3,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
+using TeamProject.Areas.Admin.ViewModels;
 using TeamProject.Dal;
-using TeamProject.Models;
 
 namespace TeamProject.Areas.Admin.Controllers
 {
@@ -16,19 +16,16 @@ namespace TeamProject.Areas.Admin.Controllers
         [Authorize(Roles = "Admin, Owner")]
         public ActionResult Index(int id)
         {
-            //var branchreport = db.Branches.GetBookingsByBranchAndDay(id);
-            //var courtsreport = db.Branches.GetBookingsByCourtAndDay(id);
             var courts = db.Courts.Get().Where(c => c.BranchId == id);
-            //ViewBag.Data = string.Join(",", branchreport.OrderBy(b => b.BookingDayNo).Select(b => b.CountOfBookings));
-            //ViewBag.Labels = string.Join(",", branchreport.OrderBy(b => b.BookingDayNo).Select(b => "\"" + b.BookingDay + "\""));
-
-            var report = new List<ReportView>();
-            report.Add(new ReportView()
+            var report = new List<ReportView>()
             {
-                Id = 0,
-                Title = "branch",
-                Data = db.Branches.GetBookingsByBranchAndDay(id)
-            });
+                new ReportView()
+                {
+                    Id = 0,
+                    Title = "branch",
+                    BookingReport = db.Branches.GetBookingsByBranchAndDay(id)
+                }
+            };
 
             foreach (var court in courts)
             {
@@ -36,7 +33,7 @@ namespace TeamProject.Areas.Admin.Controllers
                 {
                     Id = court.Id,
                     Title = court.Name,
-                    Data = db.Branches.GetBookingsByCourtAndDay(id)
+                    BookingReport = db.Branches.GetBookingsByCourtAndDay(id)
                 });
             }
 
@@ -44,10 +41,5 @@ namespace TeamProject.Areas.Admin.Controllers
         }
 
     }
-    public class ReportView
-    {
-        public int Id { get; set; }
-        public string Title { get; set; }
-        public IEnumerable<BookingReport> Data { get; set; }
-    }
+
 }
