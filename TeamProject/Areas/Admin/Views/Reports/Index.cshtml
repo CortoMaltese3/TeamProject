@@ -1,4 +1,5 @@
-﻿@model IEnumerable<TeamProject.Models.Court>
+﻿@*@model IEnumerable<TeamProject.Models.Court>*@
+@model TeamProject.Areas.Admin.Controllers.ReportsView
 @{
     /**/
 
@@ -22,7 +23,7 @@
     <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mdbootstrap/4.7.1/js/mdb.min.js"></script>
     <script>
         //Branch Charts
-        showChart([@Html.Raw(ViewBag.Labels)], [@Html.Raw(ViewBag.Data)]);
+        showChart([@Html.Raw(string.Join(",", Model.BranchesReport.Select(b=> b.BookingDay)))], [@Html.Raw(string.Join(",", Model.BranchesReport.Select(b=> b.CountOfBookings)))]);
 
         function showChart(labels, data) {
 
