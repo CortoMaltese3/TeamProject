@@ -22,7 +22,7 @@ namespace TeamProject.Areas.Admin.Controllers
                 new ReportView()
                 {
                     Id = 0,
-                    Title = "branch",
+                    Title = "Branch",
                     BookingReport = db.Branches.GetBookingsByBranchAndDay(id)
                 }
             };
