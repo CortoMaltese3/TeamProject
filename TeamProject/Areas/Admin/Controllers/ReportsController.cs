@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
@@ -16,30 +16,38 @@ namespace TeamProject.Areas.Admin.Controllers
         [Authorize(Roles = "Admin, Owner")]
         public ActionResult Index(int id)
         {
-            var branchreport = db.Branches.GetBookingsByBranchAndDay(id);            
+            //var branchreport = db.Branches.GetBookingsByBranchAndDay(id);
+            //var courtsreport = db.Branches.GetBookingsByCourtAndDay(id);
             var courts = db.Courts.Get().Where(c => c.BranchId == id);
-            ViewBag.Data = string.Join(",", branchreport.OrderBy(b => b.BookingDayNo).Select(b => b.CountOfBookings)) ;
-            ViewBag.Labels = string.Join(",", branchreport.OrderBy(b => b.BookingDayNo).Select(b => "\"" + b.BookingDay + "\""));
+            //ViewBag.Data = string.Join(",", branchreport.OrderBy(b => b.BookingDayNo).Select(b => b.CountOfBookings));
+            //ViewBag.Labels = string.Join(",", branchreport.OrderBy(b => b.BookingDayNo).Select(b => "\"" + b.BookingDay + "\""));
 
-            //var courtsdict = new Dictionary<int, BookingReport>();
-            //foreach(var c in courts)
-            //{
-            //    var courtsreport = db.Branches.GetBookingsByCourtAndDay(c.Id);
-
-            //    courtsdict.Add(c.Id, courtsreport);
-            //}
-            var report = new ReportsView()
+            var report = new List<ReportView>();
+            report.Add(new ReportView()
             {
-                BranchesReport = branchreport
-            };
+                Id = 0,
+                Title = "branch",
+                Data = db.Branches.GetBookingsByBranchAndDay(id)
+            });
 
-            return View(courts);
+            foreach (var court in courts)
+            {
+                report.Add(new ReportView()
+                {
+                    Id = court.Id,
+                    Title = court.Name,
+                    Data = db.Branches.GetBookingsByCourtAndDay(id)
+                });
+            }
+
+            return View(report);
         }
 
     }
-    public class ReportsView
+    public class ReportView
     {
-        public IEnumerable<BookingReport> BranchesReport { get; set; }
-
+        public int Id { get; set; }
+        public string Title { get; set; }
+        public IEnumerable<BookingReport> Data { get; set; }
     }
 }
