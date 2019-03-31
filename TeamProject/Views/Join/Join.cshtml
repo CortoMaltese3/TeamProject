@@ -18,30 +18,35 @@
                 <div class="wrap-input100 validate-input" data-validate="Firstname is required">
                     <span class="label-input100">Firstname</span>
                     <input class="input100" type="text" name="Firstname" placeholder="Name...">
+                    @Html.ValidationMessageFor(model => model.Firstname, "", new { @class = "text-danger" })
                     <span class="focus-input100"></span>
                 </div>
 
                 <div class="wrap-input100 validate-input" data-validate="Lastname is required">
                     <span class="label-input100">Lastname</span>
                     <input class="input100" type="text" name="Lastname" placeholder="Name...">
+                    @Html.ValidationMessageFor(model => model.Lastname, "", new { @class = "text-danger" })
                     <span class="focus-input100"></span>
                 </div>
 
                 <div class="wrap-input100 validate-input" data-validate="Valid email is required: ex@abc.xyz">
                     <span class="label-input100">Email</span>
                     <input class="input100" type="text" name="Email" placeholder="Email addess...">
+                    @Html.ValidationMessageFor(model => model.Email, "", new { @class = "text-danger" })
                     <span class="focus-input100"></span>
                 </div>
 
                 <div class="wrap-input100 validate-input" data-validate="Password is required">
                     <span class="label-input100">Password</span>
                     <input class="input100" type="password" name="Password" placeholder="*************">
+                    @Html.ValidationMessageFor(model => model.Password, "", new { @class = "text-danger" })
                     <span class="focus-input100"></span>
                 </div>
 
                 <div class="wrap-input100 validate-input" data-validate="Repeat Password is required">
                     <span class="label-input100">Repeat Password</span>
                     <input class="input100" type="password" name="ConfirmPassword" placeholder="*************">
+                    @Html.ValidationMessageFor(model => model.ConfirmPassword, "", new { @class = "text-danger" })
                     <span class="focus-input100"></span>
                 </div>
 
