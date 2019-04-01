@@ -33,7 +33,7 @@ namespace TeamProject.Areas.Admin.Controllers
                 {
                     Id = court.Id,
                     Title = court.Name,
-                    BookingReport = db.Branches.GetBookingsByCourtAndDay(id)
+                    BookingReport = db.Branches.GetBookingsByCourtAndDay(court.Id)
                 });
             }
 
