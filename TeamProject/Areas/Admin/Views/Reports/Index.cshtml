@@ -1,32 +1,35 @@
-﻿@model IEnumerable<TeamProject.Models.Court>
+﻿@model IEnumerable<TeamProject.Areas.Admin.ViewModels.ReportView>
 @{
     /**/
 
     ViewBag.Title = "Reports";
 }
+<h2>Total bookings by week days</h2>
 
-
-<div class="container">
-    <h2 class="text-center" style="margin-top:150px;">Branch Total</h2>
-</div>
-<canvas id="doughnutChart"></canvas>
-<br />
-@foreach (var court in Model)
+@foreach (var report in Model)
 {
-    <br />
-    <h2 class="text-center">@court.Name</h2>
-    <canvas id="doughnutChart"></canvas>
+    <div class="card m-3 shadow-sm">
+        <div class="card-header">
+            @report.Title @*<small class="text-muted">Total</small>*@
+        </div>
+        <div class="card-body">
+            <canvas id="chart-@report.Id"></canvas>
+        </div>
+    </div>
 }
 
 @section scripts{
     <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mdbootstrap/4.7.1/js/mdb.min.js"></script>
     <script>
-        //Branch Charts
-        showChart([@Html.Raw(ViewBag.Labels)], [@Html.Raw(ViewBag.Data)]);
 
-        function showChart(labels, data) {
+        @foreach (var report in Model)
+        {
+            @Html.Raw($"showChart('chart-{@report.Id}', [{report.Labels}], [{report.Data}]);\n");
+        }
 
-            var ctxD = document.getElementById("doughnutChart").getContext('2d');
+        function showChart(chart, labels, data) {
+
+            var ctxD = document.getElementById(chart).getContext('2d');
             var myLineChart = new Chart(ctxD, {
                 type: 'doughnut',
                 data: {
@@ -44,6 +47,4 @@
         }
     </script>
 }
-
-
 

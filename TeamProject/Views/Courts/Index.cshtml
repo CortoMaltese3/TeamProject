@@ -5,20 +5,63 @@
 }
 
 <br />
+@section Styles{
+
+    <style>
+        .wrap {
+            height: 100%;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .button {
+            width: 140px;
+            height: 45px;
+            font-family: 'Roboto', sans-serif;
+            font-size: 11px;
+            text-transform: uppercase;
+            letter-spacing: 2.5px;
+            font-weight: 500;
+            color: #000;
+            background-color: beige;
+            border: none;
+            border-radius: 45px;
+            box-shadow: 0px 8px 15px rgba(0, 0, 0, 0.1);
+            transition: all 0.3s ease 0s;
+            cursor: pointer;
+            outline: none;
+        }
+
+            .button:hover {
+                background-color: #2EE59D;
+                box-shadow: 0px 15px 20px rgba(46, 229, 157, 0.4);
+                color: #fff;
+                transform: translateY(-7px);
+            }
+    </style>
+}
 
 @foreach (var court in Model)
 {
-    <div class="card mb-3 rounded rounded-lg border border-success d-flex p-2 bd-highlight d-flex">
+    <div class="card mb-3 rounded rounded-lg border border-success d-flex p-2 bd-highlight d-flex shadow-lg">
         <div class="row no-gutters">
             <div class="col-md-4" style="margin-top:auto;margin-bottom:auto;">
-                <img src="~/Images/Courts/@court.ImageCourt" class="card-img" alt="@court.Name">
+                <img src="~/Images/Courts/@court.ImageCourt" class="card-img shadow" alt="@court.Name">
             </div>
             <div class="col-md-8">
                 <div class="card-body align-content-end flex-column">
                     <h5 class="card-title">@court.Name</h5>
                     <p class="card-text">@court.Description</p>
-                    <a href="/Courts/booking/@court.Id" class="btn btn-success btn-lg active mt-auto" role="button" aria-pressed="true">Book Now!</a>
-                    <a href="/Courts/Details/@court.Id" class="btn btn-success btn-lg active mt-auto" role="button" aria-pressed="true">Details!</a>
+                    <div class="wrap float-right">
+                        <form action="/Courts/booking/@court.Id">
+                            <button class="button shadow" role="button" aria-pressed="true">Book Now!</button>
+                        </form>
+                    </div>
+                    <div class="wrap float-right">
+                        <form action="/Courts/Details/@court.Id">
+                            <button class="button shadow" role="button" aria-pressed="true">Details!</button>
+                        </form>
+                    </div>
                 </div>
             </div>
         </div>

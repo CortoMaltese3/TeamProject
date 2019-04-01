@@ -36,21 +36,6 @@ namespace TeamProject.Areas.Admin.Controllers
             return View();
         }
 
-        [AllowAnonymous]
-        public ActionResult Join()
-        {
-            return View();
-        }
-
-        [AllowAnonymous]
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public ActionResult Join(User user)
-        {
-            return CreateUser(user,
-                () => Redirect("~/Home/Index"));
-        }
-
         // POST: Users/Create
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
@@ -58,41 +43,14 @@ namespace TeamProject.Areas.Admin.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult Create(User user)
         {
-            return CreateUser(user,
-                () => RedirectToAction("Index"));
-        }
+            (bool valid, string field, string error) = app.AddUser(user, ModelState.IsValid);
 
-        private ActionResult CreateUser(User user, Func<ActionResult> redirectTo)
-        {
-
-            if (!UserValidations(user))
+            if (!valid)
             {
+                ModelState.AddModelError(field, error);
                 return View(user);
             }
-
-            if (!app.AddSimpleUser(user))
-            {
-                ModelState.AddModelError("UserName", "Failed to create new user.");
-                return View(user);
-            }
-
-            return redirectTo();
-
-        }
-        private bool UserValidations(User user)
-        {
-            //UserManager manager = new UserManager(db);
-            if (app.EmailExists(user.Email))
-            {
-                ModelState.AddModelError("Email", "E-mail already taken! Choose an other E-mail!");
-                return false;
-            }
-            if (user.Password == null)
-            {
-                ModelState.AddModelError("Password", "Password is required");
-                return false;
-            }
-            return ModelState.IsValid;
+            return RedirectToAction("Index");
         }
 
         // GET: Users/Edit/5

@@ -1,0 +1,71 @@
+﻿@model TeamProject.Models.User
+@{
+    ViewBag.Title = "index";
+    Layout = "~/Views/Shared/_LayoutJoin.cshtml";
+}
+
+<div class="limiter">
+    <div class="container-login100">
+        <div class="login100-more" style="background-image: url(/Images/Join/6378943-football-wallpaper.jpg);"></div>
+
+        <div class="wrap-login100 p-l-50 p-r-50 p-t-72 p-b-50">
+            <form class="login100-form validate-form" method="post" action="join">
+                @Html.AntiForgeryToken()
+                <span class="login100-form-title p-b-59">
+                    Sign Up
+                </span>
+
+                <div class="wrap-input100 validate-input" data-validate="Firstname is required">
+                    <span class="label-input100">Firstname</span>
+                    <input class="input100" type="text" name="Firstname" placeholder="Name...">
+                    @Html.ValidationMessageFor(model => model.Firstname, "", new { @class = "text-danger" })
+                    <span class="focus-input100"></span>
+                </div>
+
+                <div class="wrap-input100 validate-input" data-validate="Lastname is required">
+                    <span class="label-input100">Lastname</span>
+                    <input class="input100" type="text" name="Lastname" placeholder="Name...">
+                    @Html.ValidationMessageFor(model => model.Lastname, "", new { @class = "text-danger" })
+                    <span class="focus-input100"></span>
+                </div>
+
+                <div class="wrap-input100 validate-input" data-validate="Valid email is required: ex@hotmail.com">
+                    <span class="label-input100">Email</span>
+                    <input class="input100" type="text" name="Email" placeholder="Email addess...">
+                    @Html.ValidationMessageFor(model => model.Email, "", new { @class = "text-danger" })
+                    <span class="focus-input100"></span>
+                </div>
+
+                <div class="wrap-input100 validate-input" data-validate="Password is required">
+                    <span class="label-input100">Password</span>
+                    <input class="input100" type="password" name="Password" placeholder="*************">
+                    @Html.ValidationMessageFor(model => model.Password, "", new { @class = "text-danger" })
+                    <span class="focus-input100"></span>
+                </div>
+
+                <div class="wrap-input100 validate-input" data-validate="Repeat Password is required">
+                    <span class="label-input100">Repeat Password</span>
+                    <input class="input100" type="password" name="ConfirmPassword" placeholder="*************">
+                    @Html.ValidationMessageFor(model => model.ConfirmPassword, "", new { @class = "text-danger" })
+                    <span class="focus-input100"></span>
+                </div>
+
+                <div class="container-login100-form-btn ">
+                    <div class="wrap-login100-form-btn ">
+                        <div class="login100-form-bgbtn "></div>
+                        <button class="login100-form-btn ">
+                            Sign Up
+                        </button>
+                    </div>
+
+                    <a href="~/login" class="dis-block txt3 hov1 p-r-30 p-t-10 p-b-10 p-l-30">
+                        Sign in
+                        <i class="fa fa-long-arrow-right m-l-5"></i>
+                    </a>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+

@@ -1,10 +1,10 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
+using TeamProject.Areas.Admin.ViewModels;
 using TeamProject.Dal;
-using TeamProject.Models;
 
 namespace TeamProject.Areas.Admin.Controllers
 {
@@ -16,12 +16,30 @@ namespace TeamProject.Areas.Admin.Controllers
         [Authorize(Roles = "Admin, Owner")]
         public ActionResult Index(int id)
         {
-            var branchreport = db.Branches.GetBookingsByBranchAndDay(id);
-            //var courtsreport = db.Branches.GetBookingsByCourtAndDay(id);
             var courts = db.Courts.Get().Where(c => c.BranchId == id);
-            ViewBag.Data = string.Join(",", branchreport.OrderBy(b => b.BookingDayNo).Select(b => b.CountOfBookings)) ;
-            ViewBag.Labels = string.Join(",", branchreport.OrderBy(b => b.BookingDayNo).Select(b => "\"" + b.BookingDay + "\""));
-            return View(courts);
+            var report = new List<ReportView>()
+            {
+                new ReportView()
+                {
+                    Id = 0,
+                    Title = "Branch Total",
+                    BookingReport = db.Branches.GetBookingsByBranchAndDay(id)
+                }
+            };
+
+            foreach (var court in courts)
+            {
+                report.Add(new ReportView()
+                {
+                    Id = court.Id,
+                    Title = court.Name,
+                    BookingReport = db.Branches.GetBookingsByCourtAndDay(id)
+                });
+            }
+
+            return View(report);
         }
+
     }
+
 }

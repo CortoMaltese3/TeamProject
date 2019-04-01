@@ -16,7 +16,11 @@
         <ul class="list-group shadow-sm">
             @foreach (var court in Model.Courts)
             {
-                <li court-id="@court.Id" class="list-group-item d-flex justify-content-between align-items-center">@court.Name</li>
+            <li court-id="@court.Id" 
+                class="list-group-item d-flex justify-content-between align-items-center"
+                court-price="@court.Price">
+                @court.Name
+            </li>
             }
         </ul>
     </nav>
@@ -41,7 +45,7 @@
                         </button>
                     </div>
                     <div class="modal-body">
-                        Body
+                        
                     </div>
                     <div class="modal-footer">
                         <button type="button" class="btn btn-secondary cancel-button" data-dismiss="modal">Cancel</button>
@@ -73,11 +77,13 @@
 
                     // returns divs with week days for timeslot header
                     getTimeslotsHeader: function (date) {
-                        let headerBlock = '<div class="col text-center">{date}</div>';
 
-                        return headerBlock.replace('{date}', '') +
+                        return '<div class="col text-center"></div>' +
                             [0, 1, 2, 3, 4, 5, 6].map(function (i) {
-                                const dayHeader = headerBlock.replace('{date}', date.format('dddd<br/>DD MMM'));
+                                const dayHeader = 
+                                    `<div class="col text-center">
+                                        ${date.format('dddd<br/>DD MMM')}
+                                    </div>`;
                                 date.add(1, 'days');
                                 return dayHeader;
                             })
@@ -94,13 +100,16 @@
 
                             tbody += '<div class="row timeslot">';
 
-                            tbody += '<div class="col text-center">' + localhour.format('HH:mm') + '</div>';
+                            tbody += `<div class="col text-center">${localhour.format('HH:mm')}</div>`;
 
                             for (let day = 0; day < 7; day++) {
                                 let dateTime = date.clone().add(day, 'days').hour(localhour.hour());
                                 let timeSlotValue = timeslotDate.okToSelectDate(dateTime) ? timeslot['Day' + (day + 1)] : "0";
                                 let showTime = (timeSlotValue == 1 ? localhour.format('HH:mm') : '');
-                                tbody += '<div class="col text-center" date = "' + dateTime.utc().format() + '" value="' + timeSlotValue + '">' + showTime + '</div>';
+                                tbody += `<div class="col text-center" 
+                                               date = "${dateTime.utc().format()}" 
+                                               value="${timeSlotValue}">${showTime}
+                                          </div>`;
                             }
 
                             tbody += '</div>';
@@ -112,7 +121,7 @@
                     // set active courtId on side nav bar
                     // and update header title
                     setActiveCourt: function (courtId) {
-                        const $courtItem = $('nav.sidenav li[court-id="' + courtId + '"]');
+                        const $courtItem = $(`nav.sidenav li[court-id="${courtId}"]`);
 
                         $courtItem.addClass('active');
                         $courtTitle.text($courtItem.text());
@@ -148,10 +157,12 @@
                 }).done(function (data) {
 
                     $container.html(
-                        '<div class="timeslots">' +
-                        '<div class="row">' + utils.getTimeslotsHeader(fromDate) + '</div>' +
-                            utils.getTimeslotsBody(data) +
-                        '</div>');
+                        `<div class="timeslots">
+                            <div class="row">
+                                ${utils.getTimeslotsHeader(fromDate)}
+                            </div>
+                            ${utils.getTimeslotsBody(data)}
+                        </div>`);
 
                 });
             }
@@ -166,14 +177,19 @@
                     bookedAt: dateTime.format()
                 };
 
-                openModalConfirmation(dateTime.local().format('dddd DD/MM/YYYY HH:mm'), $courtTitle.text());
+                openModalConfirmation(
+                    dateTime.local().format('dddd DD/MM/YYYY HH:mm'),
+                    $courtTitle.text(),
+                    $('nav.sidenav li.active').attr('court-price'));
 
             }
 
-            function openModalConfirmation(dateTime, courtName) {
+            function openModalConfirmation(dateTime, courtName, courtPrice) {
                 openModal({
                     title: 'Please Confirm Booking Info',
-                    body: '<h4>' + dateTime + '<small class="text-muted"> at ' + courtName + '</small></h4>',
+                    body: `<h4>${dateTime}</h4>
+                           <p><strong>Court : </strong>${courtName}</p>
+                           <p><strong>Cost : </strong>${courtPrice}&euro;</p>`,
                     buttons: ['cancel','confirm']
                 });
             }
@@ -189,7 +205,7 @@
                 $('#confirm-modal .modal-title').text(options.title);
                 $('#confirm-modal .modal-body').html(options.body);
                 $('#confirm-modal .modal-footer button').hide();
-                options.buttons.map(b => $('#confirm-modal .' + b + '-button').show());
+                options.buttons.map(b => $(`#confirm-modal .${b}-button`).show());
                 $('#confirm-modal').modal('show');
             }
 
@@ -207,13 +223,13 @@
                         if (result.Status === "Ok") {
 
                             // Redirect to Booking Information and Send email
-                            window.location.href = '/Courts/Confirmed/' + result.BookKey;
+                            window.location.href = `/Courts/Confirmed/${result.BookKey}`;
 
                         } else {
                             refreshTimeslotsTable();
 
                             // Open Modal with Error message
-                            openModalWithError('Failed to complete booking','<h4>'+result.Status+'<h4><p>Please try again</p>');
+                            openModalWithError('Failed to complete booking', `<h4>${result.Status}<h4><p>Please try again</p>`);
                         }
                     }
                 });
@@ -260,7 +276,9 @@
                             that.updatePeriod();
                         } else {
                             openModalWithError('Can not navigate to previous Date',
-                                '<h4>Booking is not allowed before <small class="text-muted">' + startDate.format('DD/MM/YYYY') + '</small></h4>')
+                                `<h4>Booking is not allowed before 
+                                    <small class="text-muted">${startDate.format('DD/MM/YYYY')}</small>
+                                 </h4>`);
                         }
                         
                         

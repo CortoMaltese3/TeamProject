@@ -1,8 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Net;
-using System.Web;
+using IronPdf;
 using System.Web.Mvc;
 using TeamProject.Dal;
 using TeamProject.Models;
@@ -46,9 +47,8 @@ namespace TeamProject.Controllers
             var branch = db.Branches.Get().Where(x => x.Id == booking.Court.BranchId).FirstOrDefault();
             ViewBag.address = branch.Address;
             ViewBag.city = branch.City;
-            
-            SmtpMessageChunk.SendMessageSmtp(booking, branch);
 
+            //SmtpMessageChunk.SendMessageSmtp(booking, branch);
             return View(booking);
         }
 
@@ -63,10 +63,29 @@ namespace TeamProject.Controllers
             {
                 return HttpNotFound();
             }
-            //var branch = db.Branches.Get().Where(x => x.Id == court.Branch.Id);
 
             ViewBag.Facilities = db.Facilities.Get().Where(x => x.Branch.Any(b=>b.Id == court.Branch.Id));
             return View(court);
+        }
+
+        public FileResult GetHTMLPageAsPDF(string BookKey)
+        {
+            var booking = db.Bookings.Get().Where(x => x.BookKey == BookKey).FirstOrDefault();
+            var branch = db.Branches.Get().Where(x => x.Id == booking.Court.BranchId).FirstOrDefault();
+            var render = new IronPdf.HtmlToPdf();
+            //Create a PDF Document
+            var PDF = render.RenderHtmlAsPdf(
+                    $@"<h2> {booking.User.UserName} Thanks for booking.</h2>
+                    <br/>
+                    <div> You have book <strong> { booking.Court.Name} </strong> at <strong>{ booking.BookedAt}</strong>
+                    </div><br/>
+                    <span> Your booking number is <strong>{ booking.BookKey}</strong></span >
+                    <br/><br/><span> You can find the Court at { branch.Address}</span><br/><span><strong> Price:</strong> { booking.Court.Price} &euro; ");
+            //return a  pdf document from a view
+            var contentLength = PDF.BinaryData.Length;
+            Response.AppendHeader("Content-Length", contentLength.ToString());
+            Response.AppendHeader("Content-Disposition", "inline; filename=Booking_" + booking.User.UserName + ".pdf");
+            return File(PDF.BinaryData, "application/pdf;");
         }
     }
 }
