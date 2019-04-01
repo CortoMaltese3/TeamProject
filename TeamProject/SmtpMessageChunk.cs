@@ -49,19 +49,37 @@ namespace TeamProject
         }
 
         public static void SendContactFormEmail(ContactForm contactForm)
-        {
-            //List<string> adminList = new 
+        {            
             MimeMessage mail = new MimeMessage();
             mail.From.Add(new MailboxAddress(contactForm.FullName, contactForm.Email));
             mail.To.Add(new MailboxAddress("Giorgos Kalomalos", "giorgos.kalomalos@gmail.com"));
             mail.Subject = contactForm.SubjectSelector.ToString();
             mail.Body = new TextPart("html")
             {
-                //contactForm.Body.ToString();
-
+                Text = $@"<h3>CONTACT FORM</h3>
+                    <br />
+                    <div><strong>User: </strong>{contactForm.FullName}</div>
+                    <br />
+                    <span><strong>Subject: </strong>{contactForm.SubjectSelector}</span>                    
+                    <br />
+                    <br />
+                    <span><strong>Message: </strong>{contactForm.Body}</span>
+                    <br />"
             };
 
-    }
+            // Send it!
+            using (var client = new SmtpClient())
+            {
+                // XXX - Should this be a little different?
+                client.ServerCertificateValidationCallback = (s, c, h, e) => true;
 
+                client.Connect("smtp.mailgun.org", 587, false);
+                client.AuthenticationMechanisms.Remove("XOAUTH2");
+                client.Authenticate(Properties.Settings.Default.Username, Properties.Settings.Default.Password);
+
+                client.Send(mail);
+                client.Disconnect(true);
+            }
+        }
 }
 }
