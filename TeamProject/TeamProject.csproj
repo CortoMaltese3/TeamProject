@@ -311,6 +311,7 @@
     <Content Include="Content\Contact.css" />
     <Content Include="Content\google-maps.css" />
     <Content Include="Content\HomePage.css" />
+    <Content Include="Content\Join\css\Join.css" />
     <Content Include="Images\Footer\Facebook.png" />
     <Content Include="Images\Footer\Github.png" />
     <Content Include="Images\Footer\Instagram.png" />
