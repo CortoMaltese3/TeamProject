@@ -169,9 +169,10 @@
 
             const Carousel = $('.carousel-inner .active img');
             const Nav = $('nav');
+            const DropDown = $('#Dropdown');
 
-            //console.log(Carousel);
-            //console.log(Nav);
+            DropDown.addClass('opacityy');
+            
             $(window).scroll(function () {
 
                 if ($(window).scrollTop() > (Carousel.height() - Nav.height())) {
@@ -181,9 +182,6 @@
                     Nav.removeClass('opacityy');
                 }
             });
-
-
-
         });
     </script>
 }
