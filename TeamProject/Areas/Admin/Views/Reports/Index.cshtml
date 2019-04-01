@@ -10,7 +10,7 @@
 {
     <div class="card m-3 shadow-sm">
         <div class="card-header">
-            @report.Title <small class="text-muted">Total</small>
+            @report.Title @*<small class="text-muted">Total</small>*@
         </div>
         <div class="card-body">
             <canvas id="chart-@report.Id"></canvas>
