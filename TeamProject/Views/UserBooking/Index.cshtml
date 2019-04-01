@@ -1,0 +1,24 @@
+﻿@model IEnumerable<TeamProject.Models.Booking>
+
+@{
+    ViewBag.Title = "Index";
+}
+
+
+
+@foreach (var booking in Model)
+{
+    <div class="container-fluid text-center" style="height:500px;">
+        <div class="border-bottom">
+            <br />
+            <br /><br /><br />
+            <div> You have booked <strong> @booking.Court.Name </strong> at <strong>@booking.BookedAt</strong>.</div>
+            <br />
+            <span>Your booking number is <strong>@booking.BookKey</strong>.</span>
+            <br /> <br />
+            <span > You can the court information @Html.ActionLink("here.", "Details", "Courts", new { id = booking.CourtId }, null) </span>
+            <br />
+        </div>
+    </div>
+}
+
