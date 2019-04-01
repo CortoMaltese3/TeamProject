@@ -311,6 +311,11 @@
     <Content Include="Content\Contact.css" />
     <Content Include="Content\google-maps.css" />
     <Content Include="Content\HomePage.css" />
+    <Content Include="Images\Footer\Facebook.png" />
+    <Content Include="Images\Footer\Github.png" />
+    <Content Include="Images\Footer\Instagram.png" />
+    <Content Include="Images\Footer\pinterest.png" />
+    <Content Include="Images\Footer\Twitter.png" />
     <Content Include="Images\Join\6378943-football-wallpaper.jpg" />
     <Content Include="Content\Site.css" />
     <Content Include="Content\Join\css\util.css" />
