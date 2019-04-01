@@ -5,11 +5,15 @@
 <ul class="navbar-nav ml-auto">
     @if (Session["user"] != null)
     {
-        <li class="nav-item">
-            <span class="nav-link">Welcome, @user.Firstname!</span>
-        </li>
-        <li class="nav-item">
-            @Html.ActionLink("Logout", "Logout", "Login", new { area = "" }, new { @class = "nav-link" })
+        <li class="nav-item dropdown">
+            <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                Welcome, @user.Firstname!
+            </a>
+            <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                @Html.ActionLink("Bookings", "Index", "UserBooking", new { area = "" }, new { @class = "dropdown-item" })
+                <div class="dropdown-divider"></div>
+                @Html.ActionLink("Logout", "Logout", "Login", new { area = "" }, new { @class = "dropdown-item" })
+            </div>
         </li>
     }
     else
