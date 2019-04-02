@@ -34,22 +34,11 @@ namespace TeamProject
             };
 
             // Send it!
-            using (var client = new SmtpClient())
-            {
-                // XXX - Should this be a little different?
-                client.ServerCertificateValidationCallback = (s, c, h, e) => true;
-
-                client.Connect("smtp.mailgun.org", 587, false);
-                client.AuthenticationMechanisms.Remove("XOAUTH2");
-                client.Authenticate(Properties.Settings.Default.Username, Properties.Settings.Default.Password);
-
-                client.Send(mail);
-                client.Disconnect(true);
-            }
+            SendEmail(mail);
         }
 
         public static void SendContactFormEmail(ContactForm contactForm)
-        {            
+        {
             MimeMessage mail = new MimeMessage();
             mail.From.Add(new MailboxAddress(contactForm.FullName, contactForm.Email));
             mail.To.Add(new MailboxAddress("Giorgos Kalomalos", "giorgos.kalomalos@gmail.com"));
@@ -68,6 +57,12 @@ namespace TeamProject
             };
 
             // Send it!
+            SendEmail(mail);
+        }
+
+        private static void SendEmail(MimeMessage mail)
+        {
+            
             using (var client = new SmtpClient())
             {
                 // XXX - Should this be a little different?
@@ -75,11 +70,12 @@ namespace TeamProject
 
                 client.Connect("smtp.mailgun.org", 587, false);
                 client.AuthenticationMechanisms.Remove("XOAUTH2");
-                client.Authenticate(Properties.Settings.Default.Username, Properties.Settings.Default.Password);
+                client.Authenticate(Properties.Settings.Default.Username, 
+                    Properties.Settings.Default.Password);
 
                 client.Send(mail);
                 client.Disconnect(true);
             }
         }
-}
+    }
 }
