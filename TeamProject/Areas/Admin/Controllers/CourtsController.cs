@@ -23,6 +23,14 @@ namespace TeamProject.Areas.Admin.Controllers
             ViewBag.BranchName = new SelectList(db.Branches.Get(), "Id", "Name");
             ViewBag.Id = id;
 
+            foreach(var item in courts)
+            {
+                if(item.ImageCourt == null)
+                {
+                    item.ImageCourt = "na_image.jpg";
+                }
+            }
+
             return View(courts);
         }
 
@@ -101,9 +109,13 @@ namespace TeamProject.Areas.Admin.Controllers
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit(Court court, HttpPostedFileBase ImageFile)
+        public ActionResult Edit(Court court)
         {
-            if (ImageFile != null)
+            if(court.ImageFile == null)
+            {
+                court.ImageCourt = "na_image.jpg";
+            }
+            else
             {
                 court.ImageCourt = Path.GetFileName(court.ImageFile.FileName);
                 string fileName = Path.Combine(Server.MapPath("~/Images/Courts/"), court.ImageCourt);

@@ -21,16 +21,24 @@ namespace TeamProject.Areas.Admin.Controllers
         // GET: Branches
         public ActionResult Index()
         {
-            var branches = db.Branches.Get();
-
+            var branches = db.Branches.Get().ToList() ;
+            
             // If Owner filter only owners branches
             if (!User.IsInRole("Admin"))
             {
                 var ownerUser = Session["User"] as User;
-                branches = db.Branches.Get().Where(b => b.UserId == ownerUser.Id);
+                branches = db.Branches.Get().Where(b => b.UserId == ownerUser.Id).ToList();
             }
 
-            return View(branches.ToList());
+            foreach(var item in branches)
+            {
+                if(item.ImageBranch==null)
+                {
+                    item.ImageBranch = "na_image.jpg";
+                }
+            }
+
+            return View(branches);
         }
 
         // GET: Branches/Details/5
@@ -105,14 +113,20 @@ namespace TeamProject.Areas.Admin.Controllers
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit(Branch branch, HttpPostedFileBase ImageFile)
+        public ActionResult Edit(Branch branch)
         {
-            if (ImageFile == null)
+            if (branch.ImageBranch == null)
             {
                 branch.ImageBranch = "na_image.jpg";
             }
-            else
+
+            if (branch.ImageFile == null)
             {
+
+            }
+            else
+            { 
+
                 branch.ImageBranch = Path.GetFileName(branch.ImageFile.FileName);
                 string fileName = Path.Combine(Server.MapPath("~/Images/Branches/"), branch.ImageBranch);
                 branch.ImageFile.SaveAs(fileName);
@@ -120,7 +134,7 @@ namespace TeamProject.Areas.Admin.Controllers
 
             if (ModelState.IsValid)
             {
-                db.Branches.Update(branch);// Entry(branch).State = EntityState.Modified;
+                db.Branches.Update(branch);
                 return RedirectToAction("Index");
             }
             ViewBag.UserId = new SelectList(db.Users.Get(), "Id", "UserName", branch.UserId);
