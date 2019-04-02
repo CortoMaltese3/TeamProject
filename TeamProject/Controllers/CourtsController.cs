@@ -48,7 +48,7 @@ namespace TeamProject.Controllers
             ViewBag.address = branch.Address;
             ViewBag.city = branch.City;
 
-           // SmtpMessageChunk.SendMessageSmtp(booking, branch);
+            //SmtpMessageChunk.SendMessageSmtp(booking, branch);
             return View(booking);
         }
 
