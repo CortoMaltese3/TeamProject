@@ -51,6 +51,7 @@ namespace TeamProject.ApiControllers
                 Duration = 60
             };
 
+            //$"{guid.Substring(0, 4)}-{guid.Substring(6, 4)}-{putBookModel.CourtId.ToString("0000").Substring(0, 4)}";
             booking = db.Bookings.Add(booking);
 
             if (booking.Id == 0)
