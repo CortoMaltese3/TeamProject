@@ -1,120 +1,151 @@
-﻿@model IEnumerable<TeamProject.Areas.Admin.ViewModels.ReportView>
+﻿@model IEnumerable<TeamProject.Models.Court>
 @{
-    /**/
-
-    /**/
-
-    /**/
-
     ViewBag.Title = "Reports";
 }
-<h2>Total bookings by week days</h2>
+<h2 class="text-center">Total bookings by week day</h2>
 
-@foreach (var report in Model)
+<div class="card m-3 shadow-sm">
+    <div class="card-header">
+        Branch Total <small class="text-muted">@Model.FirstOrDefault().Branch.Name</small>
+    </div>
+    <div class="card-body">
+        <canvas id="pie-chart-Branch-@Model.FirstOrDefault().BranchId"></canvas>
+    </div>
+</div>
+
+@foreach (var court in Model)
 {
     <div class="card m-3 shadow-sm">
         <div class="card-header">
-            @report.Title
+            Court Total <small class="text-muted">@court.Name</small>
         </div>
         <div class="card-body">
-            <canvas id="chart-@report.Id"></canvas>
+            <canvas id="pie-chart-Court-@court.Id"></canvas>
         </div>
     </div>
 }
-@foreach (var report in Model)
+
+<h2 class="text-center">Total bookings last six months</h2>
+<div class="card m-3 shadow-sm">
+    <div class="card-header">
+        Branch Total <small class="text-muted">@Model.FirstOrDefault().Branch.Name</small>
+    </div>
+    <div class="card-body">
+        <canvas id="chart-Branch-@Model.FirstOrDefault().BranchId"></canvas>
+    </div>
+</div>
+
+@foreach (var court in Model)
 {
     <div class="card m-3 shadow-sm">
         <div class="card-header">
-            @report.Title
+            Court Total <small class="text-muted">@court.Name</small>
         </div>
         <div class="card-body">
-            <canvas id="bar-chart-@report.Id"></canvas>
+            <canvas id="chart-Court-@court.Id"></canvas>
         </div>
     </div>
 }
+
 @section scripts{
     <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mdbootstrap/4.7.1/js/mdb.min.js"></script>
     <script src="~/Scripts/moment.js"></script>
     <script>
+        $(document).ready(function () {
 
-        @foreach (var report in Model)
-        {
-            @Html.Raw($"showChart('chart-{@report.Id}', [{report.Labels}], [{report.Data}]);\n");
-            @Html.Raw($"getCourtsPrices({@report.Id});\n");
+            getPieCharts(@Model.FirstOrDefault().BranchId, 'Branch');
+            getCourtsPrices(@Model.FirstOrDefault().BranchId, 'Branch');
 
-        }
+            @foreach (var court in Model)
+            {
+                @Html.Raw($"getPieCharts({court.Id},'Court');\n");
+                @Html.Raw($"getCourtsPrices({court.Id},'Court');\n");
 
-        function showChart(chart, labels, data) {
+            }
 
-            var ctxD = document.getElementById(chart).getContext('2d');
-            var myLineChart = new Chart(ctxD, {
-                type: 'doughnut',
-                data: {
-                    labels: labels,
-                    datasets: [{
-                        data: data,
-                        backgroundColor: ["#F7464A", "#46BFBD", "#FDB45C", "#949FB1", "#4D5360", "#CCAE8F", "#AFB2CB"],
-                        hoverBackgroundColor: ["#FF5A5E", "#5AD3D1", "#FFC870", "#A8B3C5", "#616774", "#4C2E0F","#232A5E"]
-                    }]
-                },
-                options: {
-                    responsive: true
-                }
-            });
-        }
+            function getPieCharts(id, apiService) {
 
-        function getCourtsPrices(courtId) {
+                $.getJSON(`/api/bookings/Get${apiService}BookingsByWeekDay/${id}`)
+                    .done(function (data) {
+                        const chartLabels = Object.keys(data);
+                        const chartData = Object.values(data);
+                        showPieChart(`pie-chart-${apiService}-${id}`, chartLabels, chartData);
+                    });
+            }
 
-            $.getJSON(`/api/bookings/GetCourtPricesByMonth/${courtId}`, {
-                    fromDate: moment().subtract(6,'months').utc().format(),
+            function getCourtsPrices(id, apiService) {
+
+                $.getJSON(`/api/bookings/Get${apiService}PricesByMonth/${id}`, {
+                    fromDate: moment().subtract(6, 'months').utc().format(),
                     toDate: moment().utc().format()
                 })
-                .done(function (data) {
-                    const chartLabels = Object.keys(data);
-                    const chartData = Object.values(data);
-                    barChart(courtId, chartLabels, chartData);
-                });
-        }
-        function barChart(courtId, labels, data) {
-            var ctxB = document.getElementById("bar-chart-" + courtId).getContext('2d');
-              var myBarChart = new Chart(ctxB, {
-                type: 'bar',
-                data: {
-                    labels: labels,
-                  datasets: [{
-                    label: '# of Monthly Price',
-                      data: data,
-                    backgroundColor: [
-                      'rgba(255, 99, 132, 0.2)',
-                      'rgba(54, 162, 235, 0.2)',
-                      'rgba(255, 206, 86, 0.2)',
-                      'rgba(75, 192, 192, 0.2)',
-                      'rgba(153, 102, 255, 0.2)',
-                      'rgba(255, 159, 64, 0.2)'
-                    ],
-                    borderColor: [
-                      'rgba(255,99,132,1)',
-                      'rgba(54, 162, 235, 1)',
-                      'rgba(255, 206, 86, 1)',
-                      'rgba(75, 192, 192, 1)',
-                      'rgba(153, 102, 255, 1)',
-                      'rgba(255, 159, 64, 1)'
-                    ],
-                    borderWidth: 1
-                  }]
-                },
-                options: {
-                  scales: {
-                    yAxes: [{
-                      ticks: {
-                        beginAtZero: true
-                      }
-                    }]
-                  }
-                }
-              });
+                    .done(function (data) {
+                        const chartLabels = Object.keys(data);
+                        const chartData = Object.values(data);
+                        showBarChart(`chart-${apiService}-${id}`, chartLabels, chartData);
+                    });
+            }
 
-    }
+            function showPieChart(chartElement, labels, data) {
+
+                var ctxD = document.getElementById(chartElement).getContext('2d');
+                var myLineChart = new Chart(ctxD, {
+                    type: 'doughnut',
+                    data: {
+                        labels: labels,
+                        datasets: [{
+                            data: data,
+                            backgroundColor: ["#F7464A", "#46BFBD", "#FDB45C", "#949FB1", "#4D5360", "#CCAE8F", "#AFB2CB"],
+                            hoverBackgroundColor: ["#FF5A5E", "#5AD3D1", "#FFC870", "#A8B3C5", "#616774", "#4C2E0F","#232A5E"]
+                        }]
+                    },
+                    options: {
+                        responsive: true
+                    }
+                });
+            }
+
+            function showBarChart(chartElement, labels, data) {
+                var ctxB = document.getElementById(chartElement).getContext('2d');
+                  var myBarChart = new Chart(ctxB, {
+                    type: 'bar',
+                    data: {
+                        labels: labels,
+                      datasets: [{
+                        label: '# of Monthly Price',
+                          data: data,
+                        backgroundColor: [
+                          'rgba(255, 99, 132, 0.2)',
+                          'rgba(54, 162, 235, 0.2)',
+                          'rgba(255, 206, 86, 0.2)',
+                          'rgba(75, 192, 192, 0.2)',
+                          'rgba(153, 102, 255, 0.2)',
+                          'rgba(255, 159, 64, 0.2)'
+                        ],
+                        borderColor: [
+                          'rgba(255,99,132,1)',
+                          'rgba(54, 162, 235, 1)',
+                          'rgba(255, 206, 86, 1)',
+                          'rgba(75, 192, 192, 1)',
+                          'rgba(153, 102, 255, 1)',
+                          'rgba(255, 159, 64, 1)'
+                        ],
+                        borderWidth: 1
+                      }]
+                    },
+                    options: {
+                      scales: {
+                        yAxes: [{
+                          ticks: {
+                            beginAtZero: true
+                          }
+                        }]
+                      }
+                    }
+                  });
+
+            }
+        });
     </script>
 
 }

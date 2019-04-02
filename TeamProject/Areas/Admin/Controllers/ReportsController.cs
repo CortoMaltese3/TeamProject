@@ -17,27 +17,8 @@ namespace TeamProject.Areas.Admin.Controllers
         public ActionResult Index(int id)
         {
             var courts = db.Courts.Get().Where(c => c.BranchId == id);
-            var report = new List<ReportView>()
-            {
-                new ReportView()
-                {
-                    Id = 0,
-                    Title = "Branch Total",
-                    BookingReport = db.Branches.GetBookingsByBranchAndDay(id)
-                }
-            };
-
-            foreach (var court in courts)
-            {
-                report.Add(new ReportView()
-                {
-                    Id = court.Id,
-                    Title = court.Name,
-                    BookingReport = db.Branches.GetBookingsByCourtAndDay(court.Id)
-                });
-            }
-
-            return View(report);
+            
+            return View(courts);
         }
 
     }
