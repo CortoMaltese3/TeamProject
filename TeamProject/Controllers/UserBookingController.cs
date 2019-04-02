@@ -19,7 +19,7 @@ namespace TeamProject.Controllers
             int loggedUserId;
             GetLoggedInUserId(out loggedUserId);
 
-            var bookings = db.Bookings.Get().Where(b => b.UserId == loggedUserId);
+            var bookings = db.Bookings.Get().Where(b => b.UserId == loggedUserId).OrderByDescending(b => b.BookedAt);
 
             return View(bookings);
         }

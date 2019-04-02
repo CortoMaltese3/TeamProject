@@ -57,7 +57,7 @@ namespace TeamProject.Areas.Admin.Controllers
             return View(branch);
         }
 
-        // GET: Branches/Create
+        // GET: Branches/Create        
         public ActionResult Create()
         {
             GetLoggedInUserId(out int userId);
@@ -141,7 +141,7 @@ namespace TeamProject.Areas.Admin.Controllers
             return View(branch);
         }
 
-        // GET: Branches/Delete/5
+        // GET: Branches/Delete/5   
         public ActionResult Delete(int? id)
         {
             if (id == null)
