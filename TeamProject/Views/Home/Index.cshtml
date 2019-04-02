@@ -168,10 +168,14 @@
         $(document).ready(function() {
 
             const Carousel = $('.carousel-inner .active img');
-            const Nav = $('nav');
-            const DropDown = $('#Dropdown');
+            const Nav = $('nav');           
 
-            DropDown.addClass('opacityy');
+            Nav.mouseenter(function () {
+                Nav.addClass('opacityy');
+            }).mouseleave(function () {
+                Nav.removeClass('opacityy');
+            });
+           
             
             $(window).scroll(function () {
 

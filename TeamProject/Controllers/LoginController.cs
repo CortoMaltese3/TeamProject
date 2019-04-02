@@ -21,17 +21,22 @@ namespace TeamProject.Controllers
 
         [HttpPost]
         [AllowAnonymous]
-        public ActionResult Login(string email, string password)
+        public ActionResult Login(string email, string password,string returnurl)
         {
             UserManager manager = new UserManager(db);
             var loggedInUser = manager.Login(email, password);
+
+            string decodeurl = null;
+            if (!string.IsNullOrEmpty(returnurl))
+                decodeurl = Server.UrlDecode(returnurl);
+            
 
             if (loggedInUser != null)
             {
                 Session["user"] = loggedInUser;
 
                 ViewBag.Name = loggedInUser.Firstname;
-                return RedirectToAction("index", "home");
+                return Redirect(decodeurl?? "/home/index");
             }
             else
             {
