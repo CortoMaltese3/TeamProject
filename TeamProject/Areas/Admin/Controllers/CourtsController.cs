@@ -23,6 +23,14 @@ namespace TeamProject.Areas.Admin.Controllers
             ViewBag.BranchName = new SelectList(db.Branches.Get(), "Id", "Name");
             ViewBag.Id = id;
 
+            foreach(var item in courts)
+            {
+                if(item.ImageCourt == null)
+                {
+                    item.ImageCourt = "na_image.jpg";
+                }
+            }
+
             return View(courts);
         }
 
@@ -105,10 +113,8 @@ namespace TeamProject.Areas.Admin.Controllers
         {
             if(court.ImageFile == null)
             {
-                var currentCourt = db.Courts.Get().Where(c => c.Id == court.Id).FirstOrDefault();
-                court.ImageCourt = currentCourt.ImageCourt;
+                court.ImageCourt = "na_image.jpg";
             }
-
             else
             {
                 court.ImageCourt = Path.GetFileName(court.ImageFile.FileName);

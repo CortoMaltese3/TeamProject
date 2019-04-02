@@ -21,16 +21,24 @@ namespace TeamProject.Areas.Admin.Controllers
         // GET: Branches
         public ActionResult Index()
         {
-            var branches = db.Branches.Get();
-
+            var branches = db.Branches.Get().ToList() ;
+            
             // If Owner filter only owners branches
             if (!User.IsInRole("Admin"))
             {
                 var ownerUser = Session["User"] as User;
-                branches = db.Branches.Get().Where(b => b.UserId == ownerUser.Id);
+                branches = db.Branches.Get().Where(b => b.UserId == ownerUser.Id).ToList();
             }
 
-            return View(branches.ToList());
+            foreach(var item in branches)
+            {
+                if(item.ImageBranch==null)
+                {
+                    item.ImageBranch = "na_image.jpg";
+                }
+            }
+
+            return View(branches);
         }
 
         // GET: Branches/Details/5
@@ -107,13 +115,18 @@ namespace TeamProject.Areas.Admin.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult Edit(Branch branch)
         {
+            if (branch.ImageBranch == null)
+            {
+                branch.ImageBranch = "na_image.jpg";
+            }
+
             if (branch.ImageFile == null)
             {
-                var currentBranch = db.Branches.Get().Where(b => b.Id == branch.Id).FirstOrDefault();
-                branch.ImageBranch = currentBranch.ImageBranch;
+
             }
             else
-            {
+            { 
+
                 branch.ImageBranch = Path.GetFileName(branch.ImageFile.FileName);
                 string fileName = Path.Combine(Server.MapPath("~/Images/Branches/"), branch.ImageBranch);
                 branch.ImageFile.SaveAs(fileName);
