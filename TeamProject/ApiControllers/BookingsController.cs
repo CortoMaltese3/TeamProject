@@ -52,5 +52,22 @@ namespace TeamProject.ApiControllers
                 .GroupBy(b => b.BookedAt.ToLongDateString())
                 .ToDictionary(g => g.Key, g => g.ToList());
         }
+
+        [AllowAnonymous]
+        public Dictionary<string, decimal> GetCourtPricesByMonth(int? id, DateTime fromDate, DateTime toDate)
+        {
+            return db.Bookings
+                .Get("CourtId=@CourtId AND BookedAt Between @fromDate And @toDate", new
+                {
+                    CourtId = id,
+                    fromDate,
+                    toDate
+                })
+                .OrderBy(b => b.BookedAt)
+                .ThenBy(b => b.User.UserName)
+                .Select(b => new { Group = b.BookedAt.ToString("yyyy MMM"), Price = b.Court.Price })
+                .GroupBy(b => b.Group)
+                .ToDictionary(g => g.Key, g => g.Sum(b => b.Price));
+        }
     }
 }

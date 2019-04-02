@@ -2,6 +2,10 @@
 @{
     /**/
 
+    /**/
+
+    /**/
+
     ViewBag.Title = "Reports";
 }
 <h2>Total bookings by week days</h2>
@@ -10,21 +14,34 @@
 {
     <div class="card m-3 shadow-sm">
         <div class="card-header">
-            @report.Title 
+            @report.Title
         </div>
         <div class="card-body">
             <canvas id="chart-@report.Id"></canvas>
         </div>
     </div>
 }
-
+@foreach (var report in Model)
+{
+    <div class="card m-3 shadow-sm">
+        <div class="card-header">
+            @report.Title
+        </div>
+        <div class="card-body">
+            <canvas id="bar-chart-@report.Id"></canvas>
+        </div>
+    </div>
+}
 @section scripts{
     <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mdbootstrap/4.7.1/js/mdb.min.js"></script>
+    <script src="~/Scripts/moment.js"></script>
     <script>
 
         @foreach (var report in Model)
         {
             @Html.Raw($"showChart('chart-{@report.Id}', [{report.Labels}], [{report.Data}]);\n");
+            @Html.Raw($"getCourtsPrices({@report.Id});\n");
+
         }
 
         function showChart(chart, labels, data) {
@@ -45,6 +62,60 @@
                 }
             });
         }
+
+        function getCourtsPrices(courtId) {
+
+            $.getJSON(`/api/bookings/GetCourtPricesByMonth/${courtId}`, {
+                    fromDate: moment().subtract(6,'months').utc().format(),
+                    toDate: moment().utc().format()
+                })
+                .done(function (data) {
+                    const chartLabels = Object.keys(data);
+                    const chartData = Object.values(data);
+                    barChart(courtId, chartLabels, chartData);
+                });
+        }
+        function barChart(courtId, labels, data) {
+            var ctxB = document.getElementById("bar-chart-" + courtId).getContext('2d');
+              var myBarChart = new Chart(ctxB, {
+                type: 'bar',
+                data: {
+                    labels: labels,
+                  datasets: [{
+                    label: '# of Monthly Price',
+                      data: data,
+                    backgroundColor: [
+                      'rgba(255, 99, 132, 0.2)',
+                      'rgba(54, 162, 235, 0.2)',
+                      'rgba(255, 206, 86, 0.2)',
+                      'rgba(75, 192, 192, 0.2)',
+                      'rgba(153, 102, 255, 0.2)',
+                      'rgba(255, 159, 64, 0.2)'
+                    ],
+                    borderColor: [
+                      'rgba(255,99,132,1)',
+                      'rgba(54, 162, 235, 1)',
+                      'rgba(255, 206, 86, 1)',
+                      'rgba(75, 192, 192, 1)',
+                      'rgba(153, 102, 255, 1)',
+                      'rgba(255, 159, 64, 1)'
+                    ],
+                    borderWidth: 1
+                  }]
+                },
+                options: {
+                  scales: {
+                    yAxes: [{
+                      ticks: {
+                        beginAtZero: true
+                      }
+                    }]
+                  }
+                }
+              });
+
+    }
     </script>
+
 }
 
