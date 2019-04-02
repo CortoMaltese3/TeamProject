@@ -65,7 +65,7 @@ namespace TeamProject.ApiControllers
                 })
                 .OrderBy(b => b.BookedAt)
                 .ThenBy(b => b.User.UserName)
-                .Select(b => new { Group = b.BookedAt.ToString("yyyy MMM"), Price = b.Court.Price })
+                .Select(b => new { Group = b.BookedAt.ToString("MM/yyyy"), Price = b.Court.Price })
                 .GroupBy(b => b.Group)
                 .ToDictionary(g => g.Key, g => g.Sum(b => b.Price));
         }
