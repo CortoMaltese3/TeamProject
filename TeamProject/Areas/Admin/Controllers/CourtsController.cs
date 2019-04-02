@@ -101,9 +101,15 @@ namespace TeamProject.Areas.Admin.Controllers
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit(Court court, HttpPostedFileBase ImageFile)
+        public ActionResult Edit(Court court)
         {
-            if (ImageFile != null)
+            if(court.ImageFile == null)
+            {
+                var currentCourt = db.Courts.Get().Where(c => c.Id == court.Id).FirstOrDefault();
+                court.ImageCourt = currentCourt.ImageCourt;
+            }
+
+            else
             {
                 court.ImageCourt = Path.GetFileName(court.ImageFile.FileName);
                 string fileName = Path.Combine(Server.MapPath("~/Images/Courts/"), court.ImageCourt);

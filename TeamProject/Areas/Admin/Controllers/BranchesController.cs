@@ -105,11 +105,12 @@ namespace TeamProject.Areas.Admin.Controllers
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit(Branch branch, HttpPostedFileBase ImageFile)
+        public ActionResult Edit(Branch branch)
         {
-            if (ImageFile == null)
+            if (branch.ImageFile == null)
             {
-                branch.ImageBranch = "na_image.jpg";
+                var currentBranch = db.Branches.Get().Where(b => b.Id == branch.Id).FirstOrDefault();
+                branch.ImageBranch = currentBranch.ImageBranch;
             }
             else
             {
@@ -120,7 +121,7 @@ namespace TeamProject.Areas.Admin.Controllers
 
             if (ModelState.IsValid)
             {
-                db.Branches.Update(branch);// Entry(branch).State = EntityState.Modified;
+                db.Branches.Update(branch);
                 return RedirectToAction("Index");
             }
             ViewBag.UserId = new SelectList(db.Users.Get(), "Id", "UserName", branch.UserId);
