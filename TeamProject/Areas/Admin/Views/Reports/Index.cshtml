@@ -65,7 +65,10 @@
 
             function getPieCharts(id, apiService) {
 
-                $.getJSON(`/api/bookings/Get${apiService}BookingsByWeekDay/${id}`)
+                $.getJSON(`/api/bookings/Get${apiService}BookingsByWeekDay/${id}`, {
+                    fromDate: moment().subtract(6, 'months').utc().format(),
+                    toDate: moment().utc().format()
+                })
                     .done(function (data) {
                         const chartLabels = Object.keys(data);
                         const chartData = Object.values(data);

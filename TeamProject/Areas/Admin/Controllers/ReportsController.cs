@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
-using TeamProject.Areas.Admin.ViewModels;
 using TeamProject.Dal;
 
 namespace TeamProject.Areas.Admin.Controllers

@@ -241,7 +241,6 @@
     <Compile Include="Areas\Admin\Controllers\PanelController.cs" />
     <Compile Include="Areas\Admin\Controllers\BookingsController.cs" />
     <Compile Include="Areas\Admin\Controllers\RolesController.cs" />
-    <Compile Include="Areas\Admin\ViewModels\ReportView.cs" />
     <Compile Include="Controllers\BranchesController.cs" />
     <Compile Include="Areas\Admin\Controllers\CourtsController.cs" />
     <Compile Include="Areas\Admin\Controllers\FacilitiesController.cs" />
@@ -578,6 +577,7 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
+    <Folder Include="Areas\Admin\ViewModels\" />
     <Folder Include="Views\Bookings\" />
     <Folder Include="Views\Reports\" />
   </ItemGroup>

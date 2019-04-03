@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Linq;
 using System.Net;
 using System.Net.Http;
@@ -85,28 +86,45 @@ namespace TeamProject.ApiControllers
         {
             return bookings
                 .OrderBy(b => b.BookedAt)
-                .Select(b => new { Group = b.BookedAt.ToString("yyyy MMM"), b.Court.Price })
+                .Select(b => new { Group = b.BookedAt.ToString("yyyy MMM",CultureInfo.InvariantCulture), b.Court.Price })
                 .GroupBy(b => b.Group)
                 .ToDictionary(g => g.Key, g => g.Sum(b => b.Price));
         }
 
-        public Dictionary<string, int> GetBranchBookingsByWeekDay(int? id)
+        public Dictionary<string, int> GetBranchBookingsByWeekDay(int? id, DateTime fromDate, DateTime toDate)
         {
-            return db.Branches
-                .GetBookingsByBranchAndDay(id ?? 0)
-                .OrderBy(b =>b.BookingDayNo)
-                .Select(b => new { Group = b.BookingDay, b.CountOfBookings})
-                .GroupBy(b => b.Group)
-                .ToDictionary(g => g.Key, g => g.Sum(b => b.CountOfBookings));
+            var bookingsReport = db.Bookings
+                .Get("CourtId in (SELECT Court.Id FROM Court WHERE BranchId = @id)" +
+                " AND BookedAt Between @fromDate And @toDate", new
+                {
+                    id,
+                    fromDate,
+                    toDate
+                });
+
+            return GetBookingsByWeekDay(bookingsReport);
         }
 
-        public Dictionary<string, int> GetCourtBookingsByWeekDay(int? id)
+        public Dictionary<string, int> GetCourtBookingsByWeekDay(int? id, DateTime fromDate, DateTime toDate)
         {
-            return db.Branches.GetBookingsByCourtAndDay(id ?? 0)
-                .OrderBy(b => b.BookingDayNo)
-                .Select(b => new { Group = b.BookingDay, b.CountOfBookings })
+            var bookingsReport = db.Bookings
+                .Get("CourtId=@CourtId AND BookedAt Between @fromDate And @toDate", new
+                {
+                    CourtId = id,
+                    fromDate,
+                    toDate
+                });
+
+            return GetBookingsByWeekDay(bookingsReport);
+        }
+
+        public Dictionary<string, int> GetBookingsByWeekDay(IEnumerable<Booking> bookings)
+        {
+            return bookings
+                .Select(b => new { WeekDayNo = b.BookedAt.ToString("d"), Group = b.BookedAt.ToString("dddd", CultureInfo.InvariantCulture) })
+                .OrderBy(b => b.WeekDayNo)
                 .GroupBy(b => b.Group)
-                .ToDictionary(g => g.Key, g => g.Sum(b => b.CountOfBookings));
+                .ToDictionary(g => g.Key, g => g.Count());
         }
 
     }
