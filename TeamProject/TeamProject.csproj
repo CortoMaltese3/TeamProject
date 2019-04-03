@@ -360,6 +360,7 @@
     <Content Include="Images\Login\business-team-meeting.jpg" />
     <Content Include="Content\Join\js\main.js" />
     <Content Include="Content\Join\js\map-custom.js" />
+    <Content Include="Images\Logo\Kick it logo.png" />
     <Content Include="Models\DbSchema.sql" />
     <Content Include="Scripts\bootstrap.bundle.js" />
     <Content Include="Scripts\bootstrap.bundle.min.js" />
