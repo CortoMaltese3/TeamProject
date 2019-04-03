@@ -4,10 +4,10 @@
     ViewBag.Title = "Time Slots";
 }
 
-<h2>TimeSlots <small class="text-muted">@ViewBag.courtName</small></h2>
+<h2>TimeSlots <small class="text-muted">@ViewBag.Court.Name</small></h2>
 
 <p>
-    @Html.ActionLink("Create New", "Create", new { id = ViewBag.id })
+    @Html.ActionLink("Create New", "Create", new { id = ViewBag.Court.Id })
 </p>
 
 <h2>Timeslots</h2>
@@ -76,5 +76,5 @@
 </table>
 
 <div>
-    @Html.ActionLink("Back to Courts", "Index", "Courts", new { id = ViewBag.branchId }, null)    
+    @Html.ActionLink("Back to Courts", "Index", "Courts", new { id = ViewBag.Court.BranchId }, null)    
 </div>

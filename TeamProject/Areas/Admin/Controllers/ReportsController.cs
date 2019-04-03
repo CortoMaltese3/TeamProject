@@ -15,8 +15,8 @@ namespace TeamProject.Areas.Admin.Controllers
         [Authorize(Roles = "Admin, Owner")]
         public ActionResult Index(int id)
         {
-            var courts = db.Courts.Get().Where(c => c.BranchId == id);
-            
+            var courts = db.Courts.Get("BranchId=@id", new { id });
+
             return View(courts);
         }
 
