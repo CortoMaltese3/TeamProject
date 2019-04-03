@@ -17,13 +17,10 @@ namespace TeamProject.Managers
         {
             _queryParts = new Dictionary<string, string>()
             {
-                { "FindById", "TimeSlot.id = @id" },
                 { "InsertQuery",
                     "INSERT INTO TimeSlot ([CourtId],[Day],[Hour],[Duration]) " +
                     "VALUES (@CourtId,@Day,@Hour,@Duration) " +
                     "SELECT * FROM TimeSlot WHERE TimeSlot.Id = (SELECT SCOPE_IDENTITY())"},
-                { "RemoveQuery",
-                    "DELETE FROM TimeSlot WHERE Id = @Id" },
                 { "UpdateQuery",
                     "UPDATE TimeSlot SET " +
                     "[CourtId]=@CourtId,[Day]=@Day,[Hour]=@Hour,[Duration]=@Duration " +

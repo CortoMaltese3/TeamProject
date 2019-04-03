@@ -15,13 +15,10 @@ namespace TeamProject.Managers
         {
             _queryParts = new Dictionary<string, string>()
             {
-                { "FindById", "Branch.id = @id" },
                 { "InsertQuery",
                     "INSERT INTO Branch ([UserId],[Name],[Longitude],[Latitude],[City],[Address],[ZipCode],[ImageBranch]) " +
                     "VALUES (@UserId,@Name,@Longitude,@Latitude,@City,@Address,@ZipCode,@ImageBranch)" +
                     "SELECT * FROM Branch WHERE Branch.Id = (SELECT SCOPE_IDENTITY())"},
-                { "RemoveQuery",
-                    "DELETE FROM Branch WHERE Id = @Id" },
                 { "UpdateQuery",
                     "UPDATE Branch SET " +
                     "[UserId]=@UserId,[Name]=@Name,[Longitude]=@Longitude,[Latitude]=@Latitude,[City]=@City,[Address]=@Address,[ZipCode]=@ZipCode, [ImageBranch]=@ImageBranch " +
