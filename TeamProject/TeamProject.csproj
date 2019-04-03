@@ -275,7 +275,7 @@
     <Compile Include="Models\CourtTimeslots.cs" />
     <Compile Include="Models\Facility.cs" />
     <Compile Include="Managers\FacilityManager.cs" />
-    <Compile Include="Managers\IDatabaseActions.cs" />
+    <Compile Include="Dal\IDatabaseActions.cs" />
     <Compile Include="Dal\ProjectDbContext.cs" />
     <Compile Include="Models\Review.cs" />
     <Compile Include="Managers\BookingManager.cs" />

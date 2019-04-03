@@ -18,13 +18,10 @@ namespace TeamProject.Managers
         {
             _queryParts = new Dictionary<string, string>()
             {
-                { "FindById", "Court.id = @id" },
                 { "InsertQuery",
                     "INSERT INTO Court ([BranchId],[Name],[ImageCourt],[Description],[MaxPlayers],[Price]) " +
                     "VALUES (@BranchId,@Name,@ImageCourt,@Description,@MaxPlayers,@Price)" +
                     "SELECT * FROM Court WHERE Court.Id = (SELECT SCOPE_IDENTITY())"},
-                { "RemoveQuery",
-                    "DELETE FROM Court WHERE Id = @Id" },
                 { "UpdateQuery",
                     "UPDATE Court SET " +
                     "[BranchId]=@BranchId, [Name]=@Name, [ImageCourt]=@ImageCourt,[Description]=@Description,[MaxPlayers]=@MaxPlayers, [Price]=@Price " +
