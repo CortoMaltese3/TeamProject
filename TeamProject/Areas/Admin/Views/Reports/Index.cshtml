@@ -9,7 +9,7 @@
         Branch Total <small class="text-muted">@Model.FirstOrDefault().Branch.Name</small>
     </div>
     <div class="card-body">
-        <canvas id="pie-chart-Branch-@Model.FirstOrDefault().BranchId"></canvas>
+        <canvas id="pie-BranchBookingsByWeekDay-@Model.FirstOrDefault().BranchId"></canvas>
     </div>
 </div>
 
@@ -20,7 +20,7 @@
             Court Total <small class="text-muted">@court.Name</small>
         </div>
         <div class="card-body">
-            <canvas id="pie-chart-Court-@court.Id"></canvas>
+            <canvas id="pie-CourtBookingsByWeekDay-@court.Id"></canvas>
         </div>
     </div>
 }
@@ -31,7 +31,7 @@
         Branch Total <small class="text-muted">@Model.FirstOrDefault().Branch.Name</small>
     </div>
     <div class="card-body">
-        <canvas id="chart-Branch-@Model.FirstOrDefault().BranchId"></canvas>
+        <canvas id="bar-BranchPricesByMonth-@Model.FirstOrDefault().BranchId"></canvas>
     </div>
 </div>
 
@@ -42,7 +42,7 @@
             Court Total <small class="text-muted">@court.Name</small>
         </div>
         <div class="card-body">
-            <canvas id="chart-Court-@court.Id"></canvas>
+            <canvas id="bar-CourtPricesByMonth-@court.Id"></canvas>
         </div>
     </div>
 }
@@ -53,45 +53,32 @@
     <script>
         $(document).ready(function () {
 
-            getPieCharts(@Model.FirstOrDefault().BranchId, 'Branch');
-            getCourtsPrices(@Model.FirstOrDefault().BranchId, 'Branch');
+            updateChartData(@Model.FirstOrDefault().BranchId, showPieChart, 'BranchBookingsByWeekDay');
+            updateChartData(@Model.FirstOrDefault().BranchId, showBarChart, 'BranchPricesByMonth');
 
             @foreach (var court in Model)
             {
-                @Html.Raw($"getPieCharts({court.Id},'Court');\n");
-                @Html.Raw($"getCourtsPrices({court.Id},'Court');\n");
-
+                @Html.Raw($"updateChartData({court.Id}, showPieChart, 'CourtBookingsByWeekDay');\n");
+                @Html.Raw($"updateChartData({court.Id}, showBarChart, 'CourtPricesByMonth');\n");
             }
 
-            function getPieCharts(id, apiService) {
+            function updateChartData(id, showChart, apiService) {
 
-                $.getJSON(`/api/bookings/Get${apiService}BookingsByWeekDay/${id}`, {
+                $.getJSON(`/api/bookings/Get${apiService}/${id}`, {
                     fromDate: moment().subtract(6, 'months').utc().format(),
                     toDate: moment().utc().format()
                 })
                     .done(function (data) {
                         const chartLabels = Object.keys(data);
                         const chartData = Object.values(data);
-                        showPieChart(`pie-chart-${apiService}-${id}`, chartLabels, chartData);
-                    });
-            }
 
-            function getCourtsPrices(id, apiService) {
-
-                $.getJSON(`/api/bookings/Get${apiService}PricesByMonth/${id}`, {
-                    fromDate: moment().subtract(6, 'months').utc().format(),
-                    toDate: moment().utc().format()
-                })
-                    .done(function (data) {
-                        const chartLabels = Object.keys(data);
-                        const chartData = Object.values(data);
-                        showBarChart(`chart-${apiService}-${id}`, chartLabels, chartData);
+                        showChart(`${apiService}-${id}`, chartLabels, chartData);
                     });
             }
 
             function showPieChart(chartElement, labels, data) {
 
-                var ctxD = document.getElementById(chartElement).getContext('2d');
+                var ctxD = document.getElementById(`pie-${chartElement}`).getContext('2d');
                 var myLineChart = new Chart(ctxD, {
                     type: 'doughnut',
                     data: {
@@ -109,7 +96,7 @@
             }
 
             function showBarChart(chartElement, labels, data) {
-                var ctxB = document.getElementById(chartElement).getContext('2d');
+                var ctxB = document.getElementById(`bar-${chartElement}`).getContext('2d');
                   var myBarChart = new Chart(ctxB, {
                     type: 'bar',
                     data: {
@@ -146,7 +133,6 @@
                       }
                     }
                   });
-
             }
         });
     </script>

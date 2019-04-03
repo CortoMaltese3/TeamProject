@@ -117,7 +117,7 @@ namespace TeamProject.ApiControllers
 
             return GetBookingsByWeekDay(bookingsReport);
         }
-        
+
         #region ConvertionMethods
         /// <summary>
         /// Convert List of bookings to dictionary of counts of bookings per day
@@ -127,10 +127,10 @@ namespace TeamProject.ApiControllers
         private Dictionary<string, int> GetBookingsByWeekDay(IEnumerable<Booking> bookings)
         {
             return bookings
-                .Select(b => new { WeekDayNo = b.BookedAt.ToString("d"), Group = b.BookedAt.ToString("dddd", CultureInfo.InvariantCulture) })
+                .Select(b => new { WeekDayNo = b.BookedAt.ToString("d"), Group = b.BookedAt.ToString("dddd", CultureInfo.InvariantCulture), Count = b.Id == 0 ? 0 : 1 })
                 .OrderBy(b => b.WeekDayNo)
                 .GroupBy(b => b.Group)
-                .ToDictionary(g => g.Key, g => g.Count());
+                .ToDictionary(g => g.Key, g => g.Sum(b => b.Count));
         }
 
         /// <summary>
