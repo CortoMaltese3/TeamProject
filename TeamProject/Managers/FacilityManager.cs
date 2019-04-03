@@ -14,13 +14,10 @@ namespace TeamProject.Managers
         {
             _queryParts = new Dictionary<string, string>()
             {
-                { "FindById", "Facility.id = @id" },
                 { "InsertQuery",
                     " INSERT INTO Facility ([Description], [ImageFacility]) " +
                     " VALUES (@Description, @ImageFacility) " +
                     " SELECT * FROM Facility WHERE Facility.Id = (SELECT SCOPE_IDENTITY()) "},
-                { "RemoveQuery",
-                    " DELETE FROM Facility WHERE Id = @Id" },
                 { "UpdateQuery",
                     " UPDATE Facility SET " +
                     " [Description] = @Description, [ImageFacility]=@ImageFacility " +

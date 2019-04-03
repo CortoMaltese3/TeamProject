@@ -16,13 +16,10 @@ namespace TeamProject.Managers
         {
             _queryParts = new Dictionary<string, string>()
             {
-                { "FindById", "Role.id = @id" },
                 { "InsertQuery",
                     "INSERT INTO Role ([Description]) " +
                     "VALUES (@Description) " +
                     "SELECT * FROM Role WHERE Role.Id = (SELECT SCOPE_IDENTITY())"},
-                { "RemoveQuery",
-                    "DELETE FROM Role WHERE Id = @Id" },
                 { "UpdateQuery",
                     "UPDATE Role SET " +
                     "[Description]=@Description " +

@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
-using TeamProject.Areas.Admin.ViewModels;
 using TeamProject.Dal;
 
 namespace TeamProject.Areas.Admin.Controllers
@@ -16,28 +15,9 @@ namespace TeamProject.Areas.Admin.Controllers
         [Authorize(Roles = "Admin, Owner")]
         public ActionResult Index(int id)
         {
-            var courts = db.Courts.Get().Where(c => c.BranchId == id);
-            var report = new List<ReportView>()
-            {
-                new ReportView()
-                {
-                    Id = 0,
-                    Title = "Branch Total",
-                    BookingReport = db.Branches.GetBookingsByBranchAndDay(id)
-                }
-            };
+            var courts = db.Courts.Get("BranchId=@id", new { id });
 
-            foreach (var court in courts)
-            {
-                report.Add(new ReportView()
-                {
-                    Id = court.Id,
-                    Title = court.Name,
-                    BookingReport = db.Branches.GetBookingsByCourtAndDay(court.Id)
-                });
-            }
-
-            return View(report);
+            return View(courts);
         }
 
     }

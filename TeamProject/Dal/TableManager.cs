@@ -7,10 +7,19 @@ using TeamProject.Managers;
 
 namespace TeamProject.Dal
 {
+    /// <summary>
+    /// Abstract class to be used for each entity of the project
+    /// </summary>
+    /// <typeparam name="T"></typeparam>
     public abstract class TableManager<T> : IDatabaseActions<T>
     {
         protected ProjectDbContext _db;
         protected Dictionary<string, string> _queryParts;
+        protected string TableName { get; }
+        public TableManager()
+        {
+            TableName = typeof( T).Name;
+        }
         public IEnumerable<T> Court
         {
             get
@@ -34,7 +43,7 @@ namespace TeamProject.Dal
 
         public T Find(int id)
         {
-            return Get(_queryParts["FindById"], new { id }).FirstOrDefault();
+            return Get($"[{TableName}].id = @id", new { id }).FirstOrDefault();
         }
 
         public abstract IEnumerable<T> Get(string query = null, object parameters = null);
@@ -45,7 +54,7 @@ namespace TeamProject.Dal
             _db.UsingConnection((dbCon) =>
             {
                 rowsAffected = dbCon
-                    .Execute(_queryParts["RemoveQuery"], new { id });
+                    .Execute($"DELETE FROM [{TableName}] WHERE Id = @Id", new { id });
             });
             return rowsAffected > 0;
         }

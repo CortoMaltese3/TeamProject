@@ -240,8 +240,6 @@
     <Compile Include="Areas\Admin\Controllers\BranchesController.cs" />
     <Compile Include="Areas\Admin\Controllers\PanelController.cs" />
     <Compile Include="Areas\Admin\Controllers\BookingsController.cs" />
-    <Compile Include="Areas\Admin\Controllers\RolesController.cs" />
-    <Compile Include="Areas\Admin\ViewModels\ReportView.cs" />
     <Compile Include="Controllers\BranchesController.cs" />
     <Compile Include="Areas\Admin\Controllers\CourtsController.cs" />
     <Compile Include="Areas\Admin\Controllers\FacilitiesController.cs" />
@@ -255,7 +253,6 @@
     <Compile Include="Controllers\UserBookingController.cs" />
     <Compile Include="Controllers\JoinController.cs" />
     <Compile Include="Dal\TeamProjectApp.cs" />
-    <Compile Include="ModelsViews\BookingInfo.cs" />
     <Compile Include="ModelsViews\PostBookResponse.cs" />
     <Compile Include="Models\BookingReport.cs" />
     <Compile Include="Models\BranchFacilities.cs" />
@@ -277,7 +274,7 @@
     <Compile Include="Models\CourtTimeslots.cs" />
     <Compile Include="Models\Facility.cs" />
     <Compile Include="Managers\FacilityManager.cs" />
-    <Compile Include="Managers\IDatabaseActions.cs" />
+    <Compile Include="Dal\IDatabaseActions.cs" />
     <Compile Include="Dal\ProjectDbContext.cs" />
     <Compile Include="Models\Review.cs" />
     <Compile Include="Managers\BookingManager.cs" />
@@ -312,6 +309,7 @@
     <Content Include="Content\google-maps.css" />
     <Content Include="Content\HomePage.css" />
     <Content Include="Content\Join\css\Join.css" />
+    <Content Include="Content\Modal.css" />
     <Content Include="Images\Footer\Facebook.png" />
     <Content Include="Images\Footer\Github.png" />
     <Content Include="Images\Footer\Instagram.png" />
@@ -573,12 +571,12 @@
     <Content Include="Views\Courts\Details.cshtml" />
     <Content Include="Views\Shared\_HomePageFooterPartial.cshtml" />
     <Content Include="Views\Shared\FacilitiesPartial.cshtml" />
-    <Content Include="Views\Join\Joinold.cshtml" />
     <Content Include="Views\Shared\_LayoutJoin.cshtml" />
     <Content Include="Views\Join\Join.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
+    <Folder Include="Areas\Admin\ViewModels\" />
     <Folder Include="Views\Bookings\" />
     <Folder Include="Views\Reports\" />
   </ItemGroup>

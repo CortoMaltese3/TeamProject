@@ -1,5 +1,7 @@
-﻿using System;
+﻿using Dapper;
+using System;
 using System.Collections.Generic;
+using System.Data;
 using System.Globalization;
 using System.Linq;
 using System.Web;
@@ -139,6 +141,30 @@ namespace TeamProject.Dal
                 Longitude = longitudeFixed,
                 Branches = branches
             };
+        }
+        #endregion
+        #region Bookings
+        public IEnumerable<Booking> GetBranchBookings(int id, DateTime fromDate, DateTime toDate)
+        {
+            return _db.Bookings
+                .Get("CourtId in (SELECT Court.Id FROM Court WHERE BranchId = @id) AND " +
+                     "BookedAt Between @fromDate And @toDate", new
+                     {
+                         id,
+                         fromDate,
+                         toDate
+                     });
+        }
+
+        public IEnumerable<Booking> GetCourtBookings(int id, DateTime fromDate, DateTime toDate)
+        {
+            return _db.Bookings
+                .Get("CourtId=@CourtId AND BookedAt Between @fromDate And @toDate", new
+                {
+                    CourtId = id,
+                    fromDate,
+                    toDate
+                });
         }
         #endregion
     }

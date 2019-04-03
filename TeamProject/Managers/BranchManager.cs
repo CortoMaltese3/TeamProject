@@ -15,13 +15,10 @@ namespace TeamProject.Managers
         {
             _queryParts = new Dictionary<string, string>()
             {
-                { "FindById", "Branch.id = @id" },
                 { "InsertQuery",
                     "INSERT INTO Branch ([UserId],[Name],[Longitude],[Latitude],[City],[Address],[ZipCode],[ImageBranch]) " +
                     "VALUES (@UserId,@Name,@Longitude,@Latitude,@City,@Address,@ZipCode,@ImageBranch)" +
                     "SELECT * FROM Branch WHERE Branch.Id = (SELECT SCOPE_IDENTITY())"},
-                { "RemoveQuery",
-                    "DELETE FROM Branch WHERE Id = @Id" },
                 { "UpdateQuery",
                     "UPDATE Branch SET " +
                     "[UserId]=@UserId,[Name]=@Name,[Longitude]=@Longitude,[Latitude]=@Latitude,[City]=@City,[Address]=@Address,[ZipCode]=@ZipCode, [ImageBranch]=@ImageBranch " +
@@ -126,42 +123,42 @@ namespace TeamProject.Managers
             return branches;
         }
 
-        public IEnumerable<BookingReport> GetBookingsByBranchAndDay(int branchId)
-        {
-            IEnumerable<BookingReport> branchTimeslots = Enumerable.Empty<BookingReport>();
+        //public IEnumerable<BookingReport> GetBookingsByBranchAndDay(int branchId)
+        //{
+        //    IEnumerable<BookingReport> branchTimeslots = Enumerable.Empty<BookingReport>();
 
-            _db.UsingConnection((dbCon) =>
-            {
-                branchTimeslots = dbCon
-                    .Query<BookingReport>("GetBookingsByBranchAndDay",
-                        new
-                        {
-                            BranchId = branchId
-                        },
-                        commandType: CommandType.StoredProcedure);
-            });
+        //    _db.UsingConnection((dbCon) =>
+        //    {
+        //        branchTimeslots = dbCon
+        //            .Query<BookingReport>("GetBookingsByBranchAndDay",
+        //                new
+        //                {
+        //                    BranchId = branchId
+        //                },
+        //                commandType: CommandType.StoredProcedure);
+        //    });
 
-            return branchTimeslots;
-        }
+        //    return branchTimeslots;
+        //}
 
 
-        public IEnumerable<BookingReport> GetBookingsByCourtAndDay(int courtId)
-        {
-            IEnumerable<BookingReport> courtTimeslots = Enumerable.Empty<BookingReport>();
+        //public IEnumerable<BookingReport> GetBookingsByCourtAndDay(int courtId)
+        //{
+        //    IEnumerable<BookingReport> courtTimeslots = Enumerable.Empty<BookingReport>();
 
-            _db.UsingConnection((dbCon) =>
-            {
-                courtTimeslots = dbCon
-                    .Query<BookingReport>("GetBookingsByCourtAndDay",
-                        new
-                        {
-                            CourtId = courtId
-                        },
-                        commandType: CommandType.StoredProcedure);
-            });
+        //    _db.UsingConnection((dbCon) =>
+        //    {
+        //        courtTimeslots = dbCon
+        //            .Query<BookingReport>("GetBookingsByCourtAndDay",
+        //                new
+        //                {
+        //                    CourtId = courtId
+        //                },
+        //                commandType: CommandType.StoredProcedure);
+        //    });
 
-            return courtTimeslots;
-        }
+        //    return courtTimeslots;
+        //}
 
     }
 }

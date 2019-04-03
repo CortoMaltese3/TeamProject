@@ -94,13 +94,19 @@
                     if ($popover.attr('data-content') == '') {
                         $.getJSON(`/api/bookings/GetBookingInfo/${$popover.attr('id')}`)
                             .done(function (data) {
-
                                 // populate popover and show
                                 $popover
                                     .attr('data-content',
-                                        `${data.Username}</br><em>${data.Email}</em>`)
+                                    `<p><strong>Customer:</strong>
+                                     <br>${data.User.UserName}</p>
+                                     <p><strong>Email:</strong>
+                                     <br>${data.User.Email}</p>
+                                     <p><strong>Book Key:</strong>
+                                     <br>${data.BookKey}</p>                                     
+                                     <p><strong>Cost:</strong>
+                                     ${data.Court.Price}&euro;</p>`)
                                     .attr('data-original-title',
-                                        moment(data.BookedAt).format("DD/MM/YYYY HH:mm"))
+                                        moment(data.BookedAt).format("dddd DD/MM/YYYY HH:mm"))
                                     .popover('show');
 
                                 popovers.push($popover);
@@ -155,16 +161,16 @@
             // activate clicked tab and show tabs data
             $('.tab-selection li a').on('click', function () {
 
-                // hide current active tab
                 var $prevActive = $('.tab-selection a.active');
-                $prevActive.removeClass('active');
-                $($prevActive.attr('container')).toggleClass('d-none');
 
-                // show clicked tab
+                $prevActive.removeClass('active');
                 $(this).addClass('active');
-                $($(this).attr('container')).toggleClass('d-none');
+
+                // hide current active tab
+                $($prevActive.attr('container')).addClass('d-none');
 
                 refreshListBookings();
+                
             });
 
             // ajax call and container updating info
@@ -197,6 +203,9 @@
                     // update container html
                     $(`#${tabContainer}-container tbody`)
                         .html(html);
+
+                    // show clicked tab
+                    $($('.tab-selection a.active').attr('container')).removeClass('d-none');
                 });
             }
 
@@ -232,8 +241,6 @@
                                             </div>
                                         </a>
                                         <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-                                            <a class="dropdown-item" href="/Admin/Bookings/Details/${bookId}">Details</a>
-                                            <div class="dropdown-divider"></div>
                                             <a class="dropdown-item" href="/Admin/Bookings/Delete/${bookId}">Cancel</a>
                                         </div>
                                     </td>`;

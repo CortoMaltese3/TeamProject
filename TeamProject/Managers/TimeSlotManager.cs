@@ -17,13 +17,10 @@ namespace TeamProject.Managers
         {
             _queryParts = new Dictionary<string, string>()
             {
-                { "FindById", "TimeSlot.id = @id" },
                 { "InsertQuery",
                     "INSERT INTO TimeSlot ([CourtId],[Day],[Hour],[Duration]) " +
                     "VALUES (@CourtId,@Day,@Hour,@Duration) " +
                     "SELECT * FROM TimeSlot WHERE TimeSlot.Id = (SELECT SCOPE_IDENTITY())"},
-                { "RemoveQuery",
-                    "DELETE FROM TimeSlot WHERE Id = @Id" },
                 { "UpdateQuery",
                     "UPDATE TimeSlot SET " +
                     "[CourtId]=@CourtId,[Day]=@Day,[Hour]=@Hour,[Duration]=@Duration " +
@@ -62,10 +59,7 @@ namespace TeamProject.Managers
             return GetForTimeSlotsPivot(courtId, fromDate, toDate, "GetTimeslotsAt");
         }
 
-        public IEnumerable<TimeslotApiView> GetBookings(int courtId, DateTime fromDate, DateTime toDate)
-        {
-            return GetForTimeSlotsPivot(courtId, fromDate, toDate, "GetBookingsAt");
-        }
+
 
         public IEnumerable<TimeslotApiView> GetForView(int courtId)
         {
@@ -84,6 +78,12 @@ namespace TeamProject.Managers
 
             return courtTimeslots;
         }
+
+        public IEnumerable<TimeslotApiView> GetBookings(int courtId, DateTime fromDate, DateTime toDate)
+        {
+            return GetForTimeSlotsPivot(courtId, fromDate, toDate, "GetBookingsAt");
+        }
+
         private IEnumerable<TimeslotApiView> GetForTimeSlotsPivot(int courtId, DateTime fromDate, DateTime toDate, string procedure)
         {
             IEnumerable<TimeslotApiView> courtTimeslots = Enumerable.Empty<TimeslotApiView>();
