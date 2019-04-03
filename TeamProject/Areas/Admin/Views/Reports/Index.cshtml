@@ -2,56 +2,88 @@
 @{
     ViewBag.Title = "Reports";
 }
-<h2 class="text-center">Total bookings by week day</h2>
+<!-- Tab Calendar/List View -->
+<h2 class="text-center">Last six months totals</h2>
 
-<div class="card m-3 shadow-sm">
-    <div class="card-header">
-        Branch Total <small class="text-muted">@Model.FirstOrDefault().Branch.Name</small>
-    </div>
-    <div class="card-body">
-        <canvas id="pie-BranchBookingsByWeekDay-@Model.FirstOrDefault().BranchId"></canvas>
-    </div>
-</div>
+<ul class="nav nav-tabs tab-selection">
+    <li class="nav-item">
+        <a class="nav-link active"
+           href="#"
+           container="#total-bookings-per-weekdays">Total bookings by week day</a>
+    </li>
+    <li class="nav-item">
+        <a class="nav-link"
+           href="#"
+           container="#total-price-per-month">Total bookings last six months</a>
+    </li>
+</ul>
+<div id="total-bookings-per-weekdays">
 
-@foreach (var court in Model)
-{
     <div class="card m-3 shadow-sm">
         <div class="card-header">
-            Court Total <small class="text-muted">@court.Name</small>
+            Branch Total <small class="text-muted">@Model.FirstOrDefault().Branch.Name</small>
         </div>
         <div class="card-body">
-            <canvas id="pie-CourtBookingsByWeekDay-@court.Id"></canvas>
+            <canvas id="pie-BranchBookingsByWeekDay-@Model.FirstOrDefault().BranchId"></canvas>
         </div>
     </div>
-}
 
-<h2 class="text-center">Total bookings last six months</h2>
-<div class="card m-3 shadow-sm">
-    <div class="card-header">
-        Branch Total <small class="text-muted">@Model.FirstOrDefault().Branch.Name</small>
-    </div>
-    <div class="card-body">
-        <canvas id="bar-BranchPricesByMonth-@Model.FirstOrDefault().BranchId"></canvas>
-    </div>
+    @foreach (var court in Model)
+    {
+        <div class="card m-3 shadow-sm">
+            <div class="card-header">
+                Court Total <small class="text-muted">@court.Name</small>
+            </div>
+            <div class="card-body">
+                <canvas id="pie-CourtBookingsByWeekDay-@court.Id"></canvas>
+            </div>
+        </div>
+    }
 </div>
 
-@foreach (var court in Model)
-{
+<div id="total-price-per-month" class="d-none">
     <div class="card m-3 shadow-sm">
         <div class="card-header">
-            Court Total <small class="text-muted">@court.Name</small>
+            Branch Total <small class="text-muted">@Model.FirstOrDefault().Branch.Name</small>
         </div>
         <div class="card-body">
-            <canvas id="bar-CourtPricesByMonth-@court.Id"></canvas>
+            <canvas id="bar-BranchPricesByMonth-@Model.FirstOrDefault().BranchId"></canvas>
         </div>
     </div>
-}
+
+    @foreach (var court in Model)
+    {
+        <div class="card m-3 shadow-sm">
+            <div class="card-header">
+                Court Total <small class="text-muted">@court.Name</small>
+            </div>
+            <div class="card-body">
+                <canvas id="bar-CourtPricesByMonth-@court.Id"></canvas>
+            </div>
+        </div>
+    }
+</div>
 
 @section scripts{
     <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mdbootstrap/4.7.1/js/mdb.min.js"></script>
     <script src="~/Scripts/moment.js"></script>
     <script>
         $(document).ready(function () {
+
+            // activate clicked tab and show tabs data
+            $('.tab-selection li a').on('click', function () {
+
+                var $prevActive = $('.tab-selection a.active');
+
+                $prevActive.removeClass('active');
+                $(this).addClass('active');
+
+                // hide current active tab
+                $($prevActive.attr('container')).addClass('d-none');
+                // show selected tab
+                $($(this).attr('container')).removeClass('d-none');
+
+            });
 
             updateChartData(@Model.FirstOrDefault().BranchId, showPieChart, 'BranchBookingsByWeekDay');
             updateChartData(@Model.FirstOrDefault().BranchId, showBarChart, 'BranchPricesByMonth');
