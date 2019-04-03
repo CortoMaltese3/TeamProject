@@ -151,7 +151,6 @@
                     toDate = timeslotDate.lastWeekDate();
                 
                 $.getJSON('/api/book/' + courtId, {
-                    type: 'ForBooking',
                     fromDate: fromDate.clone().utc().format(),
                     toDate: toDate.utc().format()
                 }).done(function (data) {

@@ -155,16 +155,16 @@
             // activate clicked tab and show tabs data
             $('.tab-selection li a').on('click', function () {
 
-                // hide current active tab
                 var $prevActive = $('.tab-selection a.active');
-                $prevActive.removeClass('active');
-                $($prevActive.attr('container')).toggleClass('d-none');
 
-                // show clicked tab
+                $prevActive.removeClass('active');
                 $(this).addClass('active');
-                $($(this).attr('container')).toggleClass('d-none');
+
+                // hide current active tab
+                $($prevActive.attr('container')).addClass('d-none');
 
                 refreshListBookings();
+                
             });
 
             // ajax call and container updating info
@@ -197,6 +197,9 @@
                     // update container html
                     $(`#${tabContainer}-container tbody`)
                         .html(html);
+
+                    // show clicked tab
+                    $($('.tab-selection a.active').attr('container')).removeClass('d-none');
                 });
             }
 
