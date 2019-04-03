@@ -142,7 +142,7 @@ namespace TeamProject.ApiControllers
         {
             return bookings
                 .OrderBy(b => b.BookedAt)
-                .Select(b => new { Group = b.BookedAt.ToString("yyyy MMM", CultureInfo.InvariantCulture), b.Court.Price })
+                .Select(b => new { Group = b.BookedAt.ToString("MM/yyyy", CultureInfo.InvariantCulture), b.Court.Price })
                 .GroupBy(b => b.Group)
                 .ToDictionary(g => g.Key, g => g.Sum(b => b.Price));
         }
