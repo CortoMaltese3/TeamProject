@@ -41,13 +41,7 @@ namespace TeamProject.ApiControllers
         [Authorize(Roles = "Owner")]
         public Dictionary<string, List<Booking>> GetCourtsForListView(int? id, DateTime fromDate, DateTime toDate)
         {
-            return db.Bookings
-                .Get("CourtId=@CourtId AND BookedAt Between @fromDate And @toDate", new
-                {
-                    CourtId = id,
-                    fromDate,
-                    toDate
-                })
+            return GetCourtBookings(id ?? 0, fromDate, toDate)
                 .OrderBy(b => b.BookedAt)
                 .ThenBy(b => b.User.UserName)
                 .GroupBy(b => b.BookedAt.ToLongDateString())
@@ -57,13 +51,7 @@ namespace TeamProject.ApiControllers
         [Authorize(Roles = "Owner")]
         public Dictionary<string, decimal> GetCourtPricesByMonth(int? id, DateTime fromDate, DateTime toDate)
         {
-            var courtBookings = db.Bookings
-                .Get("CourtId=@CourtId AND BookedAt Between @fromDate And @toDate", new
-                {
-                    CourtId = id,
-                    fromDate,
-                    toDate
-                });
+            var courtBookings = GetCourtBookings(id ?? 0, fromDate, toDate);
 
             return GroupBookingsByDateAndPrice(courtBookings);
         }
@@ -71,49 +59,20 @@ namespace TeamProject.ApiControllers
         [Authorize(Roles = "Owner")]
         public Dictionary<string, decimal> GetBranchPricesByMonth(int? id, DateTime fromDate, DateTime toDate)
         {
-            var branchBookings = db.Bookings
-                .Get("CourtId in (SELECT Court.Id FROM Court WHERE BranchId = @id)" +
-                " AND BookedAt Between @fromDate And @toDate", new
-                {
-                    id,
-                    fromDate,
-                    toDate
-                });
+            var branchBookings = GetBranchBookings(id ?? 0, fromDate, toDate);
             return GroupBookingsByDateAndPrice(branchBookings);
-        }
-
-        private Dictionary<string, decimal> GroupBookingsByDateAndPrice(IEnumerable<Booking> bookings)
-        {
-            return bookings
-                .OrderBy(b => b.BookedAt)
-                .Select(b => new { Group = b.BookedAt.ToString("yyyy MMM",CultureInfo.InvariantCulture), b.Court.Price })
-                .GroupBy(b => b.Group)
-                .ToDictionary(g => g.Key, g => g.Sum(b => b.Price));
         }
 
         public Dictionary<string, int> GetBranchBookingsByWeekDay(int? id, DateTime fromDate, DateTime toDate)
         {
-            var bookingsReport = db.Bookings
-                .Get("CourtId in (SELECT Court.Id FROM Court WHERE BranchId = @id)" +
-                " AND BookedAt Between @fromDate And @toDate", new
-                {
-                    id,
-                    fromDate,
-                    toDate
-                });
+            var bookingsReport = GetBranchBookings(id ?? 0, fromDate, toDate);
 
             return GetBookingsByWeekDay(bookingsReport);
         }
 
         public Dictionary<string, int> GetCourtBookingsByWeekDay(int? id, DateTime fromDate, DateTime toDate)
         {
-            var bookingsReport = db.Bookings
-                .Get("CourtId=@CourtId AND BookedAt Between @fromDate And @toDate", new
-                {
-                    CourtId = id,
-                    fromDate,
-                    toDate
-                });
+            var bookingsReport = GetCourtBookings(id ?? 0, fromDate, toDate);
 
             return GetBookingsByWeekDay(bookingsReport);
         }
@@ -126,6 +85,36 @@ namespace TeamProject.ApiControllers
                 .GroupBy(b => b.Group)
                 .ToDictionary(g => g.Key, g => g.Count());
         }
+        private Dictionary<string, decimal> GroupBookingsByDateAndPrice(IEnumerable<Booking> bookings)
+        {
+            return bookings
+                .OrderBy(b => b.BookedAt)
+                .Select(b => new { Group = b.BookedAt.ToString("yyyy MMM", CultureInfo.InvariantCulture), b.Court.Price })
+                .GroupBy(b => b.Group)
+                .ToDictionary(g => g.Key, g => g.Sum(b => b.Price));
+        }
 
+        private IEnumerable<Booking> GetBranchBookings(int id, DateTime fromDate, DateTime toDate)
+        {
+            return db.Bookings
+                .Get("CourtId in (SELECT Court.Id FROM Court WHERE BranchId = @id) AND " +
+                     "BookedAt Between @fromDate And @toDate", new
+                     {
+                         id,
+                         fromDate,
+                         toDate
+                     });
+        }
+
+        private IEnumerable<Booking> GetCourtBookings(int id, DateTime fromDate, DateTime toDate)
+        {
+            return db.Bookings
+                .Get("CourtId=@CourtId AND BookedAt Between @fromDate And @toDate", new
+                {
+                    CourtId = id,
+                    fromDate,
+                    toDate
+                });
+        }
     }
 }
