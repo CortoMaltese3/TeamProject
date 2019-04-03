@@ -22,12 +22,10 @@ namespace TeamProject.ApiControllers
         private TeamProjectApp app = new TeamProjectApp();
         private ProjectDbContext db = new ProjectDbContext();
 
-        public BookingInfo GetBookingInfo(int id)
+
+        public Booking GetBookingInfo(int id)
         {
-            return db.Bookings
-                .Get("Booking.Id=@id", new { id })
-                .Select(b => new BookingInfo(b))
-                .FirstOrDefault();
+            return db.Bookings.Find(id);
         }
 
         public IEnumerable<TimeslotApiView> GetCourtsForCalendarView(int? id, DateTime fromDate, DateTime toDate)
@@ -74,7 +72,7 @@ namespace TeamProject.ApiControllers
             return GetBookingsByWeekDay(bookingsReport);
         }
 
-        public Dictionary<string, int> GetBookingsByWeekDay(IEnumerable<Booking> bookings)
+        private Dictionary<string, int> GetBookingsByWeekDay(IEnumerable<Booking> bookings)
         {
             return bookings
                 .Select(b => new { WeekDayNo = b.BookedAt.ToString("d"), Group = b.BookedAt.ToString("dddd", CultureInfo.InvariantCulture) })

@@ -94,13 +94,19 @@
                     if ($popover.attr('data-content') == '') {
                         $.getJSON(`/api/bookings/GetBookingInfo/${$popover.attr('id')}`)
                             .done(function (data) {
-
                                 // populate popover and show
                                 $popover
                                     .attr('data-content',
-                                        `${data.Username}</br><em>${data.Email}</em>`)
+                                    `<p><strong>Customer:</strong>
+                                     <br>${data.User.UserName}</p>
+                                     <p><strong>Email:</strong>
+                                     <br>${data.User.Email}</p>
+                                     <p><strong>Book Key:</strong>
+                                     <br>${data.BookKey}</p>                                     
+                                     <p><strong>Cost:</strong>
+                                     ${data.Court.Price}&euro;</p>`)
                                     .attr('data-original-title',
-                                        moment(data.BookedAt).format("DD/MM/YYYY HH:mm"))
+                                        moment(data.BookedAt).format("dddd DD/MM/YYYY HH:mm"))
                                     .popover('show');
 
                                 popovers.push($popover);
@@ -235,8 +241,6 @@
                                             </div>
                                         </a>
                                         <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-                                            <a class="dropdown-item" href="/Admin/Bookings/Details/${bookId}">Details</a>
-                                            <div class="dropdown-divider"></div>
                                             <a class="dropdown-item" href="/Admin/Bookings/Delete/${bookId}">Cancel</a>
                                         </div>
                                     </td>`;

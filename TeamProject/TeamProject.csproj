@@ -254,7 +254,6 @@
     <Compile Include="Controllers\UserBookingController.cs" />
     <Compile Include="Controllers\JoinController.cs" />
     <Compile Include="Dal\TeamProjectApp.cs" />
-    <Compile Include="ModelsViews\BookingInfo.cs" />
     <Compile Include="ModelsViews\PostBookResponse.cs" />
     <Compile Include="Models\BookingReport.cs" />
     <Compile Include="Models\BranchFacilities.cs" />
