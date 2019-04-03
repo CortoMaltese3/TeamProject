@@ -310,6 +310,7 @@
     <Content Include="Content\google-maps.css" />
     <Content Include="Content\HomePage.css" />
     <Content Include="Content\Join\css\Join.css" />
+    <Content Include="Content\Modal.css" />
     <Content Include="Images\Footer\Facebook.png" />
     <Content Include="Images\Footer\Github.png" />
     <Content Include="Images\Footer\Instagram.png" />
@@ -570,7 +571,6 @@
     <Content Include="Views\Courts\Details.cshtml" />
     <Content Include="Views\Shared\_HomePageFooterPartial.cshtml" />
     <Content Include="Views\Shared\FacilitiesPartial.cshtml" />
-    <Content Include="Views\Join\Joinold.cshtml" />
     <Content Include="Views\Shared\_LayoutJoin.cshtml" />
     <Content Include="Views\Join\Join.cshtml" />
   </ItemGroup>

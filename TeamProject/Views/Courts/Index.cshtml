@@ -6,8 +6,10 @@
 
 <br />
 @section Styles{
+    <link rel="stylesheet" type="text/css" href="~/Content/Modal.css" />
 
     <style>
+
         .wrap {
             height: 100%;
             align-items: center;
@@ -46,7 +48,12 @@
     <div class="card mb-3 rounded rounded-lg border border-success d-flex p-2 bd-highlight d-flex shadow-lg">
         <div class="row no-gutters">
             <div class="col-md-4" style="margin-top:auto;margin-bottom:auto;">
-                <img src="~/Images/Courts/@court.ImageCourt" class="card-img shadow" alt="@court.Name">
+                <img src="~/Images/Courts/@court.ImageCourt" class="card-img shadow" alt="@court.Name" id="myImg">
+                <div id="myModal" class="modal">
+                    <span class="close">&times;</span>
+                    <img class="modal-content" id="img01">
+                    <div id="caption"></div>
+                </div>
             </div>
             <div class="col-md-8">
                 <div class="card-body align-content-end flex-column">
@@ -57,7 +64,7 @@
                             <button class="button shadow" role="button" aria-pressed="true">Book Now!</button>
                         </form>
                     </div>
-                    <div class="wrap float-right">
+                    <div class="wrap float-right" style="margin-right:10px;">
                         <form action="/Courts/Details/@court.Id">
                             <button class="button shadow" role="button" aria-pressed="true">Details!</button>
                         </form>
@@ -66,5 +73,31 @@
             </div>
         </div>
     </div>
+}
+@section Scripts{
+    <script>
+        // Get the modal
+        var modal = document.getElementById('myModal');
+
+        // Get the image and insert it inside the modal - use its "alt" text as a caption
+        var img = document.getElementById('myImg');
+        var modalImg = document.getElementById('img01');
+        var captionText = document.getElementById("caption");
+        img.onclick = function () {
+            modal.style.display = "block";
+            modalImg.src = this.src;
+            captionText.innerHTML = this.alt;
+        }
+
+        // Get the <span> element that closes the modal
+        var span = document.getElementsByClassName("close")[0];
+
+        // When the user clicks on <span> (x), close the modal
+        span.onclick = function () {
+            modal.style.display = "none";
+        }
+    </script>
+
+
 }
 
