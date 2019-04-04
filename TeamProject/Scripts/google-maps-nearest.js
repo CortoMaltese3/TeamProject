@@ -30,7 +30,7 @@ $(document).ready(function () {
             let marker = addMarker(locations[i]);
 
             // add marker event
-            addMarkerEvent(infowindow, location[i], marker);
+            addMarkerEvent(infowindow, locations[i], marker);
 
             markers.push(marker);
         }
@@ -38,19 +38,20 @@ $(document).ready(function () {
     }
 
     function addMarkerEvent(infowindow, location, marker) {
-        google.maps.event.addListener(marker, 'click', function () {
-            let card = $('.card.d-none');
+        let card = $('.card.d-none');//.clone();
 
-            // set card info
-            card.find('img')
-                .attr('src', this.courtInfo[3])
-                .attr('alt', this.courtInfo[0]);
-            card.find('.card-body a')
-                .attr('href', `/courts/index/${this.courtInfo[5]}`);
-            card.find('.card-title')
-                .text(this.courtInfo[0]);
-            card.find('.card-text')
-                .text(this.courtInfo[4]);
+        // set card info
+        card.find('img')
+            .attr('src', location[3])
+            .attr('alt', location[0]);
+        card.find('.card-body a')
+            .attr('href', `${location[5]}`);
+        card.find('.card-title')
+            .text(location[0]);
+        card.find('.card-text')
+            .text(location[4]);
+
+        google.maps.event.addListener(marker, 'click', function () {
 
             infowindow.setContent(card[0]);
 
@@ -65,8 +66,7 @@ $(document).ready(function () {
             position: new google.maps.LatLng(location[1], location[2]),
             map: map,
             title: location[0],
-            icon: url,
-            courtInfo: location
+            icon: url
         });
 
         return marker;

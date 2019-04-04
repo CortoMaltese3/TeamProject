@@ -85,10 +85,10 @@
         </div>
     </div>
     listOfBranches += string.Format(CultureInfo.InvariantCulture,
-        "['{0}',{1},{2},'{3}','{4}','{5}'],", branch.Name, branch.Latitude, branch.Longitude, $"/Images/Branches/{branch.ImageBranch}", branch.Address, branch.Id);
+        "['{0}',{1},{2},'{3}','{4}','{5}'],", branch.Name, branch.Latitude, branch.Longitude, $"/Images/Branches/{branch.ImageBranch}", branch.Address, $"/courts/index/{branch.Id}");
 
 }
-
+<div class="cards"></div>
 <!--Google map marker pin info-->
 <div class="card mb-3 rounded rounded-lg d-flex p-2 bd-highlight d-flex d-none">
     <div class="row no-gutters">
