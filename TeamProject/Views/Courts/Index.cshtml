@@ -50,12 +50,11 @@
             <div class="col-md-4" style="margin-top:auto;margin-bottom:auto;">
                 <img src="~/Images/Courts/@court.ImageCourt" 
                      class="card-img shadow click-court-image" 
-                     alt="@court.Name" 
-                     data-modal-id="#modal-img-@court.Id">
-                <div id="myModal" class="modal">
+                     alt="@court.Name">
+                <div class="modal d-none">
                     <span class="close modal-close-img">&times;</span>
-                    <img class="modal-content" 
-                         id="modal-img-@court.Id">
+                    <img src="~/Images/Courts/@court.ImageCourt"
+                         class="modal-content">
                     <div id="caption"></div>
                 </div>
             </div>
@@ -84,16 +83,19 @@
         // set on click modal
         $('.click-court-image').click(function () {
             // get modal image using this.data-modal-id
-            const modalImg = $($(this).attr('data-modal-id'));
-
-            $(modalImg).closest('div').attr('style','display:block');
-            $(modalImg).attr('src', $(this).attr('src'));
+            $(this).siblings('div')
+                .children('img')
+                .closest('div')
+                .removeClass('d-none')
+                .addClass('d-block');
 
         });
 
         // When the user clicks on <span> (x), close the modal
         $('.modal-close-img').click(function () {
-            $(this).closest('div').attr('style', 'display:none');
+            $(this).closest('div')
+                .removeClass('d-block')
+                .addClass('d-none');
         });
     </script>
 
