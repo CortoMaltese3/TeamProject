@@ -38,7 +38,7 @@ $(document).ready(function () {
     }
 
     function addMarkerEvent(infowindow, location, marker) {
-        let card = $('.card.d-none');//.clone();
+        let card = $('.hidden-marker-card .card').clone();
 
         // set card info
         card.find('img')
@@ -51,6 +51,7 @@ $(document).ready(function () {
         card.find('.card-text')
             .text(location[4]);
 
+        // set event handler
         google.maps.event.addListener(marker, 'click', function () {
 
             infowindow.setContent(card[0]);
