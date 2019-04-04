@@ -40,7 +40,6 @@ namespace TeamProject.Controllers
         {
             ViewBag.Message = "Whether you would like to partner with us, want more information or run into an issue," +
                               "we are more than happy to hear from you!";
-
             return View();
         }
 
@@ -50,12 +49,14 @@ namespace TeamProject.Controllers
         public ActionResult Contact([Bind(Include = "FirstName,LastName,Email,SubjectSelector,Body")]ContactForm contactForm)
         {
             if (ModelState.IsValid)
-            {        
+            {
                 //ADD EMAIL LOGIC
+                SmtpMessageChunk.SendContactFormEmail(contactForm);
                 return RedirectToAction("Index");
             }
 
             ViewBag.SubjectSelector = contactForm.SubjectSelector;
+            
             return View();
         }
     }

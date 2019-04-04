@@ -40,8 +40,8 @@ namespace TeamProject
         public static void SendContactFormEmail(ContactForm contactForm)
         {
             MimeMessage mail = new MimeMessage();
-            mail.From.Add(new MailboxAddress(contactForm.FullName, contactForm.Email));
-            mail.To.Add(new MailboxAddress("Giorgos Kalomalos", "giorgos.kalomalos@gmail.com"));
+            mail.From.Add(new MailboxAddress(contactForm.FullName, "TeamProject@sandbox5e629bb48a664a34bd30b011a90f91e1.mailgun.org"));
+            mail.To.Add(new MailboxAddress("George Lymperopoulos", "lympe7@hotmail.com"));
             mail.Subject = contactForm.SubjectSelector.ToString();
             mail.Body = new TextPart("html")
             {
@@ -53,11 +53,13 @@ namespace TeamProject
                     <br />
                     <br />
                     <span><strong>Message: </strong>{contactForm.Body}</span>
-                    <br />"
+                    <br />
+                    <span><strong>Email : </strong>{contactForm.Email}"
             };
 
             // Send it!
             SendEmail(mail);
+            
         }
 
         private static void SendEmail(MimeMessage mail)
