@@ -21,7 +21,7 @@ namespace TeamProject
             mail.Subject = "Confirmation Email for Court Booking";
             mail.Body = new TextPart("html")
             {
-                Text = $@"<h2> {booking.User.UserName}, ôhanks for booking.</h2>
+                Text = $@"<h2> {booking.User.UserName}, thanks for booking.</h2>
                     <br />
                     <div> You have booked <strong> {booking.Court.Name} </strong> at <strong>{booking.BookedAt}</strong></div>
                     <br />
