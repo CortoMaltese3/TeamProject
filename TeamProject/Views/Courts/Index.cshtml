@@ -39,7 +39,7 @@
                 box-shadow: 0px 15px 20px rgba(46, 229, 157, 0.4);
                 color: #fff;
                 transform: translateY(-7px);
-            }
+            }       
     </style>
 }
 
@@ -48,11 +48,9 @@
     <div class="card mb-3 rounded rounded-lg border border-success d-flex p-2 bd-highlight d-flex shadow-lg">
         <div class="row no-gutters">
             <div class="col-md-4" style="margin-top:auto;margin-bottom:auto;">
-                <img src="~/Images/Courts/@court.ImageCourt" 
-                     class="card-img shadow open-modal-image" 
-                     alt="@court.Name">
+                <img src="~/Images/Courts/@court.ImageCourt" class="card-img shadow open-modal-image" alt="@court.Name" style="cursor:pointer;">
                 <div class="modal d-none">
-                    <span class="close close-modal-image">&times;</span>
+                    <span class="close close-modal-image" style="color:white;">&times;</span>
                     <img src="~/Images/Courts/@court.ImageCourt"
                          class="modal-content">
                     <div id="caption">@court.Name</div>
