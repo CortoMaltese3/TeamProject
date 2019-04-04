@@ -57,7 +57,8 @@ namespace TeamProject.Areas.Admin.Controllers
             return View(branch);
         }
 
-        // GET: Branches/Create        
+        // GET: Branches/Create 
+        [Authorize(Roles = "Admin")]
         public ActionResult Create()
         {
             GetLoggedInUserId(out int userId);
@@ -69,6 +70,7 @@ namespace TeamProject.Areas.Admin.Controllers
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [Authorize(Roles = "Admin")]
         public ActionResult Create(Branch branch)
         {
             if (branch.ImageFile == null)
@@ -141,7 +143,8 @@ namespace TeamProject.Areas.Admin.Controllers
             return View(branch);
         }
 
-        // GET: Branches/Delete/5   
+        // GET: Branches/Delete/5  
+        [Authorize(Roles = "Admin")]
         public ActionResult Delete(int? id)
         {
             if (id == null)
@@ -159,6 +162,7 @@ namespace TeamProject.Areas.Admin.Controllers
         // POST: Branches/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
+        [Authorize(Roles = "Admin")]
         public ActionResult DeleteConfirmed(int id)
         {
             Branch branch = db.Branches.Find(id);

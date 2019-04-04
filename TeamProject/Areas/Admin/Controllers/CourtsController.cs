@@ -50,6 +50,7 @@ namespace TeamProject.Areas.Admin.Controllers
         }
 
         // GET: Courts/Create
+        [Authorize(Roles ="Admin")]
         public ActionResult Create(int? id)
         {
             ViewBag.BranchId = new SelectList(db.Branches.Get(), "Id", "Name");
@@ -62,7 +63,8 @@ namespace TeamProject.Areas.Admin.Controllers
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
-        [ValidateAntiForgeryToken]        
+        [ValidateAntiForgeryToken]
+        [Authorize(Roles = "Admin")]
         public ActionResult Create(Court court)
         {
             if (court.ImageFile == null)
@@ -133,6 +135,7 @@ namespace TeamProject.Areas.Admin.Controllers
         }
 
         // GET: Courts/Delete/5
+        [Authorize(Roles = "Admin")]
         public ActionResult Delete(int? id)
         {
             if (id == null)
@@ -150,6 +153,7 @@ namespace TeamProject.Areas.Admin.Controllers
         // POST: Courts/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
+        [Authorize(Roles = "Admin")]
         public ActionResult DeleteConfirmed(int id)
         {
             Court court = db.Courts.Find(id);

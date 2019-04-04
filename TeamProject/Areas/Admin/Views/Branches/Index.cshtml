@@ -5,11 +5,14 @@
     Layout = "~/Areas/Admin/Views/Shared/_Layout.cshtml";
 }
 
-<h2>Branches</h2>
-
-<p>
+<h2 class="text-center">Branches</h2>
+@if (User.IsInRole("Admin"))
+{
+    <p>
     @Html.ActionLink("Create New", "Create")
-</p>
+    </p>
+}
+
 <table class="table">
     <tr>
         <th>
@@ -27,43 +30,49 @@
         <th></th>
     </tr>
 
-@foreach (var item in Model) {
-    <tr>
-        <td>
-            @Html.DisplayFor(modelItem => item.User.UserName)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.Name)
-        </td>
-        <td>
-            <div class="popover__wrapper">
-                <a>
-                    <p class="popover-title">
-                        <i class="fas fa-images"></i>
-                    </p>
-                </a>
-                <div class="push popover__content">
-                    <p class="popover__message">@Html.DisplayFor(modelitem => item.Name)</p>
-                    <img width="200" src="~/Images/Branches/@Url.Content(item.ImageBranch)" />
+    @foreach (var item in Model)
+    {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.User.UserName)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Name)
+            </td>
+            <td>
+                <div class="popover__wrapper">
+                    <a>
+                        <p class="popover-title">
+                            <i class="fas fa-images"></i>
+                        </p>
+                    </a>
+                    <div class="push popover__content">
+                        <p class="popover__message">@Html.DisplayFor(modelitem => item.Name)</p>
+                        <img width="200" src="~/Images/Branches/@Url.Content(item.ImageBranch)" />
+                    </div>
                 </div>
-            </div>
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.Address)
-        </td>
-        <td>
-            @Html.ActionLink("Edit", "Edit", new { id = item.Id }) |
-            @Html.ActionLink("Details", "Details", new { id = item.Id }) |
-            @Html.ActionLink("Delete", "Delete", new { id = item.Id }) |
-            @Html.ActionLink("Courts", "Index", "courts", new { id = item.Id }, null) |
-            @Html.ActionLink("Facilities", "ChooseFacilities", "BranchFacilities", new { id = item.Id }, null) |
-            @Html.ActionLink("Reports", "Index", "Reports", new { id = item.Id }, null) |
-            @if (User.IsInRole("Owner"))
-            {
-                 @Html.ActionLink("Bookings", "Index", "Bookings", new { id = item.Id }, null) 
-            }
-        </td>
-    </tr>
-}
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Address)
+            </td>
+            <td>
+                @Html.ActionLink("Edit", "Edit", new { id = item.Id }) |
+                @Html.ActionLink("Details", "Details", new { id = item.Id }) |
+                @if (User.IsInRole("Admin"))
+                {
+                @Html.ActionLink("Delete", "Delete", new { id = item.Id })
+                    @Html.Raw("|")
+                                                                           }
+                @Html.ActionLink("Courts", "Index", "courts", new { id = item.Id }, null) |
+                @Html.ActionLink("Facilities", "ChooseFacilities", "BranchFacilities", new { id = item.Id }, null) |
+                @Html.ActionLink("Reports", "Index", "Reports", new { id = item.Id }, null) 
+                @if (User.IsInRole("Owner"))
+                {
+                    @Html.Raw("|")
+                    @Html.ActionLink("Bookings", "Index", "Bookings", new { id = item.Id }, null)
+                }
+            </td>
+        </tr>
+    }
 
 </table>

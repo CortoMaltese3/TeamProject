@@ -84,7 +84,7 @@
         </div>
     </div>
     listOfBranches += string.Format(CultureInfo.InvariantCulture,
-        "['{0}',{1},{2},'{3}','{4}'],", branch.Name, branch.Latitude, branch.Longitude, branch.ImageBranch, branch.Address);
+        "['{0}',{1},{2},'{3}','{4}','{5}'],", branch.Name, branch.Latitude, branch.Longitude, $"/Images/Branches/{branch.ImageBranch}", branch.Address,branch.Id);
 
 }
 @section scripts
