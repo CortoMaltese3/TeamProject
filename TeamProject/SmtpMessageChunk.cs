@@ -16,14 +16,14 @@ namespace TeamProject
         {
             // Compose a message
             MimeMessage mail = new MimeMessage();
-            mail.From.Add(new MailboxAddress("Team Project crew", "TeamProject@sandbox5e629bb48a664a34bd30b011a90f91e1.mailgun.org"));
+            mail.From.Add(new MailboxAddress("Kickit crew", "TeamProject@sandbox5e629bb48a664a34bd30b011a90f91e1.mailgun.org"));
             mail.To.Add(new MailboxAddress(booking.User.UserName, booking.User.Email));
             mail.Subject = "Confirmation Email for Court Booking";
             mail.Body = new TextPart("html")
             {
-                Text = $@"<h2> {booking.User.UserName} Thanks for booking.</h2>
+                Text = $@"<h2> {booking.User.UserName}, ôhanks for booking.</h2>
                     <br />
-                    <div> You have book <strong> {booking.Court.Name} </strong> at <strong>{booking.BookedAt}</strong></div>
+                    <div> You have booked <strong> {booking.Court.Name} </strong> at <strong>{booking.BookedAt}</strong></div>
                     <br />
                     <span>Your booking number is <strong>{booking.BookKey}</strong></span>
                     <br />
