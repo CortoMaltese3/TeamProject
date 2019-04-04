@@ -49,10 +49,10 @@
         <div class="row no-gutters">
             <div class="col-md-4" style="margin-top:auto;margin-bottom:auto;">
                 <img src="~/Images/Courts/@court.ImageCourt" 
-                     class="card-img shadow click-court-image" 
+                     class="card-img shadow open-modal-image" 
                      alt="@court.Name">
                 <div class="modal d-none">
-                    <span class="close modal-close-img">&times;</span>
+                    <span class="close close-modal-image">&times;</span>
                     <img src="~/Images/Courts/@court.ImageCourt"
                          class="modal-content">
                     <div id="caption"></div>
@@ -81,22 +81,31 @@
     <script>
 
         // set on click modal
-        $('.click-court-image').click(function () {
-            // get modal image using this.data-modal-id
-            $(this).siblings('div')
+        $('.open-modal-image').click(function () {
+            // find image element
+            let img = $(this)
+                .siblings('div')
                 .children('img')
-                .closest('div')
-                .removeClass('d-none')
-                .addClass('d-block');
+                .closest('div');
 
+            // toggle modal image
+            toggleModalImage(img);
         });
 
         // When the user clicks on <span> (x), close the modal
-        $('.modal-close-img').click(function () {
-            $(this).closest('div')
-                .removeClass('d-block')
-                .addClass('d-none');
+        $('.close-modal-image').click(function () {
+            // find image element
+            let img = $(this)
+                .closest('div');
+
+            // toggle modal image
+            toggleModalImage(img);
         });
+
+        function toggleModalImage(img) {
+            img.toggleClass('d-block')
+               .toggleClass('d-none');
+        }
     </script>
 
 
