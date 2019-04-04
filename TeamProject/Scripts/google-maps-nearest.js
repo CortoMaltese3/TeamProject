@@ -16,51 +16,60 @@ $(document).ready(function () {
 
         markers = new Array();
 
-        for (var i = 0; i < locations.length; i++) {
-            addLocation(infowindow, locations[i], i == 0 ? {
-                url: '/favicon.ico' , size: new google.maps.Size(71, 71),
-                origin: new google.maps.Point(0, 0),
-                anchor: new google.maps.Point(17, 34),
-                scaledSize: new google.maps.Size(25, 25)
-            }: undefined);
+        // add seach location marker 
+        addMarker(locations[0], {
+            url: '/favicon.ico', size: new google.maps.Size(71, 71),
+            origin: new google.maps.Point(0, 0),
+            anchor: new google.maps.Point(17, 34),
+            scaledSize: new google.maps.Size(25, 25)
+        });
+
+        for (var i = 1; i < locations.length; i++) {
+
+            // add marker
+            let marker = addMarker(locations[i]);
+
+            // add marker event
+            addMarkerEvent(infowindow, location[i], marker);
+
+            markers.push(marker);
         }
 
     }
 
-    function addLocation(infowindow, location,url) {
+    function addMarkerEvent(infowindow, location, marker) {
+        google.maps.event.addListener(marker, 'click', function () {
+            let card = $('.card.d-none');
+
+            // set card info
+            card.find('img')
+                .attr('src', this.courtInfo[3])
+                .attr('alt', this.courtInfo[0]);
+            card.find('.card-body a')
+                .attr('href', `/courts/index/${this.courtInfo[5]}`);
+            card.find('.card-title')
+                .text(this.courtInfo[0]);
+            card.find('.card-text')
+                .text(this.courtInfo[4]);
+
+            infowindow.setContent(card[0]);
+
+            infowindow.open(map, marker);
+
+        });
+    }
+
+    function addMarker(location, url) {
 
         var marker = new google.maps.Marker({
             position: new google.maps.LatLng(location[1], location[2]),
             map: map,
             title: location[0],
-            icon: url
-            
+            icon: url,
+            courtInfo: location
         });
 
-        markers.push(marker);
-
-        if (url == undefined)
-        {
-            google.maps.event.addListener(marker, 'click', function ()
-            {
-                infowindow.setContent('<div class="card mb-3 rounded rounded-lg d-flex p-2 bd-highlight d-flex">' +
-                    '    <div class="row no-gutters">' +
-                    '        <div class="col-md-4">' +
-                    '            <img src="' + location[3] + '" class="card-img" alt="' + location[0] + '">' +
-                    '        </div>' +
-                    '           <div class="col-md-8">' +
-                    '                <div class="card-body align-content-end flex-column">' +
-                    '                    <h5 class="card-title">' + location[0] + '</h5>' +
-                    '                    <h6 class="card-text">' + location[4] + '</h6>' +
-                    '                    <a href="/courts/index/' + location[5] + '" class="btn btn-success btn-lg active mt-auto" role="button" aria-pressed="true">View details!</a>' +
-                    '                </div>' +
-                    '            </div>' +
-                    '    </div>' +
-                    '</div>');
-                infowindow.open(map, marker);
-
-            });
-        }
+        return marker;
     }
     initialize();
 });

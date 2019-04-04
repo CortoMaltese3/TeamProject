@@ -16,6 +16,7 @@
             padding-left: 0px;
             position: relative;
         }
+
         .wrap {
             height: 100%;
             align-items: center;
@@ -66,7 +67,7 @@
             </div>
             <div class="col-md-8">
                 <div class="card-body align-content-end flex-column">
-                    <h2 class="card-title text-center">@branch.Name</h2>                   
+                    <h2 class="card-title text-center">@branch.Name</h2>
                     <p class="card-text">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur.</p>
                     <hr />
                     <div class="col">
@@ -78,19 +79,40 @@
                         <form action="/Courts/index/@branch.Id">
                             <button class="button" role="button" aria-pressed="true">View details!</button>
                         </form>
-                     </div>
+                    </div>
                 </div>
             </div>
         </div>
     </div>
     listOfBranches += string.Format(CultureInfo.InvariantCulture,
-        "['{0}',{1},{2},'{3}','{4}','{5}'],", branch.Name, branch.Latitude, branch.Longitude, $"/Images/Branches/{branch.ImageBranch}", branch.Address,branch.Id);
+        "['{0}',{1},{2},'{3}','{4}','{5}'],", branch.Name, branch.Latitude, branch.Longitude, $"/Images/Branches/{branch.ImageBranch}", branch.Address, branch.Id);
 
 }
+
+<!--Google map marker pin info-->
+<div class="card mb-3 rounded rounded-lg d-flex p-2 bd-highlight d-flex d-none">
+    <div class="row no-gutters">
+        <div class="col-md-4">
+            <img src="" class="card-img" alt="">
+        </div>
+        <div class="col-md-8">
+            <div class="card-body align-content-end flex-column">
+                <h5 class="card-title"></h5>
+                <h6 class="card-text"></h6>
+                <a href=""
+                   class="btn btn-success btn-lg active mt-auto"
+                   role="button" aria-pressed="true">
+                    View details!
+                </a>
+            </div>
+        </div>
+    </div>
+</div>
+
 @section scripts
 {
-    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDrnm2ptgfajjtlCfM97wat7Jsx5KZ0UoA&libraries=places"  ></script>
-   
+    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDrnm2ptgfajjtlCfM97wat7Jsx5KZ0UoA&libraries=places"></script>
+
     <script>
         var mapzoom = 12;
         var locations = [@Html.Raw(@listOfBranches)];
