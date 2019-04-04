@@ -8,16 +8,17 @@
 
 @foreach (var booking in Model)
 {
-        <div class=" border rounded shadow-lg mt-3 text-center">
-            <br />
-            
-            <div> You have booked <strong> @booking.Court.Name </strong> at <strong>@booking.BookedAt</strong>.</div>
-            <br />
-            <span>Your booking number is <strong>@booking.BookKey</strong>.</span>
-            <br /> <br />
-            <span > You can find the court information @Html.ActionLink("here.", "Details", "Courts", new { id = booking.CourtId }, null) </span>
-            <br />
-            <br />
-        </div>
+<div class=" border border-success rounded shadow-lg mt-3 text-center">
+    <br />
+
+    <div> You have booked <strong> @booking.Court.Name </strong> at <strong>@booking.BookedAt</strong>.</div>
+    <br />
+    <span> You can find the court information @Html.ActionLink("here.", "Details", "Courts", new { id = booking.CourtId }, null) </span>
+    <br />
+    <br />
+    <span> @Html.ActionLink("Click for Booking Info", "Confirmed", "Courts", new { BookKey = booking.BookKey }, null)</span>
+    <br />
+    <br />
+</div>
 }
 

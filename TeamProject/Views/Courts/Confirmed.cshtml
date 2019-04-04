@@ -9,7 +9,7 @@
         <br /><br /><br />
         <h2>@Model.User.UserName, thanks for booking.</h2>
         <br />
-        <div> You have book <strong> @Model.Court.Name </strong> at <strong>@Model.BookedAt</strong></div>
+        <div> You have book <strong> @Html.ActionLink(Model.Court.Name, "Details", "Courts", new { id = Model.CourtId }, null) </strong> at <strong>@Model.BookedAt</strong></div>
         <br />
         <span>Your booking number is <strong>@Model.BookKey</strong></span>
         <br />
