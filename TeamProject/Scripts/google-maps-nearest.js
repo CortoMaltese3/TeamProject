@@ -3,7 +3,6 @@ $(document).ready(function () {
 
     function initialize() {
         if (locations.length == 0) {
-            //alert("No Maps");
             return 0;
         }
         var mapProp = {
@@ -18,16 +17,23 @@ $(document).ready(function () {
 
         // add seach location marker 
         addMarker(locations[0], {
-            url: '/favicon.ico', size: new google.maps.Size(71, 71),
+            url: '/favicon.ico',
+            size: new google.maps.Size(71,71),
             origin: new google.maps.Point(0, 0),
             anchor: new google.maps.Point(17, 34),
-            scaledSize: new google.maps.Size(25, 25)
+            scaledSize: new google.maps.Size(32,32)
         });
 
         for (var i = 1; i < locations.length; i++) {
 
             // add marker
-            let marker = addMarker(locations[i]);
+            let marker = addMarker(locations[i], {
+                url: '/Images/Logo/KickItPin.png',
+                size: new google.maps.Size(71, 71),
+                origin: new google.maps.Point(0, 0),
+                anchor: new google.maps.Point(17, 34),
+                scaledSize: new google.maps.Size(32, 32)
+            });
 
             // add marker event
             addMarkerEvent(infowindow, locations[i], marker);
