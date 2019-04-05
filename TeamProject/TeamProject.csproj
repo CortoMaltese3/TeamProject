@@ -461,6 +461,7 @@
     <Content Include="Content\Join\fonts\poppins\Poppins-SemiBoldItalic.ttf" />
     <Content Include="Content\Join\fonts\poppins\Poppins-Thin.ttf" />
     <Content Include="Content\Join\fonts\poppins\Poppins-ThinItalic.ttf" />
+    <Content Include="Scripts\jquery.blockUI.min.js" />
     <Content Include="Views\UserBooking\Index.cshtml" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>

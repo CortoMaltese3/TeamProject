@@ -9,7 +9,7 @@
 @if (User.IsInRole("Admin"))
 {
     <p>
-    @Html.ActionLink("Create New", "Create")
+        @Html.ActionLink("Create New", "Create")
     </p>
 }
 
@@ -60,12 +60,12 @@
                 @Html.ActionLink("Details", "Details", new { id = item.Id }) |
                 @if (User.IsInRole("Admin"))
                 {
-                @Html.ActionLink("Delete", "Delete", new { id = item.Id })
+                    @Html.ActionLink("Delete", "Delete", new { id = item.Id })
                     @Html.Raw("|")
-                                                                           }
+                }
                 @Html.ActionLink("Courts", "Index", "courts", new { id = item.Id }, null) |
                 @Html.ActionLink("Facilities", "ChooseFacilities", "BranchFacilities", new { id = item.Id }, null) |
-                @Html.ActionLink("Reports", "Index", "Reports", new { id = item.Id }, null) 
+                @Html.ActionLink("Reports", "Index", "Reports", new { id = item.Id }, null)
                 @if (User.IsInRole("Owner"))
                 {
                     @Html.Raw("|")

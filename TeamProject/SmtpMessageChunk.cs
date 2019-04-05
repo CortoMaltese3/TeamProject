@@ -59,12 +59,13 @@ namespace TeamProject
 
             // Send it!
             SendEmail(mail);
-            
+
+
         }
 
         private static void SendEmail(MimeMessage mail)
         {
-            
+
             using (var client = new SmtpClient())
             {
                 // XXX - Should this be a little different?
@@ -72,10 +73,18 @@ namespace TeamProject
 
                 client.Connect("smtp.mailgun.org", 587, false);
                 client.AuthenticationMechanisms.Remove("XOAUTH2");
-                client.Authenticate(Properties.Settings.Default.Username, 
+                client.Authenticate(Properties.Settings.Default.Username,
                     Properties.Settings.Default.Password);
+                try
+                {
+                    client.Send(mail);
+                }
+                catch (Exception)
+                {
 
-                client.Send(mail);
+                    //TODO catch Exception;
+                }
+
                 client.Disconnect(true);
             }
         }

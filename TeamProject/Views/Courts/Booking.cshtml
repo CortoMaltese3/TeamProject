@@ -16,11 +16,11 @@
         <ul class="list-group shadow-sm">
             @foreach (var court in Model.Courts)
             {
-            <li court-id="@court.Id" 
-                class="list-group-item d-flex justify-content-between align-items-center"
-                court-price="@court.Price">
-                @court.Name
-            </li>
+                <li court-id="@court.Id"
+                    class="list-group-item d-flex justify-content-between align-items-center"
+                    court-price="@court.Price">
+                    @court.Name
+                </li>
             }
         </ul>
     </nav>
@@ -77,6 +77,8 @@
 </div>
 @section scripts
 {
+    
+    <script src="~/Scripts/jquery.blockUI.min.js"></script>
     <script src="~/Scripts/moment.js"></script>
     <script>
 
@@ -97,7 +99,7 @@
 
                         return '<div class="col text-center"></div>' +
                             [0, 1, 2, 3, 4, 5, 6].map(function (i) {
-                                const dayHeader = 
+                                const dayHeader =
                                     `<div class="col text-center">
                                         ${date.format('dddd<br/>DD MMM')}
                                     </div>`;
@@ -123,8 +125,8 @@
                                 let dateTime = date.clone().add(day, 'days').hour(localhour.hour());
                                 let timeSlotValue = timeslotDate.okToSelectDate(dateTime) ? timeslot['Day' + (day + 1)] : "0";
                                 let showTime = (timeSlotValue == 1 ? localhour.format('HH:mm') : '');
-                                tbody += `<div class="col text-center" 
-                                               date = "${dateTime.utc().format()}" 
+                                tbody += `<div class="col text-center"
+                                               date = "${dateTime.utc().format()}"
                                                value="${timeSlotValue}">${showTime}
                                           </div>`;
                             }
@@ -166,7 +168,7 @@
             function getTimeslots(courtId) {
                 const fromDate = timeslotDate.firstWeekDate(),
                     toDate = timeslotDate.lastWeekDate();
-                
+
                 $.getJSON('/api/book/' + courtId, {
                     fromDate: fromDate.clone().utc().format(),
                     toDate: toDate.utc().format()
@@ -234,6 +236,10 @@
                     accepts: "application/json",
                     contentType: "application/json",
                     data: JSON.stringify(bookingData),
+                    async: false,
+                    beforeSend: function () {
+                        $.blockUI();
+                    },
                     success: function (result) {
 
                         if (result.Status === "Ok") {
@@ -292,12 +298,12 @@
                             that.updatePeriod();
                         } else {
                             openModalWithError('Can not navigate to previous Date',
-                                `<h4>Booking is not allowed before 
+                                `<h4>Booking is not allowed before
                                     <small class="text-muted">${startDate.format('DD/MM/YYYY')}</small>
                                  </h4>`);
                         }
-                        
-                        
+
+
                     },
                     updatePeriod: function () {
                         let date = that.firstWeekDate();

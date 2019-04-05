@@ -61,15 +61,16 @@
             </td>
             <td>
                 @Html.ActionLink("Edit", "Edit", new { id = item.Id }) |
-                @Html.ActionLink("Details", "Details", new { id = item.Id }) |
+                @Html.ActionLink("Details", "Details", new { id = item.Id })
                 @if (User.IsInRole("Admin"))
                 {
+                    @Html.Raw(" | ")
                     @Html.ActionLink("Delete", "Delete", new { id = item.Id })
 
                 }
                 @if (User.IsInRole("Owner"))
                 {
-                    @Html.Raw("| ")
+                    @Html.Raw(" | ")
                     @Html.ActionLink("TimeSlots", "Index", "TimeSlots", new { id = item.Id }, null)
                 }
             </td>
