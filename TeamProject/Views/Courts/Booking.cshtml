@@ -250,6 +250,8 @@
                         } else {
                             refreshTimeslotsTable();
 
+                            $.unblockUI();
+
                             // Open Modal with Error message
                             openModalWithError('Failed to complete booking', `<h4>${result.Status}<h4><p>Please try again</p>`);
                         }
