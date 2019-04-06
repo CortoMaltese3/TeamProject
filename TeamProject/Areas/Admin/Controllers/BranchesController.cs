@@ -61,8 +61,8 @@ namespace TeamProject.Areas.Admin.Controllers
         [Authorize(Roles = "Admin")]
         public ActionResult Create()
         {
-            GetLoggedInUserId(out int userId);
-            return View(new Branch() { UserId = userId });
+            ViewBag.UserId = new SelectList(db.Users.Get(), "Id", "UserName");
+            return View();
         }
 
         // POST: Branches/Create
@@ -89,7 +89,7 @@ namespace TeamProject.Areas.Admin.Controllers
                 return RedirectToAction("Index");
             }
 
-            ViewBag.UserId = new SelectList(db.Users.Get(), "Id", "Firstname", branch.UserId);
+            ViewBag.UserId = new SelectList(db.Users.Get(), "Id", "UserName");
             return View(branch);
         }
 
@@ -168,13 +168,6 @@ namespace TeamProject.Areas.Admin.Controllers
             Branch branch = db.Branches.Find(id);
             db.Branches.Remove(branch.Id);
             return RedirectToAction("Index");
-        }
-        private bool GetLoggedInUserId(out int loggedUserId)
-        {
-            var identity = User.Identity as ClaimsIdentity;
-            var userDateId = identity.FindFirst(c => c.Type == ClaimTypes.UserData).Value;
-
-            return int.TryParse(userDateId, out loggedUserId);
         }
     }
 }
