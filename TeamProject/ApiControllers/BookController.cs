@@ -27,6 +27,11 @@ namespace TeamProject.ApiControllers
         }
 
         // POST: api/Book
+        /// <summary>
+        /// Add a new booking
+        /// </summary>
+        /// <param name="putBookModel"></param>
+        /// <returns></returns>
         [HttpPost]
         public PostBookResponse Post(PutBookModel putBookModel)
         {
@@ -35,7 +40,7 @@ namespace TeamProject.ApiControllers
                 return new PostBookResponse() { Status = "You must log in first" };
             }
 
-            if (!IsValidDate(putBookModel.BookedAt))
+            if (!putBookModel.IsValidDate())
             {
                 return new PostBookResponse() { Status = $"Can't Book on date before {DateTime.Now.Date}" };
             }
@@ -64,10 +69,7 @@ namespace TeamProject.ApiControllers
                 BookKey = booking.BookKey
             };
         }
-        private bool IsValidDate(DateTime BookedAt)
-        {
-            return DateTime.Compare(BookedAt.Date, DateTime.Now.Date) >= 0;
-        }
+
         private bool GetLoggedInUserId(out int loggedUserId)
         {
             var identity = User.Identity as ClaimsIdentity;
