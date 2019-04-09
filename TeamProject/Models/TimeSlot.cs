@@ -14,14 +14,14 @@ namespace TeamProject.Models
 
         public int Day { get; set; }
 
-        public string DayName
-        {
-            get
-            {
-                string[] DayNames = { "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday" };
-                return DayNames[Day - 1];
-            }
-        }
+        //public string DayName
+        //{
+        //    get
+        //    {
+        //        string[] DayNames = { "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday" };
+        //        return DayNames[Day - 1];
+        //    }
+        //}
 
         [DataType(DataType.Time)]
         public TimeSpan Hour { get; set; }

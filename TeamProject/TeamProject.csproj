@@ -230,6 +230,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="ApiControllers\BookController.cs" />
+    <Compile Include="ApiControllers\TimeslotsController.cs" />
     <Compile Include="ApiControllers\BookingsController.cs" />
     <Compile Include="App_Start\BundleConfig.cs" />
     <Compile Include="App_Start\FilterConfig.cs" />

@@ -14,14 +14,49 @@
 }
 
 /*for court timeslots*/
-.timeSlots td , .timeSlotsBooking td {
+.timeSlots td, .timeSlotsBooking td {
     margin: 5px;
     font-weight: bold;
     text-align: center;
     width: 12.5%
 }
 
-.timeSlots td a {
+    .timeSlots td div.active {
+        display: inline-block;
+        padding-top: 20px;
+        padding-bottom: 20px;
+        width: 100%;
+        border-radius: .25em;
+        border: 1px solid rgba(0,0,0,.125);
+        font-weight: normal;
+        text-align: center;
+        color: blue;
+        box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+        background: #deee86;
+    }
+
+    .timeSlots td div:hover {
+        cursor: pointer;
+    }
+
+    .timeSlots td div:not(.active) {
+        display: inline-block;
+        background: #F0F0F0;
+        padding-top: 20px;
+        padding-bottom: 20px;
+        width: 100%;
+        border-radius: .25em;
+        border: 1px solid rgba(0,0,0,.125);
+        font-weight: normal;
+        text-align: center;
+        box-shadow: none;
+    }
+    
+.timeslot-header .fas:hover {
+    cursor: pointer;
+}
+
+/*.timeSlots td a[set] {
     display: inline-block;
     padding-top: 20px;
     padding-bottom: 20px;
@@ -31,12 +66,22 @@
     font-weight: normal;
     text-align: center;
     box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
-}
-
-
-.timeSlots td a {
     background: #deee86;
 }
+
+.timeSlots td a[notset] {
+    display: inline-block;
+    background: #F0F0F0;
+    padding-top: 20px;
+    padding-bottom: 20px;
+    width: 100%;
+    border-radius: .25em;
+    border: 1px solid rgba(0,0,0,.125);
+    font-weight: normal;
+    text-align: center;
+    box-shadow: none;
+}*/
+
 
 /*form bookings*/
 .timeSlotsBooking td a div[booked] {
@@ -71,10 +116,11 @@
 }
 
 .timeslot-header .fas:hover {
-    cursor:pointer;
+    cursor: pointer;
 }
-.timeslot-header .fas:active{
-    cursor:wait;
+
+.timeslot-header .fas:active {
+    cursor: wait;
 }
 
 img.center {
@@ -82,8 +128,3 @@ img.center {
     margin-left: auto;
     margin-right: auto;
 }
-
-
-
-
-

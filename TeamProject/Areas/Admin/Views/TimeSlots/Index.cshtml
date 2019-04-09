@@ -13,7 +13,7 @@
 <h2>Timeslots</h2>
 <table class="table timeSlots">
     <tr>
-        <th>Time</th> 
+        <th>Time</th>
         <th>Monday</th>
         <th>Tuesday</th>
         <th>Wednesday</th>
@@ -25,56 +25,88 @@
 
     @foreach (var item in Model)
     {
-        <tr>
+        <tr data-hour="@item.Hour">
             <td>
                 @Html.DisplayFor(modelItem => item.Hour)
             </td>
-            <td>
-                @if (item.Day1 != null)
-                {
-                    @Html.ActionLink(item.Hour.ToString("hh\\:mm"), "Details", "Timeslots", new { id = item.Day1 }, new { id = item.Day1, @class = "" })
-                }
-            </td>
-            <td>
-                @if (item.Day2 != null)
-                {
-                    @Html.ActionLink(item.Hour.ToString("hh\\:mm"), "Details", "Timeslots", new { id = item.Day2 }, new { id = item.Day2, @class = "" })
-                }
-            </td>
-            <td>
-                @if (item.Day3 != null)
-                {
-                    @Html.ActionLink(item.Hour.ToString("hh\\:mm"), "Details", "Timeslots", new { id = item.Day3 }, new { id = item.Day3, @class = "" })
-                }
-            </td>
-            <td>
-                @if (item.Day4 != null)
-                {
-                    @Html.ActionLink(item.Hour.ToString("hh\\:mm"), "Details", "Timeslots", new { id = item.Day4 }, new { id = item.Day4, @class = "" })
-                }
-            </td>
-            <td>
-                @if (item.Day5 != null)
-                {
-                    @Html.ActionLink(item.Hour.ToString("hh\\:mm"), "Details", "Timeslots", new { id = item.Day5 }, new { id = item.Day5, @class = "" })
-                }
-            </td>
-            <td>
-                @if (item.Day6 != null)
-                {
-                    @Html.ActionLink(item.Hour.ToString("hh\\:mm"), "Details", "Timeslots", new { id = item.Day6 }, new { id = item.Day6, @class = "" })
-                }
-            </td>
-            <td>
-                @if (item.Day7 != null)
-                {
-                    @Html.ActionLink(item.Hour.ToString("hh\\:mm"), "Details", "Timeslots", new { id = item.Day7 }, new { id = item.Day7, @class = "" })
-                }
-            </td>
+            @for (var i = 1; i <= 7; i++)
+            {
+                <td data-day="@i">
+                    @if (item[i] != null)
+                    {
+                        <div data-id="@item[i]"
+                             class="active"
+                             data-toggle="tooltip"
+                             data-placement="top"
+                             title="click to Add/Remove timeslot">
+                            @item.Hour.ToString("hh\\:mm")
+                        </div>
+                    }
+                    else
+                    {
+                        <div data-toggle="tooltip"
+                             data-placement="top"
+                             title="click to Add/Remove timeslot">-</div>
+                    }
+                </td>
+            }
         </tr>
     }
 </table>
 
 <div>
-    @Html.ActionLink("Back to Courts", "Index", "Courts", new { id = ViewBag.Court.BranchId }, null)    
+    @Html.ActionLink("Back to Courts", "Index", "Courts", new { id = ViewBag.Court.BranchId }, null)
 </div>
+@section scripts{
+    <script src="~/Scripts/moment.js"></script>
+    <script>
+        $(document).ready(function () {
+            $('[data-toggle="tooltip"]').tooltip();
+
+            $('.timeSlots td').on('click', 'div.active', function (e) {
+                const $that = $(this),
+                    timeslot = {
+                        id: $(this).data('id')
+                    }
+
+                ajax(timeslot, 'remove', function (result) {
+                    $that
+                        .toggleClass('active')
+                        .text('-');
+                });
+
+            });
+
+            $('.timeSlots td').on('click', 'div:not(.active)', function (e) {
+
+                const $that = $(this),
+                    hour = $(this).closest('tr').data('hour'),
+                    timeslot = {
+                        CourtId: @ViewBag.Court.Id,
+                        Day: $(this).parent().data('day'),
+                        Hour: hour,
+                        Duration: 90
+                    };
+
+                ajax(timeslot, 'add', function (result) {
+                    $that
+                        .toggleClass('active')
+                        .text(moment(hour, 'hh:mm').format('HH:mm'));
+                });
+
+            });
+
+            function ajax(data, action, onSuccess) {
+                $.ajax({
+                    url: `/api/timeslots/${action}`,
+                    type: "POST",
+                    accepts: "application/json",
+                    contentType: "application/json",
+                    data: JSON.stringify(data),
+                    success: onSuccess
+                });
+            }
+        });
+
+    </script>
+}
