@@ -31,10 +31,9 @@
             </td>
             @for (var i = 1; i <= 7; i++)
             {
-                @{
-                    var active = item[i] == null ? string.Empty : "active";
-                    var text = item[i] == null ? "-" : item.Hour.ToString("hh\\:mm");
-                }
+                var active = item[i] == null ? string.Empty : "active";
+                var text = item[i] == null ? "-" : item.Hour.ToString("hh\\:mm");
+
                 <td data-day="@i">
                     <div data-id="@item[i]"
                          class="@active"
