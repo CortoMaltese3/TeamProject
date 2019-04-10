@@ -219,7 +219,7 @@
                 for (var hour of data) {
 
                     html += '<tr>';
-                    html += `<td>${hour.Hour}</td>`;
+                    html += `<td class="align-middle">${moment(hour.Hour,'hh:mm').format('HH:mm')}</td>`;
                     for (var i = 1; i <= 7; i++) {
                         let bookId = hour[`Day${i}`];
 
