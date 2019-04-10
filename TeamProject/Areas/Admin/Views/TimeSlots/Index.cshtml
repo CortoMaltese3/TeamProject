@@ -90,7 +90,8 @@
                     accepts: "application/json",
                     contentType: "application/json",
                     data: JSON.stringify(data),
-                    success: function () {
+                    success: function (result) {
+                        $timeslot.data('id', result);
                         $timeslot.toggleClass('active');
                         $timeslot.find('i').toggleClass('d-none');
                     }

@@ -24,19 +24,22 @@ namespace TeamProject.ApiControllers
         /// <summary>
         /// Add new timeslot
         /// </summary>
-        public string Add(TimeSlot timeSlot)
+        public int Add(TimeSlot timeSlot)
         {
-            db.TimeSlots.Add(timeSlot);
-            return db.LastActionStatus;
+            timeSlot = db.TimeSlots.Add(timeSlot);
+            return timeSlot.Id;
         }
 
         /// <summary>
         /// remove timeslot
         /// </summary>
-        public string Remove(TimeSlot timeSlot)
+        public int Remove(TimeSlot timeSlot)
         {
-            db.TimeSlots.Remove(timeSlot.Id);
-            return db.LastActionStatus;
+            if (db.TimeSlots.Remove(timeSlot.Id))
+            {
+                return 0;
+            }
+            return timeSlot.Id;
         }
 
     }
