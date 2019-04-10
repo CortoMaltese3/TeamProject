@@ -72,7 +72,6 @@ namespace TeamProject.Managers
                     book);
             });
             return book;
-            //insert into booking(courtId, book) SELECT 3 AS CourtId, 'Monday' as book FROM(SELECT TOP 1 FROM Booking WHERE CourtId = @CourtId AND book = 'Monday') b where b.ExistsId = 0
         }
 
     }

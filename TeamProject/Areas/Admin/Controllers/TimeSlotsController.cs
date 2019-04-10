@@ -16,11 +16,8 @@ namespace TeamProject.Areas.Admin.Controllers
         // GET: TimeSlots
         public ActionResult Index(int? id)
         {
-            var timeSlot = db.TimeSlots.Get("CourtId=@id", new { id  });//.Where(t => t.CourtId == (id ?? 0));
+            var timeSlot = db.TimeSlots.Get("CourtId=@id", new { id  });
             ViewBag.Court = db.Courts.Find(id ?? 0);
-            //ViewBag.id = id;            
-            //ViewBag.courtName = db.Courts.Find(id ?? 0).Name;
-            //ViewBag.branchId = db.Courts.Find(id ?? 0).BranchId;            
 
             var timeslotApiViews = db.TimeSlots.GetForView(id ?? 0).OrderBy(t => t.Hour).ToList();
 
@@ -40,7 +37,6 @@ namespace TeamProject.Areas.Admin.Controllers
             {
                 return HttpNotFound();
             }
-            //ViewBag.id = timeSlot.CourtId;
             return View(timeSlot);
         }
 
