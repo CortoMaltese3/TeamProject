@@ -123,42 +123,5 @@ namespace TeamProject.Managers
             return branches;
         }
 
-        //public IEnumerable<BookingReport> GetBookingsByBranchAndDay(int branchId)
-        //{
-        //    IEnumerable<BookingReport> branchTimeslots = Enumerable.Empty<BookingReport>();
-
-        //    _db.UsingConnection((dbCon) =>
-        //    {
-        //        branchTimeslots = dbCon
-        //            .Query<BookingReport>("GetBookingsByBranchAndDay",
-        //                new
-        //                {
-        //                    BranchId = branchId
-        //                },
-        //                commandType: CommandType.StoredProcedure);
-        //    });
-
-        //    return branchTimeslots;
-        //}
-
-
-        //public IEnumerable<BookingReport> GetBookingsByCourtAndDay(int courtId)
-        //{
-        //    IEnumerable<BookingReport> courtTimeslots = Enumerable.Empty<BookingReport>();
-
-        //    _db.UsingConnection((dbCon) =>
-        //    {
-        //        courtTimeslots = dbCon
-        //            .Query<BookingReport>("GetBookingsByCourtAndDay",
-        //                new
-        //                {
-        //                    CourtId = courtId
-        //                },
-        //                commandType: CommandType.StoredProcedure);
-        //    });
-
-        //    return courtTimeslots;
-        //}
-
     }
 }

@@ -32,7 +32,6 @@ namespace TeamProject.Models
 
         public int MaxPlayers { get; set; }
 
-        //[DisplayName("Price ($)")]
         public decimal Price { get; set; }
 
         public ICollection<Booking> Booking { get; set; }

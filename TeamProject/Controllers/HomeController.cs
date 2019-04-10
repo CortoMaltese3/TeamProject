@@ -16,7 +16,7 @@ namespace TeamProject.Controllers
         // GET: Courts
         public ActionResult Index()
         {
-            var court = db.Courts.Get().ToList();//.Include(c => c.Branch);
+            var court = db.Courts.Get().ToList();
             var courtlist = new List<Court>();
             var courtcount = court.Count();
             for (var i= 0; i<6 && i<courtcount; i++)
