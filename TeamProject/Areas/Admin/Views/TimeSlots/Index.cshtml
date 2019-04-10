@@ -31,23 +31,18 @@
             </td>
             @for (var i = 1; i <= 7; i++)
             {
+                @{
+                    var active = item[i] == null ? string.Empty : "active";
+                    var text = item[i] == null ? "-" : item.Hour.ToString("hh\\:mm");
+                }
                 <td data-day="@i">
-                    @if (item[i] != null)
-                    {
-                        <div data-id="@item[i]"
-                             class="active"
-                             data-toggle="tooltip"
-                             data-placement="top"
-                             title="click to Add/Remove timeslot">
-                            @item.Hour.ToString("hh\\:mm")
-                        </div>
-                    }
-                    else
-                    {
-                        <div data-toggle="tooltip"
-                             data-placement="top"
-                             title="click to Add/Remove timeslot">-</div>
-                    }
+                    <div data-id="@item[i]"
+                         class="@active"
+                         data-toggle="tooltip"
+                         data-placement="top"
+                         title="click to Add/Remove timeslot">
+                        @text
+                    </div>
                 </td>
             }
         </tr>
@@ -57,6 +52,7 @@
 <div>
     @Html.ActionLink("Back to Courts", "Index", "Courts", new { id = ViewBag.Court.BranchId }, null)
 </div>
+
 @section scripts{
     <script src="~/Scripts/moment.js"></script>
     <script>
