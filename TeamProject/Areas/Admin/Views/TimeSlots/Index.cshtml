@@ -32,7 +32,8 @@
             @for (var i = 1; i <= 7; i++)
             {
                 var active = item[i] == null ? string.Empty : "active";
-                var text = item[i] == null ? "-" : item.Hour.ToString("hh\\:mm");
+                var checkedIcon = item[i] == null ? "d-none" : "";
+                var uncheckedIcon = item[i] == null ? "" : "d-none";
 
                 <td data-day="@i">
                     <div data-id="@item[i]"
@@ -40,7 +41,8 @@
                          data-toggle="tooltip"
                          data-placement="top"
                          title="click to Add/Remove timeslot">
-                        @text
+                        <i class="icon fa-3x far fa-square @uncheckedIcon"></i>
+                        <i class="icon fa-3x fas fa-check-square @checkedIcon"></i>
                     </div>
                 </td>
             }
@@ -59,23 +61,17 @@
             $('[data-toggle="tooltip"]').tooltip();
 
             $('.timeSlots td').on('click', 'div.active', function (e) {
-                const $that = $(this),
-                    timeslot = {
+                const timeslot = {
                         id: $(this).data('id')
                     }
 
-                ajax(timeslot, 'remove', function (result) {
-                    $that
-                        .toggleClass('active')
-                        .text('-');
-                });
+                ajax(timeslot, $(this), 'remove');
 
             });
 
             $('.timeSlots td').on('click', 'div:not(.active)', function (e) {
 
-                const $that = $(this),
-                    hour = $(this).closest('tr').data('hour'),
+                const hour = $(this).closest('tr').data('hour'),
                     timeslot = {
                         CourtId: @ViewBag.Court.Id,
                         Day: $(this).parent().data('day'),
@@ -83,22 +79,21 @@
                         Duration: 90
                     };
 
-                ajax(timeslot, 'add', function (result) {
-                    $that
-                        .toggleClass('active')
-                        .text(moment(hour, 'hh:mm').format('HH:mm'));
-                });
+                ajax(timeslot, $(this), 'add');
 
             });
 
-            function ajax(data, action, onSuccess) {
+            function ajax(data, $timeslot, action) {
                 $.ajax({
                     url: `/api/timeslots/${action}`,
                     type: "POST",
                     accepts: "application/json",
                     contentType: "application/json",
                     data: JSON.stringify(data),
-                    success: onSuccess
+                    success: function () {
+                        $timeslot.toggleClass('active');
+                        $timeslot.find('i').toggleClass('d-none');
+                    }
                 });
             }
         });
