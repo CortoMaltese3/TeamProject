@@ -2,10 +2,6 @@
 .timeSlots td:first-child {
     font-weight: bold;
     text-align: right;
-}
-
-.timeSlots td:first-child {
-    text-align: right;
     padding-top: 20px;
 }
 
@@ -13,31 +9,24 @@
     text-align: center;
 }
 
-/*for court timeslots*/
-.timeSlots td div .icon {
-    color: #058035;
-    
+.timeSlots th:first-child {
+    text-align: right;
 }
 
-.timeSlots td div {
-    display: inline-block;
-    padding-top: 20px;
-    padding-bottom: 20px;
-    width: 100%;
+/*for court timeslots*/
+.timeSlots td .icon {
+    color: #058035;
     cursor: pointer;
 }
+
 .timeSlots td, .timeSlotsBooking td {
     margin: 5px;
     font-weight: bold;
     text-align: center;
     width: 12.5%
 }
-
-.timeSlots td div:hover {
-    cursor: pointer;
-}
     
-.timeslot-header .fas:hover {
+.timeslot-header {
     cursor: pointer;
 }
 

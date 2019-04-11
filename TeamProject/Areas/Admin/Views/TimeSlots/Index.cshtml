@@ -35,15 +35,15 @@
                 var checkedIcon = item[i] == null ? "d-none" : "";
                 var uncheckedIcon = item[i] == null ? "" : "d-none";
 
-                <td data-day="@i">
-                    <div data-id="@item[i]"
-                         class="@active"
-                         data-toggle="tooltip"
-                         data-placement="top"
-                         title="click to Add/Remove timeslot">
-                        <i class="icon fa-3x far fa-square @uncheckedIcon"></i>
-                        <i class="icon fa-3x fas fa-check-square @checkedIcon"></i>
-                    </div>
+                <td data-day="@i"
+                    data-id="@item[i]"
+                    class="@active"
+                    data-toggle="tooltip"
+                    data-placement="top"
+                    title="click to Add/Remove timeslot">
+                    <i class="icon fa-3x far fa-square @uncheckedIcon"></i>
+                    <i class="icon fa-3x fas fa-check-square @checkedIcon"></i>
+                    
                 </td>
             }
         </tr>
@@ -60,7 +60,8 @@
         $(document).ready(function () {
             $('[data-toggle="tooltip"]').tooltip();
 
-            $('.timeSlots td').on('click', 'div.active', function (e) {
+            $('.timeSlots tr').on('click', 'td.active', function (e) {
+
                 const timeslot = {
                         id: $(this).attr('data-id')
                     }
@@ -69,13 +70,12 @@
 
             });
 
-            $('.timeSlots td').on('click', 'div:not(.active)', function (e) {
+            $('.timeSlots tr').on('click', 'td:not(.active)', function (e) {
 
-                const hour = $(this).closest('tr').data('hour'),
-                    timeslot = {
+                const timeslot = {
                         CourtId: @ViewBag.Court.Id,
-                        Day: $(this).parent().data('day'),
-                        Hour: hour,
+                        Day: $(this).data('day'),
+                        Hour: $(this).closest('tr').data('hour'),
                         Duration: 60
                     };
 
