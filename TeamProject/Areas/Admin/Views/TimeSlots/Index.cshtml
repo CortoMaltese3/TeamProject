@@ -62,7 +62,7 @@
 
             $('.timeSlots td').on('click', 'div.active', function (e) {
                 const timeslot = {
-                        id: $(this).data('id')
+                        id: $(this).attr('data-id')
                     }
 
                 ajax(timeslot, $(this), 'remove');
@@ -76,7 +76,7 @@
                         CourtId: @ViewBag.Court.Id,
                         Day: $(this).parent().data('day'),
                         Hour: hour,
-                        Duration: 90
+                        Duration: 60
                     };
 
                 ajax(timeslot, $(this), 'add');
@@ -91,7 +91,7 @@
                     contentType: "application/json",
                     data: JSON.stringify(data),
                     success: function (result) {
-                        $timeslot.data('id', result);
+                        $timeslot.attr('data-id', result);
                         $timeslot.toggleClass('active');
                         $timeslot.find('i').toggleClass('d-none');
                     }
