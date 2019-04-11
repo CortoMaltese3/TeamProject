@@ -1,8 +1,10 @@
+using QRCoder;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
+using System.Drawing;
 
 namespace TeamProject.Models
 {
@@ -26,5 +28,20 @@ namespace TeamProject.Models
         public Court Court { get; set; }
 
         public User User { get; set; }
+
+        private string qrCodeImageAsBase64;
+        public string QrCodeImageAsBase64()
+        {
+            if (qrCodeImageAsBase64 == null)
+            {
+                QRCodeGenerator qrGenerator = new QRCodeGenerator();
+                QRCodeData qrCodeData = qrGenerator.CreateQrCode($"http://localhost:59940/Courts/Confirmed/{BookKey}", QRCodeGenerator.ECCLevel.Q);
+                var imgType = Base64QRCode.ImageType.Jpeg;
+                Base64QRCode qrCode = new Base64QRCode(qrCodeData);
+                qrCodeImageAsBase64 = qrCode.GetGraphic(20, Color.Black, Color.White, true, imgType);
+            }
+
+            return qrCodeImageAsBase64;
+        }
     }
 }

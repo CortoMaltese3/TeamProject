@@ -26,6 +26,9 @@ namespace TeamProject
                     <div> You have booked <strong> {booking.Court.Name} </strong> at <strong>{booking.BookedAt}</strong></div>
                     <br />
                     <span>Your booking number is <strong>{booking.BookKey}</strong></span>
+                    <div>
+                        <img style='height:256px' src='data:image/jpeg;base64,{booking.QrCodeImageAsBase64()}'>
+                    </div>
                     <br />
                     <br />
                     <span>You can find the Court at {branch.Address}</span>

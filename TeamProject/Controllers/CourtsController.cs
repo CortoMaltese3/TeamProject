@@ -18,10 +18,10 @@ namespace TeamProject.Controllers
         public ActionResult Index(int? id)
         {
             var court = db.Courts.Get().ToList();
-            if(id != null)
+            if (id != null)
             {
                 court = db.Courts.Get().Where(x => x.BranchId == id).ToList();
-               
+
             }
             return View(court);
         }
@@ -47,6 +47,7 @@ namespace TeamProject.Controllers
             ViewBag.city = branch.City;
 
             SmtpMessageChunk.SendMessageSmtp(booking, branch);
+
             return View(booking);
         }
 
@@ -62,7 +63,7 @@ namespace TeamProject.Controllers
                 return HttpNotFound();
             }
 
-            ViewBag.Facilities = db.Facilities.Get().Where(x => x.Branch.Any(b=>b.Id == court.Branch.Id));
+            ViewBag.Facilities = db.Facilities.Get().Where(x => x.Branch.Any(b => b.Id == court.Branch.Id));
             return View(court);
         }
 
@@ -75,10 +76,13 @@ namespace TeamProject.Controllers
             var PDF = render.RenderHtmlAsPdf(
                     $@"<h2> {booking.User.UserName}, thanks for booking.</h2>
                     <br/>
-                    <div> You have booked <strong> { booking.Court.Name} </strong> at <strong>{ booking.BookedAt}</strong>
+                    <div> You have booked <strong> {booking.Court.Name} </strong> at <strong>{booking.BookedAt}</strong>
                     </div><br/>
                     <span> Your booking number is <strong>{ booking.BookKey}</strong></span >
-                    <br/><br/><span> You can find the Court at { branch.Address}</span><br/><span><strong> Price:</strong> { booking.Court.Price} &euro; ");
+                    <div style='height: 500px'>
+                        <img style='height:256px' src='data:image/jpeg;base64,{booking.QrCodeImageAsBase64()}'>
+                    </div>
+                    <span> You can find the Court at {branch.Address}</span><br/><span><strong> Price:</strong> { booking.Court.Price} &euro; ");
             //return a  pdf document from a view
             var contentLength = PDF.BinaryData.Length;
             Response.AppendHeader("Content-Length", contentLength.ToString());
