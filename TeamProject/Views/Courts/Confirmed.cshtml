@@ -13,7 +13,7 @@
     <br />
     <span>Your booking number is <strong>@Model.BookKey</strong></span>
     <div>
-        <img style="height:256px" src="data:image/jpeg;base64,@Model.QrCodeImageAsBase64()">
+        <img style="height:256px" src="data:image/jpeg;base64,@Model.QrCodeImageAsBase64(Request.Url)">
     </div>
     <br />
     <br />

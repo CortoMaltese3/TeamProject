@@ -46,7 +46,7 @@ namespace TeamProject.Controllers
             ViewBag.address = branch.Address;
             ViewBag.city = branch.City;
 
-            SmtpMessageChunk.SendMessageSmtp(booking, branch);
+            SmtpMessageChunk.SendMessageSmtp(booking, branch, Request.Url);
 
             return View(booking);
         }
@@ -80,7 +80,7 @@ namespace TeamProject.Controllers
                     </div><br/>
                     <span> Your booking number is <strong>{ booking.BookKey}</strong></span >
                     <div style='height: 500px'>
-                        <img style='height:256px' src='data:image/jpeg;base64,{booking.QrCodeImageAsBase64()}'>
+                        <img style='height:256px' src='data:image/jpeg;base64,{booking.QrCodeImageAsBase64(Request.Url)}'>
                     </div>
                     <span> You can find the Court at {branch.Address}</span><br/><span><strong> Price:</strong> { booking.Court.Price} &euro; ");
             //return a  pdf document from a view

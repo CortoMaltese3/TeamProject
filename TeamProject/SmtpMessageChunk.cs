@@ -12,7 +12,7 @@ namespace TeamProject
 {
     public class SmtpMessageChunk
     {
-        public static void SendMessageSmtp(Booking booking, Branch branch)
+        public static void SendMessageSmtp(Booking booking, Branch branch, Uri url)
         {
             // Compose a message
             MimeMessage mail = new MimeMessage();
@@ -27,7 +27,7 @@ namespace TeamProject
                     <br />
                     <span>Your booking number is <strong>{booking.BookKey}</strong></span>
                     <div>
-                        <img style='height:256px' src='data:image/jpeg;base64,{booking.QrCodeImageAsBase64()}'>
+                        <img style='height:256px' src='data:image/jpeg;base64,{booking.QrCodeImageAsBase64(url)}'>
                     </div>
                     <br />
                     <br />
