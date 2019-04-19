@@ -7,9 +7,8 @@ using TeamProject.Dal;
 
 namespace TeamProject.Models
 {
-    public class BranchFacilities
+    public class BranchFacilities : IEquatable<BranchFacilities>
     {
-        //[TableKey("BranchId,FacilityId")]
         [TableField(PrimaryKey = true)]
         public int BranchId { get; set; }
 
@@ -19,14 +18,18 @@ namespace TeamProject.Models
         public Branch Branch { get; set; }
         public Facility Facility { get; set; }
 
-        public IList<int> SelectedFacilities { get; set; }
-        public IList<Facility> AvailableFacilities { get; set; }
-
-        public BranchFacilities()
+        // used for union with available facilitie in BranchFacilities Controller.ChooseFacilities Method
+        public bool Equals(BranchFacilities other)
         {
-            SelectedFacilities = new List<int>();
-            AvailableFacilities = new List<Facility>();
+            if (other == null)
+            {
+                return false;
+            }
+
+            return FacilityId == other.FacilityId;
         }
+        public override bool Equals(object obj) => Equals(obj as BranchFacilities);
+        public override int GetHashCode() => FacilityId.GetHashCode();
     }
 
 }

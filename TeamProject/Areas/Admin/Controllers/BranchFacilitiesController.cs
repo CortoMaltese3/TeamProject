@@ -37,10 +37,12 @@ namespace TeamProject.Areas.Admin.Controllers
             db.BranchFacilities.Remove(facilityFormModel.BranchId);
 
             // add selected facilities
-            var facilities = facilityFormModel.SelectedFacilities;
-            foreach (var item in facilities)
+            if (facilityFormModel.SelectedFacilities != null)
             {
-                db.BranchFacilities.Add(new BranchFacilities() { BranchId = facilityFormModel.BranchId, FacilityId = item });
+                foreach (var item in facilityFormModel.SelectedFacilities)
+                {
+                    db.BranchFacilities.Add(new BranchFacilities() { BranchId = facilityFormModel.BranchId, FacilityId = item });
+                }
             }
 
             return RedirectToAction("Index", "Branches");
