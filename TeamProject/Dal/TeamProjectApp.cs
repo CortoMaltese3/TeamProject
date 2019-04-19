@@ -13,7 +13,7 @@ namespace TeamProject.Dal
 {
     public class TeamProjectApp
     {
-        
+
         private ProjectDbContext _db = new ProjectDbContext();
         #region Users 
 
@@ -95,22 +95,15 @@ namespace TeamProject.Dal
         {
             // remove existing roles that got disabled 
             _db.UserRoles.Remove(user.Id);
-            //user.Roles
-            //    .Where(r => !r.IsNew && !r.IsEnabled)
-            //    .ToList()
-            //    .ForEach((role) =>
-            //    {
-            //        _db.UserRoles.Remove(user.Id, role.Id);
-            //    });
 
-            // TODO : add all enabled user roles
             // add new roles
             user.Roles
                 .Where(r => r.IsEnabled)
+                .Select(r => new UserRoles() { UserId = user.Id, RoleId = r.Id })
                 .ToList()
                 .ForEach((role) =>
                 {
-                    _db.UserRoles.Add(new UserRoles() { UserId = user.Id, RoleId = role.Id });
+                    _db.UserRoles.Add(role);
                 });
 
             //update user
