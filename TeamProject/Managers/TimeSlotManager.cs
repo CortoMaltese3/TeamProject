@@ -13,19 +13,14 @@ namespace TeamProject.Managers
     public class TimeSlotManager : TableManager<TimeSlot>
     {
 
-        public TimeSlotManager(ProjectDbContext projectDbContext)
+        public TimeSlotManager(ProjectDbContext projectDbContext) 
         {
-            _queryParts = new Dictionary<string, string>()
-            {
-                { "InsertQuery",
-                    "INSERT INTO TimeSlot ([CourtId],[Day],[Hour],[Duration]) " +
-                    "VALUES (@CourtId,@Day,@Hour,@Duration) " +
-                    "SELECT * FROM TimeSlot WHERE TimeSlot.Id = (SELECT SCOPE_IDENTITY())"},
-                { "UpdateQuery",
-                    "UPDATE TimeSlot SET " +
-                    "[CourtId]=@CourtId,[Day]=@Day,[Hour]=@Hour,[Duration]=@Duration " +
-                    "WHERE Id = @Id"}
-            };
+            AddField(t => t.CourtId);
+            AddField(t => t.Day);
+            AddField(t => t.Hour);
+            AddField(t => t.Duration);
+            PrepareQueries();
+
             _db = projectDbContext;
         }
 

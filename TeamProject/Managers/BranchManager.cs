@@ -11,19 +11,18 @@ namespace TeamProject.Managers
 {
     public class BranchManager : TableManager<Branch>
     {
-        public BranchManager(ProjectDbContext projectDbContext)
+        public BranchManager(ProjectDbContext projectDbContext) 
         {
-            _queryParts = new Dictionary<string, string>()
-            {
-                { "InsertQuery",
-                    "INSERT INTO Branch ([UserId],[Name],[Longitude],[Latitude],[City],[Address],[ZipCode],[ImageBranch]) " +
-                    "VALUES (@UserId,@Name,@Longitude,@Latitude,@City,@Address,@ZipCode,@ImageBranch)" +
-                    "SELECT * FROM Branch WHERE Branch.Id = (SELECT SCOPE_IDENTITY())"},
-                { "UpdateQuery",
-                    "UPDATE Branch SET " +
-                    "[UserId]=@UserId,[Name]=@Name,[Longitude]=@Longitude,[Latitude]=@Latitude,[City]=@City,[Address]=@Address,[ZipCode]=@ZipCode, [ImageBranch]=@ImageBranch " +
-                    "WHERE Id = @Id"}
-            };
+            AddField(bf => bf.UserId);
+            AddField(bf => bf.Name);
+            AddField(bf => bf.Longitude);
+            AddField(bf => bf.Latitude);
+            AddField(bf => bf.City);
+            AddField(bf => bf.Address);
+            AddField(bf => bf.ZipCode);
+            AddField(bf => bf.ImageBranch);
+            PrepareQueries();
+
             _db = projectDbContext;
         }
 

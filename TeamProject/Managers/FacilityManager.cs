@@ -10,19 +10,12 @@ namespace TeamProject.Managers
 {
     public class FacilityManager : TableManager<Facility>
     {
-        public FacilityManager(ProjectDbContext projectDbContext)
+        public FacilityManager(ProjectDbContext projectDbContext) 
         {
-            _queryParts = new Dictionary<string, string>()
-            {
-                { "InsertQuery",
-                    " INSERT INTO Facility ([Description], [ImageFacility]) " +
-                    " VALUES (@Description, @ImageFacility) " +
-                    " SELECT * FROM Facility WHERE Facility.Id = (SELECT SCOPE_IDENTITY()) "},
-                { "UpdateQuery",
-                    " UPDATE Facility SET " +
-                    " [Description] = @Description, [ImageFacility]=@ImageFacility " +
-                    " WHERE Id = @Id"}
-            };
+            AddField(t => t.Description);
+            AddField(t => t.ImageFacility);
+            PrepareQueries();
+
             _db = projectDbContext;
         }
 
@@ -30,10 +23,10 @@ namespace TeamProject.Managers
         {
             IEnumerable<Facility> facilities = null;
 
-            var facilityDictionary = new Dictionary<int, Facility>();  
+            var facilityDictionary = new Dictionary<int, Facility>();
 
             _db.UsingConnection((dbCon) =>
-            {                
+            {
                 facilities = dbCon.Query<Facility, Branch, Facility>(
                     "SELECT Facility.*, Branch.* FROM Facility " +
                     " LEFT JOIN BranchFacilities ON Facility.Id = BranchFacilities.FacilityId " +
@@ -46,7 +39,7 @@ namespace TeamProject.Managers
                         if (!facilityDictionary.TryGetValue(facility.Id, out facilityEntry))
                         {
                             facilityEntry = facility;
-                            facilityEntry.Branch  = new List<Branch>();
+                            facilityEntry.Branch = new List<Branch>();
                             facilityDictionary.Add(facilityEntry.Id, facilityEntry);
                         }
                         if (branch != null)

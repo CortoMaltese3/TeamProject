@@ -20,10 +20,10 @@
     <MvcBuildViews>false</MvcBuildViews>
     <UseIISExpress>true</UseIISExpress>
     <Use64BitIISExpress />
-    <IISExpressSSLPort />
-    <IISExpressAnonymousAuthentication />
-    <IISExpressWindowsAuthentication />
-    <IISExpressUseClassicPipelineMode />
+    <IISExpressSSLPort>44322</IISExpressSSLPort>
+    <IISExpressAnonymousAuthentication>enabled</IISExpressAnonymousAuthentication>
+    <IISExpressWindowsAuthentication>disabled</IISExpressWindowsAuthentication>
+    <IISExpressUseClassicPipelineMode>false</IISExpressUseClassicPipelineMode>
     <UseGlobalApplicationHostFile />
     <NuGetPackageImportStamp>
     </NuGetPackageImportStamp>
@@ -259,6 +259,8 @@
     <Compile Include="Areas\Admin\Controllers\UsersController.cs" />
     <Compile Include="Controllers\UserBookingController.cs" />
     <Compile Include="Controllers\JoinController.cs" />
+    <Compile Include="Dal\TableKey.cs" />
+    <Compile Include="Dal\TableExcludeField.cs" />
     <Compile Include="Dal\TeamProjectApp.cs" />
     <Compile Include="ModelsViews\PostBookResponse.cs" />
     <Compile Include="Models\BookingReport.cs" />

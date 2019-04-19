@@ -13,25 +13,23 @@ namespace TeamProject.Managers
     public class BookingManager : TableManager<Booking>
     {
 
-        public BookingManager(ProjectDbContext projectDbContext)
+        public BookingManager(ProjectDbContext projectDbContext)            
         {
-            _queryParts = new Dictionary<string, string>()
-            {
-                { "InsertQuery",
-                    "INSERT INTO Booking ([CourtId],[UserId],[BookedAt],[Duration],[BookKey]) " +
-                    "VALUES (@CourtId,@UserId,@BookedAt,@Duration,@BookKey) " +
-                    "SELECT * FROM Booking WHERE Booking.Id = (SELECT SCOPE_IDENTITY())"},
-                { "UpdateQuery",
-                    "UPDATE Booking SET " +
-                    "[CourtId]=@CourtId,[UserId]=@UserId,[BookedAt]=@BookedAt,[Duration]=@Duration,[BookKey]=@BookKey" +
-                    "WHERE Id = @Id"}
-            };
+            AddField(b => b.CourtId);
+            AddField(b => b.UserId);
+            AddField(b => b.BookedAt);
+            AddField(b => b.Duration);
+            AddField(b => b.BookKey);
+            PrepareQueries();
+
             _db = projectDbContext;
         }
 
         public override IEnumerable<Booking> Get(string queryWhere = null, object parameters = null)
         {
             IEnumerable<Booking> Bookings = Enumerable.Empty<Booking>();
+
+            
 
             _db.UsingConnection((dbCon) =>
             {
@@ -59,7 +57,7 @@ namespace TeamProject.Managers
         }
         public override Booking Add(Booking book)
         {
-                            
+
             _db.UsingConnection(dbCon =>
             {
                 book.Id = dbCon.ExecuteScalar<int>(
@@ -68,7 +66,7 @@ namespace TeamProject.Managers
                     "    INSERT INTO Booking (CourtId, BookedAt, UserId, Duration, BookKey) " +
                     "    VALUES (@CourtId, @BookedAt, @UserId, @Duration, @BookKey) " +
                     "    SELECT SCOPE_IDENTITY() AS Id " +
-                    "END", 
+                    "END",
                     book);
             });
             return book;

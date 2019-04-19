@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
+using TeamProject.Dal;
 
 namespace TeamProject.Models
 {
@@ -9,8 +10,8 @@ namespace TeamProject.Models
 
     public class UserRoles
     {
+        [TableKey("UserId,RoleId")]
         [Required]
-        [Key]
         public int UserId { get; set; }
         [Required]
         public int RoleId { get; set; }

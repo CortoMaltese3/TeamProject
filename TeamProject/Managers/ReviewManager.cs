@@ -12,19 +12,14 @@ namespace TeamProject.Managers
     public class ReviewManager : TableManager<Review>
     {
 
-        public ReviewManager(ProjectDbContext projectDbContext)
+        public ReviewManager(ProjectDbContext projectDbContext) 
         {
-            _queryParts = new Dictionary<string, string>()
-            {
-                { "InsertQuery",
-                    "INSERT INTO Review ([CourtId],[UserId],[Rating],[Comment],[CommentAt]) " +
-                    "VALUES (@CourtId,@UserId,@Rating,@Comment,@CommentAt) " +
-                    "SELECT * FROM Review WHERE Review.Id = (SELECT SCOPE_IDENTITY())"},
-                { "UpdateQuery",
-                    "UPDATE Review SET " +
-                    "[CourtId]=@CourtId,[UserId]=@UserId,[Rating]=@Rating,[Comment]=@Comment,[CommentAt]=@CommentAt " +
-                    "WHERE Id = @Id"}
-            };
+            AddField(t => t.CourtId);
+            AddField(t => t.UserId);
+            AddField(t => t.Rating);
+            AddField(t => t.Comment);
+            PrepareQueries();
+
             _db = projectDbContext;
         }
 

@@ -4,6 +4,7 @@ using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
+using TeamProject.Dal;
 
 namespace TeamProject.Models
 {
@@ -17,7 +18,6 @@ namespace TeamProject.Models
             Review = new List<Review>();
             Roles = new List<Role>();
         }
-        [Key]
         public int Id { get; set; }
 
 
@@ -36,6 +36,7 @@ namespace TeamProject.Models
         public string Email { get; set; }
 
         [DataType(DataType.Password)]
+        [TableExcludeField(FromUpdate = true)]
         public string Password { get; set; }
 
         [DataType(DataType.Password)]

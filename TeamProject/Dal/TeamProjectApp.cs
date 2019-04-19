@@ -94,17 +94,19 @@ namespace TeamProject.Dal
         public bool UpdateUserAndRoles(User user)
         {
             // remove existing roles that got disabled 
-            user.Roles
-                .Where(r => !r.IsNew && !r.IsEnabled)
-                .ToList()
-                .ForEach((role) =>
-                {
-                    _db.UserRoles.Remove(user.Id, role.Id);
-                });
+            _db.UserRoles.Remove(user.Id);
+            //user.Roles
+            //    .Where(r => !r.IsNew && !r.IsEnabled)
+            //    .ToList()
+            //    .ForEach((role) =>
+            //    {
+            //        _db.UserRoles.Remove(user.Id, role.Id);
+            //    });
 
+            // TODO : add all enabled user roles
             // add new roles
             user.Roles
-                .Where(r => r.IsNew && r.IsEnabled)
+                .Where(r => r.IsEnabled)
                 .ToList()
                 .ForEach((role) =>
                 {

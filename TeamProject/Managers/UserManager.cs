@@ -13,19 +13,14 @@ namespace TeamProject.Managers
 {
     public class UserManager : TableManager<User>
     {
-        public UserManager(ProjectDbContext projectDbContext)
+        public UserManager(ProjectDbContext projectDbContext) 
         {
-            _queryParts = new Dictionary<string, string>()
-            {
-                { "InsertQuery",
-                    "INSERT INTO [User] ([Firstname], [Lastname], [Email], [Password]) " +
-                    "VALUES (@Firstname, @Lastname, @Email, @Password) " +
-                    "SELECT * FROM [User] WHERE [User].Id = (SELECT SCOPE_IDENTITY())"},
-                { "UpdateQuery",
-                    "UPDATE [User] SET " +
-                    "[Firstname]=@Firstname, [Lastname]=@Lastname, [Email]=@Email " +
-                    "WHERE Id = @Id"}
-            };
+            AddField(t => t.Firstname);
+            AddField(t => t.Lastname);
+            AddField(t => t.Email);
+            AddField(t => t.Password);
+            PrepareQueries();
+
             _db = projectDbContext;
         }
 

@@ -12,6 +12,7 @@ namespace TeamProject.Models
 
     public class Booking
     {
+        
         public int Id { get; set; }
 
         public int CourtId { get; set; }

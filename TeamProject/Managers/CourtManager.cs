@@ -14,19 +14,16 @@ namespace TeamProject.Managers
 
     public class CourtManager : TableManager<Court>
     {
-        public CourtManager(ProjectDbContext projectDbContext)
+        public CourtManager(ProjectDbContext projectDbContext) 
         {
-            _queryParts = new Dictionary<string, string>()
-            {
-                { "InsertQuery",
-                    "INSERT INTO Court ([BranchId],[Name],[ImageCourt],[Description],[MaxPlayers],[Price]) " +
-                    "VALUES (@BranchId,@Name,@ImageCourt,@Description,@MaxPlayers,@Price)" +
-                    "SELECT * FROM Court WHERE Court.Id = (SELECT SCOPE_IDENTITY())"},
-                { "UpdateQuery",
-                    "UPDATE Court SET " +
-                    "[BranchId]=@BranchId, [Name]=@Name, [ImageCourt]=@ImageCourt,[Description]=@Description,[MaxPlayers]=@MaxPlayers, [Price]=@Price " +
-                    "WHERE Id = @Id"}
-            };
+            AddField(t => t.BranchId);
+            AddField(t => t.Name);
+            AddField(t => t.ImageCourt);
+            AddField(t => t.Description);
+            AddField(t => t.MaxPlayers);
+            AddField(t => t.Price);
+            PrepareQueries();
+
             _db = projectDbContext;
         }
 

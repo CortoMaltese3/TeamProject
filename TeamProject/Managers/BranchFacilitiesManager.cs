@@ -12,19 +12,26 @@ namespace TeamProject.Managers
 {
     public class BranchFacilitiesManager : TableManager<BranchFacilities>
     {
-        public BranchFacilitiesManager(ProjectDbContext projectDbContext)
+        public BranchFacilitiesManager(ProjectDbContext projectDbContext) 
         {
-            _queryParts = new Dictionary<string, string>()
-            {
-                { "InsertQuery",
-                    "INSERT INTO BranchFacilities ([BranchId], [FacilityId]) " +
-                    "VALUES (@BranchId, @FacilityId) " +
-                    "SELECT * FROM BranchFacilities WHERE BranchId=@BranchId AND FacilityId=@FacilityId"},
-                { "UpdateQuery",
-                    "UPDATE BranchFacilities SET " +
-                    "[BranchId]=@BranchId, [FacilityId]=@FacilityId " +
-                    "WHERE BranchId = @Id"}
-            };
+            //_queryParts = new Dictionary<string, string>()
+            //{
+            //    { "InsertQuery",
+            //        "INSERT INTO BranchFacilities ([BranchId], [FacilityId]) " +
+            //        "VALUES (@BranchId, @FacilityId) " +
+            //        "SELECT * FROM BranchFacilities WHERE BranchId=@BranchId AND FacilityId=@FacilityId"},
+            //    { "UpdateQuery",
+            //        "UPDATE BranchFacilities SET " +
+            //        "[BranchId]=@BranchId, [FacilityId]=@FacilityId " +
+            //        "WHERE BranchId = @Id"}
+            //};
+            // TODO : set Id = BranchId for update, BranchId and FacilityId to get inserted record
+            // Id should be replaced with BranchId for delete, update action
+            // Id = (SELECT SCOPE_IDENTITY()) should be replaced with BranchId=@BranchId AND FacilityId=@FacilityId
+            AddField(bf => bf.BranchId);
+            AddField(bf => bf.FacilityId);
+            PrepareQueries();
+
             _db = projectDbContext;
         }
 
@@ -53,22 +60,10 @@ namespace TeamProject.Managers
 
             return BranchFacilities;
         }
-        public bool Remove(int BranchId, int FacilityId)
-        {
-            int affectedRows = 0;
-            _db.UsingConnection((dbCon) =>
-            {
-                affectedRows = dbCon.Execute("DELETE " +
-                    "FROM BranchFacilities " +
-                    "WHERE BranchId = @BranchId " +
-                    "AND FacilityId = @FacilityId",
-                    new { BranchId, FacilityId });
-            });
-            return affectedRows > 0;
-        }
 
         public IList<SelectListItem> GetFacilities(int branchId)
         {
+            // TODO: Refactor this maybe using linq union
             var allFacilities = _db.Facilities.Get().Select(f => new SelectListItem()
             {
                 Text = f.Description,

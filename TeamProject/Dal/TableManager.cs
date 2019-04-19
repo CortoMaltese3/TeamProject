@@ -1,9 +1,13 @@
 ﻿using System;
+using System.ComponentModel.DataAnnotations;
 using System.Collections.Generic;
 using System.Linq;
+using System.Linq.Expressions;
+using System.Reflection;
 using System.Web;
 using Dapper;
 using TeamProject.Managers;
+using System.Diagnostics;
 
 namespace TeamProject.Dal
 {
@@ -14,27 +18,21 @@ namespace TeamProject.Dal
     public abstract class TableManager<T> : IDatabaseActions<T>
     {
         protected ProjectDbContext _db;
-        protected Dictionary<string, string> _queryParts;
-        protected string TableName { get; }
-        public TableManager()
-        {
-            TableName = typeof( T).Name;
-        }
-        public IEnumerable<T> Court
-        {
-            get
-            {
-                return Get();
-            }
-        }
+        private List<PropertyInfo> _propertyInfos = new List<PropertyInfo>();
+        private string _insertQuery;
+        private string _updateQuery;
+        private string _deleteQuery;
+        private string _findQuery;
+
+        public IEnumerable<T> Court => Get();
 
         public virtual T Add(T row)
         {
             T addedCourt = default(T);
+
             _db.UsingConnection((dbCon) =>
             {
-                addedCourt = dbCon
-                    .Query<T>(_queryParts["InsertQuery"], row)
+                addedCourt = dbCon.Query<T>(_insertQuery, row)
                     .FirstOrDefault();
             });
 
@@ -43,7 +41,7 @@ namespace TeamProject.Dal
 
         public T Find(int id)
         {
-            return Get($"[{TableName}].id = @id", new { id }).FirstOrDefault();
+            return Get(_findQuery, new { id }).FirstOrDefault();
         }
 
         public abstract IEnumerable<T> Get(string query = null, object parameters = null);
@@ -53,8 +51,7 @@ namespace TeamProject.Dal
             int rowsAffected = 0;
             _db.UsingConnection((dbCon) =>
             {
-                rowsAffected = dbCon
-                    .Execute($"DELETE FROM [{TableName}] WHERE Id = @Id", new { id });
+                rowsAffected = dbCon.Execute(_deleteQuery, new { id });
             });
             return rowsAffected > 0;
         }
@@ -64,10 +61,72 @@ namespace TeamProject.Dal
             int rowsAffected = 0;
             _db.UsingConnection((dbCon) =>
             {
-                rowsAffected = dbCon
-                    .Execute(_queryParts["UpdateQuery"], row);
+                rowsAffected = dbCon.Execute(_updateQuery, row);
             });
             return rowsAffected > 0;
         }
+
+        #region Field Mapping
+
+        protected void AddField<U>(Expression<Func<T, U>> expression)
+        {
+            var memberExpression = expression.Body as MemberExpression;
+
+            if (memberExpression == null)
+            {
+                throw new ArgumentNullException();
+            }
+
+            var propertyInfo = memberExpression.Member as PropertyInfo;
+            _propertyInfos.Add(propertyInfo);
+
+        }
+
+        private string GetKey()
+        {
+            return typeof(T)
+              .GetProperties()
+              .Where(p => p.Name.Equals("id", StringComparison.InvariantCultureIgnoreCase) || 
+                          p.GetCustomAttribute<TableKey>() != null)
+              .FirstOrDefault()
+              .GetCustomAttribute<TableKey>()
+              ?.Keys ?? "Id";
+        }
+
+        protected void PrepareQueries()
+        {
+            var tableName = typeof(T).Name;
+            var tableKeys = GetKey().Split(',');
+            var tableKey = tableKeys[0];
+            var scopeKey = $"[{tableKey}] = (SELECT SCOPE_IDENTITY())";
+
+            if (tableKeys.Count() > 1)
+            {
+                scopeKey = string.Join(" AND ", tableKeys.Select(k => $"[{k}] = @{k}"));
+            }
+            
+            _insertQuery =
+                $"INSERT INTO [{tableName}] ({GetFieldsForInsert}) " +
+                $"VALUES ({GetFieldsForValues}) " +
+                $"SELECT * FROM [{tableName}] WHERE {scopeKey}";
+
+            _updateQuery =
+                $"UPDATE [{tableName}] SET " +
+                $"{GetFieldsForUpdate} " +
+                $"WHERE [{tableKey}] = @id";
+
+            _deleteQuery =
+                $"DELETE " +
+                $"FROM [{tableName}] " +
+                $"WHERE [{tableKey}] = @id";
+
+            _findQuery = $"[{tableName}].[{tableKey}] = @id";
+
+        }
+
+        private string GetFieldsForInsert => string.Join(", ", _propertyInfos.Select(p => $"[{p.Name}]"));
+        private string GetFieldsForValues => string.Join(", ", _propertyInfos.Select(p => $"@{p.Name}"));
+        private string GetFieldsForUpdate => string.Join(", ", _propertyInfos.Where(p => (p.GetCustomAttribute<TableExcludeField>()?.FromUpdate ?? false) == false).Select(p => $"[{p.Name}]=@{p.Name}"));
+        #endregion
     }
 }

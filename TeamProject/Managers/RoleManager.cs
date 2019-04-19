@@ -12,19 +12,11 @@ namespace TeamProject.Managers
     public class RoleManager : TableManager<Role>
     {
 
-        public RoleManager(ProjectDbContext projectDbContext)
+        public RoleManager(ProjectDbContext projectDbContext) 
         {
-            _queryParts = new Dictionary<string, string>()
-            {
-                { "InsertQuery",
-                    "INSERT INTO Role ([Description]) " +
-                    "VALUES (@Description) " +
-                    "SELECT * FROM Role WHERE Role.Id = (SELECT SCOPE_IDENTITY())"},
-                { "UpdateQuery",
-                    "UPDATE Role SET " +
-                    "[Description]=@Description " +
-                    "WHERE Id = @Id"}
-            };
+            AddField(t => t.Description);
+            PrepareQueries();
+
             _db = projectDbContext;
         }
 
