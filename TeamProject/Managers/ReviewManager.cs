@@ -14,12 +14,6 @@ namespace TeamProject.Managers
 
         public ReviewManager(ProjectDbContext projectDbContext) 
         {
-            AddField(t => t.CourtId);
-            AddField(t => t.UserId);
-            AddField(t => t.Rating);
-            AddField(t => t.Comment);
-            PrepareQueries();
-
             _db = projectDbContext;
         }
 

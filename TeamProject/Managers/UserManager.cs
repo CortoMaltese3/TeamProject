@@ -15,12 +15,6 @@ namespace TeamProject.Managers
     {
         public UserManager(ProjectDbContext projectDbContext) 
         {
-            AddField(t => t.Firstname);
-            AddField(t => t.Lastname);
-            AddField(t => t.Email);
-            AddField(t => t.Password);
-            PrepareQueries();
-
             _db = projectDbContext;
         }
 

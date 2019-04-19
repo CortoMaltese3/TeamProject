@@ -3,11 +3,12 @@ using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Web;
+using TeamProject.Dal;
 
 namespace TeamProject.Models
 {
 
-    public class Facility : IEquatable<Facility>
+    public class Facility 
     {
         public Facility()
         {
@@ -16,6 +17,7 @@ namespace TeamProject.Models
 
         public int Id { get; set; }
 
+        [TableField]
         [Required]
         [StringLength(20)]
         public string Description { get; set; }
@@ -23,14 +25,10 @@ namespace TeamProject.Models
         [NotMapped]
         public HttpPostedFileBase ImageFile { get; set; }
 
+        [TableField]
         public string ImageFacility { get; set; }
 
         public ICollection<Branch> Branch { get; set; }
 
-        public bool Equals(Facility other)
-        {
-            return other != null &&
-                other.Id == Id;
-        }
     }
 }

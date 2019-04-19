@@ -15,12 +15,6 @@ namespace TeamProject.Managers
 
         public TimeSlotManager(ProjectDbContext projectDbContext) 
         {
-            AddField(t => t.CourtId);
-            AddField(t => t.Day);
-            AddField(t => t.Hour);
-            AddField(t => t.Duration);
-            PrepareQueries();
-
             _db = projectDbContext;
         }
 

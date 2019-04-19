@@ -13,16 +13,6 @@ namespace TeamProject.Managers
     {
         public BranchManager(ProjectDbContext projectDbContext) 
         {
-            AddField(bf => bf.UserId);
-            AddField(bf => bf.Name);
-            AddField(bf => bf.Longitude);
-            AddField(bf => bf.Latitude);
-            AddField(bf => bf.City);
-            AddField(bf => bf.Address);
-            AddField(bf => bf.ZipCode);
-            AddField(bf => bf.ImageBranch);
-            PrepareQueries();
-
             _db = projectDbContext;
         }
 

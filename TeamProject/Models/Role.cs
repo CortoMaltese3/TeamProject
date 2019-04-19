@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
+using TeamProject.Dal;
 
 namespace TeamProject.Models
 {
@@ -14,6 +15,7 @@ namespace TeamProject.Models
 
         public int Id { get; set; }
 
+        [TableField]
         [Required]
         public string Description { get; set; }
 

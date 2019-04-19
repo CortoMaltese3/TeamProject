@@ -14,9 +14,6 @@ namespace TeamProject.Managers
 
         public RoleManager(ProjectDbContext projectDbContext) 
         {
-            AddField(t => t.Description);
-            PrepareQueries();
-
             _db = projectDbContext;
         }
 

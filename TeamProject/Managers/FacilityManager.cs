@@ -12,10 +12,6 @@ namespace TeamProject.Managers
     {
         public FacilityManager(ProjectDbContext projectDbContext) 
         {
-            AddField(t => t.Description);
-            AddField(t => t.ImageFacility);
-            PrepareQueries();
-
             _db = projectDbContext;
         }
 

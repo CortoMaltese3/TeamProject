@@ -18,13 +18,13 @@ namespace TeamProject.Dal
     public abstract class TableManager<T> : IDatabaseActions<T>
     {
         protected ProjectDbContext _db;
-        private List<PropertyInfo> _propertyInfos = new List<PropertyInfo>();
-        private string _insertQuery;
-        private string _updateQuery;
-        private string _deleteQuery;
-        private string _findQuery;
+        protected TableManager()
+        {
+            // use TableFieldAttribute on Models for auto field mapping
+            MapTableFields();
+        }
 
-        public IEnumerable<T> Court => Get();
+        public IEnumerable<T> All => Get();
 
         public virtual T Add(T row)
         {
@@ -32,16 +32,20 @@ namespace TeamProject.Dal
 
             _db.UsingConnection((dbCon) =>
             {
-                addedCourt = dbCon.Query<T>(_insertQuery, row)
-                    .FirstOrDefault();
+                addedCourt = dbCon.Query<T>(
+                    $"INSERT INTO [{TableName}] ({InsertFields}) " +
+                    $"VALUES ({InsertValues}) " +
+                    $"SELECT * FROM [{TableName}] WHERE {ScopeKey}",
+                    row).FirstOrDefault();
             });
 
             return addedCourt;
         }
 
-        public T Find(int id)
+        public virtual T Find(int id)
         {
-            return Get(_findQuery, new { id }).FirstOrDefault();
+            return Get($"[{TableName}].[{TableKey}] = @id",
+                new { id }).FirstOrDefault();
         }
 
         public abstract IEnumerable<T> Get(string query = null, object parameters = null);
@@ -51,7 +55,11 @@ namespace TeamProject.Dal
             int rowsAffected = 0;
             _db.UsingConnection((dbCon) =>
             {
-                rowsAffected = dbCon.Execute(_deleteQuery, new { id });
+                rowsAffected = dbCon.Execute(
+                    $"DELETE " +
+                    $"FROM [{TableName}] " +
+                    $"WHERE [{TableKey}] = @id",
+                    new { id });
             });
             return rowsAffected > 0;
         }
@@ -61,72 +69,79 @@ namespace TeamProject.Dal
             int rowsAffected = 0;
             _db.UsingConnection((dbCon) =>
             {
-                rowsAffected = dbCon.Execute(_updateQuery, row);
+                rowsAffected = dbCon.Execute(
+                    $"UPDATE [{TableName}] SET " +
+                    $"{UpdateFields} " +
+                    $"WHERE [{TableKey}] = @id", row);
             });
             return rowsAffected > 0;
         }
 
         #region Field Mapping
 
-        protected void AddField<U>(Expression<Func<T, U>> expression)
+        protected string InsertFields;
+        protected string InsertValues;
+        protected string UpdateFields;
+        protected string TableName;
+        protected string TableKey;
+        protected string ScopeKey;
+
+        private void MapTableFields()
         {
-            var memberExpression = expression.Body as MemberExpression;
+            var tableType = typeof(T);
 
-            if (memberExpression == null)
-            {
-                throw new ArgumentNullException();
-            }
+            // get table name
+            TableName = tableType.Name;
 
-            var propertyInfo = memberExpression.Member as PropertyInfo;
-            _propertyInfos.Add(propertyInfo);
+            // get model fields using TableKeyAttribute
+            var tableFields = tableType.GetProperties().Where(HavingTableKeyAttribute);
 
-        }
+            // find primary key (or keys for middle tables)
+            var tableKeys = tableFields.Where(IsPrimaryKey);
 
-        private string GetKey()
-        {
-            return typeof(T)
-              .GetProperties()
-              .Where(p => p.Name.Equals("id", StringComparison.InvariantCultureIgnoreCase) || 
-                          p.GetCustomAttribute<TableKey>() != null)
-              .FirstOrDefault()
-              .GetCustomAttribute<TableKey>()
-              ?.Keys ?? "Id";
-        }
+            // compose string with field names used to insert query (Fields)
+            InsertFields = string.Join(", ", tableFields.Where(FieldsForInsert).Select(p => $"[{p.Name}]"));
 
-        protected void PrepareQueries()
-        {
-            var tableName = typeof(T).Name;
-            var tableKeys = GetKey().Split(',');
-            var tableKey = tableKeys[0];
-            var scopeKey = $"[{tableKey}] = (SELECT SCOPE_IDENTITY())";
-
-            if (tableKeys.Count() > 1)
-            {
-                scopeKey = string.Join(" AND ", tableKeys.Select(k => $"[{k}] = @{k}"));
-            }
+            // compose string with field names used to insert query (@Values)
+            InsertValues = string.Join(", ", tableFields.Where(FieldsForInsert).Select(p => $"@{p.Name}"));
             
-            _insertQuery =
-                $"INSERT INTO [{tableName}] ({GetFieldsForInsert}) " +
-                $"VALUES ({GetFieldsForValues}) " +
-                $"SELECT * FROM [{tableName}] WHERE {scopeKey}";
+            // compose string with field names used to update query (Fields=Values)
+            UpdateFields = string.Join(", ", tableFields.Where(FieldsForUpdate).Select(p => $"[{p.Name}]=@{p.Name}"));
 
-            _updateQuery =
-                $"UPDATE [{tableName}] SET " +
-                $"{GetFieldsForUpdate} " +
-                $"WHERE [{tableKey}] = @id";
+            // if more than one primary keys found (usually on middle tables) 
+            // get first key to use as table key 
+            // or use default key name (Id) 
+            TableKey = tableKeys.FirstOrDefault()?.Name ?? "Id";
 
-            _deleteQuery =
-                $"DELETE " +
-                $"FROM [{tableName}] " +
-                $"WHERE [{tableKey}] = @id";
-
-            _findQuery = $"[{tableName}].[{tableKey}] = @id";
-
+            // if more than one primary keys found (usually on middle tables) 
+            // then use a combination of those keys to get inserted record 
+            // or use default tablekey (Id) with SCOPE_IDENTITY
+            ScopeKey = tableKeys.Count() > 1
+                ? string.Join(" AND ", tableKeys.Select(k => $"[{k.Name}] = @{k.Name}"))
+                : $"[{TableKey}] = (SELECT SCOPE_IDENTITY())";
         }
 
-        private string GetFieldsForInsert => string.Join(", ", _propertyInfos.Select(p => $"[{p.Name}]"));
-        private string GetFieldsForValues => string.Join(", ", _propertyInfos.Select(p => $"@{p.Name}"));
-        private string GetFieldsForUpdate => string.Join(", ", _propertyInfos.Where(p => (p.GetCustomAttribute<TableExcludeField>()?.FromUpdate ?? false) == false).Select(p => $"[{p.Name}]=@{p.Name}"));
+        private bool IsPrimaryKey(PropertyInfo propertyInfo)
+        {
+            return propertyInfo.GetCustomAttribute<TableFieldAttribute>().PrimaryKey;
+        }
+
+        private bool HavingTableKeyAttribute(PropertyInfo propertyInfo)
+        {
+            return propertyInfo.GetCustomAttribute<TableFieldAttribute>() != null;
+        }
+
+        private bool FieldsForUpdate(PropertyInfo propertyInfo)
+        {
+            var attribute = propertyInfo.GetCustomAttribute<TableFieldAttribute>();
+            return !attribute.ExcludeFromUpdate;
+        }
+
+        private bool FieldsForInsert(PropertyInfo propertyInfo)
+        {
+            var attribute = propertyInfo.GetCustomAttribute<TableFieldAttribute>();
+            return !attribute.ExcludeFromInsert;
+        }
         #endregion
     }
 }

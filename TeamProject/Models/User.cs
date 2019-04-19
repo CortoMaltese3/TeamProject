@@ -18,25 +18,28 @@ namespace TeamProject.Models
             Review = new List<Review>();
             Roles = new List<Role>();
         }
+
         public int Id { get; set; }
 
-
+        [TableField]
         [Required]
         [DisplayName("First Name")]
         [StringLength(50)]
         public string Firstname { get; set; }
 
+        [TableField]
         [Required]
         [DisplayName("Last Name")]
         [StringLength(50)]
         public string Lastname { get; set; }
 
+        [TableField]
         [Required]
         [StringLength(50)]
         public string Email { get; set; }
 
+        [TableField(ExcludeFromUpdate = true)]
         [DataType(DataType.Password)]
-        [TableExcludeField(FromUpdate = true)]
         public string Password { get; set; }
 
         [DataType(DataType.Password)]
@@ -54,25 +57,8 @@ namespace TeamProject.Models
 
         #region NotMapped
         [DisplayName("User Roles")]
-        public string AllRoles
-        {
-            get
-            {
-                var orderedRoled = Roles
-                    .OrderBy(r => r.Description)
-                    .Select(r => r.Description);
-                return string.Join(", ", orderedRoled);
-
-            }
-        }
-        public string UserName
-        {
-            get
-            {
-                return Firstname + " " + Lastname;
-            }
-        }
-
+        public string AllRoles => string.Join(", ", Roles.OrderBy(r => r.Description).Select(r => r.Description));
+        public string UserName => Firstname + " " + Lastname;
         #endregion
     }
 }

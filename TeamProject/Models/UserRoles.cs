@@ -10,9 +10,11 @@ namespace TeamProject.Models
 
     public class UserRoles
     {
-        [TableKey("UserId,RoleId")]
+        [TableField(PrimaryKey = true)]
         [Required]
         public int UserId { get; set; }
+
+        [TableField(PrimaryKey = true)]
         [Required]
         public int RoleId { get; set; }
 

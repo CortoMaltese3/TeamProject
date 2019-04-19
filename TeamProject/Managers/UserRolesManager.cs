@@ -12,25 +12,6 @@ namespace TeamProject.Managers
     {
         public UserRolesManager(ProjectDbContext projectDbContext) 
         {
-            //_queryParts = new Dictionary<string, string>()
-            //{
-            //    { "InsertQuery",
-            //        "INSERT INTO UserRoles ([UserId], [RoleId]) " +
-            //        "VALUES (@UserId, @RoleId) " +
-            //        "SELECT * FROM UserRoles WHERE UserId=@UserId AND RoleId=@RoleId"},
-            //    { "UpdateQuery",
-            //        "UPDATE UserRoles SET " +
-            //        "[UserId]=@UserId, [RoleId]=@RoleId " +
-            //        "WHERE UserId = @Id"}
-            //};
-            // TODO : set Id = UserId for update, UserId and RoleId to get inserted record
-            // Id should be replaced with UserId for delete, update action
-            // Id = (SELECT SCOPE_IDENTITY()) should be replaced with UserId=@UserId AND RoleId=@RoleId
-
-            AddField(t => t.UserId);
-            AddField(t => t.RoleId);
-            PrepareQueries();
-
             _db = projectDbContext;
         }
 

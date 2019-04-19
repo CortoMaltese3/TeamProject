@@ -6,25 +6,30 @@ using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Drawing;
 using System.Net;
+using TeamProject.Dal;
 
 namespace TeamProject.Models
 {
 
     public class Booking
     {
-        
         public int Id { get; set; }
 
+        [TableField]
         public int CourtId { get; set; }
 
+        [TableField]
         public int UserId { get; set; }
 
+        [TableField]
         [DisplayName("Booked Date/Time")]
         [DisplayFormat(DataFormatString = "{0:dddd dd/MM/yyyy HH:mm}")]
         public DateTime BookedAt { get; set; }
 
+        [TableField]
         public int Duration { get; set; }
 
+        [TableField]
         public string BookKey { get; set; }
 
         public Court Court { get; set; }

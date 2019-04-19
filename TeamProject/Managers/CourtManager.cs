@@ -16,14 +16,6 @@ namespace TeamProject.Managers
     {
         public CourtManager(ProjectDbContext projectDbContext) 
         {
-            AddField(t => t.BranchId);
-            AddField(t => t.Name);
-            AddField(t => t.ImageCourt);
-            AddField(t => t.Description);
-            AddField(t => t.MaxPlayers);
-            AddField(t => t.Price);
-            PrepareQueries();
-
             _db = projectDbContext;
         }
 

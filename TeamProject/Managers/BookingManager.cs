@@ -15,13 +15,6 @@ namespace TeamProject.Managers
 
         public BookingManager(ProjectDbContext projectDbContext)            
         {
-            AddField(b => b.CourtId);
-            AddField(b => b.UserId);
-            AddField(b => b.BookedAt);
-            AddField(b => b.Duration);
-            AddField(b => b.BookKey);
-            PrepareQueries();
-
             _db = projectDbContext;
         }
 
