@@ -12,16 +12,15 @@ namespace TeamProject.Areas.Admin.Controllers
     public class BranchFacilitiesController : Controller
     {
         private ProjectDbContext db = new ProjectDbContext();
-        
+        private TeamProjectApp app = new TeamProjectApp();
+
         public ActionResult ChooseFacilities(int id)
         {
-            var facilityFormModel = new FacilityFormModel()
+            return View(new FacilityFormModel()
             {
-                AvailableFacilities = db.BranchFacilities.GetFacilities(id),
+                AvailableFacilities = app.GetAvailableFacilities(id),
                 BranchId = id
-            };
-
-            return View(facilityFormModel);
+            });
         }
 
         [HttpPost]
@@ -29,7 +28,7 @@ namespace TeamProject.Areas.Admin.Controllers
         {
             if (!ModelState.IsValid)
             {
-                facilityFormModel.AvailableFacilities = db.BranchFacilities.GetFacilities(facilityFormModel.BranchId);
+                facilityFormModel.AvailableFacilities = app.GetAvailableFacilities(facilityFormModel.BranchId);
                 return View(facilityFormModel);
             }
 

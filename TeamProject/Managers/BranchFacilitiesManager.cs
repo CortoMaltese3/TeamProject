@@ -44,22 +44,22 @@ namespace TeamProject.Managers
             return BranchFacilities;
         }
 
-        public IEnumerable<SelectListItem> GetFacilities(int branchId)
-        {
-            // get already selected branch facilities
-            var selectedFacilities = Get("BranchId = @branchId", new { branchId });
+        //public IEnumerable<SelectListItem> GetFacilities(int branchId)
+        //{
+        //    // get already selected branch facilities
+        //    var selectedFacilities = Get("BranchId = @branchId", new { branchId });
 
-            // get list of all facilities and create a list of SelectListItem
-            // with selected property = true if exists in selectedFacilities
-            var allFacilities = _db.Facilities.Get().Select(f => new SelectListItem()
-            {
-                Text = f.Description,
-                Value = f.Id.ToString(),
-                Selected = selectedFacilities.Any(sf=>sf.FacilityId==f.Id)
-            });
+        //    // get list of all facilities and create a list of SelectListItem
+        //    // with selected property = true if exists in selectedFacilities
+        //    var allFacilities = _db.Facilities.Get().Select(f => new SelectListItem()
+        //    {
+        //        Text = f.Description,
+        //        Value = f.Id.ToString(),
+        //        Selected = selectedFacilities.Any(sf=>sf.FacilityId==f.Id)
+        //    });
 
-            return allFacilities.OrderBy(f=>f.Text);
-        }
+        //    return allFacilities.OrderBy(f=>f.Text);
+        //}
 
     }
 }

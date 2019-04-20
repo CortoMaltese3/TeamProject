@@ -5,6 +5,7 @@ using System.Data;
 using System.Globalization;
 using System.Linq;
 using System.Web;
+using System.Web.Mvc;
 using TeamProject.Managers;
 using TeamProject.Models;
 using TeamProject.ModelsViews;
@@ -138,6 +139,21 @@ namespace TeamProject.Dal
             };
         }
         #endregion
+        /// <summary>
+        /// returns a list of SelectListItem with branch selected facilities (with selected=true)
+        /// plus available facilities from list
+        /// </summary>
+        /// <param name="branchId"></param>
+        /// <returns></returns>
+        public IEnumerable<SelectListItem> GetAvailableFacilities(int branchId)
+        {
+            
+            var branchSelectedFacilities = _db.BranchFacilities
+                .Get("BranchId = @branchId", new { branchId })
+                .Select(f => f.FacilityId);
+
+            return new MultiSelectList(_db.Facilities.All.OrderBy(f=>f.Description), "Id", "Description", branchSelectedFacilities);
+        }
         #region Bookings
         public IEnumerable<Booking> GetBranchBookings(int id, DateTime fromDate, DateTime toDate)
         {
