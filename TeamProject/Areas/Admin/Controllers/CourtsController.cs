@@ -113,16 +113,18 @@ namespace TeamProject.Areas.Admin.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult Edit(Court court)
         {
-            if(court.ImageFile == null)
+            if(court.ImageCourt == null)
             {
                 court.ImageCourt = "na_image.jpg";
             }
-            else
+
+            if (court.ImageFile != null)
             {
                 court.ImageCourt = Path.GetFileName(court.ImageFile.FileName);
                 string fileName = Path.Combine(Server.MapPath("~/Images/Courts/"), court.ImageCourt);
                 court.ImageFile.SaveAs(fileName);
             }
+
             if (ModelState.IsValid)
             {
                 db.Courts.Update(court);
