@@ -46,43 +46,20 @@ namespace TeamProject.Managers
 
         public IEnumerable<SelectListItem> GetFacilities(int branchId)
         {
-            // get list of all facilities
-            var allFacilities = _db.Facilities.Get()
-                .Select(ConvertFacilityToBranchFacility);
-
-            // get list of branch selected facilities 
+            // get already selected branch facilities
             var selectedFacilities = Get("BranchId = @branchId", new { branchId });
 
-            // union selected facilities with available and
-            // convert to SelectListItem list oredered by facility description
-            return selectedFacilities
-                .Union(allFacilities)
-                .Select(ConvertToSelectListItem)
-                .OrderBy(f => f.Text);
+            // get list of all facilities and create a list of SelectListItem
+            // with selected property = true if exists in selectedFacilities
+            var allFacilities = _db.Facilities.Get().Select(f => new SelectListItem()
+            {
+                Text = f.Description,
+                Value = f.Id.ToString(),
+                Selected = selectedFacilities.Any(sf=>sf.FacilityId==f.Id)
+            });
+
+            return allFacilities.OrderBy(f=>f.Text);
         }
 
-        // convert to SelectListItem
-        private SelectListItem ConvertToSelectListItem(BranchFacilities branchFacility)
-        {
-            return new SelectListItem()
-            {
-                Text = branchFacility.Facility.Description,
-                Value = branchFacility.FacilityId.ToString(),
-                Selected = branchFacility.BranchId != 0
-            };
-        }
-
-        // convert to BranchFacilities 
-        private BranchFacilities ConvertFacilityToBranchFacility(Facility facility)
-        {
-            return new BranchFacilities()
-            {
-                FacilityId = facility.Id,
-                Facility = new Facility()
-                {
-                    Description = facility.Description
-                }
-            };
-        }
     }
 }
