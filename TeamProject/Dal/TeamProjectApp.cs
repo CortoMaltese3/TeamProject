@@ -139,6 +139,7 @@ namespace TeamProject.Dal
             };
         }
         #endregion
+        #region BranchFacilities
         /// <summary>
         /// returns a list of SelectListItem with branch selected facilities (with selected=true)
         /// plus available facilities from list
@@ -154,6 +155,26 @@ namespace TeamProject.Dal
 
             return new MultiSelectList(_db.Facilities.All.OrderBy(f=>f.Description), "Id", "Description", branchSelectedFacilities);
         }
+        /// <summary>
+        /// update selected facilities by first delete all records
+        /// and then insert only selected ones
+        /// </summary>
+        /// <param name="facilityFormModel"></param>
+        public void UpdateBranchFacilities(FacilityFormModel facilityFormModel)
+        {
+            // remove all branch facilities
+            _db.BranchFacilities.Remove(facilityFormModel.BranchId);
+
+            // add selected facilities
+            if (facilityFormModel.SelectedFacilities != null)
+            {
+                foreach (var item in facilityFormModel.SelectedFacilities)
+                {
+                    _db.BranchFacilities.Add(new BranchFacilities() { BranchId = facilityFormModel.BranchId, FacilityId = item });
+                }
+            }
+        }
+        #endregion
         #region Bookings
         public IEnumerable<Booking> GetBranchBookings(int id, DateTime fromDate, DateTime toDate)
         {
