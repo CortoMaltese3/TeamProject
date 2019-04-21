@@ -7,6 +7,7 @@ using MimeKit;
 using RestSharp;
 using RestSharp.Authenticators;
 using TeamProject.Models;
+using TeamProject.ModelsViews;
 
 namespace TeamProject
 {

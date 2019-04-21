@@ -262,11 +262,10 @@
     <Compile Include="Dal\TableFieldAttribute.cs" />
     <Compile Include="Dal\TeamProjectApp.cs" />
     <Compile Include="ModelsViews\PostBookResponse.cs" />
-    <Compile Include="Models\BookingReport.cs" />
     <Compile Include="Models\BranchFacilities.cs" />
     <Compile Include="Managers\BranchFacilitiesManager.cs" />
-    <Compile Include="Models\ContactForm.cs" />
-    <Compile Include="Models\FacilityFormModel.cs" />
+    <Compile Include="ModelsViews\ContactForm.cs" />
+    <Compile Include="ModelsViews\FacilityFormModel.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>

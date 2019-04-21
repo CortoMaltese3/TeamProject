@@ -4,7 +4,7 @@ using System.Linq;
 using System.Web;
 using System.Web.Mvc;
 
-namespace TeamProject.Models
+namespace TeamProject.ModelsViews
 {
     public class FacilityFormModel
     {
