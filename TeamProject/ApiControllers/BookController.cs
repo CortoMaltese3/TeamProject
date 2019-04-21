@@ -19,11 +19,12 @@ namespace TeamProject.ApiControllers
     public class BookController : ApiController
     {
         private ProjectDbContext db = new ProjectDbContext();
+        private TeamProjectApp app = new TeamProjectApp();
 
         // GET: api/Book/5
         public IEnumerable<TimeslotApiView> Get(int id,  DateTime fromDate, DateTime toDate)
         {
-            return db.TimeSlots.GetForBooking(id, fromDate, toDate);
+            return app.GetForBooking(id, fromDate, toDate);
         }
 
         // POST: api/Book

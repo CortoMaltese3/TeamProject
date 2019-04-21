@@ -9,15 +9,17 @@ namespace TeamProject.Dal
     /// Interface for basic database actions (Get, Find, Add, Remove)
     /// </summary>
     /// <typeparam name="T"></typeparam>
-    interface IDatabaseActions<T>
+    public interface IDatabaseActions<T>
     {
+        IEnumerable<T> All { get; }
+
         /// <summary>
         /// Get all entity objects of T type 
         /// </summary>
         /// <param name="query">extra parameters in query</param>
         /// <param name="parameters">parameters for query</param>
         /// <returns></returns>
-        IEnumerable<T> Get(string query, object parameters);
+        IEnumerable<T> Get(string query=null, object parameters=null);
 
         /// <summary>
         /// Finds one entity of type T

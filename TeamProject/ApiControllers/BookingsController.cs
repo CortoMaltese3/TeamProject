@@ -41,7 +41,7 @@ namespace TeamProject.ApiControllers
         /// <returns></returns>
         public IEnumerable<TimeslotApiView> GetCourtsForCalendarView(int? id, DateTime fromDate, DateTime toDate)
         {
-            return db.TimeSlots
+            return app
                 .GetBookings(id ?? 0, fromDate, toDate)
                 .OrderBy(t => t.Hour);
         }

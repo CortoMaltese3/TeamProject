@@ -11,7 +11,7 @@ namespace TeamProject.Areas.Admin.Controllers
     public class TimeSlotsController : Controller
     {
         private ProjectDbContext db = new ProjectDbContext();
-
+        private TeamProjectApp app = new TeamProjectApp();
 
         // GET: TimeSlots
         public ActionResult Index(int? id)
@@ -19,7 +19,7 @@ namespace TeamProject.Areas.Admin.Controllers
             var timeSlot = db.TimeSlots.Get("CourtId=@id", new { id  });
             ViewBag.Court = db.Courts.Find(id ?? 0);
 
-            var timeslotApiViews = db.TimeSlots.GetForView(id ?? 0).OrderBy(t => t.Hour).ToList();
+            var timeslotApiViews = app.GetForView(id ?? 0).OrderBy(t => t.Hour).ToList();
 
 
             return View(timeslotApiViews);
@@ -43,6 +43,7 @@ namespace TeamProject.Areas.Admin.Controllers
         // GET: TimeSlots/Create
         public ActionResult Create(int? id)
         {
+            
             ViewBag.CourtId = new SelectList(db.Courts.Get().Where(c => c.Id == (id ?? 0)), "Id", "Name");
             ViewBag.id = id;
             return View();
