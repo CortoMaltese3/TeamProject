@@ -12,7 +12,7 @@ namespace TeamProject.Controllers
 {
     public class LoginController : Controller
     {
-        private ProjectDbContext db = new ProjectDbContext();
+        private TeamProjectApp app = new TeamProjectApp();
         // GET: Login
         public ActionResult Index()
         {
@@ -23,8 +23,7 @@ namespace TeamProject.Controllers
         [AllowAnonymous]
         public ActionResult Login(string email, string password, string returnurl)
         {
-            UserManager manager = new UserManager(db);
-            var loggedInUser = manager.Login(email, password);
+            var loggedInUser = app.Login(email, password);
 
             string decodeurl = null;
             if (!string.IsNullOrEmpty(returnurl))
