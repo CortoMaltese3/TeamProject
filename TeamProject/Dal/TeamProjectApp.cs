@@ -57,7 +57,7 @@ namespace TeamProject.Dal
             }
 
             //finding the role id for type "user"
-            var role = _db.Roles.GetUserRole();
+            var role = GetUserRole();
 
             //adding the role id with user id in the connection table.
             var UserRole = new UserRoles()
@@ -115,6 +115,10 @@ namespace TeamProject.Dal
             var user = _db.Users.Find(id);
             _db.Users?.Remove(id);
         }
+        private Role GetUserRole()
+        {
+            return _db.Roles.Get("Description=@Description", new { Description = "User" }).FirstOrDefault();
+        }
         #endregion
         #region Branches 
         private const double FIXED_DISTANCE = 20000;
@@ -127,8 +131,7 @@ namespace TeamProject.Dal
                 return null;
             }
 
-            IEnumerable<Branch> branches = _db.Branches
-                .Nearest(latitudeFixed, longitudeFixed, FIXED_DISTANCE)
+            IEnumerable<Branch> branches = Nearest(latitudeFixed, longitudeFixed, FIXED_DISTANCE)
                 .OrderBy(nb => nb.Distance);
 
             return new NearestBrachView()
@@ -137,6 +140,45 @@ namespace TeamProject.Dal
                 Longitude = longitudeFixed,
                 Branches = branches
             };
+        }
+        /// <summary>
+        /// Returns List of branches near to a given latitude, longtitude
+        /// </summary>
+        /// <param name="latitude"></param>
+        /// <param name="longtitude"></param>
+        /// <returns></returns>
+        private IEnumerable<Branch> Nearest(double latitude, double longitude, double distanceInMeters = 5000)
+        {
+            IEnumerable<Branch> branches = Enumerable.Empty<Branch>();
+
+            var branchDictionary = new Dictionary<int, Branch>();
+            var facilitiyDictionary = new Dictionary<int, Facility>();
+            _db.UsingConnection((dbCon) =>
+            {
+                branches = dbCon.Query<Branch, Court, Facility, Branch>(
+                    "GetBranchesDistance",
+                    (branch, court, facility) =>
+                    {
+
+                        if (!branchDictionary.TryGetValue(branch.Id, out Branch branchEntry))
+                        {
+                            branchEntry = branch;
+                            branchEntry.Facility = new List<Facility>();
+                            branchDictionary.Add(branchEntry.Id, branchEntry);
+                        }
+
+                        if (!branchEntry.Facility.Contains(facility))
+                        {
+                            branchEntry.Facility.Add(facility);
+                        }
+
+                        return branchEntry;
+                    },
+                    splitOn: "id",
+                    param: new { Latitude = latitude, Longitude = longitude, Distance = distanceInMeters },
+                    commandType: CommandType.StoredProcedure).Distinct();
+            });
+            return branches;
         }
         #endregion
         #region BranchFacilities
@@ -148,12 +190,12 @@ namespace TeamProject.Dal
         /// <returns></returns>
         public IEnumerable<SelectListItem> GetAvailableFacilities(int branchId)
         {
-            
+
             var branchSelectedFacilities = _db.BranchFacilities
                 .Get("BranchId = @branchId", new { branchId })
                 .Select(f => f.FacilityId);
 
-            return new MultiSelectList(_db.Facilities.All.OrderBy(f=>f.Description), "Id", "Description", branchSelectedFacilities);
+            return new MultiSelectList(_db.Facilities.All.OrderBy(f => f.Description), "Id", "Description", branchSelectedFacilities);
         }
         /// <summary>
         /// update selected facilities by first delete all records
@@ -199,5 +241,15 @@ namespace TeamProject.Dal
                 });
         }
         #endregion
+
+        public IEnumerable<Court> AllCourtsSameBranch(int courtId)
+        {
+            var branchId = _db.Courts.Find(courtId)?.BranchId ?? 0;
+            return BranchCourts(branchId);
+        }
+        public IEnumerable<Court> BranchCourts(int branchId)
+        {
+            return _db.Courts.Get("branchId=@branchId", new { branchId });
+        }
     }
 }

@@ -32,9 +32,8 @@ namespace TeamProject.Managers
                     " LEFT JOIN Court ON Branch.Id = Court.BranchId" + (queryWhere == null ? string.Empty : $" WHERE {queryWhere}"),
                     (branch, user, facility, court) =>
                     {
-                        Branch branchEntry;
 
-                        if (!branchDictionary.TryGetValue(branch.Id, out branchEntry))
+                        if (!branchDictionary.TryGetValue(branch.Id, out Branch branchEntry))
                         {
                             branchEntry = branch;
                             branchEntry.Court = new List<Court>();
@@ -71,46 +70,7 @@ namespace TeamProject.Managers
             return branches;
         }
 
-        /// <summary>
-        /// Returns List of branches near to a given latitude, longtitude
-        /// </summary>
-        /// <param name="latitude"></param>
-        /// <param name="longtitude"></param>
-        /// <returns></returns>
-        public IEnumerable<Branch> Nearest(double latitude, double longitude, double distanceInMeters = 5000)
-        {
-            IEnumerable<Branch> branches = Enumerable.Empty<Branch>();
 
-            var branchDictionary = new Dictionary<int, Branch>();
-            var facilitiyDictionary = new Dictionary<int, Facility>();
-            _db.UsingConnection((dbCon) =>
-            {
-                branches = dbCon.Query<Branch, Court, Facility, Branch>(
-                    "GetBranchesDistance",
-                    (branch, court, facility) =>
-                    {
-                        Branch branchEntry;
-
-                        if (!branchDictionary.TryGetValue(branch.Id, out branchEntry))
-                        {
-                            branchEntry = branch;
-                            branchEntry.Facility = new List<Facility>();
-                            branchDictionary.Add(branchEntry.Id, branchEntry);
-                        }
-
-                        if (!branchEntry.Facility.Contains(facility))
-                        {
-                            branchEntry.Facility.Add(facility);
-                        }
-
-                        return branchEntry;
-                    },
-                    splitOn: "id",
-                    param: new { Latitude = latitude, Longitude = longitude, Distance = distanceInMeters },
-                    commandType: CommandType.StoredProcedure).Distinct();
-            });
-            return branches;
-        }
 
     }
 }

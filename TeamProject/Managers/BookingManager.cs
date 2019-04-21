@@ -22,8 +22,6 @@ namespace TeamProject.Managers
         {
             IEnumerable<Booking> Bookings = Enumerable.Empty<Booking>();
 
-            
-
             _db.UsingConnection((dbCon) =>
             {
                 Bookings = dbCon.Query<Booking, Court, User, Booking>(

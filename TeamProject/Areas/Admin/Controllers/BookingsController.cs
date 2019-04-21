@@ -17,12 +17,12 @@ namespace TeamProject.Areas.Admin.Controllers
     public class BookingsController : Controller
     {
         private ProjectDbContext db = new ProjectDbContext();
+        private TeamProjectApp app = new TeamProjectApp();
 
         // GET: Bookings
         public ActionResult Index(int? id)
         {
-            var branchCourts = db.Courts
-                .BranchCourts(id ?? 0);
+            var branchCourts = app.BranchCourts(id ?? 0);
 
             return View(branchCourts);
         }

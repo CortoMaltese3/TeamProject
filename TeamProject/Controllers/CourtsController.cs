@@ -14,40 +14,39 @@ namespace TeamProject.Controllers
     public class CourtsController : Controller
     {
         private ProjectDbContext db = new ProjectDbContext();
+        private TeamProjectApp app = new TeamProjectApp();
+
         // GET: Courts
         public ActionResult Index(int? id)
         {
-            var court = db.Courts.Get().ToList();
+            var court = db.Courts.Get();
             if (id != null)
             {
-                court = db.Courts.Get().Where(x => x.BranchId == id).ToList();
+                court = app.BranchCourts(id ?? 0);
 
             }
             return View(court);
         }
+
         [Authorize]
         public ActionResult Booking(int id)
         {
-            var courtsInSameBranch = db.Courts.AllCourtsSameBranch(id).ToList();
+            var courtsInSameBranch = app.AllCourtsSameBranch(id).ToList();
 
-            var bookViewModel = new BookViewModel()
+            return View(new BookViewModel()
             {
                 CourtId = id,
                 Courts = courtsInSameBranch
-            };
-            return View(bookViewModel);
+            });
         }
 
-
-        public ActionResult Confirmed(string BookKey)
+        public ActionResult Confirmed(string bookKey)
         {
-            var booking = db.Bookings.Get().Where(x => x.BookKey == BookKey).FirstOrDefault();
-            var branch = db.Branches.Get().Where(x => x.Id == booking.Court.BranchId).FirstOrDefault();
-            ViewBag.address = branch.Address;
-            ViewBag.city = branch.City;
+            var (booking, branch) = GetBookingFromKey(bookKey);
 
             SmtpMessageChunk.SendMessageSmtp(booking, branch, Request.Url);
 
+            ViewBag.address = branch.Address;
             return View(booking);
         }
 
@@ -67,11 +66,11 @@ namespace TeamProject.Controllers
             return View(court);
         }
 
-        public FileResult GetHTMLPageAsPDF(string BookKey)
+        public FileResult GetHTMLPageAsPDF(string bookKey)
         {
-            var booking = db.Bookings.Get().Where(x => x.BookKey == BookKey).FirstOrDefault();
-            var branch = db.Branches.Get().Where(x => x.Id == booking.Court.BranchId).FirstOrDefault();
+            var (booking, branch) = GetBookingFromKey(bookKey);
             var render = new IronPdf.HtmlToPdf();
+            
             //Create a PDF Document
             var PDF = render.RenderHtmlAsPdf(
                     $@"<h2> {booking.User.UserName}, thanks for booking.</h2>
@@ -88,6 +87,14 @@ namespace TeamProject.Controllers
             Response.AppendHeader("Content-Length", contentLength.ToString());
             Response.AppendHeader("Content-Disposition", "inline; filename=Booking_" + booking.User.UserName + ".pdf");
             return File(PDF.BinaryData, "application/pdf;");
+        }
+
+        private (Booking, Branch) GetBookingFromKey(string bookKey)
+        {
+            var booking = db.Bookings.Get("BookKey = @bookKey", new { bookKey }).FirstOrDefault();
+            var branch = db.Branches.Get("Branch.Id = @BranchId", new { booking.Court.BranchId }).FirstOrDefault();
+
+            return (booking, branch);
         }
     }
 }
